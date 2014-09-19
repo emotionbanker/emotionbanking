@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7C985187-5E88-4A11-8BE9-3483088D73BB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Compucare.Enquire.EnquireStudio</RootNamespace>
+    <AssemblyName>Compucare.Enquire.EnquireStudio</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Compucare\Frontends\Common\Common.csproj">
+      <Project>{904829E3-054C-4CAD-BB8B-A7E2A11F4FEA}</Project>
+      <Name>Common %28Compucare\Frontends\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Communication\Communication.csproj">
+      <Project>{B11C595C-01FE-4714-93F9-4C43E48BCF9A}</Project>
+      <Name>Communication</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tacho-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bar-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\baro-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\excel.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gaps-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\matrix-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mgap-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\percent-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pot-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\radar-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0005_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i4179_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0005_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0017_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i001c_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i001c_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i002c_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i002c_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0098_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0098_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i009c_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i00a7_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i00a7_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i00e7_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i00f0_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i00f6_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i00f6_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i00fd_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i010e_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i010e_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0112_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0112_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0112_04092.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0113_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0113_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0141_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0141_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0144_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i0144_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i416b_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i416d_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i416e_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i4170_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i4170_04091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i4173_0409.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll_i4179_0409.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="Enquire" default="build">
+	
+	<!-- properties -->
+	<property name="devenv" value="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.com" />
+	<property name="config" value="Debug" />
+	<property name="solution" value="Enquire.sln" />	
+	
+	<!-- targets --> 
+	<target name="clean">
+		<delete dir="bin/Debug" />
+		<delete dir="bin/Setup" />
+	</target>
+	
+	<target name="build" depends="clean">
+		<exec program="${devenv}" workingdir=".">
+			<arg line="${solution} /Rebuild ${config} /projectconfig ${config}" />
+		</exec>
+		<copy file="bin/Setup/UmSetup.msi" todir="release" overwrite="true" />
+	</target>
+
+</project>

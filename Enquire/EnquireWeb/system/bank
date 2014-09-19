@@ -1,0 +1,98 @@
+<?php
+
+/** 
+  
+  banken
+
+**/
+
+
+
+function deleteBank($id)
+{
+  //delete results
+  //query("delete from ".RES." where");
+  
+  $users = query("select z_id from ".ZUG." where z_b_id='$id'");
+
+  $zids = array();  
+  while ($row = mysql_fetch_row($users)) 
+  {
+    $zids[] = $row[0];
+  }
+  
+  foreach ($zids as $zid)
+  {
+    query("delete from ".ERG." where e_z_id = '".$zid."'");
+    query("delete from ".ZUG." where z_id = '".$zid."'");
+  }
+  
+  query("delete from ".BANK." where b_id='".$id."'");
+}
+
+function createBank($bezeichnung, $id, $klasse)
+{
+  $result = query("select count(*) from ".BANK." where b_id = '".$id."'");
+  $row    = mysql_fetch_row($result);
+  
+  if (!$row[0])
+    return query("INSERT INTO ".BANK." (b_id, bezeichnung, klasse) values ('".$id."', '".$bezeichnung."', '".$klasse."')");
+  else return 0;
+}
+
+function updateBank($bezeichnung, $id, $klasse)
+{
+  $q = "update ".BANK." set bezeichnung='".$bezeichnung."', klasse='".$klasse."' where b_id='".$id."'";
+  $result = query($q);
+  return $result;
+}
+
+
+function getBankList()
+{
+  $list = array();
+  
+  $result = query("select b_id, bezeichnung, klasse from ".BANK."");
+  
+  while ($row = mysql_fetch_row($result)) 
+  {
+    $list[] = $row; 
+  }
+
+  asort($list);
+  
+  return $list;
+}
+
+function getBank($id)
+{
+  $result = query("select b_id, bezeichnung, klasse from ".BANK." where b_id='$id'");
+  return mysql_fetch_row($result);
+}
+
+function getBankInfoById($id)
+{
+  $return = array();
+  $result = query("select bezeichnung, klasse from ".BANK." where b_id = '".$id."'");
+  if ($result)
+  {
+    $row = mysql_fetch_row($result);
+    $return['bez'] = $row[0];
+    $return['class'] = $row[1];
+  }
+  
+  return $return;
+}
+
+function getBankByID($id)
+{
+  $result = query("select bezeichnung from ".BANK." where b_id = '".$id."'");
+  if ($result)
+  {
+    $row = mysql_fetch_row($result);
+    return $row[0];
+  }
+  else return false;
+}
+
+?>

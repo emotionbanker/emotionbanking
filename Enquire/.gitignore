@@ -1,0 +1,9 @@
+bin/
+obj/
+_UpgradeReport_Files/
+Upgradelog*.xml
+Upgradelog*.htm
+*.suo
+*.user
+*.userosscache
+*.sln.docstates

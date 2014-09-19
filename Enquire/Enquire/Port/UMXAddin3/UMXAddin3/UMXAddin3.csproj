@@ -1,0 +1,279 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2E7FDAD3-0F16-4B4B-BE92-C27D4B4749D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>UMXAddin3</AssemblyName>
+    <RootNamespace>UMXAddin3</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <IncrementalBuild>false</IncrementalBuild>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <IncrementalBuild>false</IncrementalBuild>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="dotnetCharting.WinForms, Version=4.0.2421.26529, Culture=neutral, PublicKeyToken=c3f34d622663b9f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\UMXAddin2\UMXAddin2\bin\Debug\dotnetCharting.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="nunit.framework, Version=2.5.3.9345, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="System">
+      <HintPath>System.dll</HintPath>
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>System.Data.dll</HintPath>
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML">
+      <HintPath>System.XML.dll</HintPath>
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Col.cs" />
+    <Compile Include="Connect.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ControlForms\BControlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\BControlForm.Designer.cs">
+      <DependentUpon>BControlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\ColControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlForms\ColControl.Designer.cs">
+      <DependentUpon>ColControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\BControlTrendForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\BControlTrendForm.Designer.cs">
+      <DependentUpon>BControlTrendForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\CompareTlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\CompareTlForm.Designer.cs">
+      <DependentUpon>CompareTlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\EditLinkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\EditLinkForm.Designer.cs">
+      <DependentUpon>EditLinkForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\IndivTLForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\IndivTLForm.Designer.cs">
+      <DependentUpon>IndivTLForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\InsertForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\InsertForm.Designer.cs">
+      <DependentUpon>InsertForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\MaturityModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\MaturityModel.Designer.cs">
+      <DependentUpon>MaturityModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\OutputSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\OutputSelect.Designer.cs">
+      <DependentUpon>OutputSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\PercentBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\PercentBaseForm.Designer.cs">
+      <DependentUpon>PercentBaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\SetPlaceholderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\SetPlaceholderForm.Designer.cs">
+      <DependentUpon>SetPlaceholderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\TagCloud.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\TagCloud.Designer.cs">
+      <DependentUpon>TagCloud.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlForms\UMSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\UMSettingsForm.Designer.cs">
+      <DependentUpon>UMSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cross.cs" />
+    <Compile Include="LinkData.cs" />
+    <Compile Include="PPTools.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UmxOffice\PowerpointManager.cs" />
+    <Compile Include="UmxOffice\UmxOfficeManager.cs" />
+    <Compile Include="Table.cs" />
+    <Compile Include="Tests\LinkDataTests.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="UmxOffice\WordManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.PowerPoint">
+      <Guid>{91493440-5A91-11CF-8700-00AA0060263B}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ControlForms\BControlForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BControlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\ColControl.resx">
+      <DependentUpon>ColControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\BControlTrendForm.resx">
+      <DependentUpon>BControlTrendForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\CompareTlForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CompareTlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\EditLinkForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditLinkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\IndivTLForm.resx">
+      <DependentUpon>IndivTLForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\InsertForm.resx">
+      <DependentUpon>InsertForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\MaturityModel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MaturityModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\OutputSelect.resx">
+      <DependentUpon>OutputSelect.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\PercentBaseForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PercentBaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\SetPlaceholderForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SetPlaceholderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\TagCloud.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TagCloud.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\UMSettingsForm.resx">
+      <DependentUpon>UMSettingsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MS PowerPoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MS Word.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\um08\umfrage2.csproj">
+      <Project>{38BDB159-C96D-4DDD-837B-B5F687C95258}</Project>
+      <Name>umfrage2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

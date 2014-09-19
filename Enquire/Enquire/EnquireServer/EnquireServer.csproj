@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0ED4F60C-B2E0-4913-A20B-1638526C7A58}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Compucare.Enquire.EnquireServer</RootNamespace>
+    <AssemblyName>Compucare.Enquire.EnquireServer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Compucare.Enquire.Common.Controls">
+      <HintPath>..\Controls\obj\Debug\Compucare.Enquire.Common.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.2.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\SQLite.NET\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=2.0.38.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\SQLite.NET\bin\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\InitServerBatchCommand.cs" />
+    <Compile Include="Commands\InitServerDBCommand.cs" />
+    <Compile Include="Commands\InitStatusServiceCommand.cs" />
+    <Compile Include="Communication\StatusService.cs" />
+    <Compile Include="ContentEditors\BaseContentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ContentEditors\BaseContentEditor.Designer.cs">
+      <DependentUpon>BaseContentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContentEditors\BaseContentEditorController.cs" />
+    <Compile Include="Controls\DataSourceManagementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DataSourceManagementControl.Designer.cs">
+      <DependentUpon>DataSourceManagementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataSourceManagementController.cs" />
+    <Compile Include="Controls\StandardNamingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StandardNamingControl.Designer.cs">
+      <DependentUpon>StandardNamingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserManagementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserManagementControl.Designer.cs">
+      <DependentUpon>UserManagementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserManagementController.cs" />
+    <Compile Include="EnquireServer.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainFormController.cs" />
+    <Compile Include="Pictures.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Pictures.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasks\TaskManager.cs" />
+    <Compile Include="Wizards\DataProvider\DataProviderTypeSelectionPage.cs" />
+    <Compile Include="Wizards\DataProvider\DataProviderTypeSelectionPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizards\DataProvider\DataProviderTypeSelectionPageControl.Designer.cs">
+      <DependentUpon>DataProviderTypeSelectionPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizards\DataProvider\DataProviderWizard.cs" />
+    <Compile Include="Wizards\DataProvider\Um3FileDataProviderPage.cs" />
+    <Compile Include="Wizards\DataProvider\Um3FileDataProviderPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizards\DataProvider\Um3FileDataProviderPageControl.Designer.cs">
+      <DependentUpon>Um3FileDataProviderPageControl.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ContentEditors\BaseContentEditor.resx">
+      <DependentUpon>BaseContentEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DataSourceManagementControl.resx">
+      <DependentUpon>DataSourceManagementControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StandardNamingControl.resx">
+      <DependentUpon>StandardNamingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UserManagementControl.resx">
+      <DependentUpon>UserManagementControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pictures.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Pictures.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Wizards\DataProvider\DataProviderTypeSelectionPageControl.resx">
+      <DependentUpon>DataProviderTypeSelectionPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizards\DataProvider\Um3FileDataProviderPageControl.resx">
+      <DependentUpon>Um3FileDataProviderPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Compucare\Frontends\Common\Common.csproj">
+      <Project>{904829E3-054C-4CAD-BB8B-A7E2A11F4FEA}</Project>
+      <Name>Common %28Compucare\Frontends\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\PersistenceModule\PersistenceModule.csproj">
+      <Project>{DB4DFFEC-5E47-461A-9639-5E1FF46F293A}</Project>
+      <Name>PersistenceModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Communication\Communication.csproj">
+      <Project>{B11C595C-01FE-4714-93F9-4C43E48BCF9A}</Project>
+      <Name>Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\DataModule.File.Um3\DataModule.File.Um3.csproj">
+      <Project>{22AAE6BA-2C1F-4C3E-9BAA-EB06D50E50F1}</Project>
+      <Name>DataModule.File.Um3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\DataModule\DataModule.csproj">
+      <Project>{33CC215E-558C-4A4B-9393-F79C7B59FEBD}</Project>
+      <Name>DataModule</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo-120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user-new-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user-delete-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preferences-desktop-user-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file-doc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\list-add-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit-delete-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\network-server-database.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file_doc_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dialog-question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\emblem-downloads.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert-chart-bar.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

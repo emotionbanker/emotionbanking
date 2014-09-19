@@ -1,0 +1,50 @@
+﻿CREATE TABLE Users
+(
+	Identifier INTEGER PRIMARY KEY AUTOINCREMENT,
+	Username TEXT,
+	Password TEXT
+);
+
+CREATE TABLE DataProviders
+(
+	Identifier TEXT,
+	DisplayName TEXT,
+	Description TEXT,
+	Type TEXT,
+	ProviderData TEXT,
+	AssemblyName TEXT
+);
+
+CREATE TABLE DataSources
+(
+	Identifier TEXT,
+	DisplayName TEXT,
+	Description TEXT,
+	LocalDataSource TEXT,
+	DataProviderIdentifier TEXT,
+	Status TEXT
+);
+
+CREATE TABLE LocalisableDataItem_Question
+(
+	Identifier INTEGER PRIMARY KEY AUTOINCREMENT,
+	RemoteIdentifier INTEGER,
+	DisplayName TEXT,
+	Type TEXT,
+	AnswerList TEXT,
+	Tag TEXT
+);
+
+CREATE TABLE LocalisableDataItem_Question_Aliases
+(
+	QuestionIdentifier INTEGER,
+	Alias TEXT
+);
+
+CREATE TABLE LocalisableDataItem_Question_Translations
+(
+	QuestionIdentifier INTEGER,
+	Language TEXT,
+	DisplayName TEXT,
+	AnswerList TEXT
+);

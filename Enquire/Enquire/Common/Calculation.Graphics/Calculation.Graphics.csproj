@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B332AC4C-B53D-4D1F-810B-B2C4586B3A5D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Compucare.Enquire.Common.Calculation.Graphics</RootNamespace>
+    <AssemblyName>Compucare.Enquire.Common.Calculation.Graphics</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Benchmarking\Benchmarking.cs" />
+    <Compile Include="Benchmarking\Wizard\BenchmarkingWizard.cs" />
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkingTypeWizardPage.cs" />
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkingTypeWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkingTypeWizardPageControl.Designer.cs">
+      <DependentUpon>BenchmarkingTypeWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkWizardPage.cs" />
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkWizardPageControl.Designer.cs">
+      <DependentUpon>BenchmarkWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graves\GravesPointDrawer.cs" />
+    <Compile Include="Graves\GravesSpiral.cs" />
+    <Compile Include="Graves\Wizard\GravesWizard.cs" />
+    <Compile Include="Graves\Wizard\WizardPages\GravesWizardPage.cs" />
+    <Compile Include="Graves\Wizard\WizardPages\GravesWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graves\Wizard\WizardPages\GravesWizardPageControl.Designer.cs">
+      <DependentUpon>GravesWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Percentbar\PercentBar.cs" />
+    <Compile Include="Percentbar\Wizard\PercentBarWizard.cs" />
+    <Compile Include="Percentbar\Wizard\WizardPages\PercentBarWizardPage.cs" />
+    <Compile Include="Percentbar\Wizard\WizardPages\PercentBarWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Percentbar\Wizard\WizardPages\PercentBarWizardPageControl.Designer.cs">
+      <DependentUpon>PercentBarWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pictures1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Pictures.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TrafficLights\ExclamationMark\ExclamationMark.cs" />
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\ExclamationMarkWizard.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\AdvancedComparisonWizardPage.cs" />
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\AdvancedComparisonWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\AdvancedComparisonWizardPageControl.Designer.cs">
+      <DependentUpon>AdvancedComparisonWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExclamationTypeWizardPage.cs" />
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExclamationTypeWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExclamationTypeWizardPageControl.Designer.cs">
+      <DependentUpon>ExclamationTypeWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\TrafficLightRangeWizardPage.cs" />
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\TrafficLightRangeWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\TrafficLightRangeWizardPageControl.Designer.cs">
+      <DependentUpon>TrafficLightRangeWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrafficLights\TrafficLight.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Compucare\Frontends\Common\Common.csproj">
+      <Project>{904829E3-054C-4CAD-BB8B-A7E2A11F4FEA}</Project>
+      <Name>Common %28Compucare\Frontends\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Port\um08\Umfrage2Lib.csproj">
+      <Project>{38BDB159-C96D-4DDD-837B-B5F687C95258}</Project>
+      <Name>Umfrage2Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Port\Umfrage2Lib.Tests\Umfrage2Lib.Tests.csproj">
+      <Project>{13484AD1-C05B-46D1-B5F9-71C7B3B741AA}</Project>
+      <Name>Umfrage2Lib.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Temporary\Temporary\Temporary.csproj">
+      <Project>{E82075F7-4BA4-4B73-A9AA-5ACF80FFCD98}</Project>
+      <Name>Temporary %28Temporary\Temporary%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calculation\Calculation.csproj">
+      <Project>{33284C37-4804-46A7-B9FA-D0801F3F3AF9}</Project>
+      <Name>Calculation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{34D512B5-AA7D-43D9-A030-BE2F95CE1C6B}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModule\DataModule.csproj">
+      <Project>{33CC215E-558C-4A4B-9393-F79C7B59FEBD}</Project>
+      <Name>DataModule</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Benchmarking\Wizard\WizardPages\BenchmarkingTypeWizardPageControl.resx">
+      <DependentUpon>BenchmarkingTypeWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Benchmarking\Wizard\WizardPages\BenchmarkWizardPageControl.resx">
+      <DependentUpon>BenchmarkWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graves\Wizard\WizardPages\GravesWizardPageControl.resx">
+      <DependentUpon>GravesWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Percentbar\Wizard\WizardPages\PercentBarWizardPageControl.resx">
+      <DependentUpon>PercentBarWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pictures.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Pictures1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrafficLights\ExclamationMark\Wizard\WizardPages\AdvancedComparisonWizardPageControl.resx">
+      <DependentUpon>AdvancedComparisonWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExclamationTypeWizardPageControl.resx">
+      <DependentUpon>ExclamationTypeWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrafficLights\ExclamationMark\Wizard\WizardPages\TrafficLightRangeWizardPageControl.resx">
+      <DependentUpon>TrafficLightRangeWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page-3sides.png" />
+    <None Include="Resources\page-2sides.png" />
+    <None Include="key.snk" />
+    <None Include="Resources\gap32_2.png" />
+    <None Include="Resources\gap32.png" />
+    <None Include="Resources\questionCompare32.png" />
+    <None Include="Resources\questionCompare.png" />
+    <None Include="Resources\emblem-question-yellow.png" />
+    <Content Include="Graves\Resources\graves20111211.png" />
+    <Content Include="Resources\office_chart_bar_48.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

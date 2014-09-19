@@ -1,0 +1,36 @@
+﻿CREATE TABLE DataItem_Group
+(
+	Identifier INTEGER PRIMARY KEY AUTOINCREMENT,
+	RemoteIdentifier INTEGER,
+	DisplayName TEXT
+);
+
+CREATE TABLE DataItem_Institute
+(
+	Identifier INTEGER PRIMARY KEY AUTOINCREMENT,
+	RemoteIdentifier INTEGER,
+	DisplayName TEXT,
+	InstituteGroup TEXT
+);
+
+CREATE TABLE DataItem_User
+(
+	Identifier INTEGER PRIMARY KEY AUTOINCREMENT,
+	RemoteIdentifier INTEGER,
+	GroupIdentifer INTEGER,
+	InstituteIdentifier INTEGER,
+	Tag TEXT,
+	Finished INTEGER,
+	Status INTEGER,
+	RemoteTag TEXT,
+	TimeStarted INTEGER,
+	TimeFinished INTEGER
+);
+
+CREATE TABLE DataItem_Result
+(
+	UserIdentifier INTEGER,
+	QuestionIdentifier INTEGER,
+	Value REAL,
+	TextValue TEXT
+);

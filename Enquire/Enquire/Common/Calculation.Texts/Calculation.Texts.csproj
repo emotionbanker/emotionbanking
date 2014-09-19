@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B9626AAF-E920-4E4A-ABD0-0D0C634DBA9B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Compucare.Enquire.Common.Calculation.Texts</RootNamespace>
+    <AssemblyName>Compucare.Enquire.Common.Calculation.Texts</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySQLDriverCS, Version=3.0.1735.36021, Culture=neutral, PublicKeyToken=172f94dfb0faf263, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Debug\MySQLDriverCS.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Benchmarking\Wizard\BenchmarkValueWizard.cs" />
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkValueWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkValueWizardPageControl.Designer.cs">
+      <DependentUpon>BenchmarkValueWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkValueWizardPage.cs" />
+    <Compile Include="MatrixCrossings\Wizard\MatrixCrossingWizard.cs" />
+    <Compile Include="MatrixCrossings\Wizard\WizardPages\MatrixCrossingWizardPage.cs" />
+    <Compile Include="MatrixCrossings\Wizard\WizardPages\MatrixCrossingWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MatrixCrossings\Wizard\WizardPages\MatrixCrossingWizardPageControl.Designer.cs">
+      <DependentUpon>MatrixCrossingWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Script\Wizard\WizardPages\ExpressionWizardPage.cs" />
+    <Compile Include="Script\Wizard\WizardPages\ExpressionWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Script\Wizard\WizardPages\ExpressionWizardPageControl.Designer.cs">
+      <DependentUpon>ExpressionWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gaps\Gap.cs" />
+    <Compile Include="Gaps\GapGraphic.cs" />
+    <Compile Include="Gaps\Wizard\GapWizard.cs" />
+    <Compile Include="Gaps\Wizard\WizardPages\GapTypeWizardPage.cs" />
+    <Compile Include="Gaps\Wizard\WizardPages\GapTypeWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gaps\Wizard\WizardPages\GapTypeWizardPageControl.Designer.cs">
+      <DependentUpon>GapTypeWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gaps\Wizard\WizardPages\GapWizardPage.cs" />
+    <Compile Include="Gaps\Wizard\WizardPages\GapWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gaps\Wizard\WizardPages\GapWizardPageControl.Designer.cs">
+      <DependentUpon>GapWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Script\Wizard\EnquireScriptWizard.cs" />
+    <Compile Include="Pictures.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Pictures.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sokd\SokdValues.cs" />
+    <Compile Include="Sokd\SokdWizard.cs" />
+    <Compile Include="Sokd\Wizard\SokdWizardPage.cs" />
+    <Compile Include="Sokd\Wizard\SokdWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sokd\Wizard\SokdWizardPageControl.Designer.cs">
+      <DependentUpon>SokdWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TopFlop\Enumerations.cs" />
+    <Compile Include="TopFlop\Wizard\TopFlopWizard.cs" />
+    <Compile Include="TopFlop\Wizard\WizardPages\TopFlopSettingsWizardPage.cs" />
+    <Compile Include="TopFlop\Wizard\WizardPages\TopFlopSettingsWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TopFlop\Wizard\WizardPages\TopFlopSettingsWizardPageControl.Designer.cs">
+      <DependentUpon>TopFlopSettingsWizardPageControl.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Compucare\Frontends\Common\Common.csproj">
+      <Project>{904829E3-054C-4CAD-BB8B-A7E2A11F4FEA}</Project>
+      <Name>Common %28Compucare\Frontends\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Port\um08\Umfrage2Lib.csproj">
+      <Project>{38BDB159-C96D-4DDD-837B-B5F687C95258}</Project>
+      <Name>Umfrage2Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calculation.Graphics\Calculation.Graphics.csproj">
+      <Project>{B332AC4C-B53D-4D1F-810B-B2C4586B3A5D}</Project>
+      <Name>Calculation.Graphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calculation\Calculation.csproj">
+      <Project>{33284C37-4804-46A7-B9FA-D0801F3F3AF9}</Project>
+      <Name>Calculation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{34D512B5-AA7D-43D9-A030-BE2F95CE1C6B}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModule\DataModule.csproj">
+      <Project>{33CC215E-558C-4A4B-9393-F79C7B59FEBD}</Project>
+      <Name>DataModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\Tools.csproj">
+      <Project>{AB92B616-A587-4046-B567-FF86299033E4}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Benchmarking\Wizard\WizardPages\BenchmarkValueWizardPageControl.resx">
+      <DependentUpon>BenchmarkValueWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MatrixCrossings\Wizard\WizardPages\MatrixCrossingWizardPageControl.resx">
+      <DependentUpon>MatrixCrossingWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Script\Wizard\WizardPages\ExpressionWizardPageControl.resx">
+      <DependentUpon>ExpressionWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gaps\Wizard\WizardPages\GapTypeWizardPageControl.resx">
+      <DependentUpon>GapTypeWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gaps\Wizard\WizardPages\GapWizardPageControl.resx">
+      <DependentUpon>GapWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pictures.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Pictures.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sokd\Wizard\SokdWizardPageControl.resx">
+      <DependentUpon>SokdWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TopFlop\Wizard\WizardPages\TopFlopSettingsWizardPageControl.resx">
+      <DependentUpon>TopFlopSettingsWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\emblem-question-yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gap32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gap32_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\sokd.png" />
+    <None Include="Resources\system-users-4.png" />
+    <None Include="Resources\insert-table.png" />
+    <None Include="Resources\applications-education-mathematics.png" />
+    <Content Include="Resources\office_chart_bar_48.png" />
+    <None Include="Resources\questionCompare32.png" />
+    <None Include="Resources\questionCompare.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

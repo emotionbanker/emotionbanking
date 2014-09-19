@@ -1,0 +1,63 @@
+4.0.22
+
+	O Set up victor 2012
+	
+	X EnquireScript: Check for division by zero (show n.A.)
+		-> should now yield "n.A."
+	
+	X Exception: Value of '5057' is not valid for 'Value'. 'Value' should be between 'minimum' and 'maximum'.
+		Problem bei der anzeige der statusbalken. Wirkt sich nicht auf das daten laden aus (ist nur ein
+		Anzeigeproblem). Fehler wird jetzt ignoriert, sollte also nicht mehr auftreten.
+	
+	X Scoring
+		einige fragen waren nochmal mit 5 statt 1 gewichtet, diese gewichtung wurde zwar für die gaps aber nicht für
+		die max. möglichen punkteabzüge berücksichtigt. durch die weitere gewichtung der kategorien kams dann zu dem 
+		viel zu niedrigen wert beim max. möglichen punkteabzug. Die fragengewichtung wird jetzt auch dafür berücksichtigt,
+		was jetzt zu einem kulturwert von 318 führt (scheint mir eine sehr realistische zahl zu sein!).
+	
+	? Alternativtexte im Polaritätenprofil
+		this is due to "text overload": option "Beschriftungen"
+		can this option be removed?
+
+	X EnquireScript
+		- Tested with Wipptal/PK:
+			Count(2753)/N(2753)      // 4,30321782178218
+			Round(Count(2753)/N(2753);2)	// rounded to .## : 4.3
+	
+	O Historische Verlaufsdiagramme
+		O Design
+		O Backend /Calc
+		O Render in .netcharting
+		O User Interface
+			O Design: Wizard vs. as usual
+			O Impl
+	
+
+
+	
+****************	
+* Sent Updates *
+****************
+	
+
+29119525
+
+	EnquireScript
+		- new function: N(qId)
+		- new function: Count(qId)
+		
+	Top/Flop table
+	
+	
+
+20110515
+
+  - enquirescript
+    http://msdn.microsoft.com/en-us/library/system.math_methods.aspx
+
+  - autom. eingliederung alternativtexte
+  
+  - stichprobengröße mehrfachantwortfragen 
+	geht eh (getestet mit wipptal / 2753 / PK)
+	
+  
