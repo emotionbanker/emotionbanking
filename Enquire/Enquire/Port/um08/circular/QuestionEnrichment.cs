@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using compucare.Enquire.Legacy.Umfrage2Lib.System;
-using MySQLDriverCS;
+using MySql.Data.MySqlClient;
 
 namespace compucare.Enquire.Legacy.Umfrage2Lib.circular
 {
     public class QuestionEnrichment
     {
-        private readonly MySQLConnection _connection;
+        private readonly MySqlConnection _connection;
         private readonly string _databasePrefix;
 
         private readonly string _queryQuestionnaires;
 
-        public QuestionEnrichment(MySQLConnection connection, String databasePrefix)
+        public QuestionEnrichment(MySqlConnection connection, String databasePrefix)
         {
             _connection = connection;
             _databasePrefix = databasePrefix;
@@ -28,8 +28,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.circular
             //get questionnaire info
             QuestionnaireInfos infos = new QuestionnaireInfos();
 
-            MySQLCommand command = new MySQLCommand(_queryQuestionnaires, _connection);
-            MySQLDataReader reader = command.ExecuteReaderEx();
+            MySqlCommand command = new MySqlCommand(_queryQuestionnaires, _connection);
+            MySqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
             {

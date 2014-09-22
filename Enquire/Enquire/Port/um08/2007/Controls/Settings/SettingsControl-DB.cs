@@ -5,8 +5,8 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using compucare.Enquire.Legacy.Umfrage2Lib.System;
-using MySQLDriverCS;
 using System.Collections;
+using MySql.Data.MySqlClient;
 
 namespace umfrage2._2007.Controls
 {
@@ -35,12 +35,18 @@ namespace umfrage2._2007.Controls
             this.Enabled = false;
             try
             {
-                MySQLConnection db = new MySQLConnection(new MySQLConnectionString(ServerBox.Text, DatabaseBox.Text, UserBox.Text, PasswordBox.Text).AsString);
+                var sqlConnectionStringBuilder = new MySqlConnectionStringBuilder();
+                sqlConnectionStringBuilder.Server = ServerBox.Text;
+                sqlConnectionStringBuilder.Database = DatabaseBox.Text;
+                sqlConnectionStringBuilder.UserID = UserBox.Text;
+                sqlConnectionStringBuilder.Password = PasswordBox.Text;
+
+                MySqlConnection db = new MySqlConnection(sqlConnectionStringBuilder.ConnectionString);
                 db.Open();
                 ArrayList tables = new ArrayList();
 
-                MySQLCommand cmd = new MySQLCommand("show tables", db);
-                MySQLDataReader d = cmd.ExecuteReaderEx();
+                MySqlCommand cmd = new MySqlCommand("show tables", db);
+                MySqlDataReader d = cmd.ExecuteReader();
 
                 while (d.Read())
                 {

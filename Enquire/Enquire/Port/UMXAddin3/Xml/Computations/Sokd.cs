@@ -9,11 +9,11 @@ using System.Windows.Forms;
 using Compucare.Enquire.Common.Calculation.Texts.Sokd;
 using Compucare.Enquire.Legacy.Umfrage2Lib;
 using Microsoft.SqlServer;
-using MySQLDriverCS;
 using compucare.Enquire.Legacy.Umfrage2Lib.System;
 using System.Collections.Generic;
 using Microsoft.Office.Interop.Word;
 using System.Collections;
+using MySql.Data.MySqlClient;
 
 
 namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
@@ -22,10 +22,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
     {
         private readonly Evaluation _eval;
         private readonly XmlDocument _doc;
-        private MySQLConnection database;
+        private MySqlConnection database;
         private Datenbank _db;
-        private MySQLCommand cmd;
-        private MySQLDataReader d;
+        private MySqlCommand cmd;
+        private MySqlDataReader d;
         private string returnWert= "";
         private string sqlResult1 = "";
         private string sql = "";
@@ -61,7 +61,14 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             try
             {
                 //Verbindung mit der Datenbank aufbauen
-                database = new MySQLConnection(new MySQLConnectionString("95.129.200.5", "bankdesje_db", "bankdesje_sql", "cNcPjCYFzzKJ9").AsString);
+
+                var sqlConnectionStringBuilder = new MySqlConnectionStringBuilder();
+                sqlConnectionStringBuilder.Server = "95.129.200.5";
+                sqlConnectionStringBuilder.Database = "bankdesje_db";
+                sqlConnectionStringBuilder.UserID = "bankdesje_sql";
+                sqlConnectionStringBuilder.Password = "cNcPjCYFzzKJ9";
+
+                database = new MySqlConnection(sqlConnectionStringBuilder.ConnectionString);
                 database.Open();
             }catch(Exception e){ //Verbindung fehlgeschlagen
                 MessageBox.Show(e.StackTrace);
@@ -522,8 +529,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             try
             {
 
-                cmd = new MySQLCommand("select blz from sokd_teilnehmer where jahr = " + jahr, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand("select blz from sokd_teilnehmer where jahr = " + jahr, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     blz.Add(d.GetInt32(0));
@@ -533,16 +540,16 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 {
                     //MessageBox.Show("Blz: " + b + "\nJahr: " + jahr + "\n" + _val2.getFrage());
                     sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999' AND `" + _val2.getFrage() + "` != '6'";
-                    cmd = new MySQLCommand(sql, database);
-                    d = cmd.ExecuteReaderEx();
+                    cmd = new MySqlCommand(sql, database);
+                    d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
                         sql2 = d.GetString(0);
                     }
 
                     sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999' AND `" + _val2.getFrage() + "` != '6'";
-                    cmd = new MySQLCommand(sql, database);
-                    d = cmd.ExecuteReaderEx();
+                    cmd = new MySqlCommand(sql, database);
+                    d = cmd.ExecuteReader();
 
                     while (d.Read() && d != null) 
                     { 
@@ -575,8 +582,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             ArrayList blz = new ArrayList();
             try
             {
-                cmd = new MySQLCommand("select blz from sokd_teilnehmer where jahr = " + jahr, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand("select blz from sokd_teilnehmer where jahr = " + jahr, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     blz.Add(d.GetInt32(0));
@@ -585,15 +592,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 foreach (int b in blz)
                 {
                     sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
-                    cmd = new MySQLCommand(sql, database);
-                    d = cmd.ExecuteReaderEx();
+                    cmd = new MySqlCommand(sql, database);
+                    d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
                         sql2 = d.GetString(0);
                     }
                     sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` = '" + (_val2.getSpaltenId() + 1) + "'";
-                    cmd = new MySQLCommand(sql, database);
-                    d = cmd.ExecuteReaderEx();
+                    cmd = new MySqlCommand(sql, database);
+                    d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
                         sql1 = d.GetString(0);
@@ -626,9 +633,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             ArrayList bankenliste = new ArrayList();
             try
             {
-                cmd = new MySQLCommand("select blz from sokd_teilnehmer where jahr = " + jahr + " and gesamt = " + gesamt, database);
-                //cmd = new MySQLCommand("select blz from sokd_teilnehmer where jahr = " + jahr, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand("select blz from sokd_teilnehmer where jahr = " + jahr + " and gesamt = " + gesamt, database);
+                //cmd = new MySqlCommand("select blz from sokd_teilnehmer where jahr = " + jahr, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     bankenliste.Add(d.GetInt32(0));
@@ -657,16 +664,16 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             {
                 sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
                 //sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999' AND `" + _val2.getFrage() + "` != '6'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     sql2 = d.GetString(0);
                 }
 
                 sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     sql1 = d.GetString(0);
@@ -681,16 +688,16 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 for (int i = 0; i < bankenNamen.Length - 1; i++)
                 {
                     sql = "select kuerzel from sokd_teilnehmer where name = '" + bankenNamen[i] + "' and jahr =" + jahr;
-                    cmd = new MySQLCommand(sql, database);
-                    d = cmd.ExecuteReaderEx();
+                    cmd = new MySqlCommand(sql, database);
+                    d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
                         sqlResult1 = d.GetString(0);
                     }
 
                     sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3' and status >='50'";
-                    cmd = new MySQLCommand(sql, database);
-                    d = cmd.ExecuteReaderEx();
+                    cmd = new MySqlCommand(sql, database);
+                    d = cmd.ExecuteReader();
                     sqlResult1 = "";
                     while (d.Read() && d != null)
                     {
@@ -703,8 +710,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                         if (!fragebogenIds[j].StartsWith(" "))
                         {
                             sql = "select a_id from victor" + jahr + "ergebnisse where e_z_id = '" + fragebogenIds[j] + "' and e_fr_id= '" + _val2.getFrage() + "'";
-                            cmd = new MySQLCommand(sql, database);
-                            d = cmd.ExecuteReaderEx();
+                            cmd = new MySqlCommand(sql, database);
+                            d = cmd.ExecuteReader();
                             sqlResult1 = "";
                             while (d.Read() && d != null)
                             {
@@ -741,9 +748,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             ArrayList bankenliste = new ArrayList();
             try
             {
-                cmd = new MySQLCommand("select blz from sokd_teilnehmer where jahr = " + jahr + " and gesamt = " + gesamt, database);
-                //cmd = new MySQLCommand("select blz from `sokd_teilnehmer` where `jahr` = '" + jahr + "' AND `Gesamt` = '" + Gesamt+"'", database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand("select blz from sokd_teilnehmer where jahr = " + jahr + " and gesamt = " + gesamt, database);
+                //cmd = new MySqlCommand("select blz from `sokd_teilnehmer` where `jahr` = '" + jahr + "' AND `Gesamt` = '" + Gesamt+"'", database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     bankenliste.Add(d.GetInt32(0));
@@ -776,8 +783,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             if (rohdaten == true)
             {
                 sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     sql2 = d.GetString(0);
@@ -785,8 +792,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
 
                 sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` = '" + (_val2.getSpaltenId() + 1) + "'";
                 //sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     sql1 = d.GetString(0);
@@ -803,16 +810,16 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 for (int i = 0; i < bankenNamen.Length - 1; i++)
                 {
                     sql = "select kuerzel from sokd_teilnehmer where name = '" + bankenNamen[i] + "' and jahr =" + jahr;
-                    cmd = new MySQLCommand(sql, database);
-                    d = cmd.ExecuteReaderEx();
+                    cmd = new MySqlCommand(sql, database);
+                    d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
                         sqlResult1 = d.GetString(0);
                     }
 
                     sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3' and status >='50'";
-                    cmd = new MySQLCommand(sql, database);
-                    d = cmd.ExecuteReaderEx();
+                    cmd = new MySqlCommand(sql, database);
+                    d = cmd.ExecuteReader();
                     sqlResult1 = "";
                     while (d.Read() && d != null)
                     {
@@ -825,8 +832,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                         if (!fragebogenIds[j].StartsWith(" "))
                         {
                             sql = "select a_id from victor" + jahr + "ergebnisse where e_z_id = '" + fragebogenIds[j] + "' and e_fr_id= '" + _val2.getFrage() + "'";
-                            cmd = new MySQLCommand(sql, database);
-                            d = cmd.ExecuteReaderEx();
+                            cmd = new MySqlCommand(sql, database);
+                            d = cmd.ExecuteReader();
                             sqlResult1 = "";
                             while (d.Read() && d != null)
                             {
@@ -934,15 +941,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             try
             {
                 sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     sql2 = d.GetString(0);
                 }
                 sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` = '" + (_val2.getSpaltenId()+1) + "'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     sql1 = d.GetString(0);
@@ -992,8 +999,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 //MessageBox.Show((bankenNamen[i]).ToString());//Bank
                 //bankkürzel selektieren
                 sql = "select kuerzel from sokd_teilnehmer where name = '" + bankenNamen[i] + "' and jahr =" + jahr;
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     sqlResult1 = d.GetString(0);
@@ -1002,8 +1009,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 //fragebogen ids selektieren welche privatkunde und status größer als 50
                 sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3' and status >='50'";
                 //sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 sqlResult1 = "";
                 while (d.Read() && d != null)
                 {
@@ -1017,8 +1024,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                     if (!fragebogenIds[j].StartsWith(" "))
                     {
                         sql = "select a_id from victor" + jahr + "ergebnisse where e_z_id = '" + fragebogenIds[j] + "' and e_fr_id= '" + _val2.getFrage() + "'";
-                        cmd = new MySQLCommand(sql, database);
-                        d = cmd.ExecuteReaderEx();
+                        cmd = new MySqlCommand(sql, database);
+                        d = cmd.ExecuteReader();
                         sqlResult1 = "";
                         while (d.Read() && d != null)
                         {
@@ -1204,16 +1211,16 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             try{
                 //sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999' AND `" + _val2.getFrage() + "` != '6'";
                 sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null) { 
                     sql2 = d.GetString(0); 
                 }
                 //sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999'";
                 //sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999' AND `" + _val2.getFrage() + "` != '6'";
                 sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null) { sql1 = d.GetString(0); }
 
                 double sqlResult = (double)Convert.ToInt32(sql1) / Convert.ToInt32(sql2);
@@ -1257,8 +1264,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 //MessageBox.Show((bankenNamen[i]).ToString());//Bank
                 //bankkürzel selektieren
                 sql = "select kuerzel from sokd_teilnehmer where name = '" + bankenNamen[i] + "' and jahr ="+jahr;
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     sqlResult1 = d.GetString(0);
@@ -1267,8 +1274,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 //fragebogen ids selektieren welche privatkunde und status größer als 50
                 sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3' and status >='50'";
                 //sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3'";
-                cmd = new MySQLCommand(sql, database);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand(sql, database);
+                d = cmd.ExecuteReader();
                 sqlResult1 = "";
                 while (d.Read() && d != null)
                 {
@@ -1282,8 +1289,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                     if (!fragebogenIds[j].StartsWith(" "))
                     {
                         sql = "select a_id from victor" + jahr + "ergebnisse where e_z_id = '" + fragebogenIds[j] + "' and e_fr_id= '" + _val2.getFrage() + "'";
-                        cmd = new MySQLCommand(sql, database);
-                        d = cmd.ExecuteReaderEx();
+                        cmd = new MySqlCommand(sql, database);
+                        d = cmd.ExecuteReader();
                         sqlResult1 = "";
                             while (d.Read() && d != null)
                             {
@@ -1319,8 +1326,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
         public bool Rohdatenexist(int blz, int jahr)
         {
             bool rohdaten = false;
-            cmd = new MySQLCommand("select rohdaten from sokd_teilnehmer where blz = " + blz + " and jahr = " + jahr, database);
-            d = cmd.ExecuteReaderEx();
+            cmd = new MySqlCommand("select rohdaten from sokd_teilnehmer where blz = " + blz + " and jahr = " + jahr, database);
+            d = cmd.ExecuteReader();
             while (d.Read() && d != null)
             {
                 rohdaten = d.GetBoolean(0);       
@@ -1332,8 +1339,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
         public string getBankName(int blz, int jahr)
         {
             string bName = "";
-            cmd = new MySQLCommand("select name from sokd_teilnehmer where blz = " + blz+" and jahr = "+jahr, database);
-            d = cmd.ExecuteReaderEx();
+            cmd = new MySqlCommand("select name from sokd_teilnehmer where blz = " + blz+" and jahr = "+jahr, database);
+            d = cmd.ExecuteReader();
             while (d.Read() && d != null)
             {
                 bName += d.GetString(0) + "*";
