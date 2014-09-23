@@ -511,7 +511,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             switch (tls.dat[1])
             {
                 case "potpcnt": case "potval":
-                case "aabs": case "bcont-value": case "bcont-comp-mw":
+                case "bcont-value": case "bcont-comp-mw":
                 case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
@@ -561,6 +561,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "aas":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageReplyNumValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "aabs":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetAnswerCountByPersonValue(GetTarget(), tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1445,11 +1451,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "aabs":
-                            Question apq = td.GetQuestion(Int32.Parse(dat[2]), eval);
-                            float apcnt = apq.GetAnswerCountByPerson(dat[5], eval, eval.CombinedPersons[Int32.Parse(dat[4])]);
-
-                            ins = "" + Math.Round(apcnt, Int32.Parse(dat[3]));
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetAnswerCountByPersonValue(td, dat);
                             break;
 
                         case "aas":
@@ -1580,6 +1582,17 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             var averageAnswersByUser = question.GetAverageAnswersByUser(eval, personSetting);
 
             return Math.Round(averageAnswersByUser, digits).ToString();
+        }
+
+        private string GetAnswerCountByPersonValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var digits = Int32.Parse(dat[3]);
+
+            var answerCountByPerson = question.GetAnswerCountByPerson(dat[5], eval, personSetting);
+
+            return Math.Round(answerCountByPerson, digits).ToString();
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
