@@ -867,15 +867,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "mw": //Mittelwert
-
-                            double val = Math.Round(td.GetQuestion(Int32.Parse(dat[2]), eval).GetAverageByPersonAsMark(eval, eval.CombinedPersons[Int32.Parse(dat[4])]), Int32.Parse(dat[3]));
-
-                            if (val == -1) ins = "k.A.";
-                            else ins = "" + val;
-
-
-                            s.TextFrame.TextRange.Text = ins;
-
+                            s.TextFrame.TextRange.Text = GetAverageValue(td, dat);
                             break;
 
                         case "xmlText":
@@ -1206,14 +1198,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "md":
-                            ins = "" + Math.Round(td.GetQuestion(Int32.Parse(dat[2]), eval).GetMedianByPersonAsMark(eval, eval.CombinedPersons[Int32.Parse(dat[4])], Int32.Parse(dat[3])), Int32.Parse(dat[3]));
-
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetMedianValue(td, dat);
                             break;
 
                         case "pc":
-                            ins = "" + Math.Round(((5f - td.GetQuestion(Int32.Parse(dat[2]), eval).GetAverageByPersonAsMark(eval, eval.CombinedPersons[Int32.Parse(dat[4])])) / 4f) * 100, Int32.Parse(dat[3]));
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetPercentValue(td, dat);
                             break;
 
                         case "aabs":
@@ -1242,6 +1231,47 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             //MessageBox("process done: " + s.Tags["umxcode"]);
+        }
+
+        private string GetMedianValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var digits = Int32.Parse(dat[3]);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var median = question.GetMedianByPersonAsMark(eval, personSetting, digits);
+
+            return string.Format("{0}", Math.Round(median, digits));
+        }
+
+        private string GetAverageValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var average = question.GetAverageByPersonAsMark(eval, personSetting);
+            var digits = Int32.Parse(dat[3]);
+            var val = Math.Round(average, digits);
+
+            if (val == -1)
+            {
+                return "k.A.";
+            }
+
+            return val.ToString();
+        }
+
+        private string GetPercentValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var percent = ((5f - question.GetAverageByPersonAsMark(eval, personSetting)) / 4f) * 100;
+            var digits = Int32.Parse(dat[3]);
+
+            return string.Format("{0}", Math.Round(percent, digits));
+        }
+
+        private void GetCurrentCell(Microsoft.Office.Interop.PowerPoint.Application ppapp)
+        {
+            var firstParent = ppapp.ActiveWindow.Selection.TextRange.Parent;
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
@@ -2650,11 +2680,29 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             //text fields
             switch (tls.dat[1])
             {
-                case "mw": case "potpcnt": case "potval": case "n": case "nps": case "md": case "pc": 
+                case "potpcnt": case "potval": case "n": case "nps":
                 case "aabs": case "aas": case "gap": case "apc": case "bcont-value": case "bcont-comp-mw":
                 case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    break;
+
+                case "mw":
+                    pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageValue(GetTarget(), tls.dat);
+                    pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "md":
+                    pptApp.ActiveWindow.Selection.TextRange.Text = GetMedianValue(GetTarget(), tls.dat);
+                    pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "pc":
+                    pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentValue(GetTarget(), tls.dat);
+                    pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
                     break;
 
                 case "potpic":
