@@ -511,7 +511,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             switch (tls.dat[1])
             {
                 case "potpcnt": case "potval":
-                case "aabs": case "aas": case "bcont-value": case "bcont-comp-mw":
+                case "aabs": case "bcont-value": case "bcont-comp-mw":
                 case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
@@ -555,6 +555,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "n":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetSampleSizeValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "aas":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageReplyNumValue(GetTarget(), tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1447,10 +1453,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "aas":
-                            ins = "" + Math.Round(td.GetQuestion(Int32.Parse(dat[2]), eval).GetAverageAnswersByUser(eval, eval.CombinedPersons[Int32.Parse(dat[4])]), Int32.Parse(dat[3]));
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetAverageReplyNumValue(td, dat);
                             break;
-
                     }
                 }
                 catch (Exception ex)
@@ -1565,6 +1569,17 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             return answersByPersonCount.ToString();
+        }
+
+        private string GetAverageReplyNumValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var digits = Int32.Parse(dat[3]);
+
+            var averageAnswersByUser = question.GetAverageAnswersByUser(eval, personSetting);
+
+            return Math.Round(averageAnswersByUser, digits).ToString();
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
