@@ -510,7 +510,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             switch (tls.dat[1])
             {
-                case "potpcnt": case "potval": case "n":
+                case "potpcnt": case "potval":
                 case "aabs": case "aas": case "bcont-value": case "bcont-comp-mw":
                 case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
@@ -549,6 +549,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "nps":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsValue(tls);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "n":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetSampleSizeValue(GetTarget(), tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1417,18 +1423,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "n":
-                            string[] npids = dat[4].Split(new char[] { '#' });
-
-                            int n = 0;
-
-                            foreach (string pid in npids)
-                            {
-                                n += q.NAnswersByPerson(eval, eval.CombinedPersons[Int32.Parse(pid)]);
-                            }
-
-                            ins = n.ToString();
-
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetSampleSizeValue(td, dat);
                             break;
 
                         case "nps":
@@ -1554,6 +1549,22 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         private string GetNpsValue(PPTools tls)
         {
             return tls.NPS();
+        }
+
+        private string GetSampleSizeValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personIds = dat[4].Split(new[] { '#' });
+
+            int answersByPersonCount = 0;
+
+            foreach (string personId in personIds)
+            {
+                var personSetting = eval.CombinedPersons[Int32.Parse(personId)];
+                answersByPersonCount += question.NAnswersByPerson(eval, personSetting);
+            }
+
+            return answersByPersonCount.ToString();
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
