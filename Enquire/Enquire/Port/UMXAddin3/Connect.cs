@@ -510,7 +510,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             switch (tls.dat[1])
             {
-                case "potpcnt": case "potval": case "n": case "nps":
+                case "potpcnt": case "potval": case "n":
                 case "aabs": case "aas": case "bcont-value": case "bcont-comp-mw":
                 case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
@@ -543,6 +543,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "gap":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetGapValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "nps":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsValue(tls);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1426,8 +1432,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "nps":
-                            s.TextFrame.TextRange.Text = tls.NPS();
-
+                            s.TextFrame.TextRange.Text = GetNpsValue(tls);
                             break;
 
                         case "md":
@@ -1544,6 +1549,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             return "k.A.";
+        }
+
+        private string GetNpsValue(PPTools tls)
+        {
+            return tls.NPS();
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
