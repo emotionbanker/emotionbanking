@@ -511,7 +511,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             switch (tls.dat[1])
             {
                 case "potpcnt": case "potval":
-                case "bcont-value": case "bcont-comp-mw":
+                case "bcont-value":
                 case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
@@ -567,6 +567,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "aabs":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetAnswerCountByPersonValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-comp-mw":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetMeanForComparisonValue(tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1201,9 +1207,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "bcont-comp-mw":
-                            TargetData ctvm = GetCTarget(Int32.Parse(dat[5]));
-                            double ctvcvalmw = ctvm.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]).GetAverageByPersonAsMark(multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
-                            s.TextFrame.TextRange.Text = "" + Math.Round(ctvcvalmw, Int32.Parse(dat[3]));
+                            s.TextFrame.TextRange.Text = GetMeanForComparisonValue(dat);
                             break;
 
                         case "bcont-light":
@@ -1593,6 +1597,19 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             var answerCountByPerson = question.GetAnswerCountByPerson(dat[5], eval, personSetting);
 
             return Math.Round(answerCountByPerson, digits).ToString();
+        }
+
+        private string GetMeanForComparisonValue(string[] dat)
+        {
+            var ctvm = GetCTarget(Int32.Parse(dat[5]));
+            var evaluationId = Int32.Parse(dat[5]);
+            var evaluation = multiEvals[evaluationId];
+            var question = ctvm.GetQuestion(Int32.Parse(dat[2]), evaluation);
+            var personSetting = evaluation.CombinedPersons[Int32.Parse(dat[4])];
+            var digits = Int32.Parse(dat[3]);
+
+            double ctvcvalmw = question.GetAverageByPersonAsMark(evaluation, personSetting);
+            return Math.Round(ctvcvalmw, digits).ToString();
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
