@@ -1,58 +1,55 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using Compucare.Enquire.Common.Tools.Logging;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using compucare.Enquire.Legacy.Umfrage2Lib.Output;
 using compucare.Enquire.Legacy.Umfrage2Lib.System;
+using Compucare.Enquire.Common.Tools.Logging;
 using Compucare.Enquire.Legacy.UMXAddin3.ControlForms;
 using Compucare.Enquire.Legacy.UMXAddin3.Enquire;
 using Compucare.Enquire.Legacy.UMXAddin3.Xml;
 using Compucare.Frontends.Common.Command;
-using System;
-using System.Runtime.InteropServices;
-using System.Reflection;
-using System.Windows.Forms;
-using log4net;
 using Microsoft.Office.Core;
-using Microsoft.Office.Interop;
-using Microsoft.Office;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
 
 namespace Compucare.Enquire.Legacy.UMXAddin3
 {
     public enum AppType { Word, PowerPoint }
 
-	#region Read me for Add-in installation and setup information.
-	// When run, the Add-in wizard prepared the registry for the Add-in.
-	// At a later time, if the Add-in becomes unavailable for reasons such as:
-	//   1) You moved this project to a computer other than which is was originally created on.
-	//   2) You chose 'Yes' when presented with a message asking if you wish to remove the Add-in.
-	//   3) Registry corruption.
-	// you will need to re-register the Add-in by building the UMXAddin3Setup project, 
-	// right click the project in the Solution Explorer, then choose install.
-	#endregion
-	
-	/// <summary>
-	///   The object for implementing an Add-in.
-	/// </summary>
-	/// <seealso class='IDTExtensibility2' />
+    #region Read me for Add-in installation and setup information.
+    // When run, the Add-in wizard prepared the registry for the Add-in.
+    // At a later time, if the Add-in becomes unavailable for reasons such as:
+    //   1) You moved this project to a computer other than which is was originally created on.
+    //   2) You chose 'Yes' when presented with a message asking if you wish to remove the Add-in.
+    //   3) Registry corruption.
+    // you will need to re-register the Add-in by building the UMXAddin3Setup project, 
+    // right click the project in the Solution Explorer, then choose install.
+    #endregion
+
+    /// <summary>
+    ///   The object for implementing an Add-in.
+    /// </summary>
+    /// <seealso class='IDTExtensibility2' />
     [GuidAttribute("D17FC01C-70C2-48DE-AEF1-4DB366BE6737"), ProgId("EnquireAddin.Connect")]
-	public class Connect : Object, Extensibility.IDTExtensibility2
-	{
+    public class Connect : Object, Extensibility.IDTExtensibility2
+    {
 
         Microsoft.Office.Interop.Word.Application wordApp;
         Microsoft.Office.Interop.PowerPoint.Application pptApp;
 
-        Microsoft.Office.Core.CommandBarButton settingsButton;
-        Microsoft.Office.Core.CommandBarButton insertButton;
-        Microsoft.Office.Core.CommandBarButton propButton;
-        Microsoft.Office.Core.CommandBarButton editButton;
+        CommandBarButton settingsButton;
+        CommandBarButton insertButton;
+        CommandBarButton propButton;
+        CommandBarButton editButton;
 
 
-        Microsoft.Office.Core.CommandBar toolBar;
+        CommandBar toolBar;
 
-	    public event CommonEventHandler<Boolean> EvalChanged;
+        public event CommonEventHandler<Boolean> EvalChanged;
 
         public Evaluation eval;
 
@@ -68,15 +65,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-		/// <summary>
-		///		Implements the constructor for the Add-in object.
-		///		Place your initialization code within this method.
-		/// </summary>
-		public Connect()
-		{
+        /// <summary>
+        ///		Implements the constructor for the Add-in object.
+        ///		Place your initialization code within this method.
+        /// </summary>
+        public Connect()
+        {
             Application.EnableVisualStyles();
             AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-		}
+        }
 
         static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
@@ -94,24 +91,24 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             return ayResult;
         }
 
-		/// <summary>
-		///      Implements the OnConnection method of the IDTExtensibility2 interface.
-		///      Receives notification that the Add-in is being loaded.
-		/// </summary>
-		/// <param term='application'>
-		///      Root object of the host application.
-		/// </param>
-		/// <param term='connectMode'>
-		///      Describes how the Add-in is being loaded.
-		/// </param>
-		/// <param term='addInInst'>
-		///      Object representing this Add-in.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnConnection(object application, Extensibility.ext_ConnectMode connectMode, object addInInst, ref System.Array custom)
-		{
-			applicationObject = application;
-			addInInstance = addInInst;
+        /// <summary>
+        ///      Implements the OnConnection method of the IDTExtensibility2 interface.
+        ///      Receives notification that the Add-in is being loaded.
+        /// </summary>
+        /// <param term='application'>
+        ///      Root object of the host application.
+        /// </param>
+        /// <param term='connectMode'>
+        ///      Describes how the Add-in is being loaded.
+        /// </param>
+        /// <param term='addInInst'>
+        ///      Object representing this Add-in.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnConnection(object application, Extensibility.ext_ConnectMode connectMode, object addInInst, ref Array custom)
+        {
+            applicationObject = application;
+            addInInstance = addInInst;
 
             toolBar = null;
 
@@ -119,11 +116,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 wordApp = (Microsoft.Office.Interop.Word.Application)application;
                 pptApp = null;
-               
+
                 toolBar = AddWordToolbar(wordApp, "UMXAddin3");
 
-                wordApp.DocumentOpen += new Microsoft.Office.Interop.Word.ApplicationEvents4_DocumentOpenEventHandler(wordapp_DocumentOpen);
-                wordApp.DocumentBeforeSave += new Microsoft.Office.Interop.Word.ApplicationEvents4_DocumentBeforeSaveEventHandler(wordapp_DocumentBeforeSave);
+                wordApp.DocumentOpen += wordapp_DocumentOpen;
+                wordApp.DocumentBeforeSave += wordapp_DocumentBeforeSave;
 
             }
             else if (application is Microsoft.Office.Interop.PowerPoint.Application)
@@ -134,19 +131,16 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 toolBar = AddPPtToolbar(pptApp, "UMXAddin3");
 
-                pptApp.PresentationOpen += new Microsoft.Office.Interop.PowerPoint.EApplication_PresentationOpenEventHandler(pptApp_PresentationOpen);
-                pptApp.PresentationBeforeSave += new Microsoft.Office.Interop.PowerPoint.EApplication_PresentationBeforeSaveEventHandler(pptApp_PresentationBeforeSave);
+                pptApp.PresentationOpen += pptApp_PresentationOpen;
+                pptApp.PresentationBeforeSave += pptApp_PresentationBeforeSave;
 
-                propButton = AddButton(toolBar, "Eigenschaften", 25, new _CommandBarButtonEvents_ClickEventHandler(propButton_Click));
+                propButton = AddButton(toolBar, "Eigenschaften", 25, propButton_Click);
             }
 
-           
-
-
-            settingsButton = AddButton(toolBar, "Einstellungen", 16, new Microsoft.Office.Core._CommandBarButtonEvents_ClickEventHandler(settingsButton_Click));
-            insertButton = AddButton(toolBar, "Einfügen", 17, new Microsoft.Office.Core._CommandBarButtonEvents_ClickEventHandler(insertButton_Click));
-            editButton = AddButton(toolBar, "Bearbeiten", 162, new _CommandBarButtonEvents_ClickEventHandler(editButton_Click));
-		}
+            settingsButton = AddButton(toolBar, "Einstellungen", 16, settingsButton_Click);
+            insertButton = AddButton(toolBar, "Einfügen", 17, insertButton_Click);
+            editButton = AddButton(toolBar, "Bearbeiten", 162, editButton_Click);
+        }
 
         void pptApp_PresentationOpen(Microsoft.Office.Interop.PowerPoint.Presentation Pres)
         {
@@ -273,7 +267,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         }
 
 
-        private Microsoft.Office.Core.CommandBar AddPPtToolbar(Microsoft.Office.Interop.PowerPoint.Application ppt, string toolbarName)
+        private CommandBar AddPPtToolbar(Microsoft.Office.Interop.PowerPoint.Application ppt, string toolbarName)
         {
             Microsoft.Office.Core.CommandBar toolBar = null;
             try
@@ -296,7 +290,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         }
 
 
-        private Microsoft.Office.Core.CommandBar AddWordToolbar(Microsoft.Office.Interop.Word.Application word, string toolbarName)
+        private CommandBar AddWordToolbar(Microsoft.Office.Interop.Word.Application word, string toolbarName)
         {
             Microsoft.Office.Core.CommandBar toolBar = null;
             try
@@ -319,96 +313,92 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
 
         // C#
-        private Microsoft.Office.Core.CommandBarButton AddButton(  Microsoft.Office.Core.CommandBar commandBar, string caption, int faceID, 
-                                                                   Microsoft.Office.Core._CommandBarButtonEvents_ClickEventHandler clickHandler)
+        private CommandBarButton AddButton(CommandBar commandBar, string caption, int faceID,
+                                            _CommandBarButtonEvents_ClickEventHandler clickHandler)
         {
-            object missing = System.Reflection.Missing.Value;
+            object missing = Missing.Value;
             try
             {
-                Microsoft.Office.Core.CommandBarButton newButton;
-                newButton = (Microsoft.Office.Core.CommandBarButton)
+                CommandBarButton newButton;
+                newButton = (CommandBarButton)
                     commandBar.Controls.Add(
-                    Microsoft.Office.Core.MsoControlType.msoControlButton,
+                    MsoControlType.msoControlButton,
                     missing, missing, missing, missing);
                 newButton.Caption = caption;
                 newButton.FaceId = faceID;
-                newButton.Style = Microsoft.Office.Core.MsoButtonStyle.msoButtonIconAndCaption;
+                newButton.Style = MsoButtonStyle.msoButtonIconAndCaption;
                 newButton.Click += clickHandler;
                 newButton.Tag = caption;
                 return newButton;
             }
-            catch 
+            catch
             {
                 // Add code here to handle the exception.
                 return null;
             }
         }
 
-		/// <summary>
-		///     Implements the OnDisconnection method of the IDTExtensibility2 interface.
-		///     Receives notification that the Add-in is being unloaded.
-		/// </summary>
-		/// <param term='disconnectMode'>
-		///      Describes how the Add-in is being unloaded.
-		/// </param>
-		/// <param term='custom'>
-		///      Array of parameters that are host application specific.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnDisconnection(Extensibility.ext_DisconnectMode disconnectMode, ref System.Array custom)
-		{
-		}
+        /// <summary>
+        ///     Implements the OnDisconnection method of the IDTExtensibility2 interface.
+        ///     Receives notification that the Add-in is being unloaded.
+        /// </summary>
+        /// <param term='disconnectMode'>
+        ///      Describes how the Add-in is being unloaded.
+        /// </param>
+        /// <param term='custom'>
+        ///      Array of parameters that are host application specific.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnDisconnection(Extensibility.ext_DisconnectMode disconnectMode, ref Array custom)
+        {
+        }
 
-		/// <summary>
-		///      Implements the OnAddInsUpdate method of the IDTExtensibility2 interface.
-		///      Receives notification that the collection of Add-ins has changed.
-		/// </summary>
-		/// <param term='custom'>
-		///      Array of parameters that are host application specific.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnAddInsUpdate(ref System.Array custom)
-		{
-		}
+        /// <summary>
+        ///      Implements the OnAddInsUpdate method of the IDTExtensibility2 interface.
+        ///      Receives notification that the collection of Add-ins has changed.
+        /// </summary>
+        /// <param term='custom'>
+        ///      Array of parameters that are host application specific.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnAddInsUpdate(ref Array custom)
+        {
+        }
 
-		/// <summary>
-		///      Implements the OnStartupComplete method of the IDTExtensibility2 interface.
-		///      Receives notification that the host application has completed loading.
-		/// </summary>
-		/// <param term='custom'>
-		///      Array of parameters that are host application specific.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnStartupComplete(ref System.Array custom)
-		{
-            
-		}
+        /// <summary>
+        ///      Implements the OnStartupComplete method of the IDTExtensibility2 interface.
+        ///      Receives notification that the host application has completed loading.
+        /// </summary>
+        /// <param term='custom'>
+        ///      Array of parameters that are host application specific.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnStartupComplete(ref Array custom)
+        {
 
-		/// <summary>
-		///      Implements the OnBeginShutdown method of the IDTExtensibility2 interface.
-		///      Receives notification that the host application is being unloaded.
-		/// </summary>
-		/// <param term='custom'>
-		///      Array of parameters that are host application specific.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnBeginShutdown(ref System.Array custom)
-		{
-		}
-		
-		private object applicationObject;
-		private object addInInstance;
+        }
 
+        /// <summary>
+        ///      Implements the OnBeginShutdown method of the IDTExtensibility2 interface.
+        ///      Receives notification that the host application is being unloaded.
+        /// </summary>
+        /// <param term='custom'>
+        ///      Array of parameters that are host application specific.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnBeginShutdown(ref Array custom)
+        {
+        }
 
+        private object applicationObject;
+        private object addInInstance;
 
-
-
-        public void settingsButton_Click(Microsoft.Office.Core.CommandBarButton barButton, ref bool someBool)
+        public void settingsButton_Click(CommandBarButton barButton, ref bool someBool)
         {
             OpenSettingsDialog();
         }
 
-	    public void OpenSettingsDialog()
+        public void OpenSettingsDialog()
 	    {
 	        OpenSettingsDialog(false);
 	    }
@@ -863,7 +853,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             
                             s.TextFrame.TextRange.Font.Size = (float)res[1];
                             if (res[0] != null)
-                                s.TextFrame.TextRange.Font.Color.RGB = System.Drawing.ColorTranslator.ToWin32((Color)res[0]);
+                                s.TextFrame.TextRange.Font.Color.RGB = ColorTranslator.ToWin32((Color)res[0]);
                             break;
 
                         case "mw": //Mittelwert
@@ -1014,7 +1004,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             //3: prec
                             //4: plist
 
-                            string[] pids = dat[4].Split(new char[] { '#' });
+                            string[] pids = dat[4].Split(new[] { '#' });
 
                             if (pids.Length >= 2)
                             {
@@ -1267,11 +1257,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             var digits = Int32.Parse(dat[3]);
 
             return string.Format("{0}", Math.Round(percent, digits));
-        }
-
-        private void GetCurrentCell(Microsoft.Office.Interop.PowerPoint.Application ppapp)
-        {
-            var firstParent = ppapp.ActiveWindow.Selection.TextRange.Parent;
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
@@ -2576,7 +2561,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-        public void insertButton_Click(Microsoft.Office.Core.CommandBarButton barButton, ref bool someBool)
+        public void insertButton_Click(CommandBarButton barButton, ref bool someBool)
         {
             OpenInsertDialog();
         }
@@ -2984,9 +2969,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         }
 
-
-        
-
         void CreatePotTable(String code, InsertForm inf)
         {
             Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
@@ -3085,8 +3067,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-
-
         void CreateMaturity(String code, InsertForm inf)
         {
             Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
@@ -3128,8 +3108,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         }
 
-
-
         void CreateTablePPt(InsertForm inf)
         {
             if (inf.countPersons() < 1)
@@ -3155,7 +3133,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             
 
         }
-
 
         void CreatePotTablePPt(String code, InsertForm inf)
         {
@@ -3253,19 +3230,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-
-
-
-
-
-
-
-
-        
-
-
-
-
         private void Code(string code, string CrossList, string Base, Microsoft.Office.Interop.Word.Range range)
         {
 
@@ -3311,11 +3275,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         }
 
-
-
-
-
-        public void propButton_Click(Microsoft.Office.Core.CommandBarButton barButton, ref bool someBool)
+        public void propButton_Click(CommandBarButton barButton, ref bool someBool)
         {
             OpenPropertiesDialog();
         }
@@ -3354,7 +3314,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-        public void editButton_Click(Microsoft.Office.Core.CommandBarButton barButton, ref bool someBool)
+        public void editButton_Click(CommandBarButton barButton, ref bool someBool)
         {
            OpenEditDialog();
         }
@@ -3401,5 +3361,5 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 elf.ShowDialog();
             }
         }
-	}
+    }
 }
