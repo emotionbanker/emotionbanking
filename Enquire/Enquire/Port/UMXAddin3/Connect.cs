@@ -511,7 +511,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             switch (tls.dat[1])
             {
                 case "potpcnt": case "potval": case "n": case "nps":
-                case "aabs": case "aas": case "gap": case "bcont-value": case "bcont-comp-mw":
+                case "aabs": case "aas": case "bcont-value": case "bcont-comp-mw":
                 case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
@@ -537,6 +537,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "apc":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentResponseValue(tls, GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "gap":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetGapValue(GetTarget(), tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1258,28 +1264,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "gap":
-                            //2: id
-                            //3: prec
-                            //4: plist
-
-                            string[] pids = dat[4].Split(new[] { '#' });
-
-                            if (pids.Length >= 2)
-                            {
-                                int p1 = Int32.Parse(pids[0]);
-                                int p2 = Int32.Parse(pids[1]);
-
-                                double v1 = q.GetAverageByPersonAsMark(eval, eval.CombinedPersons[p1]);
-                                double v2 = q.GetAverageByPersonAsMark(eval, eval.CombinedPersons[p2]);
-
-                                ins = "" + Math.Round(Math.Abs(v1 - v2), Int32.Parse(dat[3]));
-
-                                s.TextFrame.TextRange.Text = ins;
-                            }
-                            else
-                            {
-                                s.TextFrame.TextRange.Text = "k.A.";
-                            }
+                            s.TextFrame.TextRange.Text = GetGapValue(td, dat);
                             break;
 
                         case "potpic":
@@ -1534,6 +1519,31 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             return string.Format("{0}%", Math.Round(pcnt, digits));
+        }
+
+        private string GetGapValue(TargetData td, string[] dat)
+        {
+            //2: id
+            //3: prec
+            //4: plist
+
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var digits = Int32.Parse(dat[3]);
+
+            string[] pids = dat[4].Split(new[] { '#' });
+
+            if (pids.Length >= 2)
+            {
+                int p1 = Int32.Parse(pids[0]);
+                int p2 = Int32.Parse(pids[1]);
+
+                double v1 = question.GetAverageByPersonAsMark(eval, eval.CombinedPersons[p1]);
+                double v2 = question.GetAverageByPersonAsMark(eval, eval.CombinedPersons[p2]);
+
+                return Math.Round(Math.Abs(v1 - v2), digits).ToString();
+            }
+
+            return "k.A.";
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
