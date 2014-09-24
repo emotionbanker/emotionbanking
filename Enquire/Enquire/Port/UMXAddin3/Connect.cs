@@ -510,9 +510,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             switch (tls.dat[1])
             {
-                case "potpcnt": case "potval":
-                case "origaw": case "bcont-nps-value":
-                case "bcont-nps-diff": case "xmlText":
+                case "potpcnt":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
                     break;
 
@@ -592,6 +590,28 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontCompareValue(tls, GetTarget(), tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
+                    break;
+
+                case "bcont-nps-value":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsForComparisonValue(tls, tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-nps-diff":
+                    //TODO XXX
+                    break;
+
+                case "potval":
+                    //TODO XXX
+                    break;
+
+                case "origaw":
+                    //TODO XXX
+                    break;
+
+                case "xmlText":
+                    //TODO XXX
                     break;
 
                 case "potpic":
@@ -1190,12 +1210,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "bcont-nps-value":
-                            {
-                                TargetData actvm = GetCTarget(Int32.Parse(dat[5]));
-                                s.TextFrame.TextRange.Text =
-                                    tls.NPS(actvm.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]),
-                                            multiEvals[Int32.Parse(dat[5])]);
-                            }
+                            s.TextFrame.TextRange.Text = GetNpsForComparisonValue(tls, dat);
                             break;
 
                         case "bcont-nps-diff":
@@ -1527,6 +1542,17 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         private string GetNpsValue(PPTools tls)
         {
             return tls.NPS();
+        }
+
+        private string GetNpsForComparisonValue(PPTools tls, string[] dat)
+        {
+            var evaluationId = Int32.Parse(dat[5]);
+            var evaluation = multiEvals[evaluationId];
+            var actvm = GetCTarget(evaluationId);
+            var questionId = Int32.Parse(dat[2]);
+            var question = actvm.GetQuestion(questionId, evaluation);
+
+            return tls.NPS(question, evaluation);
         }
 
         private string GetSampleSizeValue(TargetData td, string[] dat)
