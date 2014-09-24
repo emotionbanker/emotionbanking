@@ -511,7 +511,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             switch (tls.dat[1])
             {
                 case "potpcnt": case "potval":
-                case "bcont-value-apc": case "origaw": case "bcont-nps-value":
+                case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
                     break;
@@ -584,6 +584,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "bcont-comp-apc":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentForComparisonValue(tls, tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-value-apc":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontCompareValue(tls, GetTarget(), tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1246,30 +1252,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "bcont-value-apc":
-                            TargetData vaatd = GetCTarget(Int32.Parse(dat[5]));
-                            Question vaapq = vaatd.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]);
-
-                            float vaapcnt;
-                            if (tls.Base) vaapcnt = vaapq.GetAnswerPercentByPersonWithBase(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])], tls.bq);
-                            else vaapcnt = (float)vaapq.GetAnswerPercentByPerson(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
-
-                            Question vpq = td.GetQuestion(Int32.Parse(dat[2]), eval);
-
-                            float vpcnt;
-                            if (tls.Base)
-                            {
-                                vpcnt = vpq.GetAnswerPercentByPersonWithBase(dat[6], eval,
-                                    eval.CombinedPersons[Int32.Parse(dat[4])], tls.bq);
-                            }
-                            else
-                            {
-                                vpcnt = (float)vpq.GetAnswerPercentByPerson(dat[6], eval, eval.CombinedPersons[Int32.Parse(dat[4])]);
-                            }
-
-                            ins = "" + Math.Round(vpcnt - vaapcnt, Int32.Parse(dat[3]));
-
-                            s.TextFrame.TextRange.Text = ins + "%";
-
+                            s.TextFrame.TextRange.Text = GetBcontCompareValue(tls, GetTarget(), tls.dat);
                             break;
 
                         case "apc":
@@ -1618,6 +1601,40 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
             return "err";
+        }
+
+        private string GetBcontCompareValue(PPTools tls, TargetData td, string[] dat)
+        {
+            var evaluationId = Int32.Parse(dat[5]);
+            var questionId = Int32.Parse(dat[2]);
+            var evaluation = multiEvals[evaluationId];
+            var personSetting = evaluation.CombinedPersons[Int32.Parse(dat[4])];
+            var vaatd = GetCTarget(evaluationId);
+            var vaapq = vaatd.GetQuestion(questionId, multiEvals[evaluationId]);
+            var vpq = td.GetQuestion(questionId, eval);
+            var digits = Int32.Parse(dat[3]);
+
+            float vaapcnt;
+            if (tls.Base)
+            {
+                vaapcnt = vaapq.GetAnswerPercentByPersonWithBase(dat[6], evaluation, personSetting, tls.bq);
+            }
+            else
+            {
+                vaapcnt = (float)vaapq.GetAnswerPercentByPerson(dat[6], evaluation, personSetting);
+            }
+
+            float vpcnt;
+            if (tls.Base)
+            {
+                vpcnt = vpq.GetAnswerPercentByPersonWithBase(dat[6], eval, personSetting, tls.bq);
+            }
+            else
+            {
+                vpcnt = (float)vpq.GetAnswerPercentByPerson(dat[6], eval, personSetting);
+            }
+
+            return string.Format("{0}%", Math.Round(vpcnt - vaapcnt, digits));
         }
 
         private string GetPercentForComparisonValue(PPTools tls, string[] dat)
