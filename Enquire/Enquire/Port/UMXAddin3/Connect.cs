@@ -510,10 +510,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             switch (tls.dat[1])
             {
-                case "potpcnt":
-                    ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
-                    break;
-
                 case "mw":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageValue(GetTarget(), tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
@@ -606,6 +602,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "potval":
                     //TODO XXX
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetDeviationValue(tls);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
                     break;
 
                 case "origaw":
@@ -613,6 +612,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     break;
 
                 case "xmlText":
+                    //TODO XXX
+                    break;
+
+                case "potpcnt":
                     //TODO XXX
                     break;
 
@@ -1415,7 +1418,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "potval":
-                            s.TextFrame.TextRange.Text = tls.Potval();
+                            s.TextFrame.TextRange.Text = GetDeviationValue(tls);
                             break;
 
                         case "n":
@@ -1562,6 +1565,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             var cTargetQuestion = actvm.GetQuestion(questionId, evaluation);
 
             return tls.NPSDiff(targetQuestion, eval, cTargetQuestion, evaluation);
+        }
+
+        private string GetDeviationValue(PPTools tls)
+        {
+            return tls.Potval();
         }
 
         private string GetSampleSizeValue(TargetData td, string[] dat)
