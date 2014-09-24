@@ -613,7 +613,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     break;
 
                 case "xmlText":
-                    //TODO XXX
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetXmlValue(tls, GetTarget());
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
                     break;
 
                 case "potpcnt":
@@ -1194,10 +1196,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "xmlText":
-                            {
-                                IXmlText gr = XmlHelper.ComputeText(tls.GetXmlMaster(), GetTarget(), eval);
-                                s.TextFrame.TextRange.Text = gr.Compute();
-                            }
+                            s.TextFrame.TextRange.Text = GetXmlValue(tls, GetTarget());
                             break;
 
                         case "bcont-value":
@@ -1709,6 +1708,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             return string.Format("{0}%", Math.Round(aapcnt, Int32.Parse(dat[3])));
+        }
+
+        private string GetXmlValue(PPTools tls, TargetData td)
+        {
+            var gr = XmlHelper.ComputeText(tls.GetXmlMaster(), td, eval);
+            return gr.Compute();
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
