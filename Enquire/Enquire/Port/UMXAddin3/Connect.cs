@@ -599,7 +599,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     break;
 
                 case "bcont-nps-diff":
-                    //TODO XXX
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontNpsValue(tls, GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
                     break;
 
                 case "potval":
@@ -1214,12 +1216,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "bcont-nps-diff":
-                            {
-                                TargetData actvm = GetCTarget(Int32.Parse(dat[5]));
-                                s.TextFrame.TextRange.Text =
-                                    tls.NPSDiff(td.GetQuestion(Int32.Parse(dat[2]), eval), eval, actvm.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]),
-                                            multiEvals[Int32.Parse(dat[5])]);
-                            }
+                            s.TextFrame.TextRange.Text = GetBcontNpsValue(tls, GetTarget(), dat);
                             break;
 
                         case "bcont-comp-mw":
@@ -1553,6 +1550,18 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             var question = actvm.GetQuestion(questionId, evaluation);
 
             return tls.NPS(question, evaluation);
+        }
+
+        private string GetBcontNpsValue(PPTools tls, TargetData td, string[] dat)
+        {
+            var evaluationId = Int32.Parse(dat[5]);
+            var evaluation = multiEvals[evaluationId];
+            var actvm = GetCTarget(evaluationId);
+            var questionId = Int32.Parse(dat[2]);
+            var targetQuestion = td.GetQuestion(questionId, eval);
+            var cTargetQuestion = actvm.GetQuestion(questionId, evaluation);
+
+            return tls.NPSDiff(targetQuestion, eval, cTargetQuestion, evaluation);
         }
 
         private string GetSampleSizeValue(TargetData td, string[] dat)
