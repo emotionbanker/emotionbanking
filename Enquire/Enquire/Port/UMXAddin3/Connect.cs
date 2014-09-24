@@ -601,14 +601,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     break;
 
                 case "potval":
-                    //TODO XXX
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetDeviationValue(tls);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
 
                 case "origaw":
-                    //TODO XXX
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetOriginalAnswerValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
                     break;
 
                 case "xmlText":
@@ -1173,20 +1174,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "origaw":
-                            Question oq = td.GetQuestion(Int32.Parse(dat[2]), eval);
-                            //MessageBox.Show("get oq for " + Int32.Parse(dat[2]));
-                            //text is 5
-                            string otxt = dat[5];
-                            if (oq.IsPlaceholder)
-                            {
-                                int oaid = oq.GetAnswerId(dat[5]);
-                                QuestionPlaceholder ph = eval.GetPlaceholder(oq.ID);
-                                if (ph != null && ph.AnswerList.Length > oaid)
-                                    otxt = ph.AnswerList[oaid];
-                            }
-
-                            s.TextFrame.TextRange.Text = otxt;
-
+                            s.TextFrame.TextRange.Text = GetOriginalAnswerValue(GetTarget(), tls.dat);
                             break;
 
                         case "tagcloud-val":
@@ -1570,6 +1558,24 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         private string GetDeviationValue(PPTools tls)
         {
             return tls.Potval();
+        }
+
+        private string GetOriginalAnswerValue(TargetData td, string[] dat)
+        {
+            var oq = td.GetQuestion(Int32.Parse(dat[2]), eval);
+
+            string otxt = dat[5];
+            if (oq.IsPlaceholder)
+            {
+                int oaid = oq.GetAnswerId(dat[5]);
+                var ph = eval.GetPlaceholder(oq.ID);
+                if (ph != null && ph.AnswerList.Length > oaid)
+                {
+                    otxt = ph.AnswerList[oaid];
+                }
+            }
+
+            return otxt;
         }
 
         private string GetSampleSizeValue(TargetData td, string[] dat)
