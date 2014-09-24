@@ -511,7 +511,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             switch (tls.dat[1])
             {
                 case "potpcnt": case "potval":
-                case "bcont-value":
                 case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
@@ -573,6 +572,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "bcont-comp-mw":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetMeanForComparisonValue(tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-value":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetCompareValue(GetTarget(), tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1169,23 +1174,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "bcont-value":
-                            //get compare value
-
-                            TargetData ctv = GetCTarget(Int32.Parse(dat[5]));
-
-                            if (ctv != null)
-                            {
-                                double ctvoval = td.GetQuestion(Int32.Parse(dat[2]), eval).GetAverageByPersonAsMark(eval, eval.CombinedPersons[Int32.Parse(dat[4])]);
-                                double ctvcval = ctv.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]).GetAverageByPersonAsMark(multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
-
-                                s.TextFrame.TextRange.Text = "" + Math.Round(ctvoval - ctvcval, Int32.Parse(dat[3]));
-                            }
-                            else
-                            {
-                                MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
-                                s.TextFrame.TextRange.Text = "err";
-                            }
-
+                            s.TextFrame.TextRange.Text = GetCompareValue(td, dat);
                             break;
 
                         case "bcont-nps-value":
@@ -1610,6 +1599,29 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             double ctvcvalmw = question.GetAverageByPersonAsMark(evaluation, personSetting);
             return Math.Round(ctvcvalmw, digits).ToString();
+        }
+
+        private string GetCompareValue(TargetData td, string[] dat)
+        {
+            var ctv = GetCTarget(Int32.Parse(dat[5]));
+            var evaluationId = Int32.Parse(dat[5]);
+            var evaluation = multiEvals[evaluationId];
+            var cTargetQuestion = ctv.GetQuestion(Int32.Parse(dat[2]), evaluation);
+            var questionId = Int32.Parse(dat[2]);
+            var targetQuestion = td.GetQuestion(questionId, eval);
+            var personSettingId = Int32.Parse(dat[4]);
+            var digits = Int32.Parse(dat[3]);
+
+            if (ctv != null)
+            {
+                double ctvoval = targetQuestion.GetAverageByPersonAsMark(eval, eval.CombinedPersons[personSettingId]);
+                double ctvcval = cTargetQuestion.GetAverageByPersonAsMark(evaluation, evaluation.CombinedPersons[personSettingId]);
+
+                return Math.Round(ctvoval - ctvcval, digits).ToString();
+            }
+
+            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
+            return "err";
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
