@@ -617,7 +617,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     break;
 
                 case "potpcnt":
-                    //TODO XXX
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentDeviationValue(tls);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
                     break;
 
                 case "potpic":
@@ -1402,7 +1404,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "potpcnt":
-                            s.TextFrame.TextRange.Text = tls.Potpcnt();
+                            s.TextFrame.TextRange.Text = GetPercentDeviationValue(tls);
                             break;
 
                         case "potval":
@@ -1558,6 +1560,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         private string GetDeviationValue(PPTools tls)
         {
             return tls.Potval();
+        }
+
+        private string GetPercentDeviationValue(PPTools tls)
+        {
+            return tls.Potpcnt();
         }
 
         private string GetOriginalAnswerValue(TargetData td, string[] dat)
