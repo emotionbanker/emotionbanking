@@ -511,7 +511,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             switch (tls.dat[1])
             {
                 case "potpcnt": case "potval":
-                case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
+                case "bcont-value-apc": case "origaw": case "bcont-nps-value":
                 case "bcont-nps-diff": case "xmlText":
                     ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
                     break;
@@ -578,6 +578,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 case "bcont-value":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetCompareValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-comp-apc":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentForComparisonValue(tls, tls.dat);
                     _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
                     ns = null;
                     break;
@@ -1236,17 +1242,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "bcont-comp-apc":
-                            TargetData aatd = GetCTarget(Int32.Parse(dat[5]));
-                            Question aapq = aatd.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]);
-                            float aapcnt;
-                            if (tls.Base) aapcnt = aapq.GetAnswerPercentByPersonWithBase(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])], tls.bq);
-                            else aapcnt = (float)aapq.GetAnswerPercentByPerson(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
-
-                            //MessageBox.Show();
-                            ins = "" + Math.Round(aapcnt, Int32.Parse(dat[3]));
-
-                            s.TextFrame.TextRange.Text = ins + "%";
-
+                            s.TextFrame.TextRange.Text = GetPercentForComparisonValue(tls, tls.dat);
                             break;
 
                         case "bcont-value-apc":
@@ -1622,6 +1618,24 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
             return "err";
+        }
+
+        private string GetPercentForComparisonValue(PPTools tls, string[] dat)
+        {
+            var aatd = GetCTarget(Int32.Parse(dat[5]));
+            Question aapq = aatd.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]);
+            float aapcnt;
+            if (tls.Base)
+            {
+                aapcnt = aapq.GetAnswerPercentByPersonWithBase(dat[6], multiEvals[Int32.Parse(dat[5])],
+                    multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])], tls.bq);
+            }
+            else
+            {
+                aapcnt = (float)aapq.GetAnswerPercentByPerson(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
+            }
+
+            return string.Format("{0}%", Math.Round(aapcnt, Int32.Parse(dat[3])));
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
