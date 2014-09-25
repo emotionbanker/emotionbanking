@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Compucare.Frontends.Common.Command;
 using Compucare.Frontends.Common.Identity;
+using System.Drawing;
 
 namespace Compucare.Enquire.EnquireStudio
 {

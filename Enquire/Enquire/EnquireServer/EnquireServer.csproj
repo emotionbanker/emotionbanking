@@ -11,7 +11,8 @@
     <RootNamespace>Compucare.Enquire.EnquireServer</RootNamespace>
     <AssemblyName>Compucare.Enquire.EnquireServer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -190,6 +191,10 @@
     <ProjectReference Include="..\Common\DataModule\DataModule.csproj">
       <Project>{33CC215E-558C-4A4B-9393-F79C7B59FEBD}</Project>
       <Name>DataModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Port\um08\Umfrage2Lib.csproj">
+      <Project>{38BDB159-C96D-4DDD-837B-B5F687C95258}</Project>
+      <Name>Umfrage2Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

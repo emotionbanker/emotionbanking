@@ -105,9 +105,8 @@
       <HintPath>..\..\..\Lib\Ciloci.Flee.dll</HintPath>
     </Reference>
     <Reference Include="Compucare.Enquire.Common.DataModule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f8a8c5f426fd8e8d" />
-    <Reference Include="dotnetCharting.WinForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=c3f34d622663b9f1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Dropbox\dotnetcharting\version 4\dotnetCharting.WinForms.dll</HintPath>
+    <Reference Include="dotnetCharting.WinForms">
+      <HintPath>..\..\..\Lib\dotnetCharting.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
