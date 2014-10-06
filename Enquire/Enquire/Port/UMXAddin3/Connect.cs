@@ -15,6 +15,9 @@ using Compucare.Enquire.Legacy.UMXAddin3.Enquire;
 using Compucare.Enquire.Legacy.UMXAddin3.Xml;
 using Compucare.Frontends.Common.Command;
 using Microsoft.Office.Core;
+using Microsoft.Office.Interop.PowerPoint;
+using Application = System.Windows.Forms.Application;
+using Column = Microsoft.Office.Interop.Word.Column;
 
 namespace Compucare.Enquire.Legacy.UMXAddin3
 {
@@ -336,13 +339,61 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
+        public Cell GetSelectedCell(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+                    if (cell.Selected)
+                    {
+                        return cell;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public System.Drawing.Point GetSelectedCellCoordinates(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+                    if (cell.Selected)
+                    {
+                        return new System.Drawing.Point(i, j);
+                    }
+                }
+            }
+
+            return System.Drawing.Point.Empty;
+        }
+
         public void OpenPropertiesDialog()
         {
             try
             {
-                if (_pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"].Equals("table") || (_pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"].IndexOf("ADDIN") != -1))
+                Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+                var key = "umxcode";
+                var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
+                if (selectedCellCoordinates != System.Drawing.Point.Empty)
                 {
-                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"];
+                    key = string.Format("umxcode_{0}_{1}", selectedCellCoordinates.X, selectedCellCoordinates.Y);
+                }
+
+                if (_pptApp.ActiveWindow.Selection.ShapeRange.Tags[key].Equals("table") || (_pptApp.ActiveWindow.Selection.ShapeRange.Tags[key].IndexOf("ADDIN") != -1))
+                {
+                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
 
                     string d = string.Empty;
 
@@ -508,120 +559,109 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             Microsoft.Office.Interop.PowerPoint.Shape ns = null;
 
+            Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+            string key = "umxcode";
+            var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
+            if (selectedCellCoordinates != System.Drawing.Point.Empty)
+            {
+                key = string.Format("umxcode_{0}_{1}", selectedCellCoordinates.X, selectedCellCoordinates.Y);
+            }
+
             switch (tls.dat[1])
             {
                 case "mw":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "md":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetMedianValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "pc":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "apc":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentResponseValue(tls, GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "gap":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetGapValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "nps":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsValue(tls);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "n":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetSampleSizeValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "aas":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageReplyNumValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "aabs":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetAnswerCountByPersonValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "bcont-comp-mw":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetMeanForComparisonValue(tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "bcont-value":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetCompareValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "bcont-comp-apc":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentForComparisonValue(tls, tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "bcont-value-apc":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontCompareValue(tls, GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "bcont-nps-value":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsForComparisonValue(tls, tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "bcont-nps-diff":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontNpsValue(tls, GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "potval":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetDeviationValue(tls);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "origaw":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetOriginalAnswerValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "xmlText":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetXmlValue(tls, GetTarget());
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "potpcnt":
                     _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentDeviationValue(tls);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     break;
 
                 case "potpic":
