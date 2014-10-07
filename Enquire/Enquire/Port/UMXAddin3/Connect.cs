@@ -17,7 +17,7 @@ using Compucare.Frontends.Common.Command;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
 using Application = System.Windows.Forms.Application;
-using Column = Microsoft.Office.Interop.Word.Column;
+using Point = System.Drawing.Point;
 
 namespace Compucare.Enquire.Legacy.UMXAddin3
 {
@@ -359,7 +359,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             return null;
         }
 
-        public System.Drawing.Point GetSelectedCellCoordinates(Microsoft.Office.Interop.PowerPoint.Table table)
+        public Point GetSelectedCellCoordinates(Microsoft.Office.Interop.PowerPoint.Table table)
         {
             int columnsCount = table.Columns.Count;
             int rowsCount = table.Rows.Count;
@@ -371,12 +371,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     var cell = table.Cell(i, j);
                     if (cell.Selected)
                     {
-                        return new System.Drawing.Point(i, j);
+                        return new Point(i, j);
                     }
                 }
             }
 
-            return System.Drawing.Point.Empty;
+            return Point.Empty;
         }
 
         public void OpenPropertiesDialog()
@@ -532,23 +532,61 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
+        private Dictionary<Point, string> GetAllCellsWithFormulas(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            var cells = new Dictionary<Point, string>();
+
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+
+                    cell.Select();
+                    var key = GetFieldKeyForSelectedCell();
+                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
+                    if (!string.IsNullOrEmpty(dat))
+                    {
+                        var coords = new Point(i, j);
+                        cells[coords] = dat;
+                    }
+                }
+            }
+
+            return cells;
+        }
+
         public void OpenUpdateFormulaDialog()
         {
-            var key = GetFieldKeyForSelectedCell();
-            string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
+            var tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+            var formulas = GetAllCellsWithFormulas(tbl);
 
-            var form = new UpdateFormulaForm(dat);
+            var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
             var dialogResult = form.ShowDialog();
             if (dialogResult == DialogResult.OK)
             {
-                if (form.Formula != dat)
+                foreach (var formula in form.Formulas)
                 {
-                    // clean up the selected cell
-                    SetTextForCurrentCell(string.Empty);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+                    var coord = formula.Key;
 
-                    AddPField(form.Formula);
+                    if (formulas[formula.Key] != formula.Value)
+                    {
+                        var cell = tbl.Cell(coord.X, coord.Y);
+                        cell.Select();
+
+                        // clean up the selected cell
+                        SetTextForCurrentCell(string.Empty);
+                        var key = GetFieldKeyForSelectedCell();
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+
+                        AddPField(formula.Value);
+                    }
                 }
+
+                _pptApp.ActiveWindow.Selection.Unselect();
             }
         }
 
@@ -577,7 +615,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
             string key = "umxcode";
             var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
-            if (selectedCellCoordinates != System.Drawing.Point.Empty)
+            if (selectedCellCoordinates != Point.Empty)
             {
                 key = string.Format("umxcode_{0}_{1}", selectedCellCoordinates.X, selectedCellCoordinates.Y);
             }
