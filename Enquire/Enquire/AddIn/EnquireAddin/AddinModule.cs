@@ -83,6 +83,7 @@ namespace EnquireAddin
             _ribbonInsert.OnClick += delegate { _addin3.OpenInsertDialog(); };
             _ribbonOpenUm3.OnClick += delegate { _addin3.OpenSettingsDialog(true); };
             _ribbonAbout.OnClick += delegate { OpenAboutDialog(); };
+            _ribbonUpdateFormula.OnClick += delegate { _addin3.OpenUpdateFormulaDialog(); };
 
             //text
             _ribbonScript.OnClick += delegate { ButtonTextScriptClick(this); };
@@ -212,6 +213,7 @@ namespace EnquireAddin
         private AddinExpress.MSO.ADXRibbonGroup adxRibbonGroup7;
         private AddinExpress.MSO.ADXRibbonButton adxRibbonButton1;
         private AddinExpress.MSO.ADXRibbonButton adxRibbonButton2;
+        private AddinExpress.MSO.ADXRibbonButton _ribbonUpdateFormula;
 
  
         #region Component Designer generated code
@@ -253,6 +255,7 @@ namespace EnquireAddin
             this._ribbonProperties = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this._ribbonEdit = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this._ribbonReload = new AddinExpress.MSO.ADXRibbonButton(this.components);
+            this._ribbonUpdateFormula = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this.adxRibbonGroup2 = new AddinExpress.MSO.ADXRibbonGroup(this.components);
             this._ribbonScript = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this._ribbonGap = new AddinExpress.MSO.ADXRibbonButton(this.components);
@@ -490,6 +493,7 @@ namespace EnquireAddin
             this.adxRibbonGroup5.Controls.Add(this._ribbonProperties);
             this.adxRibbonGroup5.Controls.Add(this._ribbonEdit);
             this.adxRibbonGroup5.Controls.Add(this._ribbonReload);
+            this.adxRibbonGroup5.Controls.Add(this._ribbonUpdateFormula);
             this.adxRibbonGroup5.Id = "adxRibbonGroup_9a78ab781c7d47b4afce4b38bda22541";
             this.adxRibbonGroup5.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.adxRibbonGroup5.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
@@ -520,6 +524,15 @@ namespace EnquireAddin
             this._ribbonReload.ImageList = this._imageList16;
             this._ribbonReload.ImageTransparentColor = System.Drawing.Color.Transparent;
             this._ribbonReload.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            // 
+            // _ribbonUpdateFormula
+            // 
+            this._ribbonUpdateFormula.Caption = "Edit Formula(s)";
+            this._ribbonUpdateFormula.Id = "adxRibbonButton_efe035d667f440a4af8a27ac042a84ef";
+            this._ribbonUpdateFormula.Image = 9;
+            this._ribbonUpdateFormula.ImageList = this._imageList16;
+            this._ribbonUpdateFormula.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this._ribbonUpdateFormula.Ribbons = AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation;
             // 
             // adxRibbonGroup2
             // 

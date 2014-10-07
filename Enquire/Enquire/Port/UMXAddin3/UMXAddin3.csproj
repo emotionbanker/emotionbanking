@@ -181,6 +181,12 @@
     <Compile Include="ControlForms\UMSettingsForm.Designer.cs">
       <DependentUpon>UMSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlForms\UpdateFormulaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForms\UpdateFormulaForm.Designer.cs">
+      <DependentUpon>UpdateFormulaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cross.cs" />
     <Compile Include="Enquire\AddinHelper.cs" />
     <Compile Include="Enquire\FieldHelper.cs" />
@@ -300,6 +306,9 @@
     <EmbeddedResource Include="ControlForms\UMSettingsForm.resx">
       <DependentUpon>UMSettingsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlForms\UpdateFormulaForm.resx">
+      <DependentUpon>UpdateFormulaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
