@@ -561,6 +561,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         public void OpenUpdateFormulaDialog()
         {
+            if (eval == null)
+            {
+                MessageBox.Show("Sollte eine Verknüpfung eingestellt sein, speichern und laden Sie das Word- Dokument neu.", "Keine Datenverknüpfung eingestellt");
+                return;
+            }
+
             Microsoft.Office.Interop.PowerPoint.Table tbl;
             try
             {
