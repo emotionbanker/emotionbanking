@@ -50,5 +50,29 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
             DialogResult = DialogResult.OK;
         }
+
+        private void btnReplace_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(txtReplace.Text))
+            {
+                if (!string.IsNullOrEmpty(textBox1.SelectedText))
+                {
+                    int selectionStart = textBox1.SelectionStart;
+                    int selectionLength = textBox1.SelectionLength;
+
+                    textBox1.Text = textBox1.Text.Remove(selectionStart, selectionLength)
+                        .Insert(selectionStart, txtReplace.Text);
+                    textBox1.Select(selectionStart, selectionLength);
+                }
+            }
+        }
+
+        private void btnReplaceAll_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(txtReplace.Text))
+            {
+                textBox1.Text = textBox1.Text.Replace(txtFind.Text, txtReplace.Text);
+            }
+        }
     }
 }

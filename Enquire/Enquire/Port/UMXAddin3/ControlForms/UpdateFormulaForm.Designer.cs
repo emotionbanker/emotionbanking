@@ -43,6 +43,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.HideSelection = false;
             this.textBox1.Location = new System.Drawing.Point(12, 12);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -128,6 +129,7 @@
             this.btnReplace.TabIndex = 9;
             this.btnReplace.Text = " Auswahl Ersetzen";
             this.btnReplace.UseVisualStyleBackColor = true;
+            this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
             // 
             // btnReplaceAll
             // 
@@ -137,6 +139,7 @@
             this.btnReplaceAll.TabIndex = 10;
             this.btnReplaceAll.Text = "Alle Ersetzen";
             this.btnReplaceAll.UseVisualStyleBackColor = true;
+            this.btnReplaceAll.Click += new System.EventHandler(this.btnReplaceAll_Click);
             // 
             // UpdateFormulaForm
             // 
