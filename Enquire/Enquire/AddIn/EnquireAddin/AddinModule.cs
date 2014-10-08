@@ -162,6 +162,11 @@ namespace EnquireAddin
             AddinHelper.ShowIndicatorIconDialog(_addin3, IndicatorGraphics.ExclamationMark);
         }
 
+        private void kbdShortcutEditFormula_Action(object sender)
+        {
+            _addin3.OpenUpdateFormulaDialog();
+        }
+
         void Addin3EvalChanged(bool arg1)
         {
             _insertTextPopup.Enabled = arg1;
@@ -214,6 +219,7 @@ namespace EnquireAddin
         private AddinExpress.MSO.ADXRibbonButton adxRibbonButton1;
         private AddinExpress.MSO.ADXRibbonButton adxRibbonButton2;
         private AddinExpress.MSO.ADXRibbonButton _ribbonUpdateFormula;
+        private AddinExpress.MSO.ADXKeyboardShortcut kbdShortcutEditFormula;
 
  
         #region Component Designer generated code
@@ -271,6 +277,7 @@ namespace EnquireAddin
             this.adxRibbonGroup7 = new AddinExpress.MSO.ADXRibbonGroup(this.components);
             this.adxRibbonButton1 = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this.adxRibbonButton2 = new AddinExpress.MSO.ADXRibbonButton(this.components);
+            this.kbdShortcutEditFormula = new AddinExpress.MSO.ADXKeyboardShortcut(this.components);
             // 
             // _enquireCommandBar
             // 
@@ -673,9 +680,16 @@ namespace EnquireAddin
             this.adxRibbonButton2.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.adxRibbonButton2.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
             // 
+            // kbdShortcutEditFormula
+            // 
+            this.kbdShortcutEditFormula.ShortcutText = "Ctrl+Shift+F9";
+            this.kbdShortcutEditFormula.SupportedApps = AddinExpress.MSO.ADXOfficeHostApp.ohaPowerPoint;
+            this.kbdShortcutEditFormula.Action += new AddinExpress.MSO.ADXAction_EventHandler(this.kbdShortcutEditFormula_Action);
+            // 
             // AddinModule
             // 
             this.AddinName = "EnquireAddin";
+            this.HandleShortcuts = true;
             this.SupportedApps = ((AddinExpress.MSO.ADXOfficeHostApp)((AddinExpress.MSO.ADXOfficeHostApp.ohaWord | AddinExpress.MSO.ADXOfficeHostApp.ohaPowerPoint)));
 
         }
@@ -726,7 +740,6 @@ namespace EnquireAddin
                 return (HostApplication as PowerPoint._Application);
             }
         }
-
     }
 }
 
