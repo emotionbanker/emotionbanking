@@ -64,7 +64,7 @@
             // lblFind
             // 
             this.lblFind.AutoSize = true;
-            this.lblFind.Location = new System.Drawing.Point(12, 621);
+            this.lblFind.Location = new System.Drawing.Point(9, 621);
             this.lblFind.Name = "lblFind";
             this.lblFind.Size = new System.Drawing.Size(56, 17);
             this.lblFind.TabIndex = 3;
@@ -73,7 +73,7 @@
             // lblReplace
             // 
             this.lblReplace.AutoSize = true;
-            this.lblReplace.Location = new System.Drawing.Point(230, 621);
+            this.lblReplace.Location = new System.Drawing.Point(315, 623);
             this.lblReplace.Name = "lblReplace";
             this.lblReplace.Size = new System.Drawing.Size(64, 17);
             this.lblReplace.TabIndex = 4;
@@ -88,14 +88,14 @@
             // 
             // txtReplace
             // 
-            this.txtReplace.Location = new System.Drawing.Point(300, 618);
+            this.txtReplace.Location = new System.Drawing.Point(385, 618);
             this.txtReplace.Name = "txtReplace";
             this.txtReplace.Size = new System.Drawing.Size(150, 22);
             this.txtReplace.TabIndex = 6;
             // 
             // btnSelectNext
             // 
-            this.btnSelectNext.Location = new System.Drawing.Point(156, 646);
+            this.btnSelectNext.Location = new System.Drawing.Point(165, 646);
             this.btnSelectNext.Name = "btnSelectNext";
             this.btnSelectNext.Size = new System.Drawing.Size(147, 33);
             this.btnSelectNext.TabIndex = 7;
@@ -105,7 +105,7 @@
             // 
             // btnSelectPrevious
             // 
-            this.btnSelectPrevious.Location = new System.Drawing.Point(3, 646);
+            this.btnSelectPrevious.Location = new System.Drawing.Point(12, 646);
             this.btnSelectPrevious.Name = "btnSelectPrevious";
             this.btnSelectPrevious.Size = new System.Drawing.Size(147, 33);
             this.btnSelectPrevious.TabIndex = 8;
@@ -115,7 +115,7 @@
             // 
             // btnReplace
             // 
-            this.btnReplace.Location = new System.Drawing.Point(309, 646);
+            this.btnReplace.Location = new System.Drawing.Point(318, 646);
             this.btnReplace.Name = "btnReplace";
             this.btnReplace.Size = new System.Drawing.Size(147, 33);
             this.btnReplace.TabIndex = 9;
@@ -125,7 +125,7 @@
             // 
             // btnReplaceAll
             // 
-            this.btnReplaceAll.Location = new System.Drawing.Point(462, 646);
+            this.btnReplaceAll.Location = new System.Drawing.Point(471, 646);
             this.btnReplaceAll.Name = "btnReplaceAll";
             this.btnReplaceAll.Size = new System.Drawing.Size(147, 33);
             this.btnReplaceAll.TabIndex = 10;
