@@ -161,6 +161,7 @@
             this.Controls.Add(this.CButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "UpdateFormulaForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Berechnung Aktualisieren";
             this.ResumeLayout(false);
             this.PerformLayout();
