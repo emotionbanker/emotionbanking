@@ -561,7 +561,17 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         public void OpenUpdateFormulaDialog()
         {
-            var tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+            Microsoft.Office.Interop.PowerPoint.Table tbl;
+            try
+            {
+                tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
+                return;
+            }
+
             var formulas = GetAllCellsWithFormulas(tbl);
 
             var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
