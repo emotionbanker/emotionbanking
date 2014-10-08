@@ -23,12 +23,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             foreach (KeyValuePair<Point, string> formula in _formulas)
             {
                 _positions.Add(position, formula.Key);
-                sb.AppendFormat("{{{0}}}{1}{1}", formula.Value, Environment.NewLine);
+                sb.AppendFormat("{{{0}}}\n\n", formula.Value);
                 position++;
             }
 
-            textBox1.Text = sb.ToString();
-            textBox1.Select(0, 0);
+            txtFormulas.Text = sb.ToString();
+            txtFormulas.Select(0, 0);
         }
 
         public Dictionary<Point, string> Formulas
@@ -38,9 +38,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            var strings = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var strings = txtFormulas.Text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-            for (int pos = 0; pos < strings.Length; pos++)
+            for (int pos = 0; pos < strings.Length && pos < _positions.Count; pos++)
             {
                 var coord = _positions[pos];
 
@@ -55,14 +55,14 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
         {
             if (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(txtReplace.Text))
             {
-                if (!string.IsNullOrEmpty(textBox1.SelectedText))
+                if (!string.IsNullOrEmpty(txtFormulas.SelectedText))
                 {
-                    int selectionStart = textBox1.SelectionStart;
-                    int selectionLength = textBox1.SelectionLength;
+                    int selectionStart = txtFormulas.SelectionStart;
+                    int selectionLength = txtFormulas.SelectionLength;
 
-                    textBox1.Text = textBox1.Text.Remove(selectionStart, selectionLength)
+                    txtFormulas.Text = txtFormulas.Text.Remove(selectionStart, selectionLength)
                         .Insert(selectionStart, txtReplace.Text);
-                    textBox1.Select(selectionStart, selectionLength);
+                    txtFormulas.Select(selectionStart, selectionLength);
                 }
             }
         }
@@ -71,8 +71,22 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
         {
             if (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(txtReplace.Text))
             {
-                textBox1.Text = textBox1.Text.Replace(txtFind.Text, txtReplace.Text);
+                txtFormulas.Text = txtFormulas.Text.Replace(txtFind.Text, txtReplace.Text);
             }
+        }
+
+        private void btnSelectPrevious_Click(object sender, EventArgs e)
+        {
+            int startIndex = 0;
+            int endIndex = txtFormulas.SelectionStart;
+            txtFormulas.Find(txtFind.Text, startIndex, endIndex, RichTextBoxFinds.Reverse);
+        }
+
+        private void btnSelectNext_Click(object sender, EventArgs e)
+        {
+            int startIndex = txtFormulas.SelectionStart + txtFormulas.SelectionLength;
+            int endIndex = txtFormulas.TextLength;
+            txtFormulas.Find(txtFind.Text, startIndex, endIndex, RichTextBoxFinds.None);
         }
     }
 }

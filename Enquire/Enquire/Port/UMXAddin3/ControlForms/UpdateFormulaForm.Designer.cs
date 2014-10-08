@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.CButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
             this.lblFind = new System.Windows.Forms.Label();
@@ -39,17 +38,8 @@
             this.btnSelectPrevious = new System.Windows.Forms.Button();
             this.btnReplace = new System.Windows.Forms.Button();
             this.btnReplaceAll = new System.Windows.Forms.Button();
+            this.txtFormulas = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.textBox1.HideSelection = false;
-            this.textBox1.Location = new System.Drawing.Point(12, 12);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(970, 600);
-            this.textBox1.TabIndex = 0;
             // 
             // CButton
             // 
@@ -111,6 +101,7 @@
             this.btnSelectNext.TabIndex = 7;
             this.btnSelectNext.Text = "Nächster Eintrag";
             this.btnSelectNext.UseVisualStyleBackColor = true;
+            this.btnSelectNext.Click += new System.EventHandler(this.btnSelectNext_Click);
             // 
             // btnSelectPrevious
             // 
@@ -120,6 +111,7 @@
             this.btnSelectPrevious.TabIndex = 8;
             this.btnSelectPrevious.Text = "Voriger Eintrag";
             this.btnSelectPrevious.UseVisualStyleBackColor = true;
+            this.btnSelectPrevious.Click += new System.EventHandler(this.btnSelectPrevious_Click);
             // 
             // btnReplace
             // 
@@ -141,12 +133,22 @@
             this.btnReplaceAll.UseVisualStyleBackColor = true;
             this.btnReplaceAll.Click += new System.EventHandler(this.btnReplaceAll_Click);
             // 
+            // txtFormulas
+            // 
+            this.txtFormulas.HideSelection = false;
+            this.txtFormulas.Location = new System.Drawing.Point(12, 12);
+            this.txtFormulas.Name = "txtFormulas";
+            this.txtFormulas.Size = new System.Drawing.Size(970, 600);
+            this.txtFormulas.TabIndex = 11;
+            this.txtFormulas.Text = "";
+            // 
             // UpdateFormulaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CButton;
             this.ClientSize = new System.Drawing.Size(994, 691);
+            this.Controls.Add(this.txtFormulas);
             this.Controls.Add(this.btnReplaceAll);
             this.Controls.Add(this.btnReplace);
             this.Controls.Add(this.btnSelectPrevious);
@@ -157,7 +159,6 @@
             this.Controls.Add(this.lblFind);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.CButton);
-            this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "UpdateFormulaForm";
             this.Text = "Berechnung Aktualisieren";
@@ -168,7 +169,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button CButton;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Label lblFind;
@@ -179,5 +179,6 @@
         private System.Windows.Forms.Button btnSelectPrevious;
         private System.Windows.Forms.Button btnReplace;
         private System.Windows.Forms.Button btnReplaceAll;
+        private System.Windows.Forms.RichTextBox txtFormulas;
     }
 }
