@@ -740,8 +740,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         private string GetFieldKeyForSelectedCell()
         {
-            Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
             string key = "umxcode";
+
+            PpSelectionType selectionType = _pptApp.ActiveWindow.Selection.Type;
+            if (selectionType == PpSelectionType.ppSelectionNone)
+            {
+                return key;
+            }
+
+            Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
             var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
             if (selectedCellCoordinates != Point.Empty)
             {
@@ -753,106 +760,250 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         private void AddPField(string code)
         {
             var tls = new PPTools(code, GetTarget(), eval);
-            var sl = (Microsoft.Office.Interop.PowerPoint.Slide)_pptApp.ActiveWindow.View.Slide;
-
+            var sl = (Slide)_pptApp.ActiveWindow.View.Slide;
             Microsoft.Office.Interop.PowerPoint.Shape ns = null;
+
+            bool createTextBlock;
+            var ppSelectionType = _pptApp.ActiveWindow.Selection.Type;
+            if (ppSelectionType == PpSelectionType.ppSelectionNone)
+            {
+                createTextBlock = true;
+            }
+            else
+            {
+                MsoShapeType shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+                createTextBlock = shapeType != MsoShapeType.msoTable;
+            }
 
             var key = GetFieldKeyForSelectedCell();
             switch (tls.dat[1])
             {
                 case "mw":
-                    SetTextForCurrentCell(GetAverageValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetAverageValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "md":
-                    SetTextForCurrentCell(GetMedianValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetMedianValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "pc":
-                    SetTextForCurrentCell(GetPercentValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetPercentValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "apc":
-                    SetTextForCurrentCell(GetPercentResponseValue(tls, GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetPercentResponseValue(tls, GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "gap":
-                    SetTextForCurrentCell(GetGapValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetGapValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "nps":
-                    SetTextForCurrentCell(GetNpsValue(tls));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetNpsValue(tls));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "n":
-                    SetTextForCurrentCell(GetSampleSizeValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetSampleSizeValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "aas":
-                    SetTextForCurrentCell(GetAverageReplyNumValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetAverageReplyNumValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "aabs":
-                    SetTextForCurrentCell(GetAnswerCountByPersonValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetAnswerCountByPersonValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-comp-mw":
-                    SetTextForCurrentCell(GetMeanForComparisonValue(tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetMeanForComparisonValue(tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-value":
-                    SetTextForCurrentCell(GetCompareValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetCompareValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-comp-apc":
-                    SetTextForCurrentCell(GetPercentForComparisonValue(tls, tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetPercentForComparisonValue(tls, tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-value-apc":
-                    SetTextForCurrentCell(GetBcontCompareValue(tls, GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetBcontCompareValue(tls, GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-nps-value":
-                    SetTextForCurrentCell(GetNpsForComparisonValue(tls, tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetNpsForComparisonValue(tls, tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-nps-diff":
-                    SetTextForCurrentCell(GetBcontNpsValue(tls, GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetBcontNpsValue(tls, GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "potval":
-                    SetTextForCurrentCell(GetDeviationValue(tls));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetDeviationValue(tls));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "origaw":
-                    SetTextForCurrentCell(GetOriginalAnswerValue(GetTarget(), tls.dat));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetOriginalAnswerValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "xmlText":
-                    SetTextForCurrentCell(GetXmlValue(tls, GetTarget()));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetXmlValue(tls, GetTarget()));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "potpcnt":
-                    SetTextForCurrentCell(GetPercentDeviationValue(tls));
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForCurrentCell(GetPercentDeviationValue(tls));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "potpic":
