@@ -1,5 +1,7 @@
 bin/
 obj/
+**/Setup/Release/
+**/Setup/Debug/
 _UpgradeReport_Files/
 Upgradelog*.xml
 Upgradelog*.htm
