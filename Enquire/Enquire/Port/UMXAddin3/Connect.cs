@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -339,6 +340,75 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
+        static private Dictionary<string, string> Formulas = new Dictionary<string, string>();
+        static private Queue<Point> SourceCells = new Queue<Point>();
+
+        public void HandleCopy()
+        {
+            Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+
+            SourceCells.Clear();
+            Formulas.Clear();
+
+            var selectedCellsCoordinates = GetSelectedCellsCoordinates(tbl);
+            foreach (Point coordinate in selectedCellsCoordinates)
+            {
+                var key = string.Format("umxcode_{0}_{1}", coordinate.X, coordinate.Y);
+                string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
+                if (!string.IsNullOrEmpty(dat))
+                {
+                    SourceCells.Enqueue(coordinate);
+                    Formulas.Add(key, dat);
+                }
+            }
+        }
+
+        public void HandlePaste()
+        {
+            IDataObject clipboardData = Clipboard.GetDataObject();
+            if (clipboardData == null || !SourceCells.Any())
+            {
+                return;
+            }
+
+            var formats = clipboardData.GetFormats(true);
+            if (!formats.Any(x => x.StartsWith("Art::") || x.EndsWith("ClipFormat")))
+            {
+                // clipboard doesn't contain data in Office format
+                return;
+            }
+
+            Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+
+            var targetFirstCell = GetSelectedCellCoordinates(tbl);
+            var sourceFirstCell = SourceCells.Dequeue();
+            var sourceCurrentCell = sourceFirstCell;
+
+            while (SourceCells.Count >= 0)
+            {
+                var targetCurrentCell = new Point
+                {
+                    X = sourceCurrentCell.X - sourceFirstCell.X + targetFirstCell.X,
+                    Y = sourceCurrentCell.Y - sourceFirstCell.Y + targetFirstCell.Y
+                };
+
+                var sourceKey = string.Format("umxcode_{0}_{1}", sourceCurrentCell.X, sourceCurrentCell.Y);
+                var targetKey = string.Format("umxcode_{0}_{1}", targetCurrentCell.X, targetCurrentCell.Y);
+                _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(targetKey, Formulas[sourceKey]);
+
+                if (SourceCells.Any())
+                {
+                    sourceCurrentCell = SourceCells.Dequeue();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            Formulas.Clear();
+        }
+
         public Cell GetSelectedCell(Microsoft.Office.Interop.PowerPoint.Table table)
         {
             int columnsCount = table.Columns.Count;
@@ -359,6 +429,27 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             return null;
         }
 
+        public IEnumerable<Cell> GetSelectedCells(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            List<Cell> selectedCells = new List<Cell>();
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+                    if (cell.Selected)
+                    {
+                        selectedCells.Add(cell);
+                    }
+                }
+            }
+
+            return selectedCells;
+        }
+
         public Point GetSelectedCellCoordinates(Microsoft.Office.Interop.PowerPoint.Table table)
         {
             int columnsCount = table.Columns.Count;
@@ -377,6 +468,27 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             return Point.Empty;
+        }
+
+        public IEnumerable<Point> GetSelectedCellsCoordinates(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            List<Point> coordinates = new List<Point>();
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+                    if (cell.Selected)
+                    {
+                        coordinates.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            return coordinates;
         }
 
         public void OpenPropertiesDialog()

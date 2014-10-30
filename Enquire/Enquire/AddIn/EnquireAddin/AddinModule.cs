@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using AddinExpress.MSO;
 using Compucare.Enquire.Common.Calculation.Graphics.TrafficLights.ExclamationMark.Wizard;
 using Compucare.Enquire.EnquireAddin;
 using Compucare.Enquire.Legacy.UMXAddin3;
@@ -13,7 +14,7 @@ namespace EnquireAddin
     ///   Add-in Express Add-in Module
     /// </summary>
     [GuidAttribute("B87E6FC8-AD15-4942-87D1-798E8C96D895"), ProgId("EnquireAddin.AddinModule")]
-    public class AddinModule : AddinExpress.MSO.ADXAddinModule
+    public class AddinModule : ADXAddinModule
     {
         private Connect _addin3;
 
@@ -103,7 +104,16 @@ namespace EnquireAddin
             //sokd
             adxRibbonButton1.OnClick += delegate { ButtonSokdClick(this); };
             adxRibbonButton2.OnClick += delegate { ButtonBenchmarkValueClick(this); };
+        }
 
+        private void adxRibbonCommandCopy_OnAction(object sender, IRibbonControl control, bool pressed, ADXCancelEventArgs e)
+        {
+            _addin3.HandleCopy();
+        }
+
+        private void adxRibbonCommandPaste_OnAction(object sender, IRibbonControl control, bool pressed, ADXCancelEventArgs e)
+        {
+            _addin3.HandlePaste();
         }
 
         private void OpenAboutDialog()
@@ -220,6 +230,11 @@ namespace EnquireAddin
         private AddinExpress.MSO.ADXRibbonButton adxRibbonButton2;
         private AddinExpress.MSO.ADXRibbonButton _ribbonUpdateFormula;
         private AddinExpress.MSO.ADXKeyboardShortcut kbdShortcutEditFormula;
+        private AddinExpress.XL.ADXExcelTaskPanesManager adxExcelTaskPanesManager1;
+        private AddinExpress.MSO.ADXBackstageView adxBackstageView1;
+        private AddinExpress.MSO.ADXKeyboardShortcut adxKeyboardShortcut1;
+        private AddinExpress.MSO.ADXRibbonCommand adxRibbonCommandCopy;
+        private AddinExpress.MSO.ADXRibbonCommand adxRibbonCommandPaste;
 
  
         #region Component Designer generated code
@@ -278,6 +293,11 @@ namespace EnquireAddin
             this.adxRibbonButton1 = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this.adxRibbonButton2 = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this.kbdShortcutEditFormula = new AddinExpress.MSO.ADXKeyboardShortcut(this.components);
+            this.adxExcelTaskPanesManager1 = new AddinExpress.XL.ADXExcelTaskPanesManager(this.components);
+            this.adxBackstageView1 = new AddinExpress.MSO.ADXBackstageView(this.components);
+            this.adxKeyboardShortcut1 = new AddinExpress.MSO.ADXKeyboardShortcut(this.components);
+            this.adxRibbonCommandCopy = new AddinExpress.MSO.ADXRibbonCommand(this.components);
+            this.adxRibbonCommandPaste = new AddinExpress.MSO.ADXRibbonCommand(this.components);
             // 
             // _enquireCommandBar
             // 
@@ -685,6 +705,26 @@ namespace EnquireAddin
             this.kbdShortcutEditFormula.ShortcutText = "Ctrl+Shift+F9";
             this.kbdShortcutEditFormula.SupportedApps = AddinExpress.MSO.ADXOfficeHostApp.ohaPowerPoint;
             this.kbdShortcutEditFormula.Action += new AddinExpress.MSO.ADXAction_EventHandler(this.kbdShortcutEditFormula_Action);
+            this.adxExcelTaskPanesManager1.SetOwner(this);
+            // 
+            // adxBackstageView1
+            // 
+            this.adxBackstageView1.Id = "adxBackstageView_39ea0c829dc142c7b12b364d1dae946d";
+            this.adxBackstageView1.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            // 
+            // adxRibbonCommandCopy
+            // 
+            this.adxRibbonCommandCopy.Id = "adxRibbonCommand_7e8d338f82224dba98e596817709261b";
+            this.adxRibbonCommandCopy.IdMso = "Copy";
+            this.adxRibbonCommandCopy.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            this.adxRibbonCommandCopy.OnAction += new AddinExpress.MSO.ADXRibbonCommand_EventHandler(this.adxRibbonCommandCopy_OnAction);
+            // 
+            // adxRibbonCommandPaste
+            // 
+            this.adxRibbonCommandPaste.Id = "adxRibbonCommand_ea21e2e734444817b6a46f6ffdec71ee";
+            this.adxRibbonCommandPaste.IdMso = "Paste";
+            this.adxRibbonCommandPaste.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            this.adxRibbonCommandPaste.OnAction += new AddinExpress.MSO.ADXRibbonCommand_EventHandler(this.adxRibbonCommandPaste_OnAction);
             // 
             // AddinModule
             // 
