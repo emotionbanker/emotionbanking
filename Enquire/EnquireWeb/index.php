@@ -174,8 +174,8 @@ if (!sysClosed())
            
           //$lang = getLangInfoByID($r['lang']);
            
-          if($_SESSION['user']['userg'] == "Führungskraft mit FK")
-            $out = "Führungskraft";
+          if($_SESSION['user']['userg'] == "F?hrungskraft mit FK")
+            $out = "F?hrungskraft";
           else if($_SESSION['user']['userg'] == "Firmenkundenbetreuer")
             $out = "Mitarbeiter";
           else
@@ -200,7 +200,7 @@ if (!sysClosed())
     	}
     	else
     	{
-    		 echo "Bank gesperrt, Code ungültig oder bereits verwendetet. Anmeldung fehlgeschlagen.<br/><br/>";
+    		 echo "Bank gesperrt, Code ung?ltig oder bereits verwendetet. Anmeldung fehlgeschlagen.<br/><br/>";
          include(STATIC_DIR . "code-start");
     	}
       /*
@@ -216,8 +216,8 @@ if (!sysClosed())
            
           $lang = getLangInfoByID($r['lang']);
            
-          if($_SESSION['user']['userg'] == "Führungskraft mit FK")
-            $out = "Führungskraft";
+          if($_SESSION['user']['userg'] == "F?hrungskraft mit FK")
+            $out = "F?hrungskraft";
           else if($_SESSION['user']['userg'] == "Firmenkundenbetreuer")
             $out = "Mitarbeiter";
           else
@@ -236,7 +236,7 @@ if (!sysClosed())
         }
         else
         {
-          echo "bank gesperrt, code ungültiger oder bereits verwendetet. anmeldeung fehlgeschlagen.<br/><br/>";
+          echo "bank gesperrt, code ung?ltiger oder bereits verwendetet. anmeldeung fehlgeschlagen.<br/><br/>";
           include(STATIC_DIR . "code-start");
         }
       }
@@ -253,8 +253,8 @@ if (!sysClosed())
            
            $lang = getLangInfoByID($r['lang']);
            
-          if($_SESSION['user']['userg'] == "Führungskraft mit FK")
-            $out = "Führungskraft";
+          if($_SESSION['user']['userg'] == "F?hrungskraft mit FK")
+            $out = "F?hrungskraft";
           else if($_SESSION['user']['userg'] == "Firmenkundenbetreuer")
             $out = "Mitarbeiter";
           else
@@ -279,7 +279,7 @@ if (!sysClosed())
         }
         else
         {
-          echo "bank gesperrt oder ungültige anmeldung (bitte überprüfen sie den anmeldelink)";
+          echo "bank gesperrt oder ung?ltige anmeldung (bitte ?berpr?fen sie den anmeldelink)";
         }
       }
       */
@@ -342,38 +342,38 @@ echo "<div id='dsa' style='display: none;'>";
 
 
 
-<h1>Datenschutzerklärung - victor Umfragen</h1>
+<h1>Datenschutzerkl?rung - victor Umfragen</h1>
 
-<p>Wir achten und respektieren Ihre Privatsphäre.<br/>
-Diese Befragung wurde unter Einhaltung sämtlicher Standards für wissenschaftliche Marktforschung erstellt und dient nicht der Geschäftsanbahnung. Die Einhaltung des Datenschutzgesetzes ist für unser Unternehmen und alle an der Umfrageerstellung beteiligten Parteien selbstverständlich und maßgeblich. Die Teilnahme an unserer Umfrage erfolgt freiwillig und anonym. Die Daten, die an uns übermittelt werden, können nicht mit Ihrer Person in Verbindung gebracht werden. Der Fragebogen enthält weder Ihren Namen noch Ihre Adresse, sofern Sie diese nicht freiwillig angeben. In keinem Fall werden erhobene Privatdaten an Drittunternehmen verkauft. 
+<p>Wir achten und respektieren Ihre Privatsph?re.<br/>
+Diese Befragung wurde unter Einhaltung s?mtlicher Standards f?r wissenschaftliche Marktforschung erstellt und dient nicht der Gesch?ftsanbahnung. Die Einhaltung des Datenschutzgesetzes ist f?r unser Unternehmen und alle an der Umfrageerstellung beteiligten Parteien selbstverst?ndlich und ma?geblich. Die Teilnahme an unserer Umfrage erfolgt freiwillig und anonym. Die Daten, die an uns ?bermittelt werden, k?nnen nicht mit Ihrer Person in Verbindung gebracht werden. Der Fragebogen enth?lt weder Ihren Namen noch Ihre Adresse, sofern Sie diese nicht freiwillig angeben. In keinem Fall werden erhobene Privatdaten an Drittunternehmen verkauft. 
 </p>
 
-<p>Die nachfolgende Erklärung gibt Ihnen einen Überblick darüber, wie wir diesen Schutz gewährleisten und welche Art von Daten zu welchem Zweck erhoben werden.
+<p>Die nachfolgende Erkl?rung gibt Ihnen einen ?berblick dar?ber, wie wir diesen Schutz gew?hrleisten und welche Art von Daten zu welchem Zweck erhoben werden.
 </p>
 
-<p><b>Datenverarbeitung für die Auswertung der Befragungsergebnisse</b><br/>
-Die Auswertung der Befragungsergebnisse erfolgt unter rein statistischen Gesichtspunkten. Informationen zu Ihrer Person wie z.B. Alter oder Geschlecht dienen lediglich dazu, gruppenspezifische Trends zu erfassen. Die Ergebnisse werden in anonymisierter Form (z.B. als Tabellen, Grafiken) an unsere Auftraggeber weitergeleitet. Für den Fall, dass ein Dankeschön für die Teilnahme an der Befragung vorgesehen ist und die Auskunftspersonen freiwillig persönliche Kontaktdaten angeben, wird für die zweckgebundene ausschließliche Verwendung der Daten garantiert.
+<p><b>Datenverarbeitung f?r die Auswertung der Befragungsergebnisse</b><br/>
+Die Auswertung der Befragungsergebnisse erfolgt unter rein statistischen Gesichtspunkten. Informationen zu Ihrer Person wie z.B. Alter oder Geschlecht dienen lediglich dazu, gruppenspezifische Trends zu erfassen. Die Ergebnisse werden in anonymisierter Form (z.B. als Tabellen, Grafiken) an unsere Auftraggeber weitergeleitet. F?r den Fall, dass ein Dankesch?n f?r die Teilnahme an der Befragung vorgesehen ist und die Auskunftspersonen freiwillig pers?nliche Kontaktdaten angeben, wird f?r die zweckgebundene ausschlie?liche Verwendung der Daten garantiert.
 </p>
 
 <p><b>Datenverarbeitung auf dieser Internetseite</b><br/>
-Der Provider von emotion banking garantiert die Einhaltung des Datenschutzgesetzes und des Telekommunikationsgesetzes. Demnach werden – so wie rechtlich vorgesehen – Informationen, die Ihr Browser automatisch in Server Log Files speichert, an den Provider übermittelt. 
-Diese Daten sind für emotion banking in keinster Weise bestimmten Personen zuordenbar. Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Die Daten werden zudem nach einer rein statistischen Auswertung durch den Provider wieder gelöscht.
+Der Provider von emotion banking garantiert die Einhaltung des Datenschutzgesetzes und des Telekommunikationsgesetzes. Demnach werden ? so wie rechtlich vorgesehen ? Informationen, die Ihr Browser automatisch in Server Log Files speichert, an den Provider ?bermittelt. 
+Diese Daten sind f?r emotion banking in keinster Weise bestimmten Personen zuordenbar. Eine Zusammenf?hrung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Die Daten werden zudem nach einer rein statistischen Auswertung durch den Provider wieder gel?scht.
 </p>
 
 
 <p><b>Cookies</b><br/>
-Die Internetseiten verwenden an mehreren Stellen so genannte Cookies. Sie dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem Rechner abgelegt werden und die Ihr Browser speichert. Die meisten der von uns verwendeten Cookies sind so genannte „Session-Cookies“. Sie werden nach Ende Ihres Besuchs automatisch gelöscht. Cookies richten auf Ihrem Rechner keinen Schaden an und enthalten keine Viren.
+Die Internetseiten verwenden an mehreren Stellen so genannte Cookies. Sie dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem Rechner abgelegt werden und die Ihr Browser speichert. Die meisten der von uns verwendeten Cookies sind so genannte ?Session-Cookies?. Sie werden nach Ende Ihres Besuchs automatisch gel?scht. Cookies richten auf Ihrem Rechner keinen Schaden an und enthalten keine Viren.
 </p>
 
 <p><b>Auskunftsrecht</b><br/>
-Sie haben jederzeit das Recht auf Auskunft über die bezüglich Ihrer Person gespeicherten Daten, deren Herkunft und Empfänger sowie den Zweck der Speicherung. Auskunft über die gespeicherten Daten geben wir Ihnen gerne unter den unten angeführten Kontaktdaten.
+Sie haben jederzeit das Recht auf Auskunft ?ber die bez?glich Ihrer Person gespeicherten Daten, deren Herkunft und Empf?nger sowie den Zweck der Speicherung. Auskunft ?ber die gespeicherten Daten geben wir Ihnen gerne unter den unten angef?hrten Kontaktdaten.
 </p>
 
 <p><b>Weitere Informationen</b><br/>
-Ihr Vertrauen ist uns wichtig. Daher möchten wir Ihnen jederzeit für Fragen bezüglich der Verarbeitung Ihrer personenbezogenen Daten zu Verfügung stehen. Wenn Sie Fragen haben, die Ihnen diese Datenschutzerklärung nicht beantworten konnte oder wenn Sie zu einem Punkt vertiefte Informationen wünschen, wenden Sie sich bitte jederzeit an uns:
+Ihr Vertrauen ist uns wichtig. Daher m?chten wir Ihnen jederzeit f?r Fragen bez?glich der Verarbeitung Ihrer personenbezogenen Daten zu Verf?gung stehen. Wenn Sie Fragen haben, die Ihnen diese Datenschutzerkl?rung nicht beantworten konnte oder wenn Sie zu einem Punkt vertiefte Informationen w?nschen, wenden Sie sich bitte jederzeit an uns:
 </p>
 
-<p><b>Wir danken Ihnen für Ihr Mitwirken und für Ihr Vertrauen in unsere Arbeit.</b>
+<p><b>Wir danken Ihnen f?r Ihr Mitwirken und f?r Ihr Vertrauen in unsere Arbeit.</b>
 </p>
 <?php
 echo "</div>";
@@ -388,7 +388,7 @@ echo "</tr>";
 echo " <tr class='foot'>";
 echo "   <td colspan='2' style='color: lightgray; font-size: 8pt;'>";
 ?>
-© emotion banking®<br/>
+? emotion banking?<br/>
 Theaterplatz 5<br/>
 2500 Baden bei Wien<br/>
 Telefon: +43/2252/254845<br/>

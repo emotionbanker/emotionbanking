@@ -1,0 +1,326 @@
+<table id='victor2014bank'>
+	<row>a:3:{i:0;s:6:"ZZZZZZ";i:1;s:14:"Testbank Samet";i:2;s:14:"Testbank Samet";}</row>
+	<row>a:3:{i:0;s:6:"TLBSSH";i:1;s:31:"Testbank LBS Schleswig-Holstein";i:2;s:22:"LBS Schleswig-Holstein";}</row>
+	<row>a:3:{i:0;s:6:"TESTBA";i:1;s:8:"Testbank";i:2;s:8:"Testbank";}</row>
+	<row>a:3:{i:0;s:6:"TBVBTE";i:1;s:20:"Testbank VB Tettnang";i:2;s:11:"VB Tettnang";}</row>
+	<row>a:3:{i:0;s:6:"VBTETT";i:1;s:12:" VB Tettnang";i:2;s:11:"VB Tettnang";}</row>
+	<row>a:3:{i:0;s:6:"UNIVER";i:1;s:13:"Universalbank";i:2;s:13:"Universalbank";}</row>
+	<row>a:3:{i:0;s:6:"tbrkwt";i:1;s:19:"Testbank RK Wipptal";i:2;s:10:"RK Wipptal";}</row>
+	<row>a:3:{i:0;s:6:"tirkwt";i:1;s:31:"Testbank RK Wipptal italienisch";i:2;s:22:"RK Wipptal italienisch";}</row>
+	<row>a:3:{i:0;s:6:"rkwita";i:1;s:10:"RK Wipptal";i:2;s:10:"RK Wipptal";}</row>
+	<row>a:3:{i:0;s:6:"tbkolo";i:1;s:16:"Testbank Koloman";i:2;s:16:"Testbank Koloman";}</row>
+	<row>a:3:{i:0;s:6:"rkwiti";i:1;s:22:"RK Wipptal italienisch";i:2;s:22:"RK Wipptal italienisch";}</row>
+	<row>a:3:{i:0;s:6:"OSVSPK";i:1;s:41:"Musterbank Ostdeutscher Sparkassenverband";i:2;s:41:"Musterbank Ostdeutscher Sparkassenverband";}</row>
+	<row>a:3:{i:0;s:6:"RBEBEA";i:1;s:14:"RB Eberndorf A";i:2;s:12:"RB Eberndorf";}</row>
+	<row>a:3:{i:0;s:6:"RBEBEB";i:1;s:14:"RB Eberndorf B";i:2;s:12:"RB Eberndorf";}</row>
+	<row>a:3:{i:0;s:6:"RBEBEC";i:1;s:14:"RB Eberndorf C";i:2;s:12:"RB Eberndorf";}</row>
+	<row>a:3:{i:0;s:6:"RBEBED";i:1;s:14:"RB Eberndorf D";i:2;s:12:"RB Eberndorf";}</row>
+	<row>a:3:{i:0;s:6:"RBEBEE";i:1;s:14:"RB Eberndorf E";i:2;s:21:"RB Eberndorf Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"RLBBLA";i:1;s:31:"Raiffeisenlandesbank Burgenland";i:2;s:31:"Raiffeisenlandesbank Burgenland";}</row>
+	<row>a:3:{i:0;s:6:"TRLBBL";i:1;s:40:"Testbank Raiffeisenlandesbank Burgenland";i:2;s:31:"Raiffeisenlandesbank Burgenland";}</row>
+	<row>a:3:{i:0;s:6:"rbebte";i:1;s:17:"RB Eberndorf Test";i:2;s:12:"RB Eberndorf";}</row>
+	<row>a:3:{i:0;s:6:"RBEBTV";i:1;s:25:"RB Eberndorf Test Vorstan";i:2;s:21:"RB Eberndorf Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"LBSSHA";i:1;s:26:"LBS Schleswig-Holstein (a)";i:2;s:22:"LBS Schleswig-Holstein";}</row>
+	<row>a:3:{i:0;s:6:"LBSSHB";i:1;s:26:"LBS Schleswig-Holstein (b)";i:2;s:22:"LBS Schleswig-Holstein";}</row>
+	<row>a:3:{i:0;s:6:"LBSSHC";i:1;s:26:"LBS Schleswig-Holstein (c)";i:2;s:22:"LBS Schleswig-Holstein";}</row>
+	<row>a:3:{i:0;s:6:"LBSSHD";i:1;s:26:"LBS Schleswig-Holstein (d)";i:2;s:22:"LBS Schleswig-Holstein";}</row>
+	<row>a:3:{i:0;s:6:"LBSSHE";i:1;s:26:"LBS Schleswig-Holstein (e)";i:2;s:22:"LBS Schleswig-Holstein";}</row>
+	<row>a:3:{i:0;s:6:"LBSSHF";i:1;s:26:"LBS Schleswig-Holstein (f)";i:2;s:22:"LBS Schleswig-Holstein";}</row>
+	<row>a:3:{i:0;s:6:"LBSSHG";i:1;s:26:"LBS Schleswig-Holstein (g)";i:2;s:22:"LBS Schleswig-Holstein";}</row>
+	<row>a:3:{i:0;s:6:"LBSSHH";i:1;s:31:"LBS Schleswig-Holstein Vorstand";i:2;s:31:"LBS Schleswig-Holstein Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"VBTHVW";i:1;s:33:"Volksbank Tettnang Hausverwaltung";i:2;s:33:"Volksbank Tettnang Hausverwaltung";}</row>
+	<row>a:3:{i:0;s:6:"VBTEFI";i:1;s:14:"VB Tettnang FI";i:2;s:11:"VB Tettnang";}</row>
+	<row>a:3:{i:0;s:6:"testak";i:1;s:13:"Testbank Akis";i:2;s:13:"Testbank Akis";}</row>
+	<row>a:3:{i:0;s:6:"spkgut";i:1;s:23:"Sparkasse Günzburg Test";i:2;s:18:"Sparkasse Günzburg";}</row>
+	<row>a:3:{i:0;s:6:"SPKGUE";i:1;s:24:"Sparkasse Günzburg email";i:2;s:18:"Sparkasse Günzburg";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDE";i:1;s:24:"Kreissparkasse Börde (e)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"SPKGUP";i:1;s:23:"Sparkasse Günzburg Post";i:2;s:18:"Sparkasse Günzburg";}</row>
+	<row>a:3:{i:0;s:6:"RKWTPD";i:1;s:24:"RK Wipptal postalisch DE";i:2;s:10:"RK Wipptal";}</row>
+	<row>a:3:{i:0;s:6:"RKWTPI";i:1;s:24:"RK Wipptal postalisch IT";i:2;s:22:"RK Wipptal italienisch";}</row>
+	<row>a:3:{i:0;s:6:"TESTBU";i:1;s:27:"Testbank Benjamin Unger (a)";i:2;s:23:"Testbank Benjamin Unger";}</row>
+	<row>a:3:{i:0;s:6:"TESTBV";i:1;s:27:"Testbank Benjamin Unger (b)";i:2;s:23:"Testbank Benjamin Unger";}</row>
+	<row>a:3:{i:0;s:6:"RBERGR";i:1;s:26:"Raiffeisenbank Region Ried";i:2;s:26:"Raiffeisenbank Region Ried";}</row>
+	<row>a:3:{i:0;s:6:"rbjbwi";i:1;s:10:"RB Jenbach";i:2;s:10:"RB Jenbach";}</row>
+	<row>a:3:{i:0;s:6:"RLBBLB";i:1;s:42:"Raiffeisenlandesbank Burgenland Postalisch";i:2;s:31:"Raiffeisenlandesbank Burgenland";}</row>
+	<row>a:3:{i:0;s:6:"RBERGT";i:1;s:31:"Raiffeisenbank Region Ried Test";i:2;s:26:"Raiffeisenbank Region Ried";}</row>
+	<row>a:3:{i:0;s:6:"RBJBWT";i:1;s:15:"RB Jenbach Test";i:2;s:10:"RB Jenbach";}</row>
+	<row>a:3:{i:0;s:6:"rbjbwp";i:1;s:21:"RB Jenbach postalisch";i:2;s:10:"RB Jenbach";}</row>
+	<row>a:3:{i:0;s:6:"mituni";i:1;s:24:"Universal Mitgliedschaft";i:2;s:24:"Universal Mitgliedschaft";}</row>
+	<row>a:3:{i:0;s:6:"gefuni";i:1;s:30:"Universal Gefährdungspotential";i:2;s:30:"Universal Gefährdungspotential";}</row>
+	<row>a:3:{i:0;s:6:"SPKBLA";i:1;s:18:"Sparkasse Blomberg";i:2;s:18:"Sparkasse Blomberg";}</row>
+	<row>a:3:{i:0;s:6:"SPKBLT";i:1;s:23:"Sparkasse Blomberg test";i:2;s:18:"Sparkasse Blomberg";}</row>
+	<row>a:3:{i:0;s:6:"bauwoh";i:1;s:27:"Musterbank Bauen und Wohnen";i:2;s:27:"Musterbank Bauen und Wohnen";}</row>
+	<row>a:3:{i:0;s:6:"OSVKQC";i:1;s:19:"Musterbank OSV SOKD";i:2;s:19:"Musterbank OSV SOKD";}</row>
+	<row>a:3:{i:0;s:6:"uniqch";i:1;s:21:"Universal Quick Check";i:2;s:21:"Universal Quick Check";}</row>
+	<row>a:3:{i:0;s:6:"univfm";i:1;s:21:"Universalbank FM Groß";i:2;s:21:"Universalbank FM Groß";}</row>
+	<row>a:3:{i:0;s:6:"OSVMON";i:1;s:33:"Kunden und Mitarbeitermonitor OSV";i:2;s:33:"Kunden und Mitarbeitermonitor OSV";}</row>
+	<row>a:3:{i:0;s:6:"AURBTE";i:1;s:10:"RB Au Test";i:2;s:5:"RB Au";}</row>
+	<row>a:3:{i:0;s:6:"AURBIN";i:1;s:14:"RB AU internet";i:2;s:5:"RB Au";}</row>
+	<row>a:3:{i:0;s:6:"AURBPO";i:1;s:10:"RB AU Post";i:2;s:5:"RB Au";}</row>
+	<row>a:3:{i:0;s:6:"TBRKBR";i:1;s:19:"Testbank RK Bruneck";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"AURBON";i:1;s:12:"RB Au Online";i:2;s:5:"RB Au";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKA";i:1;s:27:"Raiffeisenkasse Bruneck (a)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKB";i:1;s:27:"Raiffeisenkasse Bruneck (b)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKC";i:1;s:27:"Raiffeisenkasse Bruneck (c)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKD";i:1;s:27:"Raiffeisenkasse Bruneck (d)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKE";i:1;s:27:"Raiffeisenkasse Bruneck (e)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKF";i:1;s:27:"Raiffeisenkasse Bruneck (f)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKG";i:1;s:27:"Raiffeisenkasse Bruneck (g)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKH";i:1;s:27:"Raiffeisenkasse Bruneck (h)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKI";i:1;s:27:"Raiffeisenkasse Bruneck (i)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKJ";i:1;s:27:"Raiffeisenkasse Bruneck (j)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKK";i:1;s:27:"Raiffeisenkasse Bruneck (k)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKL";i:1;s:27:"Raiffeisenkasse Bruneck (l)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKM";i:1;s:27:"Raiffeisenkasse Bruneck (m)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKN";i:1;s:27:"Raiffeisenkasse Bruneck (n)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKP";i:1;s:27:"Raiffeisenkasse Bruneck (p)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRGF";i:1;s:32:"Raiffeisenkasse Bruneck Vorstand";i:2;s:19:"RK Bruneck Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKQ";i:1;s:27:"Raiffeisenkasse Bruneck (q)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKR";i:1;s:27:"Raiffeisenkasse Bruneck (r)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKS";i:1;s:27:"Raiffeisenkasse Bruneck (s)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKT";i:1;s:27:"Raiffeisenkasse Bruneck (t)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKU";i:1;s:27:"Raiffeisenkasse Bruneck (u)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKV";i:1;s:27:"Raiffeisenkasse Bruneck (v)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKW";i:1;s:27:"Raiffeisenkasse Bruneck (w)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKX";i:1;s:27:"Raiffeisenkasse Bruneck (x)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKY";i:1;s:27:"Raiffeisenkasse Bruneck (y)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRKZ";i:1;s:27:"Raiffeisenkasse Bruneck (z)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRAA";i:1;s:28:"Raiffeisenkasse Bruneck (aa)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRAB";i:1;s:28:"Raiffeisenkasse Bruneck (ab)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRAC";i:1;s:28:"Raiffeisenkasse Bruneck (ac)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"RKBRAD";i:1;s:28:"Raiffeisenkasse Bruneck (ad)";i:2;s:10:"RK Bruneck";}</row>
+	<row>a:3:{i:0;s:6:"tbrket";i:1;s:34:"Testbank Raiffeisenkasse Eisacktal";i:2;s:34:"Testbank Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"tbbhss";i:1;s:43:"Testbank Bankhaus Schelhammer und Schattera";i:2;s:34:"Bankhaus Schelhammer und Schattera";}</row>
+	<row>a:3:{i:0;s:6:"RBLIEZ";i:1;s:9:"RB Liezen";i:2;s:9:"RB Liezen";}</row>
+	<row>a:3:{i:0;s:6:"RBLIET";i:1;s:14:"RB Liezen Test";i:2;s:9:"RB Liezen";}</row>
+	<row>a:3:{i:0;s:6:"bankss";i:1;s:34:"Bankhaus Schelhammer und Schattera";i:2;s:34:"Bankhaus Schelhammer und Schattera";}</row>
+	<row>a:3:{i:0;s:6:"TBKSKB";i:1;s:29:"Testbank Kreissparkasse Börde";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"vbmitv";i:1;s:21:"VB Mittweida Vorstand";i:2;s:21:"VB Mittweida Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"vbmitt";i:1;s:12:"VB Mittweida";i:2;s:12:"VB Mittweida";}</row>
+	<row>a:3:{i:0;s:6:"tbvbmw";i:1;s:21:"Testbank VB Mittweida";i:2;s:12:"VB Mittweida";}</row>
+	<row>a:3:{i:0;s:6:"tbvbmv";i:1;s:30:"Testbank VB Mittweida Vorstand";i:2;s:21:"VB Mittweida Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAB";i:1;s:22:"Kreissparkasse Bautzen";i:2;s:22:"Kreissparkasse Bautzen";}</row>
+	<row>a:3:{i:0;s:6:"MUSBQM";i:1;s:37:"Musterbank Beratungsqualitätsmonitor ";i:2;s:37:"Musterbank Beratungsqualitätsmonitor ";}</row>
+	<row>a:3:{i:0;s:6:"sote01";i:1;s:15:"SOKD Testbank 1";i:2;s:15:"SOKD Testbank 1";}</row>
+	<row>a:3:{i:0;s:6:"sote02";i:1;s:15:"SOKD Testbank 2";i:2;s:15:"SOKD Testbank 2";}</row>
+	<row>a:3:{i:0;s:6:"sote03";i:1;s:15:"SOKD Testbank 3";i:2;s:15:"SOKD Testbank 3";}</row>
+	<row>a:3:{i:0;s:6:"tbrbth";i:1;s:23:"Testbank RB Thermenland";i:2;s:14:"RB Thermenland";}</row>
+	<row>a:3:{i:0;s:6:"rbther";i:1;s:14:"RB Thermenland";i:2;s:14:"RB Thermenland";}</row>
+	<row>a:3:{i:0;s:6:"SPKBLP";i:1;s:23:"Sparkasse Blomberg Post";i:2;s:18:"Sparkasse Blomberg";}</row>
+	<row>a:3:{i:0;s:6:"BHSSKI";i:1;s:53:"Bankhaus Schelhammer & Schattera Kirchliche Institute";i:2;s:53:"Bankhaus Schelhammer & Schattera Kirchliche Institute";}</row>
+	<row>a:3:{i:0;s:6:"TBHSSK";i:1;s:60:"TestbanBankhaus Schelhammer & Schattera Kirchliche Institute";i:2;s:53:"Bankhaus Schelhammer & Schattera Kirchliche Institute";}</row>
+	<row>a:3:{i:0;s:6:"tbrkue";i:1;s:21:"Testbank RK Überetsch";i:2;s:12:"RK Überetsch";}</row>
+	<row>a:3:{i:0;s:6:"rkuede";i:1;s:20:"RK Überetsch Deutsch";i:2;s:12:"RK Überetsch";}</row>
+	<row>a:3:{i:0;s:6:"rkueit";i:1;s:23:"RK Überetsch italenisch";i:2;s:23:"RK Überetsch italenisch";}</row>
+	<row>a:3:{i:0;s:6:"SPKASA";i:1;s:29:"Sparkasse Amberg-Sulzbach (a)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASB";i:1;s:29:"Sparkasse Amberg-Sulzbach (b)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASC";i:1;s:29:"Sparkasse Amberg-Sulzbach (c)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASD";i:1;s:29:"Sparkasse Amberg-Sulzbach (d)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASE";i:1;s:29:"Sparkasse Amberg-Sulzbach (e)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASF";i:1;s:29:"Sparkasse Amberg-Sulzbach (f)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASG";i:1;s:29:"Sparkasse Amberg-Sulzbach (g)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASH";i:1;s:29:"Sparkasse Amberg-Sulzbach (h)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASK";i:1;s:29:"Sparkasse Amberg-Sulzbach (k)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASL";i:1;s:29:"Sparkasse Amberg-Sulzbach (l)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASM";i:1;s:29:"Sparkasse Amberg-Sulzbach (m)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASN";i:1;s:29:"Sparkasse Amberg-Sulzbach (n)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASP";i:1;s:29:"Sparkasse Amberg-Sulzbach (p)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASQ";i:1;s:29:"Sparkasse Amberg-Sulzbach (q)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"TSPKAS";i:1;s:34:"Testbank Sparkasse Amberg-Sulzbach";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAE";i:1;s:28:"Sparkasse Ostprignitz-Ruppin";i:2;s:28:"Sparkasse Ostprignitz-Ruppin";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAC";i:1;s:30:"Sparkasse Mecklenburg-Nordwest";i:2;s:30:"Sparkasse Mecklenburg-Nordwest";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAD";i:1;s:21:"Sparkasse Südholstein";i:2;s:21:"Sparkasse Südholstein";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAA";i:1;s:26:"Sparkasse Mansfeld-Südharz";i:2;s:26:"Sparkasse Mansfeld-Südharz";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAF";i:1;s:19:"Sparkasse Muldental";i:2;s:19:"Sparkasse Muldental";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAG";i:1;s:12:"KSK Börde PK";i:2;s:12:"KSK Börde PK";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAH";i:1;s:22:"Stadtsparkasse Schwedt";i:2;s:22:"Stadtsparkasse Schwedt";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAI";i:1;s:22:"Sparkasse Westholstein";i:2;s:22:"Sparkasse Westholstein";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAJ";i:1;s:15:"Sparkasse Wedel";i:2;s:15:"Sparkasse Wedel";}</row>
+	<row>a:3:{i:0;s:6:"SPKASR";i:1;s:29:"Sparkasse Amberg-Sulzbach (r)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASS";i:1;s:29:"Sparkasse Amberg-Sulzbach (s)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKAST";i:1;s:29:"Sparkasse Amberg-Sulzbach (t)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASU";i:1;s:29:"Sparkasse Amberg-Sulzbach (u)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASV";i:1;s:29:"Sparkasse Amberg-Sulzbach (v)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASW";i:1;s:29:"Sparkasse Amberg-Sulzbach (w)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASX";i:1;s:29:"Sparkasse Amberg-Sulzbach (x)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASY";i:1;s:29:"Sparkasse Amberg-Sulzbach (y)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKASZ";i:1;s:29:"Sparkasse Amberg-Sulzbach (z)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKAAA";i:1;s:30:"Sparkasse Amberg-Sulzbach (aa)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKAAB";i:1;s:30:"Sparkasse Amberg-Sulzbach (ab)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"SPKAAC";i:1;s:30:"Sparkasse Amberg-Sulzbach (ac)";i:2;s:34:"Sparkasse Amberg-Sulzbach Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"SPKAAD";i:1;s:30:"Sparkasse Amberg-Sulzbach (ad)";i:2;s:34:"Sparkasse Amberg-Sulzbach Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"SPKAAE";i:1;s:30:"Sparkasse Amberg-Sulzbach (ae)";i:2;s:34:"Sparkasse Amberg-Sulzbach Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"vbmita";i:1;s:19:"VB Mittweida online";i:2;s:12:"VB Mittweida";}</row>
+	<row>a:3:{i:0;s:6:"vbmitb";i:1;s:17:"VB Mittweida post";i:2;s:12:"VB Mittweida";}</row>
+	<row>a:3:{i:0;s:6:"rbwels";i:1;s:7:"RB Wels";i:2;s:7:"RB Wels";}</row>
+	<row>a:3:{i:0;s:6:"rbwela";i:1;s:14:"RB Wels online";i:2;s:7:"RB Wels";}</row>
+	<row>a:3:{i:0;s:6:"tbrbwe";i:1;s:16:"Testbank RB Wels";i:2;s:7:"RB Wels";}</row>
+	<row>a:3:{i:0;s:6:"rbwelg";i:1;s:24:"RB Wels Geschäftsleitung";i:2;s:24:"RB Wels Geschäftsleitung";}</row>
+	<row>a:3:{i:0;s:6:"tbwelg";i:1;s:33:"Testbank RB Wels Geschäftsleitung";i:2;s:24:"RB Wels Geschäftsleitung";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAK";i:1;s:21:"Nord Ostsee Sparkasse";i:2;s:21:"Nord Ostsee Sparkasse";}</row>
+	<row>a:3:{i:0;s:6:"SPAABG";i:1;s:20:"Sparkasse Oder-Spree";i:2;s:20:"Sparkasse Oder-Spree";}</row>
+	<row>a:3:{i:0;s:6:"BQMNEU";i:1;s:12:"BQM Neuhofen";i:2;s:12:"BQM Neuhofen";}</row>
+	<row>a:3:{i:0;s:6:"BQMNET";i:1;s:17:"BQM Neuhofen Test";i:2;s:12:"BQM Neuhofen";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAN";i:1;s:17:"Sparkasse Leipzig";i:2;s:17:"Sparkasse Leipzig";}</row>
+	<row>a:3:{i:0;s:6:"rkuevs";i:1;s:21:"RK Überetsch Vorstand";i:2;s:21:"RK Überetsch Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAR";i:1;s:19:"Erzgebirgssparkasse";i:2;s:19:"Erzgebirgssparkasse";}</row>
+	<row>a:3:{i:0;s:6:"RKEISA";i:1;s:29:"Raiffeisenkasse Eisacktal (a)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"TRKEIA";i:1;s:38:"Testbank Raiffeisenkasse Eisacktal (a)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"TRKEIG";i:1;s:38:"Testbank Raiffeisenkasse Eisacktal (g)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISG";i:1;s:29:"Raiffeisenkasse Eisacktal (g)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISB";i:1;s:29:"Raiffeisenkasse Eisacktal (b)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISC";i:1;s:29:"Raiffeisenkasse Eisacktal (c)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISD";i:1;s:29:"Raiffeisenkasse Eisacktal (d)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISE";i:1;s:29:"Raiffeisenkasse Eisacktal (e)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISF";i:1;s:29:"Raiffeisenkasse Eisacktal (f)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISH";i:1;s:29:"Raiffeisenkasse Eisacktal (h)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISI";i:1;s:29:"Raiffeisenkasse Eisacktal (i)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISJ";i:1;s:29:"Raiffeisenkasse Eisacktal (j)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISK";i:1;s:29:"Raiffeisenkasse Eisacktal (k)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISL";i:1;s:29:"Raiffeisenkasse Eisacktal (l)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISM";i:1;s:29:"Raiffeisenkasse Eisacktal (m)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISN";i:1;s:29:"Raiffeisenkasse Eisacktal (n)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISP";i:1;s:29:"Raiffeisenkasse Eisacktal (p)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISQ";i:1;s:29:"Raiffeisenkasse Eisacktal (q)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISR";i:1;s:29:"Raiffeisenkasse Eisacktal (r)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISS";i:1;s:29:"Raiffeisenkasse Eisacktal (s)";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"RKEIST";i:1;s:29:"Raiffeisenkasse Eisacktal (t)";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"TRKEIF";i:1;s:49:"Testbank Raiffeisenkasse Eisacktal Führungskräfte";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAP";i:1;s:21:"KSK Anhalt Bitterfeld";i:2;s:21:"KSK Anhalt Bitterfeld";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAS";i:1;s:20:"Sparkasse Vorpommern";i:2;s:20:"Sparkasse Vorpommern";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAT";i:1;s:32:"Sparkasse Mecklenburg - Strelitz";i:2;s:32:"Sparkasse Mecklenburg - Strelitz";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAU";i:1;s:21:"Stadtsparkasse Dessau";i:2;s:21:"Stadtsparkasse Dessau";}</row>
+	<row>a:3:{i:0;s:6:"SPKGUZ";i:1;s:25:"Sparkasse Günzburg online";i:2;s:18:"Sparkasse Günzburg";}</row>
+	<row>a:3:{i:0;s:6:"RKEISU";i:1;s:29:"Raiffeisenkasse Eisacktal (u)";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"RKEISW";i:1;s:29:"Raiffeisenkasse Eisacktal (w)";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAV";i:1;s:27:"Sparkasse Mittelholstein AG";i:2;s:27:"Sparkasse Mittelholstein AG";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAW";i:1;s:17:"Salzlandsparkasse";i:2;s:17:"Salzlandsparkasse";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDA";i:1;s:24:"Kreissparkasse Börde (a)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDB";i:1;s:24:"Kreissparkasse Börde (b)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDC";i:1;s:24:"Kreissparkasse Börde (c)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDD";i:1;s:24:"Kreissparkasse Börde (d)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDF";i:1;s:24:"Kreissparkasse Börde (f)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDG";i:1;s:24:"Kreissparkasse Börde (g)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDH";i:1;s:24:"Kreissparkasse Börde (h)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDI";i:1;s:24:"Kreissparkasse Börde (i)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDJ";i:1;s:24:"Kreissparkasse Börde (j)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDK";i:1;s:24:"Kreissparkasse Börde (k)";i:2;s:20:"Kreissparkasse Börde";}</row>
+	<row>a:3:{i:0;s:6:"KSKBDV";i:1;s:29:"Kreissparkasse Börde Vorstand";i:2;s:29:"Kreissparkasse Börde Vorstand";}</row>
+	<row>a:3:{i:0;s:6:"SPKAAF";i:1;s:30:"Sparkasse Amberg-Sulzbach (af)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"vbmBQM";i:1;s:16:"VB Mittweida BQM";i:2;s:16:"VB Mittweida BQM";}</row>
+	<row>a:3:{i:0;s:6:"RBLIEO";i:1;s:16:"RB Liezen online";i:2;s:9:"RB Liezen";}</row>
+	<row>a:3:{i:0;s:6:"RBLIEP";i:1;s:14:"RB Liezen post";i:2;s:9:"RB Liezen";}</row>
+	<row>a:3:{i:0;s:6:"tvbmBQ";i:1;s:21:"VB Mittweida BQM Test";i:2;s:16:"VB Mittweida BQM";}</row>
+	<row>a:3:{i:0;s:6:"SPKAAG";i:1;s:30:"Sparkasse Amberg-Sulzbach (ag)";i:2;s:25:"Sparkasse Amberg-Sulzbach";}</row>
+	<row>a:3:{i:0;s:6:"RKEISX";i:1;s:29:"Raiffeisenkasse Eisacktal (x)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEISY";i:1;s:29:"Raiffeisenkasse Eisacktal (y)";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"RKEISZ";i:1;s:29:"Raiffeisenkasse Eisacktal (z)";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"TBRKME";i:1;s:17:"Testbank RK Meran";i:2;s:8:"RK Meran";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAX";i:1;s:13:"Harzsparkasse";i:2;s:13:"Harzsparkasse";}</row>
+	<row>a:3:{i:0;s:6:"OSVMOL";i:1;s:27:"Mitarbeitermonitor OSV Lang";i:2;s:27:"Mitarbeitermonitor OSV Lang";}</row>
+	<row>a:3:{i:0;s:6:"ABVTES";i:1;s:8:"ABV Test";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAA";i:1;s:14:"ABV MAKLER Ost";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAB";i:1;s:16:"ABV Makler Mitte";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAC";i:1;s:14:"ABV Makler SÜD";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAD";i:1;s:15:"ABV Makler West";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"spreea";i:1;s:15:"Spreewaldbank A";i:2;s:13:"Spreewaldbank";}</row>
+	<row>a:3:{i:0;s:6:"spreeb";i:1;s:15:"Spreewaldbank B";i:2;s:13:"Spreewaldbank";}</row>
+	<row>a:3:{i:0;s:6:"spreec";i:1;s:15:"Spreewaldbank C";i:2;s:13:"Spreewaldbank";}</row>
+	<row>a:3:{i:0;s:6:"spreed";i:1;s:15:"Spreewaldbank D";i:2;s:13:"Spreewaldbank";}</row>
+	<row>a:3:{i:0;s:6:"spreee";i:1;s:15:"Spreewaldbank E";i:2;s:13:"Spreewaldbank";}</row>
+	<row>a:3:{i:0;s:6:"spreef";i:1;s:15:"Spreewaldbank F";i:2;s:13:"Spreewaldbank";}</row>
+	<row>a:3:{i:0;s:6:"spreet";i:1;s:18:"Spreewaldbank Test";i:2;s:13:"Spreewaldbank";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAY";i:1;s:17:"Sparkasse Zwickau";i:2;s:17:"Sparkasse Zwickau";}</row>
+	<row>a:3:{i:0;s:6:"SPAAAZ";i:1;s:19:"Sparkasse Uckermark";i:2;s:19:"Sparkasse Uckermark";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAE";i:1;s:10:"ABV VB Laa";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAF";i:1;s:12:"ABV VB Krems";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAG";i:1;s:11:"ABV VB Fels";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAH";i:1;s:18:"ABV VB Tullnerfeld";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAI";i:1;s:15:"ABV VB NÖ-Mitte";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAJ";i:1;s:19:"ABV VB Alpenvorland";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAK";i:1;s:18:"ABV VB Ötscherland";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAL";i:1;s:16:"ABV Hypo NÖ Nord";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAM";i:1;s:17:"ABV VB Wien/Baden";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAN";i:1;s:13:"ABV VB NÖ Süd";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAP";i:1;s:10:"ABV VB Ost";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAQ";i:1;s:20:"ABV VB Südburgenland";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAR";i:1;s:16:"ABV VB Obersdorf";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAS";i:1;s:16:"ABV VB Marchfeld";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAT";i:1;s:15:"ABV Gärtnerbank";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAU";i:1;s:17:"ABV Apothekerbank";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAV";i:1;s:13:"ABV Ärztebank";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAX";i:1;s:13:"ABV  Immobank";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAY";i:1;s:15:"ABV Hypo NÖ Ost";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMAZ";i:1;s:17:"ABV VB Vorarlberg";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBA";i:1;s:14:"ABV VB Landeck";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBB";i:1;s:15:"ABV VB Kufstein";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBC";i:1;s:12:"ABV VB Tirol";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBD";i:1;s:15:"ABV VB Osttirol";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBE";i:1;s:15:"ABV VB Salzburg";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBF";i:1;s:16:"ABV VB Oberndorf";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBG";i:1;s:14:"ABV Hypo Tirol";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBH";i:1;s:17:"ABV VB Graz-Bruck";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBI";i:1;s:27:"ABV VB Steir. Salzkammergut";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBJ";i:1;s:21:"ABV VB Obersteiermark";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBK";i:1;s:24:"ABV VB Süd-Oststeiermark";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBM";i:1;s:25:"ABV VB Süd-Weststeiermark";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBN";i:1;s:11:"ABV VB Weiz";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBP";i:1;s:19:"ABV Sparda Bank Süd";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBQ";i:1;s:18:"ABV VB Kärnten Süd";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBR";i:1;s:12:"ABV VB Gmünd";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBS";i:1;s:18:"ABV VB Oberkärnten";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBT";i:1;s:18:"ABV VB Feldkirchen";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBU";i:1;s:15:"ABV VB Bad Hall";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBV";i:1;s:26:"ABV VB Vöcklamarkt-Mondsee";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBX";i:1;s:16:"ABV VB Schärding";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBY";i:1;s:26:"ABV VB Vöcklabruck-Gmunden";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMBZ";i:1;s:24:"ABV VB Enns-St. Valentin";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCA";i:1;s:16:"ABV VB Friedburg";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCB";i:1;s:28:"ABV VB Linz-Wels-Mühlviertel";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCC";i:1;s:18:"ABV VB Bad Goisern";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCD";i:1;s:11:"ABV VB Ried";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCE";i:1;s:28:"ABV SPARDA-BANK AUSTRIA Nord";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCF";i:1;s:27:"ABV VB Eferding-Griskirchen";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCG";i:1;s:22:"ABV VB Altheim-Braunau";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCH";i:1;s:12:"ABV VKB-Bank";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"ABVMCI";i:1;s:13:"ABV VB Almtal";i:2;s:3:"ABV";}</row>
+	<row>a:3:{i:0;s:6:"RKEIAA";i:1;s:30:"Raiffeisenkasse Eisacktal (AA)";i:2;s:25:"Raiffeisenkasse Eisacktal";}</row>
+	<row>a:3:{i:0;s:6:"RKEIBB";i:1;s:30:"Raiffeisenkasse Eisacktal (BB)";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"RKEICC";i:1;s:30:"Raiffeisenkasse Eisacktal (CC)";i:2;s:40:"Raiffeisenkasse Eisacktal Führungskräfte";}</row>
+	<row>a:3:{i:0;s:6:"SPAABA";i:1;s:16:"Müritz Sparkasse";i:2;s:16:"Müritz Sparkasse";}</row>
+	<row>a:3:{i:0;s:6:"RKWQUI";i:1;s:31:"Testbank RK Wipptal Quick Check";i:2;s:22:"RK Wipptal Quick Check";}</row>
+	<row>a:3:{i:0;s:6:"rkmera";i:1;s:8:"RK Meran";i:2;s:8:"RK Meran";}</row>
+	<row>a:3:{i:0;s:6:"SPAABB";i:1;s:23:"Sparkasse Mittelsachsen";i:2;s:23:"Sparkasse Mittelsachsen";}</row>
+	<row>a:3:{i:0;s:6:"rkwipt";i:1;s:22:"RK Wipptal Quick Check";i:2;s:22:"RK Wipptal Quick Check";}</row>
+	<row>a:3:{i:0;s:6:"tbrbms";i:1;s:23:"Testbank RB München Süd";i:2;s:14:"RB München Süd";}</row>
+	<row>a:3:{i:0;s:6:"BQMNEP";i:1;s:17:"BQM Neuhofen Post";i:2;s:12:"BQM Neuhofen";}</row>
+	<row>a:3:{i:0;s:6:"BSSKUT";i:1;s:55:"Testbank Bankhaus Schelhammer&Schattera Kurzumfrage NPS";i:2;s:46:"Bankhaus Schelhammer&Schattera Kurzumfrage NPS";}</row>
+	<row>a:3:{i:0;s:6:"BSSNPS";i:1;s:46:"Bankhaus Schelhammer&Schattera Kurzumfrage NPS";i:2;s:46:"Bankhaus Schelhammer&Schattera Kurzumfrage NPS";}</row>
+	<row>a:3:{i:0;s:6:"TBSPAM";i:1;s:28:"Testbank Sparkasse Amstetten";i:2;s:19:"Sparkasse Amstetten";}</row>
+	<row>a:3:{i:0;s:6:"spkama";i:1;s:21:"Sparkasse Amstetten a";i:2;s:19:"Sparkasse Amstetten";}</row>
+	<row>a:3:{i:0;s:6:"spkamb";i:1;s:21:"Sparkasse Amstetten B";i:2;s:19:"Sparkasse Amstetten";}</row>
+	<row>a:3:{i:0;s:6:"spkamc";i:1;s:22:"Sparkasse Amstetten  C";i:2;s:19:"Sparkasse Amstetten";}</row>
+	<row>a:3:{i:0;s:6:"spkamd";i:1;s:22:"Sparkasse Amstetten  D";i:2;s:19:"Sparkasse Amstetten";}</row>
+	<row>a:3:{i:0;s:6:"spkame";i:1;s:22:"Sparkasse Amstetten  E";i:2;s:19:"Sparkasse Amstetten";}</row>
+	<row>a:3:{i:0;s:6:"SPAABC";i:1;s:22:"Sparkasse Parchim-Lübz";i:2;s:22:"Sparkasse Parchim-Lübz";}</row>
+	<row>a:3:{i:0;s:6:"SPAABD";i:1;s:18:"Sparkasse Prignitz";i:2;s:18:"Sparkasse Prignitz";}</row>
+	<row>a:3:{i:0;s:6:"SPAABE";i:1;s:32:"Sparkasse Mecklenburg - Schwerin";i:2;s:32:"Sparkasse Mecklenburg - Schwerin";}</row>
+	<row>a:3:{i:0;s:6:"SPAABF";i:1;s:18:"Sparkasse Holstein";i:2;s:18:"Sparkasse Holstein";}</row>
+	<row>a:3:{i:0;s:6:"tbspms";i:1;s:42:"Testbank Sparkasse Mecklenburg-Schwerin FM";i:2;s:32:"Sparkasse Mecklenburg - Schwerin";}</row>
+	<row>a:3:{i:0;s:6:"SPAABH";i:1;s:18:"Sparkasse Vogtland";i:2;s:18:"Sparkasse Vogtland";}</row>
+	<row>a:3:{i:0;s:6:"SPAABI";i:1;s:32:"Sparkasse Hennstedt-Wesselburen ";i:2;s:31:"Sparkasse Hennstedt-Wesselburen";}</row>
+	<row>a:3:{i:0;s:6:"SPAABJ";i:1;s:23:"KSK Börde Servicekunden";i:2;s:12:"KSK Börde PK";}</row>
+	<row>a:3:{i:0;s:6:"SPAABK";i:1;s:26:"KSK Börde Individualkunden";i:2;s:12:"KSK Börde PK";}</row>
+	<row>a:3:{i:0;s:6:"SPAABM";i:1;s:28:"KSK Börde gewerbliche Kunden";i:2;s:12:"KSK Börde PK";}</row>
+	<row>a:3:{i:0;s:6:"AATest";i:1;s:6:"AAtest";i:2;s:6:"AAtest";}</row>
+	<row>a:3:{i:0;s:6:"SPAABN";i:1;s:36:"Sparkasse Mecklenburg - Schwerin (a)";i:2;s:32:"Sparkasse Mecklenburg - Schwerin";}</row>
+	<row>a:3:{i:0;s:6:"SPAABP";i:1;s:36:"Sparkasse Mecklenburg - Schwerin (b)";i:2;s:32:"Sparkasse Mecklenburg - Schwerin";}</row>
+	<row>a:3:{i:0;s:6:"SPAABQ";i:1;s:36:"Sparkasse Mecklenburg - Schwerin (c)";i:2;s:32:"Sparkasse Mecklenburg - Schwerin";}</row>
+	<row>a:3:{i:0;s:6:"SPAABR";i:1;s:36:"Sparkasse Mecklenburg - Schwerin (d)";i:2;s:32:"Sparkasse Mecklenburg - Schwerin";}</row>
+	<row>a:3:{i:0;s:6:"SPAABS";i:1;s:36:"Sparkasse Mecklenburg - Schwerin (e)";i:2;s:32:"Sparkasse Mecklenburg - Schwerin";}</row>
+	<row>a:3:{i:0;s:6:"SPAVOG";i:1;s:29:"Sparkasse Vogtland postalisch";i:2;s:18:"Sparkasse Vogtland";}</row>
+	<row>a:3:{i:0;s:3:"TBG";i:1;s:6:"dsfdsf";i:2;s:7:"fdsfdsf";}</row>
+	<row>a:3:{i:0;s:0:"";i:1;s:0:"";i:2;s:0:"";}</row>
+	<row>a:3:{i:0;s:3:"DFR";i:1;s:9:"fgfgdgdfg";i:2;s:19:"fdgfdgfdgfdgfdgfdgf";}</row>
+</table>
+
