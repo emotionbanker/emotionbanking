@@ -662,8 +662,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
                     if (!string.IsNullOrEmpty(dat))
                     {
-                        var coords = new Point(i, j);
-                        cells[coords] = dat;
+                        if (cell.Shape.TextFrame.HasText == MsoTriState.msoFalse)
+                        {
+                            _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+                        }
+                        else
+                        {
+                            var coords = new Point(i, j);
+                            cells[coords] = dat;
+                        }
                     }
                 }
             }
