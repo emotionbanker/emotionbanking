@@ -378,6 +378,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return;
             }
 
+            if (_pptApp.ActiveWindow.Selection.Type == PpSelectionType.ppSelectionNone)
+            {
+                return;
+            }
+
             Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
 
             var targetFirstCell = GetSelectedCellCoordinates(tbl);
