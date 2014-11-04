@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * CodeController implements the CRUD actions for Code model.
  */
@@ -34,6 +35,7 @@ class CodeController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 			$count = $model->count;
+
 			$codes = [];
 			for ($i=0; $i<$count; $i++) {
 				$codeModel = clone $model;
@@ -41,6 +43,7 @@ class CodeController extends Controller
 				$codeModel->used = 0;
 				$codeModel->save();
 				$codes[] = $codeModel->z_b_id . str_pad($codeModel->z_p_id, 3, '0', STR_PAD_LEFT) . $codeModel->code;
+
 			}
 
 

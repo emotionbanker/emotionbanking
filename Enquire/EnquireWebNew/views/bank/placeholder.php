@@ -11,10 +11,7 @@ use yii\helpers\ArrayHelper;
 $this->title = 'Platzhalter';
 $this->params['breadcrumbs'][] = ['label' => 'Banken', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$data = array_merge(
-	[0=>'Please select'],
-	ArrayHelper::map(\app\models\Bank::findAll(['>', 'b_id', 0]), 'b_id', 'bezeichnung')
-);
+$data = [0=>'Please select'] + ArrayHelper::map(\app\models\Bank::findAll(['>', 'b_id', 0]), 'b_id', 'bezeichnung');
 ?>
 <div class="bank-view">
 	<form action="/bank/placeholders/set-alias">

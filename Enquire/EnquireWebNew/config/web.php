@@ -46,6 +46,9 @@ $config = [
 				'bank/<bankId:\w+>/statistic' => 'bank/statistic',
 				'bank/<bankId:\w+>/delete-code/<cid:\d+>' => 'bank/delete-code',
 				'bank/placeholders/set-alias' => 'bank/set-alias',
+				'user-text/index/<type:\w+>' => 'user-text/index',
+				'user-text/create/<type:\w+>' => 'user-text/create',
+				'user-text/update/<type:\w+>' => 'user-text/update',
 			]
 		],
         'mailer' => [

@@ -73,7 +73,7 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'Fragebögen',
 				'icon' => 'terminal',
-				'url' => 'group/index',
+				'url' => 'form/index',
 				'items' => [
 					[
 						'title' => 'Neue fragebögen',
@@ -99,19 +99,23 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'Individualisierung',
 				'icon' => 'paint-brush',
-				'url' => 'group/index',
+				'url' => 'user-text/index',
 				'items' => [
+					[
+						'title' => 'Texts',
+						'url' => 'texts/index'
+					],
 					[
 						'title' => 'styles',
 						'url' => 'group/create',
 					],
 					[
 						'title' => 'begrüßungstexte',
-						'url' => 'group/create',
+						'url' => 'user-text/index/start',
 					],
 					[
 						'title' => 'schlusstexte',
-						'url' => 'group/create',
+						'url' => 'user-text/index/end',
 					],
 				]
 			],

@@ -13,15 +13,8 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 /* @var $this yii\web\View */
 /* @var $model app\models\Form */
 /* @var $form yii\widgets\ActiveForm */
-$banks = array_merge(
-	['' => 'Bitte wählen Sie'],
-	ArrayHelper::map(app\models\Bank::find()->all(),'klasse', 'bezeichnung')
-);
-$grous = array_merge(
-	['' => 'Bitte wählen Sie'],
-	ArrayHelper::map(app\models\Group::find()->all(),'p_id', 'bezeichnung')
-);
-
+$banks = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Bank::find()->all(),'klasse', 'bezeichnung');
+$groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find()->all(),'p_id', 'bezeichnung');
 
 ?>
 
@@ -31,7 +24,7 @@ $grous = array_merge(
 
     <?= $form->field($model, 'f_klasse')->dropDownList($banks) ?>
 
-    <?= $form->field($model, 'f_p_id')->dropDownList($grous) ?>
+    <?= $form->field($model, 'f_p_id')->dropDownList($groups) ?>
 
     <?= $form->field($model, 'reihenfolge')->textarea(['rows' => 6]) ?>
 	<?php echo Html::button('Fragenliste ein/ausblenden', ['id'=>'addQuestion', 'data'=>['toggle'=>"modal", 'target'=>'#myModal'], 'class'=>'btn btn-primary']) ?>
@@ -75,7 +68,9 @@ $grous = array_merge(
 								'filterType'=>GridView::FILTER_SELECT2,
 								'filter'=>app\models\Question::$types,
 								'filterWidgetOptions'=>[
-									'pluginOptions'=>['allowClear'=>true],
+									'pluginOptions'=>[
+										'allowClear'=>true
+									],
 								],
 								'filterInputOptions'=>['placeholder'=>'Bitte wählen Sie'],
 								'format'=>'raw'

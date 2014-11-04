@@ -23,7 +23,7 @@ $this->title = 'Preview';
 			switch ($question[$pos]['cmd'])
 			{
 				case 'header':
-					echo "<h4>".$question[$pos]['text']."</h4>";
+					echo "<h3>".$question[$pos]['text']."</h3>";
 					$pos++;
 					break;
 
@@ -37,15 +37,19 @@ $this->title = 'Preview';
 					$multi = false;
 					$m = array();
 
+					//print_r($question);
+
+
 					while (
-						(count($a = @explode(";", $question[$pos][2])) <= 6) &&
-						(count($a = @explode(";", $question[$pos][2])) > 1) &&
-						($all[$pos][2] == $question[$pos+1][2]) &&
-						($all[$pos+1]['cmd'] == "question")
+						(count($a = @explode(";", $question[$pos]['antworten'])) <= 6) &&
+						(count($a = @explode(";", $question[$pos]['antworten'])) > 1) &&
+						(isset($question[$pos]['antworten']) && isset($question[$pos+1]['antworten'])) &&
+						($question[$pos]['antworten'] == $question[$pos+1]['antworten']) &&
+						($question[$pos+1]['cmd'] == "question")
 					) {
 						$multi = true;
 
-						$m[] = $all[$pos];
+						$m[] = $question[$pos];
 
 						$pos ++;
 					}
@@ -53,9 +57,24 @@ $this->title = 'Preview';
 					if ($multi) { $m[] = $question[$pos]; }
 
 					if (!$multi) {
-						print_r($question[$pos]);
+						//print_r($question[$pos]);
+						echo \app\widgets\Question::widget([
+							'questions' => [
+								$question[$pos]
+							],
+							'num' => $pos,
+							'showConditions' => true,
+							'translate' => false
+						]);
 						//echoQuestion($all[$pos],$pos,$qu[$pos + 1], true, true);
 					} else {
+						echo \app\widgets\Question::widget([
+							'questions' => $m,
+							'num' => $pos,
+							'showConditions' => true,
+							'translate' => false,
+							'multi' => true
+						]);
 						//echoMultiQuestion($m,$pos,$qu, true, true);
 					}
 

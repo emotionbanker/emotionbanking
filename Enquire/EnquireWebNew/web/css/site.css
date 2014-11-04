@@ -61,5 +61,60 @@ header a {
 	padding: 10px;
 }
 .page-break {
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid red;
+	margin: 10px 0;
+}
+.radio-group label {
+	display: block;
+}
+.radio-group .radio {
+	width:25%;
+	float:left;
+	margin-top:10px !important;
+}
+.check-group label {
+	display: block;
+}
+.check-group .checkbox {
+	width:50%;
+	float:left;
+	margin-top:10px !important;
+}
+.radio-column {
+	text-align: center;
+	vertical-align: middle !important;
+}
+th {
+	text-align: center;
+	vertical-align: middle !important;
+}
+.form-div {
+	margin-top:10px;
+}
+.content {
+	padding: 20px 0;
+}
+.anket-form {
+	margin: 20px 0;
+	border: 1px solid #ccc;
+}
+.anket-form .head{
+	height: 40px;
+	background-color: #eee;
+	padding: 10px;
+}
+.anket-form .foot{
+	height: 63px;
+	background-color: #eee;
+	padding: 10px;
+}
+.anket-form .head .progress {
+	width: 30%;
+	margin-left:70%;
+}
+.anket-content {
+	padding: 20px 10px;
+}
+.radio-column {
+	cursor:pointer;
 }

@@ -2,6 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\AnketForm;
+use app\models\Code;
+use app\models\Form;
+use app\models\UserText;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -38,17 +42,101 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
+            ]
         ];
     }
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $error = '';
+        $model = new AnketForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($code = $model->validateCode()) {
+                if ($model->processCode($code)) {
+                    $this->redirect('/site/welcome');
+                } else {
+                    $this->redirect('/site/index');
+                }
+            } else {
+                $error = 'Bank gesperrt, Code ung?ltig oder bereits verwendetet. Anmeldung fehlgeschlagen.';
+            }
+        }
+
+        return $this->render('index',[
+            'model' => $model,
+            'error' => $error
+        ]);
+    }
+
+    public function actionWelcome()
+    {
+        if (! isset(Yii::$app->session['anketData'])) {
+            $this->redirect('/site/index');
+        }
+
+        $data = Yii::$app->session['anketData'];
+
+        return $this->render('welcome',[
+            'text' => UserText::getText($data['group']['p_id'], $data['bank']['b_id'], $data['lang'], true)
+        ]);
+    }
+
+    public function actionForm()
+    {
+
+        if (! isset(Yii::$app->session['anketData'])) {
+            $this->redirect('/site/index');
+        }
+
+        $data = Yii::$app->session['anketData'];
+
+        $form = Form::findOne($data['form']);
+
+        $questions = $form->getQuestions();
+
+        $status = Code::findOne($data['code']['z_id'])->status;
+
+        if (Yii::$app->request->post('q')) {
+
+            $userAnswers = Yii::$app->request->post('q');
+
+            $status = $form->saveAnswers($data['code'], $userAnswers);
+
+            $data['status'] = $status;
+            $data['code']['status'] = $status;
+        }
+
+        Yii::$app->session['anketData'] = $data;
+
+        if (! ($status < $form->getQuestionsCount($questions) )) {
+            $code = Code::findOne($data['code']['z_id']);
+            $code->used = 1;
+            $code->save();
+            $this->redirect('/site/end');
+        }
+
+        return $this->render('form',[
+            'status' => $status,
+            'percent' => round(($status / $form->getQuestionsCount($questions)) * 100),
+            'questions' => $questions,
+            'anket' => $form
+        ]);
+    }
+
+    public function actionEnd()
+    {
+        if (! isset(Yii::$app->session['anketData'])) {
+            $this->redirect('/site/index');
+        }
+
+        $data = Yii::$app->session['anketData'];
+
+        Yii::$app->session->remove('anketData');
+
+        return $this->render('end',[
+            'text' => UserText::getText($data['group']['p_id'], $data['bank']['b_id'], $data['lang'], false)
+        ]);
     }
 
     public function actionLogin()

@@ -47,7 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
 					'pluginOptions'=>['allowClear'=>true],
 				],
 				'value'=>function ($model, $key, $index, $widget) {
-					return \app\models\Group::findOne($model->f_p_id)->bezeichnung;
+					$group =  \app\models\Group::findOne($model->f_p_id);
+					return $group ? $group->bezeichnung : $model->f_p_id;
 				},
 				'filterInputOptions'=>['placeholder'=>'Bitte wählen Sie'],
 				'format'=>'raw'

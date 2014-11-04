@@ -11,14 +11,8 @@ use yii\helpers\ArrayHelper;
 /* @var $form yii\widgets\ActiveForm */
 
 
-$banks = array_merge(
-	['' => 'Bitte wählen'],
-	ArrayHelper::map(Bank::find()->all(), 'b_id', 'bezeichnung')
-);
-$groups = array_merge(
-	['' => 'Bitte wählen'],
-	ArrayHelper::map(Group::find()->all(), 'p_id', 'bezeichnung')
-);
+$banks =  ['' => 'Bitte wählen'] + ArrayHelper::map(Bank::find()->all(), 'b_id', 'bezeichnung');
+$groups = ['' => 'Bitte wählen'] + ArrayHelper::map(Group::find()->all(), 'p_id', 'bezeichnung');
 
 ?>
 

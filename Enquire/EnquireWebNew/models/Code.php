@@ -70,7 +70,7 @@ class Code extends \yii\db\ActiveRecord
             [['code'], 'string', 'max' => 4],
             [['z_b_id'], 'string', 'max' => 6],
             [['z_b_id', 'z_p_id'], 'required'],
-            [['count'], 'required'],
+            [['count'], 'safe'],
         ];
     }
 

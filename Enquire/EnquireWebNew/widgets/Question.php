@@ -10,11 +10,36 @@ class Question extends \yii\base\Widget {
 
 	public $multi = false;
 	public $type = null;
+	public $preview = true;
+
+	public $questions = [];
+	public $num;
+	public $qu;
+	public $translate = false;
+	public $showConditions = false;
 
 	public function run()
 	{
+		if (! $this->multi) {
+			echo $this->render('question',[
+				'questions' => $this->questions,
+				'num' => $this->num,
+				'qu' => $this->qu,
+				'translate' => $this->translate,
+				'showConditions' => $this->showConditions,
+				'preview' => $this->preview
+			]);
+		} else {
+			echo $this->render('questionMulti',[
+				'questions' => $this->questions,
+				'num' => $this->num,
+				'qu' => $this->qu,
+				'translate' => $this->translate,
+				'showConditions' => $this->showConditions,
+				'preview' => $this->preview
+			]);
+		}
 
-		echo $this->render('question',[]);
 	}
 
 }

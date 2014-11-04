@@ -72,7 +72,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		}
 	}
 
-	$time = $time / $count;
+	if ($count) {
+		$time = $time / $count;
+	}
+
 
 	?>
 
@@ -83,6 +86,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	<br/>
 	Am häufigsten eingetragene IP- Adresse: <b><?php echo $mip?></b> (<b><?php echo $max?></b> mal)
 	<br/>
-	Durchschnittliche Ausfülldauer: <b><?php echo date("H:i:s", $time- 60*60) ?></b>;
+	<?php if ($count):?>
+	Durchschnittliche Ausfülldauer: <b><?php echo date("H:i:s", $time - 60*60) ?></b>;
+	<?php endif;?>
 
 </div>
