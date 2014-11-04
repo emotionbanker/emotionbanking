@@ -691,42 +691,58 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return;
             }
 
-            Microsoft.Office.Interop.PowerPoint.Table tbl;
-            try
-            {
-                tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
-            }
-            catch (Exception)
+            var selectionType = _pptApp.ActiveWindow.Selection.Type;
+            if (selectionType != PpSelectionType.ppSelectionShapes)
             {
                 MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
                 return;
             }
 
-            var formulas = GetAllCellsWithFormulas(tbl);
+            var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
 
-            var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
-            var dialogResult = form.ShowDialog();
-            if (dialogResult == DialogResult.OK)
+            if (shapeType == MsoShapeType.msoTable)
             {
-                foreach (var formula in form.Formulas)
+                var tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+
+                var formulas = GetAllCellsWithFormulas(tbl);
+
+                var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
+                var dialogResult = form.ShowDialog();
+                if (dialogResult == DialogResult.OK)
                 {
-                    var coord = formula.Key;
-
-                    if (formulas[formula.Key] != formula.Value)
+                    foreach (var formula in form.Formulas)
                     {
-                        var cell = tbl.Cell(coord.X, coord.Y);
-                        cell.Select();
+                        var coord = formula.Key;
 
-                        // clean up the selected cell
-                        SetTextForCurrentCell(string.Empty);
-                        var key = GetFieldKeyForSelectedCell();
-                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+                        if (formulas[formula.Key] != formula.Value)
+                        {
+                            var cell = tbl.Cell(coord.X, coord.Y);
+                            cell.Select();
 
-                        AddPField(formula.Value);
+                            // clean up the selected cell
+                            SetTextForCurrentCell(string.Empty);
+                            var key = GetFieldKeyForSelectedCell();
+                            _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+
+                            AddPField(formula.Value);
+                        }
                     }
-                }
 
-                _pptApp.ActiveWindow.Selection.Unselect();
+                    _pptApp.ActiveWindow.Selection.Unselect();
+                }
+                return;
+            }
+
+            if (shapeType == MsoShapeType.msoPicture)
+            {
+                var formula = _pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"];
+
+                var form = new UpdateFormulaForm(formula);
+                var dialogResult = form.ShowDialog();
+                if (dialogResult == DialogResult.OK)
+                {
+                    AddPField(form.Formula);
+                }
             }
         }
 
@@ -760,12 +776,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return key;
             }
 
-            Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
-            var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
-            if (selectedCellCoordinates != Point.Empty)
+            if (selectionType == PpSelectionType.ppSelectionShapes)
             {
-                key = string.Format("umxcode_{0}_{1}", selectedCellCoordinates.X, selectedCellCoordinates.Y);
+                var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+                if (shapeType == MsoShapeType.msoTable)
+                {
+                    Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+                    var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
+                    if (selectedCellCoordinates != Point.Empty)
+                    {
+                        key = string.Format("umxcode_{0}_{1}", selectedCellCoordinates.X, selectedCellCoordinates.Y);
+                    }
+                }
             }
+
             return key;
         }
 
@@ -776,6 +800,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             Microsoft.Office.Interop.PowerPoint.Shape ns = null;
 
             bool createTextBlock;
+            bool replacePicture = false;
             var ppSelectionType = _pptApp.ActiveWindow.Selection.Type;
             if (ppSelectionType == PpSelectionType.ppSelectionNone)
             {
@@ -784,6 +809,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             else
             {
                 MsoShapeType shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+                if (shapeType == MsoShapeType.msoPicture)
+                {
+                    replacePicture = true;
+                }
+
                 createTextBlock = shapeType != MsoShapeType.msoTable;
             }
 
@@ -1019,107 +1049,103 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     break;
 
                 case "potpic":
-                    ns = sl.Shapes.AddPicture(tls.Potpic(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 180, 20);
+                    ns = InsertPotpicShape(sl, tls, replacePicture);
                     break;
 
                 case "pbar":
-                    ns = sl.Shapes.AddPicture(tls.Pbar(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 180, 17);
+                    ns = InsertPbarShape(sl, tls, replacePicture);
                     break;
 
                 case "tl":
-                    ns = sl.Shapes.AddPicture(tls.Tl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 16, 16);
+                    ns = InsertTlShape(sl, tls, replacePicture);
                     break;
 
                 case "idivtl":
-                    ns = sl.Shapes.AddPicture(tls.Idivtl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertIdivtlShape(sl, tls, replacePicture);
                     break;
 
                 case "comparetl":
-                    ns = sl.Shapes.AddPicture(tls.Comparetl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertComparetlShape(sl, tls, replacePicture);
                     break;
 
                 case "comparetlnps":
-                    ns = sl.Shapes.AddPicture(tls.Comparetlnps(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertComparetlnpsShape(sl, tls, replacePicture);
                     break;
 
                 case "compareidivtlpcnt":
-                    ns = sl.Shapes.AddPicture(tls.Comparetlpcnt(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertComparetlpcntShape(sl, tls, replacePicture);
                     break;
 
                 case "idivtlpcnt":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlPcnt(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertIdivtlPcntShape(sl, tls, replacePicture);
                     break;
 
                 case "idivtlnps":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlNps(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertIdivtlNpsShape(sl, tls, replacePicture);
                     break;
 
                 case "idivtlnum":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlNum(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertIdivtlNumShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-light":
-                    ns = sl.Shapes.AddPicture(tls.bcontLight(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertBcontLightShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-trend":
-                    ns = sl.Shapes.AddPicture(tls.bconTrend(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));                  
+                    ns = InsertBconTrendShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-nps-trend":
-                    ns = sl.Shapes.AddPicture(tls.bconTrendNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));
+                    ns = InsertBconTrendNpsShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-nps-tlb":
-                    ns = sl.Shapes.AddPicture(tls.bcontLightNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertBcontLightNpsShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-light-apc":
-                    ns = sl.Shapes.AddPicture(tls.bcontLightApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertBcontLightApcShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-Exclamation":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamation(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22])*2, Int32.Parse(tls.dat[22])*2);
+                    ns = InsertBconExclamationShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-Exclamation-apc":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamationApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]) * 2, Int32.Parse(tls.dat[22]) * 2);
+                    ns = InsertBconExclamationApcShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-Exclamation-nps":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamationNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]) * 2, Int32.Parse(tls.dat[22]) * 2);
+                    ns = InsertBconExclamationNpsShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-trend-apc":
-                    ns = sl.Shapes.AddPicture(tls.bconTrendApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));
+                    ns = InsertBbconTrendApcShape(sl, tls, replacePicture);
                     break;
 
                 case "op":
-                    ns = sl.Shapes.AddPicture(tls.op(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height);
+                    ns = InsertOpShape(sl, tls, replacePicture);
                     break;
 
                 case "op-c":
-                    ns = sl.Shapes.AddPicture(tls.opC(this), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height);
+                    ns = InsertOpCShape(sl, tls, replacePicture);
                     break;
 
                 case "exclamation-single":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationSingle(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertExclamationSingleShape(sl, tls, replacePicture);
                     break;
 
                 case "exclamation-gap":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationGap(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertExclamationGapShape(sl, tls, replacePicture);
                     break;
 
                 case "exclamation-compare":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationCompare(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertExclamationCompareShape(sl, tls, replacePicture);
                     break;
 
                 case "xmlGraphic":
-                    IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
-                    ns = sl.Shapes.AddPicture(gr.Store(),
-                                              MsoTriState.msoFalse, MsoTriState.msoTrue,
-                                              100, 100,
-                                              gr.Size.Width, gr.Size.Height);
+                    ns = InsertXmlGraphicShape(sl, tls, replacePicture);
                     break;
             }
 
@@ -2108,6 +2134,195 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         {
             var gr = XmlHelper.ComputeText(tls.GetXmlMaster(), td, eval);
             return gr.Compute();
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertPicShape(Slide sl, string fileName, float left, float top, float width, float height, bool replace)
+        {
+            if (replace)
+            {
+                var shape = _pptApp.ActiveWindow.Selection.ShapeRange[1];
+                left = shape.Left;
+                top = shape.Top;
+                width = shape.Width;
+                height = shape.Height;
+                shape.Delete();
+            }
+
+            var ns = sl.Shapes.AddPicture(fileName, MsoTriState.msoFalse, MsoTriState.msoTrue, left, top, width, height);
+            return ns;
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertPotpicShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.Potpic(), 100, 100, 180, 20, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertPbarShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.Pbar(), 100, 100, 180, 17, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertTlShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.Tl(), 100, 100, 16, 16, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertIdivtlShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.Idivtl(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertComparetlShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            return InsertPicShape(sl, tls.Comparetl(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertComparetlnpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            return InsertPicShape(sl, tls.Comparetlnps(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertComparetlpcntShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            return InsertPicShape(sl, tls.Comparetlpcnt(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertIdivtlPcntShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.IdivtlPcnt(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertIdivtlNpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.IdivtlNps(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertIdivtlNumShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.IdivtlNum(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBcontLightShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            var fileName = tls.bcontLight(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconTrendShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconTrend(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconTrendNpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconTrendNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBcontLightNpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            var fileName = tls.bcontLightNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBcontLightApcShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            var fileName = tls.bcontLightApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconExclamationShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconExclamation(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconExclamationApcShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconExclamationApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconExclamationNpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconExclamationNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBbconTrendApcShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconTrendApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertOpShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.op(), 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertOpCShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.opC(this), 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertExclamationSingleShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.ExclamationSingle(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertExclamationGapShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.ExclamationGap(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertExclamationCompareShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            return InsertPicShape(sl, tls.ExclamationCompare(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertXmlGraphicShape(Slide sl, PPTools tls, bool replace)
+        {
+            IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
+            return InsertPicShape(sl, gr.Store(), 100, 100, gr.Size.Width, gr.Size.Height, replace);
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)

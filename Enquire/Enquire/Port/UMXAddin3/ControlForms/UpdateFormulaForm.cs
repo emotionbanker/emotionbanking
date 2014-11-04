@@ -8,13 +8,17 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     public partial class UpdateFormulaForm : Form
     {
+        private string _formula;
+        private readonly bool _tableMode;
         private readonly Dictionary<Point, string> _formulas;
         private readonly Dictionary<int, Point> _positions;
+
 
         public UpdateFormulaForm(Dictionary<Point, string> formulas)
         {
             InitializeComponent();
 
+            _tableMode = true;
             _formulas = formulas;
             _positions = new Dictionary<int, Point>();
             var sb = new StringBuilder();
@@ -31,21 +35,49 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             txtFormulas.Select(0, 0);
         }
 
+        public UpdateFormulaForm(string formula)
+        {
+            InitializeComponent();
+
+            _formula = formula;
+            _tableMode = false;
+
+            txtFormulas.Text = string.Format("{{{0}}}\n\n", _formula);
+            txtFormulas.Select(0, 0);
+        }
+
+        /// <summary>
+        /// Returns formulas with respective Cell coordinates. Use when a table is selected.
+        /// </summary>
         public Dictionary<Point, string> Formulas
         {
             get { return _formulas; }
+        }
+
+        /// <summary>
+        /// Returns single formula. Use when a single shape is selected.
+        /// </summary>
+        public string Formula
+        {
+            get { return _formula; }
         }
 
         private void OKButton_Click(object sender, EventArgs e)
         {
             var strings = txtFormulas.Text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-            for (int pos = 0; pos < strings.Length && pos < _positions.Count; pos++)
+            if (!_tableMode)
             {
-                var coord = _positions[pos];
-
-                var formula = strings[pos].Trim(new[] { '{', '}' });
-                _formulas[coord] = formula;
+                _formula = strings[0].Trim(new[] { '{', '}' });
+            }
+            else
+            {
+                for (int pos = 0; pos < strings.Length && pos < _positions.Count; pos++)
+                {
+                    var coord = _positions[pos];
+                    var formula = strings[pos].Trim(new[] { '{', '}' });
+                    _formulas[coord] = formula;
+                }
             }
 
             DialogResult = DialogResult.OK;
