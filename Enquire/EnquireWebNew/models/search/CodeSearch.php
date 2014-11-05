@@ -23,7 +23,8 @@ class CodeSearch extends Code
 	public function rules()
 	{
 		return [
-
+			[['z_p_id', 'used', 'status'], 'integer'],
+			[['code'], 'string', 'max' => 4],
 		];
 	}
 
@@ -57,8 +58,16 @@ class CodeSearch extends Code
 		if (!($this->load($params) && $this->validate())) {
 			return $dataProvider;
 		}
+		if (!$this->status) {
+			$query->andFilterWhere([
+				'status' => $this->status,
+			]);
+		} else {
+			$query->andFilterWhere(['>', 'status', $this->status]);
+		}
 
-		//$query->andFilterWhere(['al_id' =>$this->al_id]);
+
+		$query->andFilterWhere(['like', 'code', $this->code]);
 
 
 		return $dataProvider;

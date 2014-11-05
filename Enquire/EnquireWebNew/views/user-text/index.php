@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\helpers\ArrayHelper;
+use app\helpers\InputHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\UserTextSearch */
@@ -31,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'p_id',
 				'filterType'=>GridView::FILTER_SELECT2,
-				'filter'=>ArrayHelper::map(app\models\Group::find()->all(),'p_id', 'bezeichnung'),
+				'filter' => InputHelper::getDropdownOptions('app\models\Group','p_id', 'bezeichnung', true, true),
 				'filterWidgetOptions'=>[
 					'pluginOptions'=>['allowClear'=>true],
 				],
@@ -46,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'b_id',
 				'filterType'=>GridView::FILTER_SELECT2,
-				'filter'=>ArrayHelper::map(app\models\Bank::find()->all(),'b_id', 'bezeichnung'),
+				'filter'=>InputHelper::getDropdownOptions('app\models\Bank','b_id', 'bezeichnung', true, true),
 				'filterWidgetOptions'=>[
 					'pluginOptions'=>['allowClear'=>true],
 				],
@@ -61,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'l_id',
 				'filterType'=>GridView::FILTER_SELECT2,
-				'filter'=>ArrayHelper::map(app\models\Language::find()->all(),'l_id', 'name'),
+				'filter'=>InputHelper::getDropdownOptions('app\models\Language','l_id', 'name', true, true, true),
 				'filterWidgetOptions'=>[
 					'pluginOptions'=>['allowClear'=>true],
 				],

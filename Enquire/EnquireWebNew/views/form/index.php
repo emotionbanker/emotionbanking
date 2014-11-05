@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use app\models\search\QuestionSearch;
 use kartik\grid\GridView;
+use app\helpers\InputHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\FormSearch */
@@ -28,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'f_klasse',
 				'filterType'=>GridView::FILTER_SELECT2,
-				'filter'=>ArrayHelper::map(app\models\Bank::find()->all(),'klasse', 'bezeichnung'),
+				'filter'=>InputHelper::getDropdownOptions('app\models\Bank','klasse', 'klasse'),
 				'filterWidgetOptions'=>[
 					'pluginOptions'=>['allowClear'=>true],
 				],
@@ -42,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'f_p_id',
 				'filterType'=>GridView::FILTER_SELECT2,
-				'filter'=>ArrayHelper::map(app\models\Group::find()->all(),'p_id', 'bezeichnung'),
+				'filter'=>InputHelper::getDropdownOptions('app\models\Group','p_id', 'bezeichnung'),
 				'filterWidgetOptions'=>[
 					'pluginOptions'=>['allowClear'=>true],
 				],

@@ -8,6 +8,7 @@ use app\models\search\UserTextSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * UserTextController implements the CRUD actions for UserText model.
@@ -20,6 +21,15 @@ class UserTextController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -97,7 +107,7 @@ class UserTextController extends Controller
 		$model->isEnd = $isEnd;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ut_id]);
+            return $this->redirect('/user-text/index/' . ($model->isStart ? 'start' : 'end'));
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -133,9 +143,10 @@ class UserTextController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        $type = $model->isStart;
+        $model->delete();
+        return $this->redirect('/user-text/index/' . ($type ? 'start' : 'end'));
     }
 
     /**

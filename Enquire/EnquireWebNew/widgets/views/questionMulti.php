@@ -1,7 +1,13 @@
 <?php
 
 	for ($i = 0; $i < count($questions); $i++) {
-		//if ($trans) $questions[$i] = translateQ($questions[$i]);
+		if (Yii::$app->request->get('lang') || Yii::$app->session['anketData']['lang']) {
+			$lang = Yii::$app->request->get('lang') ? Yii::$app->request->get('lang') : 0;
+			$lang = $lang ? $lang : Yii::$app->session['anketData']['lang'];
+			if ($lang != 'default') {
+				\app\models\Question::translateQuestion($question, $lang);
+			}
+		}
 	}
 
 	$num += 1;

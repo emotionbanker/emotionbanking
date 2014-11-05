@@ -4,9 +4,13 @@ $question = $questions[0];
 $hide = $question['hidden'];
 $aslist = isset($question['aslist']) ? $question['aslist'] : false;
 
-//if ($translate) $q = translateQ($q);
-
-//$q = applyAlias($q);
+if (Yii::$app->request->get('lang') || Yii::$app->session['anketData']['lang']) {
+	$lang = Yii::$app->request->get('lang') ? Yii::$app->request->get('lang') : 0;
+	$lang = $lang ? $lang : Yii::$app->session['anketData']['lang'];
+	if ($lang != 'default') {
+		\app\models\Question::translateQuestion($question, $lang);
+	}
+}
 
 $answers = explode(";", $question['antworten']);
 if (! is_array($answers)) {

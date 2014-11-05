@@ -34,7 +34,7 @@ use app\widgets;
 				<span class="icon-bar"></span>
 			</a>
 			<div class="navbar-right">
-				<?php echo Html::a('Logout', 'site/logout', ['class'=>'logout'])?>
+				<?php echo Html::a('Logout', '/site/logout', ['class'=>'logout'])?>
 			</div>
 		</nav>
 	</header>
@@ -54,7 +54,6 @@ use app\widgets;
 				</ol>
 				<h1>
 					<?php echo $this->title ?>
-					<small>Control panel</small>
 				</h1>
 			</section>
 

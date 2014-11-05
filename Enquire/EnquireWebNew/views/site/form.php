@@ -29,7 +29,7 @@ $this->title = 'Victor 2014';
 				{
 					case 'header':
 						//
-						echo "<h3>" . $questions[$pos]['text'] . "</h3>";
+						echo "<h3>" . \app\models\Bank::applyAlias($bank, $questions[$pos]['text']) . "</h3>";
 						$pos++;
 
 						break;

@@ -8,10 +8,32 @@ use kartik\widgets\ActiveForm;
 /* @var $model app\models\Form */
 
 $this->title = 'Preview';
+$lang = Yii::$app->request->get('lang');
 ?>
 <div class="form-view">
 
-	<b>Sprachauswahl:</b>
+	<div class="form-group">
+		<label for="">Sprachauswahl:</label>
+		<?php echo Html::dropDownList(
+			'lang',
+			isset($lang) ? $lang : 0,
+			\app\helpers\InputHelper::getDropdownOptions('app\models\Language', 'l_id', 'name', false, true, true),
+			['class'=> 'form-control', 'id' => 'changeLang']) ?>
+		<script>
+			window.onload = function(){
+				$('#changeLang').change(function(){
+					var lang = $(this).val();
+					if (window.location.href.indexOf('lang') == -1) {
+						window.location.href = window.location.href + '&lang=' + lang;
+					} else {
+						window.location.href = window.location.href.replace(/[0-9]+$/, lang);
+					}
+
+				});
+			}
+		</script>
+	</div>
+
 
 	<?php $form = ActiveForm::begin();?>
 	<?php

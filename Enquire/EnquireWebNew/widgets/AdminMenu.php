@@ -105,10 +105,10 @@ class AdminMenu extends \yii\base\Widget {
 						'title' => 'Texts',
 						'url' => 'texts/index'
 					],
-					[
+/*					[
 						'title' => 'styles',
 						'url' => 'group/create',
-					],
+					],*/
 					[
 						'title' => 'begrüßungstexte',
 						'url' => 'user-text/index/start',

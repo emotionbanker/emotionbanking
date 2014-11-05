@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Transaction;
 
 /**
  * This is the model class for table "{{%frage}}".
@@ -61,4 +62,21 @@ class Question extends \yii\db\ActiveRecord
 	{
 		return QuestionAlias::find()->where(['a_fr_id'=>$this->fr_id])->count();
 	}
+
+    public static function translateQuestion(& $question, $lang) {
+        if (isset($question['fr_id'])) {
+            $translation = Translation::findOne(['t_l_id' => $lang, 't_fr_id'=>$question['fr_id']]);
+            if ($translation) {
+                $question['frage'] = $translation->frage;
+                $question['antworten'] = $translation->antworten;
+            } else {
+                $question['frage'] = '';
+                $question['antworten'] = '';
+            }
+        } else {
+            $question['frage'] = '';
+            $question['antworten'] = '';
+        }
+
+    }
 }

@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="bank-view">
 	<?= GridView::widget([
 	'dataProvider' => $dataProvider,
+	'filterModel' => $searchModel,
 	'columns' => [
 		[
 			'label' => 'Code',
@@ -28,14 +29,27 @@ $this->params['breadcrumbs'][] = $this->title;
 		[
 			'label' => 'Benutzergruppe',
 			'attribute' => 'z_p_id',
+			'filterType'=>GridView::FILTER_SELECT2,
+			'filter'=>\app\helpers\InputHelper::getDropdownOptions('app\models\Group','p_id', 'bezeichnung'),
+			'filterWidgetOptions'=>[
+				'pluginOptions'=>['allowClear'=>true],
+			],
+			'filterInputOptions'=>['placeholder'=>'Bitte wählen Sie'],
 			'value'=>function ($model, $key, $index, $widget) {
-				return $this->params['userGroups'][$model->z_p_id];
+
+				return isset($this->params['userGroups'][$model->z_p_id]) ? $this->params['userGroups'][$model->z_p_id] : '' ;
 			},
 			'format' => 'raw'
 		],
 		[
 			'label' => 'Status',
 			'attribute' => 'status',
+			'filterType'=>GridView::FILTER_SELECT2,
+			'filter'=>[0=> 'noch nicht verwendet', 1 => 'füllt gerade aus/noch nicht komplett ausgefüll'],
+			'filterWidgetOptions'=>[
+				'pluginOptions'=>['allowClear'=>true],
+			],
+			'filterInputOptions'=>['placeholder'=>'Bitte wählen Sie'],
 			'value'=>function ($model, $key, $index, $widget) {
 				return ($model->status)  ? 'füllt gerade aus/noch nicht komplett ausgefüll' : 'noch nicht verwendet';
 			},

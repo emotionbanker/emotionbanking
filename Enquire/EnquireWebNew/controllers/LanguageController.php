@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\Translation;
 use Yii;
 use app\models\Language;
 use app\models\search\LanguageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * LanguageController implements the CRUD actions for Language model.
@@ -18,6 +21,15 @@ class LanguageController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -89,6 +101,39 @@ class LanguageController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionImport()
+    {
+        $imported = 0;
+        $dropped = 0;
+        $file = UploadedFile::getInstanceByName('filename');
+        if ($file) {
+            $lang = Yii::$app->request->post('lang');
+            $content = file($file->tempName);
+
+            foreach ($content  as $line) {
+                $transl = explode('@', $line);
+                $oTranslation = Translation::findOne(['t_l_id' => $lang, 't_fr_id' =>$transl[0]]);
+                if ($oTranslation) {
+                    $oTranslation->antworten = $transl[2];
+                    $oTranslation->frage = $transl[1];
+                } else {
+                    $oTranslation = new Translation();
+                    $oTranslation->t_fr_id = $transl[0];
+                    $oTranslation->t_l_id = $lang;
+                    $oTranslation->antworten = $transl[2];
+                    $oTranslation->frage = $transl[1];
+                }
+                $oTranslation->save();
+                $imported++;
+            }
+        }
+
+        return $this->render('import', [
+            'imported' => $imported,
+            'dropped' => $dropped,
+        ]);
     }
 
     /**

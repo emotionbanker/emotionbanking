@@ -108,4 +108,13 @@ class Bank extends \yii\db\ActiveRecord
 	}
 
 
+	public static function applyAlias($bank, $header)
+	{
+        $aliases = Alias::findAll(['b_id' => $bank]);
+		foreach ($aliases as $alias) {
+			$header = str_replace($alias->original, $alias->alias, $header);
+		}
+		return $header;
+	}
+
 }
