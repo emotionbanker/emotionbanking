@@ -716,7 +716,7 @@ namespace EnquireAddin
             // 
             this.adxRibbonCommandCopy.Id = "adxRibbonCommand_7e8d338f82224dba98e596817709261b";
             this.adxRibbonCommandCopy.IdMso = "Copy";
-            this.adxRibbonCommandCopy.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            this.adxRibbonCommandCopy.Ribbons = AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation;
             this.adxRibbonCommandCopy.OnAction += new AddinExpress.MSO.ADXRibbonCommand_EventHandler(this.adxRibbonCommandCopy_OnAction);
             // 
             // adxRibbonCommandPaste
