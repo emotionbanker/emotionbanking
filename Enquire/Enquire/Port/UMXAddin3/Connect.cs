@@ -756,13 +756,49 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             if (shapeType == MsoShapeType.msoPicture)
             {
-                var formula = _pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"];
-
-                var form = new UpdateFormulaForm(formula);
-                var dialogResult = form.ShowDialog();
-                if (dialogResult == DialogResult.OK)
+                if (_pptApp.ActiveWindow.Selection.ShapeRange.Count > 1)
                 {
-                    AddPField(form.Formula);
+                    var selectedShapes = new List<Microsoft.Office.Interop.PowerPoint.Shape>();
+                    var formulas = new Dictionary<Point, string>();
+                    for (int i = 1; i <= _pptApp.ActiveWindow.Selection.ShapeRange.Count; i++)
+                    {
+                        var formula = _pptApp.ActiveWindow.Selection.ShapeRange[i].Tags["umxcode"];
+                        formulas.Add(new Point(i, i), formula);
+                        selectedShapes.Add(_pptApp.ActiveWindow.Selection.ShapeRange[i]);
+                    }
+
+                    var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
+                    var dialogResult = form.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        _pptApp.ActiveWindow.Selection.Unselect();
+                        int i = 1;
+                        foreach (var shape in selectedShapes)
+                        {
+                            // AddPField() replaces the first shape from Selection.ShapeRange
+                            // so we need to unselect all shapes and after that to select
+                            // each shape individually
+
+                            shape.Select(MsoTriState.msoTrue);
+
+                            var formula = form.Formulas[new Point(i, i)];
+                            AddPField(formula);
+
+                            shape.Select(MsoTriState.msoFalse);
+                            i++;
+                        }
+                    }
+                }
+                else
+                {
+                    var formula = _pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"];
+
+                    var form = new UpdateFormulaForm(formula);
+                    var dialogResult = form.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        AddPField(form.Formula);
+                    }
                 }
             }
         }
