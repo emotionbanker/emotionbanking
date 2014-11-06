@@ -345,6 +345,29 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         public void HandleCopy()
         {
+            IDataObject clipboardData = Clipboard.GetDataObject();
+            if (clipboardData == null)
+            {
+                return;
+            }
+
+            var formats = clipboardData.GetFormats(true);
+            if (!formats.Any(x => x.StartsWith("Art::") || x.EndsWith("ClipFormat")))
+            {
+                // clipboard doesn't contain data in Office format
+                return;
+            }
+
+            if (_pptApp.ActiveWindow.Selection.Type != PpSelectionType.ppSelectionShapes)
+            {
+                return;
+            }
+
+            if (_pptApp.ActiveWindow.Selection.ShapeRange.Type != MsoShapeType.msoTable)
+            {
+                return;
+            }
+
             Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
 
             SourceCells.Clear();
