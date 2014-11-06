@@ -714,14 +714,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return;
             }
 
-            var selectionType = _pptApp.ActiveWindow.Selection.Type;
-            if (selectionType != PpSelectionType.ppSelectionShapes)
+            var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+            if (shapeType != MsoShapeType.msoTable && shapeType != MsoShapeType.msoPicture)
             {
                 MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
                 return;
             }
-
-            var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
 
             if (shapeType == MsoShapeType.msoTable)
             {
@@ -799,17 +797,14 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return key;
             }
 
-            if (selectionType == PpSelectionType.ppSelectionShapes)
+            var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+            if (shapeType == MsoShapeType.msoTable)
             {
-                var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
-                if (shapeType == MsoShapeType.msoTable)
+                Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+                var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
+                if (selectedCellCoordinates != Point.Empty)
                 {
-                    Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
-                    var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
-                    if (selectedCellCoordinates != Point.Empty)
-                    {
-                        key = string.Format("umxcode_{0}_{1}", selectedCellCoordinates.X, selectedCellCoordinates.Y);
-                    }
+                    key = string.Format("umxcode_{0}_{1}", selectedCellCoordinates.X, selectedCellCoordinates.Y);
                 }
             }
 
