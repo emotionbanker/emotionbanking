@@ -358,7 +358,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return;
             }
 
-            if (_pptApp.ActiveWindow.Selection.Type != PpSelectionType.ppSelectionShapes)
+            if (_pptApp.ActiveWindow.Selection.Type != PpSelectionType.ppSelectionShapes && _pptApp.ActiveWindow.Selection.Type != PpSelectionType.ppSelectionText)
             {
                 return;
             }
