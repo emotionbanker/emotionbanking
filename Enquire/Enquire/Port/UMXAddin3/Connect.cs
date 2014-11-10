@@ -714,6 +714,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return;
             }
 
+            if(_pptApp.ActiveWindow.Selection.Type == PpSelectionType.ppSelectionNone)
+            {
+                MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
+                return;
+            }
+
             var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
             if (shapeType != MsoShapeType.msoTable && shapeType != MsoShapeType.msoPicture)
             {
