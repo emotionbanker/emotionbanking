@@ -14,6 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 $data = [0=>'Please select'] + ArrayHelper::map(\app\models\Bank::findAll(['>', 'b_id', 0]), 'b_id', 'bezeichnung');
 ?>
 <div class="bank-view">
+    <?php if (isset($error)): ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <?php echo $error; ?>
+        </div>
+    <?php endif;?>
 	<form action="/bank/placeholders/set-alias">
 		<div class="form-group">
 			<label for="">Platzhalter setzen für</label>

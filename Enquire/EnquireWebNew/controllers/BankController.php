@@ -196,13 +196,20 @@ class BankController extends Controller
 
 	public function actionPlaceholders()
 	{
+        $error = Yii::$app->session->getFlash('error');
 		return $this->render('placeholder',[
+            'error' => $error
 		]);
 	}
 
 	public function actionSetAlias()
 	{
 		$banks = Yii::$app->request->get('bank');
+        if(empty($banks)){
+            $error = "Error: No bank was specified";
+            Yii::$app->session->setFlash('error',$error);
+            return $this->redirect('/bank/placeholders');
+        }
 
 		$sBanks = "'" . join("','",$banks) . "'";
 
@@ -270,8 +277,6 @@ class BankController extends Controller
 
 		$command = Yii::$app->db->createCommand($sql);
 		$aliases = $command->queryAll();
-
-
 
 		return $this->render('alias',[
 			'banks' => Bank::findAll(['b_id' => $banks]),
