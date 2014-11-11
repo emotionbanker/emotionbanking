@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Art',
 				'attribute' => 'display',
 				'filterType'=>GridView::FILTER_SELECT2,
-				'filter'=>app\models\Question::$types,
+				'filter'=>['' => 'Alle Arten'] + app\models\Question::$types,
 				'filterWidgetOptions'=>[
 					'pluginOptions'=>['allowClear'=>true],
 				],
