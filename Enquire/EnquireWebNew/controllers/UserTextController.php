@@ -103,11 +103,36 @@ class UserTextController extends Controller
 		}
 
         $model = new UserText();
-		$model->isStart = $isStart;
-		$model->isEnd = $isEnd;
+        $post = Yii::$app->request->post();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('/user-text/index/' . ($model->isStart ? 'start' : 'end'));
+        if(!empty($post)){
+            $models = [];
+            $postData = Yii::$app->request->post()['UserText'];
+            $groups = $postData['p_id'];
+            $banks = $postData['b_id'];
+            $l_id = $postData['l_id'];
+            $t_id = $postData['t_id'];
+
+            for($ic = 0; $ic < count($groups); $ic++){
+                for($jc = 0; $jc < count($banks); $jc++){
+                    $model = new UserText();
+                    $post['UserText'] = ['p_id' => $groups[$ic], 'b_id' => $banks[$jc], 'l_id' => $l_id, 't_id' => $t_id, 'isStart' => $isStart ? 1 : '', 'isEnd' => $isEnd ? 1 : ''];
+                    if($model->load($post)){
+                        $models[] = $model;
+                    }
+                }
+            }
+
+            foreach($models as $model){
+                $model->save();
+                //echo '<br><br>';
+            }
+
+            return $this->redirect('/user-text/index/' . ($isStart ? 'start' : 'end'));
+        }
+
+        if($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('/user-text/index/' . ($isStart ? 'start' : 'end'));
         } else {
             return $this->render('create', [
                 'model' => $model,

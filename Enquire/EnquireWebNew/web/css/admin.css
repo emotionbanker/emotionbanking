@@ -44,6 +44,10 @@ body {
 	margin: 0 10px;
 }
 
+.multiselect-container{
+    min-width: 400px;
+}
+
 .multiselect-container .input-group{
     margin: 0!important;
     padding: 5px;
