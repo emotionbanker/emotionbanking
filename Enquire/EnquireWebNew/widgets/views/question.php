@@ -120,13 +120,13 @@ switch($question['display']) {
 		} else {
 			?>
  			<div class="form-group">
-				<table class="table table-striped table-bordered">
+				<table class="table table-striped table-bordered" style="word-wrap: break-word">
 					<tr>
 						<th></th>
 						<?php
 						foreach ($answers as $answer)
 						{
-							echo "<th>" . $answer . "</th>";
+							echo "<th style='width:125px'>" . $answer . "</th>";
 						}
 						?>
 					</tr>
@@ -136,7 +136,7 @@ switch($question['display']) {
 						foreach ($answers as $answer)
 						{
 							?>
-							<td width="10%" class="radio-column">
+							<td style="width:125px" class="radio-column">
 								<input type="radio" name="q[<?php echo $nr; ?>]" value="<?php echo $answer ?>" >
 							</td>
 							<?php

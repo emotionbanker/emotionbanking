@@ -26,13 +26,13 @@
 
 	?>
 	<div class="form-group">
-		<table class="table table-striped table-bordered">
+		<table class="table table-striped table-bordered" style="word-wrap: break-word">
 			<tr>
 				<th></th>
 				<?php
 				if ($questions[0]['display'] != "text") {
 					foreach ($answers as $answer) {
-						echo "<th>" . $answer . "</th>";
+						echo "<th style='width:125px'>" . $answer . "</th>";
 					}
 				}
 				?>
@@ -74,7 +74,7 @@
 				foreach ($answers as $answer)
 				{
 					?>
-						<td width="10%" class="radio-column"><input type="radio" name="q[<?php echo $nr; ?>]" value="<?php echo $answer ?>" ></td>
+						<td class="radio-column" style="width:125px"><input type="radio" name="q[<?php echo $nr; ?>]" value="<?php echo $answer ?>" ></td>
 					<?php
 				}
 				break;
@@ -84,7 +84,7 @@
 				foreach ($answers as $answer)
 				{
 					?>
-					<td class="radio-column" width="10%"><input type="checkbox" name="q[<?php echo $nr; ?>][<?php echo $i++ ?>]" value="<?php echo $answer ?>"
+					<td class="radio-column" style="width:125px"><input type="checkbox" name="q[<?php echo $nr; ?>][<?php echo $i++ ?>]" value="<?php echo $answer ?>"
 							<?php is_array($qu[$nr]) && in_array($answer,$qu[$nr]) ? 'checked' : '' ?>></td>
 					<?php
 				}
