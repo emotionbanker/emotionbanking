@@ -66,13 +66,13 @@ $groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find(
 								'label' => 'Art',
 								'attribute' => 'display',
 								'filterType'=>GridView::FILTER_SELECT2,
-								'filter'=>app\models\Question::$types,
+								'filter'=> ['' => 'Alle Arten'] + app\models\Question::$types,
 								'filterWidgetOptions'=>[
 									'pluginOptions'=>[
 										'allowClear'=>true
 									],
 								],
-								'filterInputOptions'=>['placeholder'=>'Bitte wählen Sie'],
+								'filterInputOptions'=>['placeholder'=>''],
 								'format'=>'raw'
 							],
 						],
