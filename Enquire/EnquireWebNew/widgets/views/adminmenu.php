@@ -4,7 +4,7 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<?php foreach ($items as $item): ?>
-				<?php $activeClass = strpos(Yii::$app->request->url, $item['url']) !==false ? ' active': '' ?>
+				<?php $activeClass = strpos(Yii::$app->request->url, $item['url']) !==false || ($item['url'] == 'user-text' && Yii::$app->request->url == '/texts/index') ? ' active': '' ?>
 				<?php if (isset($item['items'])): ?>
 					<li class="treeview<?php echo $activeClass?>">
 						<a href="<?php echo \yii\helpers\Url::toRoute($item['url'])?>">

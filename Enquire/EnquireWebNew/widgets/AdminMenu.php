@@ -10,12 +10,11 @@ class AdminMenu extends \yii\base\Widget {
 
 	public function run()
 	{
-
 		$items = [
 			[
 				'title' => 'Fragen',
 				'icon' => 'question-circle',
-				'url' => 'question/index',
+				'url' => 'question',
 				'items' => [
 					[
 						'title' => 'Neue frage',
@@ -34,7 +33,7 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'Banken',
 				'icon' => 'money',
-				'url' => 'bank/index',
+				'url' => 'bank',
 				'items' => [
 					[
 						'title' => 'Neue bank',
@@ -57,7 +56,7 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'Benutzergruppen',
 				'icon' => 'users',
-				'url' => 'group/index',
+				'url' => 'group',
 				'items' => [
 					[
 						'title' => 'Neue gruppe',
@@ -73,7 +72,7 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'Fragebögen',
 				'icon' => 'terminal',
-				'url' => 'form/index',
+				'url' => 'form',
 				'items' => [
 					[
 						'title' => 'Neue fragebögen',
@@ -88,7 +87,7 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'Zugangscodes',
 				'icon' => 'barcode',
-				'url' => 'codes/create',
+				'url' => 'code',
 				'items' => [
 					[
 						'title' => 'Neue codes erzeugen',
@@ -99,7 +98,7 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'Individualisierung',
 				'icon' => 'paint-brush',
-				'url' => 'user-text/index',
+				'url' => 'user-text',
 				'items' => [
 					[
 						'title' => 'Texts',
@@ -124,7 +123,7 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'Sprachen',
 				'icon' => 'language',
-				'url' => 'language/index',
+				'url' => 'language',
 				'items' => [
 					[
 						'title' => 'Neue sprache',
@@ -143,7 +142,7 @@ class AdminMenu extends \yii\base\Widget {
 			[
 				'title' => 'System',
 				'icon' => 'cogs',
-				'url' => 'system/index',
+				'url' => 'system',
 				'items' => [
 					[
 						'title' => 'Statistik',
