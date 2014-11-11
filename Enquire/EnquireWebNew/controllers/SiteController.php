@@ -71,7 +71,7 @@ class SiteController extends Controller
 
     public function actionWelcome()
     {
-        if (! isset(Yii::$app->session['anketData'])) {
+        if (!isset(Yii::$app->session['anketData'])) {
             $this->redirect('/site/index');
         }
 

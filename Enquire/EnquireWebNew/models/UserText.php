@@ -57,7 +57,7 @@ class UserText extends \yii\db\ActiveRecord
 
         $query = UserText::find()
             ->andWhere(['OR', 'p_id=0', 'p_id='.$user])
-            ->andWhere(['OR', 'b_id="0"', 'b_id="'.$bank.'"'])
+            ->andWhere(['OR', 'b_id=0', 'b_id="'.$bank.'"'])
             ->andWhere(['OR', 'l_id=0', 'l_id='.($language == 'default' ? '0' : $language)]);
             if(!$isStart) {
                 $query->andWhere(['isEnd' => 1]);
@@ -66,7 +66,7 @@ class UserText extends \yii\db\ActiveRecord
             }
         $query->orderBy(['p_id' => SORT_DESC, 'b_id' => SORT_DESC, 'l_id' =>SORT_DESC  ]);
 
-            $text = $query->one();
+        $text = $query->one();
 
         return $text;
     }
