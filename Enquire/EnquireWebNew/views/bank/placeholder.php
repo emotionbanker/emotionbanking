@@ -1,9 +1,11 @@
 <?php
 
+use app\assets\MultipleSelectAsset;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use dosamigos\multiselect\MultiSelect;
 use yii\helpers\ArrayHelper;
+MultipleSelectAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Bank */
@@ -11,7 +13,7 @@ use yii\helpers\ArrayHelper;
 $this->title = 'Platzhalter';
 $this->params['breadcrumbs'][] = ['label' => 'Banken', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$data = [0=>'Please select'] + ArrayHelper::map(\app\models\Bank::findAll(['>', 'b_id', 0]), 'b_id', 'bezeichnung');
+$data = ArrayHelper::map(\app\models\Bank::find()->orderBy('bezeichnung')->all(), 'b_id', 'bezeichnung');
 ?>
 <div class="bank-view">
     <?php if (isset($error)): ?>
