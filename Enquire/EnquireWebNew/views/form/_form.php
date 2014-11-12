@@ -5,6 +5,8 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\grid\GridView;
 use app\models\search\QuestionSearch;
+use app\assets\QuestionAddAsset;
+QuestionAddAsset::register($this);
 
 
 $searchModel = new QuestionSearch();
@@ -51,13 +53,21 @@ $groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find(
 						'filterModel' => $searchModel,
 						'columns' => [
 							[
-								'label' => 'ID',
-								'attribute' => 'fr_id',
-								'value'=>function ($model, $key, $index, $widget) {
-									return Html::button('Add', ['data'=>['question'=>'fr_id'], 'class'=>'btn btn-warning']);
+								'label' => 'Add',
+								'attribute' => 'fr_add',
+								'value'=>function ($model) {
+									return Html::button('Add', ['data'=>['question'=>$model->fr_id], 'class'=>'btn btn-warning question-add', 'style'=>'font-family: Courier']);
 								},
 								'format' => 'raw'
 							],
+                            [
+                                'label' => 'ID',
+                                'attribute' => 'fr_id',
+                                'value'=>function ($model, $key, $index, $widget) {
+                                        return $model->fr_id;
+                                    },
+                                'format' => 'raw'
+                            ],
 							[
 								'attribute' => 'frage',
 								'value'=>function ($model, $key, $index, $widget) {
@@ -84,7 +94,7 @@ $groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find(
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" id="reinfolge-save" class="btn btn-primary" data-dismiss="modal">Save changes</button>
 				</div>
 			</div>
 		</div>
