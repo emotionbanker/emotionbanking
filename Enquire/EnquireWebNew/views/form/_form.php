@@ -26,8 +26,11 @@ $groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find(
 
     <?= $form->field($model, 'f_p_id')->dropDownList($groups) ?>
 
+    <?php echo Html::button('Fragenliste einblenden', ['id'=>'addQuestion', 'data'=>['toggle'=>"modal", 'target'=>'#myModal'], 'class'=>'btn btn-primary']) ?>
+    <div class="help-block"></div>
+
     <?= $form->field($model, 'reihenfolge')->textarea(['rows' => 6]) ?>
-	<?php echo Html::button('Fragenliste ein/ausblenden', ['id'=>'addQuestion', 'data'=>['toggle'=>"modal", 'target'=>'#myModal'], 'class'=>'btn btn-primary']) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
