@@ -189,7 +189,7 @@ class BankController extends Controller
 			\Yii::$app->request->queryParams
 		);*/
 		return $this->render('statistic-list',[
-			'list' => Bank::find()->all(),
+			'list' => Bank::find()->orderBy('bezeichnung')->all(),
 		]);
 	}
 

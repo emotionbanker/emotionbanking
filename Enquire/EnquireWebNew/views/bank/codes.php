@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 
 $this->title = 'Zugangscodes für Bank:' . $model->b_id;
 $this->params['bankName'] = $model->b_id;
-$this->params['userGroups'] = ArrayHelper::map(\app\models\Group::find()->all(),'p_id','bezeichnung');
+$this->params['userGroups'] = ArrayHelper::map(\app\models\Group::find()->orderBy('bezeichnung')->all(),'p_id','bezeichnung');
 $this->params['breadcrumbs'][] = ['label' => 'Banken', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

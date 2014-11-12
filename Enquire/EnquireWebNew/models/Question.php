@@ -18,10 +18,10 @@ class Question extends \yii\db\ActiveRecord
 {
 
 	public static $types = [
+        'radio' => 'auswahl (radio buttons)',
 		'text' => 'freie antwort (textfeld)',
-		'radio' => 'auswahl (radio buttons)',
-  		'multi' => 'mehrfachauswahl (tickboxes)',
-		'multitext' => 'mehrere freie antworten (textfelder)'
+        'multitext' => 'mehrere freie antworten (textfelder)',
+  		'multi' => 'mehrfachauswahl (tickboxes)'
 	];
 
     /**

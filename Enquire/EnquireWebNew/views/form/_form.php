@@ -15,8 +15,8 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 /* @var $this yii\web\View */
 /* @var $model app\models\Form */
 /* @var $form yii\widgets\ActiveForm */
-$banks = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Bank::find()->all(),'klasse', 'bezeichnung');
-$groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find()->all(),'p_id', 'bezeichnung');
+$banks = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Bank::find()->orderBy('klasse')->all(),'klasse', 'bezeichnung');
+$groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find()->orderBy('bezeichnung')->all(),'p_id', 'bezeichnung');
 
 ?>
 
