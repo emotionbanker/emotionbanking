@@ -26,7 +26,7 @@
 
 	?>
 	<div class="form-group">
-		<table class="table table-striped table-bordered" style="word-wrap: break-word">
+		<table class="table table-striped table-bordered" style="table-layout: fixed; word-wrap: break-word">
 			<tr>
 				<th></th>
 				<?php
