@@ -1028,7 +1028,7 @@ body > .header .logo .icon {
   color: #f56954;
 }
 .form-group.has-error .form-control {
-  border-color: #f56954 !important;
+  border-color: #f56954;
   box-shadow: none;
 }
 /* Input group */

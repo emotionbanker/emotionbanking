@@ -31,10 +31,23 @@ class UserText extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-			[['b_id'], 'string'],
-            [['p_id', 'l_id', 't_id', 'isStart', 'isEnd'], 'integer'],
-            [['p_id', 'b_id', 'l_id', 't_id'], 'required'],
+			[['b_id'], 'bankValidation'],
+            [['p_id'], 'benutzerValidation'],
+            [['l_id', 't_id', 'isStart', 'isEnd'], 'integer'],
+            [['b_id','p_id','l_id', 't_id'], 'required'],
         ];
+    }
+
+    public function benutzerValidation($attribute, $params){
+        if (!isset($this->$attribute)) {
+            $this->addError($attribute, "Benutzer darf nicht leer sein");
+        }
+    }
+
+    public function bankValidation($attribute, $params){
+        if (!isset($this->$attribute)) {
+            $this->addError($attribute, "Bank darf nicht leer sein");
+        }
     }
 
     /**
@@ -69,5 +82,9 @@ class UserText extends \yii\db\ActiveRecord
         $text = $query->one();
 
         return $text;
+    }
+
+    public function exists(){
+        return isset($this->ut_id);
     }
 }

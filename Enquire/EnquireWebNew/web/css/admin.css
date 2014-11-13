@@ -55,6 +55,11 @@ body {
     z-index: 100;
 }
 
+.multiselect-container li label, .multiselect-container input, .multiselect-container .input-group-addon {
+    color: #333!important;
+    border-color: #ccc!important;
+}
+
 a.asc:after,a.desc:after{
     position:relative;
     display:inline-block;

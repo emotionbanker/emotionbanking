@@ -106,6 +106,13 @@ class UserTextController extends Controller
         $post = Yii::$app->request->post();
 
         if(!empty($post)){
+            if(!($model->load($post) && $model->validate())){
+                return $this->render('create', [
+                    'model' => $model,
+                    'type' => $type
+                ]);
+            }
+
             $models = [];
             $postData = Yii::$app->request->post()['UserText'];
             $groups = $postData['p_id'];
@@ -125,7 +132,6 @@ class UserTextController extends Controller
 
             foreach($models as $model){
                 $model->save();
-                //echo '<br><br>';
             }
 
             return $this->redirect('/user-text/index/' . ($isStart ? 'start' : 'end'));
