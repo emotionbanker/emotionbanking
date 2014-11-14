@@ -206,7 +206,7 @@ class BankController extends Controller
 	{
 		$banks = Yii::$app->request->get('bank');
         if(empty($banks)){
-            $error = "Error: No bank was specified";
+            $error = "Fehler: Keine Bank wurde ausgewählt";
             Yii::$app->session->setFlash('error',$error);
             return $this->redirect('/bank/placeholders');
         }

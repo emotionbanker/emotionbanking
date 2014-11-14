@@ -7,17 +7,17 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Language */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Languages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Sprachen', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="language-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->l_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->l_id], [
+        <?= Html::a('Aktualisieren', ['update', 'id' => $model->l_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Löschen', ['delete', 'id' => $model->l_id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Sind sie sicher, dass sie diesen Eintrag löschen wollen?',
                 'method' => 'post',
             ],
         ]) ?>

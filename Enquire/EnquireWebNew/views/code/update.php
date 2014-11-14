@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Code */
 
-$this->title = 'Update Code: ' . ' ' . $model->z_id;
+$this->title = 'Aktualisieren Code: ' . ' ' . $model->z_id;
 $this->params['breadcrumbs'][] = ['label' => 'Codes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->z_id, 'url' => ['view', 'id' => $model->z_id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Aktualisieren';
 ?>
 <div class="code-update">
 

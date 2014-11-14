@@ -7,17 +7,17 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Question */
 
 $this->title = $model->fr_id;
-$this->params['breadcrumbs'][] = ['label' => 'Questions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Fragen', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="question-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->fr_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->fr_id], [
+        <?= Html::a('Aktualisieren', ['update', 'id' => $model->fr_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Löschen', ['delete', 'id' => $model->fr_id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Sind sie sicher, dass sie diesen Eintrag löschen wollen?',
                 'method' => 'post',
             ],
         ]) ?>

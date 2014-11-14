@@ -7,14 +7,14 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\search\LanguageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Languages';
+$this->title = 'Sprachen';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="language-index">
 
 
     <p>
-        <?= Html::a('Create Language', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Neue Sprache', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

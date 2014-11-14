@@ -23,7 +23,7 @@ use app\widgets;
 	<body class="skin-black">
 	<header class="header">
 		<a href="/admin" class="logo">
-			Admin panel
+			Administrator
 		</a>
 		<nav class="navbar navbar-static-top" role="navigation">
 			<!-- Sidebar toggle button-->

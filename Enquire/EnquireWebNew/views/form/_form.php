@@ -34,7 +34,7 @@ $groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find(
     <?= $form->field($model, 'reihenfolge')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Anlegen' : 'Aktualisieren', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -53,10 +53,10 @@ $groups = ['' => 'Bitte wählen Sie'] + ArrayHelper::map(app\models\Group::find(
 						'filterModel' => $searchModel,
 						'columns' => [
 							[
-								'label' => 'Add',
+								'label' => 'Neu',
 								'attribute' => 'fr_add',
 								'value'=>function ($model) {
-									return Html::button('Add', ['data'=>['question'=>$model->fr_id], 'class'=>'btn btn-warning question-add', 'style'=>'font-family: Courier']);
+									return Html::button('Neu', ['data'=>['question'=>$model->fr_id], 'class'=>'btn btn-warning question-add', 'style'=>'font-family: Courier']);
 								},
 								'format' => 'raw'
 							],

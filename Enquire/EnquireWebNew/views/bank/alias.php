@@ -28,7 +28,7 @@ $model = new \app\models\Alias();
 
 						<td><input class="form-control" type="text" name="alias[<?php echo $key; ?>][original]" value="<?php echo $alias['original'] ?>"/></td>
 						<td><input class="form-control" type="text" name="alias[<?php echo $key; ?>][alias]" value="<?php echo $alias['alias'] ?>"/></td>
-						<td><input type="button" class="btn btn-success" name="save-<?php echo $key; ?>" value="Save"> &nbsp; <input type="button" class="btn btn-danger" name="delete-<?php echo $key; ?>" value="Delete"></td>
+						<td><input type="button" class="btn btn-success" name="save-<?php echo $key; ?>" value="Save"> &nbsp; <input type="button" class="btn btn-danger" name="delete-<?php echo $key; ?>" value="Löschen"></td>
 					</tr>
 
 				<?php endif;?>
@@ -37,7 +37,7 @@ $model = new \app\models\Alias();
 			<tr>
 				<td><input class="form-control" type="text" name="alias[new][original]" value=""/></td>
 				<td><input class="form-control" type="text" name="alias[new][alias]" value=""/></td>
-				<td><input type="button" class="btn btn-success" name="add" value="Add"></td>
+				<td><input type="button" class="btn btn-success" name="add" value="Ersetzen"></td>
 
 			</tr>
 		</table>

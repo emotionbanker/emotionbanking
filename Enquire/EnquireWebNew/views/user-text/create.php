@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\UserText */
 
-$this->title = 'Create User Text';
+$this->title = 'Neuer Benutzertext';
 $this->params['breadcrumbs'][] = ['label' => 'User Texts', 'url' => ['user-text/index/' . $type]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

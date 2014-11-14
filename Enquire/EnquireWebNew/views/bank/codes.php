@@ -61,8 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			'buttons' => [
 				'delete' => function($url, $model, $key) {
 					return Html::a('<span class="glyphicon glyphicon-trash"></span>', '/bank/' . $model->z_b_id . '/delete-code/' . $model->z_id, [
-						'title' => Yii::t('yii', 'Delete'),
-						'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+						'title' => Yii::t('yii', 'Löschen'),
+						'data-confirm' => Yii::t('yii', 'Sind sie sicher, dass sie diesen Eintrag löschen wollen?'),
 						'data-method' => 'post',
 						'data-pjax' => '0',
 					]);

@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-text-index">
 
     <p>
-        <?= Html::a('Create User Text', ['user-text/create/' . $type], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Neuer Benutzertext', ['user-text/create/' . $type], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

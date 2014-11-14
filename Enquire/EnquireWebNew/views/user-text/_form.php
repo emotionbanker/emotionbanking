@@ -11,8 +11,8 @@ MultipleSelectAsset::register($this);
 /* @var $model app\models\UserText */
 /* @var $form yii\widgets\ActiveForm */
 
-$banks = ['0' => 'All']+ArrayHelper::map(app\models\Bank::find()->orderBy('klasse')->all(),'klasse', 'bezeichnung');
-$groups = ['0' => 'All']+ ArrayHelper::map(app\models\Group::find()->orderBy('bezeichnung')->all(),'p_id', 'bezeichnung');
+$banks = ['0' => 'Alle']+ArrayHelper::map(app\models\Bank::find()->orderBy('klasse')->all(),'klasse', 'bezeichnung');
+$groups = ['0' => 'Alle']+ ArrayHelper::map(app\models\Group::find()->orderBy('bezeichnung')->all(),'p_id', 'bezeichnung');
 $languages = ['0' => 'Default']+ ArrayHelper::map(app\models\Language::find()->orderBy('name')->all(),'l_id', 'name');
 $texts = ArrayHelper::map(app\models\Text::find()->orderBy('name')->all(),'t_id', 'name');
 
@@ -77,7 +77,7 @@ $texts = ArrayHelper::map(app\models\Text::find()->orderBy('name')->all(),'t_id'
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Anlegen' : 'Aktualisieren', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

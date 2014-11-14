@@ -12,11 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bank-view">
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->b_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->b_id], [
+        <?= Html::a('Aktualisieren', ['update', 'id' => $model->b_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Löschen', ['delete', 'id' => $model->b_id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Sind sie sicher, dass sie diesen Eintrag löschen wollen?',
                 'method' => 'post',
             ],
         ]) ?>
