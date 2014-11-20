@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <div class="form-group">
             <label for="">Für Sprache</label>
-            <?php echo Html::dropDownList('lang',null, \app\helpers\InputHelper::getDropdownOptions('app\models\Sprache', 'l_id', 'name', true), ['class'=>'form-control']);?>
+            <?php echo Html::dropDownList('lang',null, \app\helpers\InputHelper::getDropdownOptions('app\models\Language', 'l_id', 'name', true), ['class'=>'form-control']);?>
         </div>
         <?php
 
