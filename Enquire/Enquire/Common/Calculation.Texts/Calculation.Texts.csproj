@@ -52,6 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnswerOfField\AnswerOfFieldValues.cs" />
+    <Compile Include="AnswerOfField\AnswerOfFieldWizard.cs" />
+    <Compile Include="AnswerOfField\Wizard\AnswerOfFieldPage.cs" />
+    <Compile Include="AnswerOfField\Wizard\AnswerOfFieldWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AnswerOfField\Wizard\AnswerOfFieldWizardPageControl.Designer.cs">
+      <DependentUpon>AnswerOfFieldWizardPageControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Benchmarking\Wizard\BenchmarkValueWizard.cs" />
     <Compile Include="Benchmarking\Wizard\WizardPages\BenchmarkValueWizardPageControl.cs">
       <SubType>UserControl</SubType>
@@ -152,6 +161,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AnswerOfField\Wizard\AnswerOfFieldWizardPageControl.resx">
+      <DependentUpon>AnswerOfFieldWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Benchmarking\Wizard\WizardPages\BenchmarkValueWizardPageControl.resx">
       <DependentUpon>BenchmarkValueWizardPageControl.cs</DependentUpon>
     </EmbeddedResource>

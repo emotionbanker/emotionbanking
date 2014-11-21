@@ -166,6 +166,7 @@ namespace umfrage2._2007.Controls
                     if (o.GetType().Equals(typeof(Tacho))) lwi.ImageIndex = 14;
                     if (o.GetType().Equals(typeof(Gauge_h056))) lwi.ImageIndex = 7;
                     if (o.GetType().Equals(typeof(Radar2))) lwi.ImageIndex =11;
+                    if (o.GetType().Equals(typeof(Bar_Segment))) lwi.ImageIndex = 7;
 
                     OutputListView.Items.Add(lwi);
                 }
@@ -650,7 +651,7 @@ namespace umfrage2._2007.Controls
             else
             {
                 Output o = GetSelectedOutput().Clone;
-                
+                o.Name = "Kopie von " + GetSelectedOutput().Name;
                 AddOutput(o);
             }
         }
@@ -919,19 +920,59 @@ namespace umfrage2._2007.Controls
                 radar.Cross = GetSelectedOutput().Cross;
                 radar.height = GetSelectedOutput().height;
                 radar.width = GetSelectedOutput().width;
-            } if (GetSelectedOutput().GetType() == typeof(Gauge_h056))//1
+            } 
+            else if (GetSelectedOutput().GetType() == typeof(Gauge_h056))//1
             {
-                //MessageBox.Show("Bar Cloned");
-                /*Gauge_h056 bar = new Gauge_h056(eval);
+                /*Gauge_h056 gauge_h056 = new Gauge_h056(eval);
                 Gauge_h056 tmp = (Gauge_h056)GetSelectedOutput();
 
-                bar.ComboList = GetSelectedOutput().ComboList;
-                bar.PersonList = GetSelectedOutput().PersonList;
-                bar.Name = "Kopie von " + GetSelectedOutput().Name;
-                bar.Cross = GetSelectedOutput().Cross;
-                bar.height = GetSelectedOutput().height;
-                bar.width = GetSelectedOutput().width;
-                bar.Questions = tmp.GetQuestionList();*/
+                gauge_h056.ComboList = GetSelectedOutput().ComboList;
+                gauge_h056.PersonList = GetSelectedOutput().PersonList;
+                gauge_h056.Name = "Kopie von " + GetSelectedOutput().Name;
+                gauge_h056.Cross = GetSelectedOutput().Cross;
+                gauge_h056.height = GetSelectedOutput().height;
+                gauge_h056.width = GetSelectedOutput().width;
+                gauge_h056.Questions = tmp.GetQuestionList();
+
+                AddOutput(gauge_h056);*/
+                MessageBox.Show("klont");
+            }
+            else if (GetSelectedOutput().GetType() == typeof(Bar_Segment))//1
+            {
+                Bar_Segment barSegment = new Bar_Segment(eval);
+                Bar_Segment tmp = (Bar_Segment)GetSelectedOutput();
+
+                barSegment.Name = "Kopie von " + GetSelectedOutput().Name;
+                barSegment.SetShowPerson(tmp.GetShowText());
+                barSegment.SetShowValue(tmp.GetShowValue());
+                barSegment.SetShowText(tmp.GetShowText());
+
+                barSegment.SetBase(tmp.GetBase());
+                barSegment.SetBaseQ(tmp.GetBaseQ());
+
+                barSegment.SetTxt(tmp.GetTxt());
+
+                barSegment.SetBackColor(tmp.GetBackColor());
+                barSegment.SetBrushColor(tmp.GetBrushColor());
+
+                barSegment.ComboList = GetSelectedOutput().ComboList;
+                barSegment.PersonList = GetSelectedOutput().PersonList;
+                barSegment.Cross = GetSelectedOutput().Cross;
+                barSegment.height = GetSelectedOutput().height;
+                barSegment.width = GetSelectedOutput().width;
+                barSegment.Questions = tmp.GetQuestionList();
+
+
+                barSegment.SetQuestionList(tmp.GetQuestionList());
+
+
+                barSegment.SetAnswerOrder(tmp.GetAnswerOrder());
+
+                barSegment.SetSort(tmp.GetSort());
+                barSegment.SetPersonGroups(tmp.GetPersonGroups());
+
+
+                AddOutput(barSegment);
             }
         }
 
@@ -974,6 +1015,12 @@ namespace umfrage2._2007.Controls
         private void Radar2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Radar2 o = new Radar2(eval);
+            AddOutput(o);
+        }
+
+        private void balkenSegmentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Bar_Segment o = new Bar_Segment(eval);
             AddOutput(o);
         }
     }

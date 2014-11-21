@@ -16,6 +16,8 @@ namespace umfrage2._2007.Controls
         internal bool datumAktiv = false;
         internal DateTime datumVon;
         internal DateTime datumBis;
+        internal bool percentAktiv = false;
+        internal int percentValue;
 
         public LoadDataControl(Evaluation eval)
         {
@@ -25,12 +27,10 @@ namespace umfrage2._2007.Controls
             InitializeComponent();
 
             eval.Load2007_Init(this);
-          
-           
-
         }
 
-        public void Loadfix(){
+        public void Loadfix()
+        {
             for (int i = 0; i < ChooseTarget.Items.Count; i++)
             {
                 fix.Add(ChooseTarget.Items[i]);
@@ -142,6 +142,27 @@ namespace umfrage2._2007.Controls
             }
         }
 
+        private void checkBoxPercent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxPercent.Checked == true)
+            {
+                percentAktiv = true;
+                labelValue.Visible = true;
+                hScrollBarValue.Visible = true;
+                hScrollBarValue.Value = 49;
+                labelValue.Text = hScrollBarValue.Value.ToString();
+                percentValue = Convert.ToInt32(hScrollBarValue.Value);
+
+            }
+            else
+            {
+                percentAktiv = false;
+                labelValue.Visible = false;
+                hScrollBarValue.Visible = false;
+
+            }
+        }
+
         private void monthCalendarVon_DateChanged(object sender, DateRangeEventArgs e)
         {
             datumVon = new DateTime(monthCalendarVon.SelectionStart.Year, monthCalendarVon.SelectionStart.Month, monthCalendarVon.SelectionStart.Day);
@@ -152,6 +173,14 @@ namespace umfrage2._2007.Controls
         {
             datumBis = new DateTime(monthCalendarBis.SelectionStart.Year, monthCalendarBis.SelectionStart.Month, monthCalendarBis.SelectionStart.Day);
             label7.Text = datumBis.Day + ". " + datumBis.Month + ". " + datumBis.Year; 
-        }//end checkboxDate
+        }
+
+        private void hScrollBarValue_Scroll(object sender, ScrollEventArgs e)
+        {
+            labelValue.Text = hScrollBarValue.Value.ToString();
+            percentValue = Convert.ToInt32(hScrollBarValue.Value);
+        }
+
+       //end checkboxDate
     }
 }

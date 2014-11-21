@@ -37,7 +37,6 @@ namespace Compucare.Enquire.Common.DataModule.Settings
         {
             _questionId = qId;
             _persons = persons;
-     
         }
 
         public QuestionDataItem(String xml, Evaluation eval)

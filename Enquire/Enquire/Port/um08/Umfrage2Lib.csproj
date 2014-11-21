@@ -105,12 +105,51 @@
       <HintPath>..\..\..\Lib\Ciloci.Flee.dll</HintPath>
     </Reference>
     <Reference Include="Compucare.Enquire.Common.DataModule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f8a8c5f426fd8e8d" />
+    <Reference Include="Compucare.Enquire.Common.Module.WebEnquire, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96056f680e425725, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Debug\Compucare.Enquire.Common.Module.WebEnquire.dll</HintPath>
+    </Reference>
     <Reference Include="dotnetCharting.WinForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=c3f34d622663b9f1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Dropbox\dotnetcharting\version 4\dotnetCharting.WinForms.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.Microsoft.Office.Interop.PowerPoint, Version=2.9.0.0, Culture=neutral, PublicKeyToken=d993fcbb3232ce55, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\bin\Debug\Interop.Microsoft.Office.Interop.PowerPoint.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Microsoft.Office.Interop.Word, Version=8.4.0.0, Culture=neutral, PublicKeyToken=d993fcbb3232ce55, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\bin\Debug\Interop.Microsoft.Office.Interop.Word.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Office, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3c8e198007f9ecf8">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\bin\Debug\Interop.Office.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.PowerPoint, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3c8e198007f9ecf8">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\bin\Debug\Interop.PowerPoint.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.VBIDE, Version=5.3.0.0, Culture=neutral, PublicKeyToken=3c8e198007f9ecf8">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\bin\Debug\Interop.VBIDE.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Word, Version=8.1.0.0, Culture=neutral, PublicKeyToken=3c8e198007f9ecf8">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\bin\Debug\Interop.Word.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Add-in Express\Add-in Express for .NET\Redistributables\Interop Assemblies\Office 2010\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
     <Reference Include="mRibbon">
       <HintPath>..\..\..\Lib\mRibbon.dll</HintPath>
     </Reference>
@@ -137,24 +176,6 @@
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
-      <VersionMinor>4</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>6</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Word">
-      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>8</VersionMajor>
       <VersionMinor>4</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
@@ -295,6 +316,12 @@
     </Compile>
     <Compile Include="2007\Controls\Benchmarking\BenchmarkingControl.Designer.cs">
       <DependentUpon>BenchmarkingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="2007\Controls\Output\OutputControl_Bar_Segment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="2007\Controls\Output\OutputControl_Bar_Segment.Designer.cs">
+      <DependentUpon>OutputControl_Bar_Segment.cs</DependentUpon>
     </Compile>
     <Compile Include="2007\Controls\Output\OutputControl-Radar2.cs">
       <SubType>UserControl</SubType>
@@ -819,6 +846,7 @@
     </Compile>
     <Compile Include="Datenbank.cs" />
     <Compile Include="Output\Gauge_h056.cs" />
+    <Compile Include="Output\Bar_Segment.cs" />
     <Compile Include="Output\Radar2.cs" />
     <Compile Include="Output\Scoring\CockpitElement.cs" />
     <Compile Include="Output\Scoring\ScoringCockpit.cs" />
@@ -1067,6 +1095,10 @@
     <EmbeddedResource Include="2007\Controls\Benchmarking\BenchmarkingControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>BenchmarkingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2007\Controls\Output\OutputControl_Bar_Segment.resx">
+      <DependentUpon>OutputControl_Bar_Segment.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="2007\Controls\Output\OutputControl-Radar2.resx">
       <DependentUpon>OutputControl-Radar2.cs</DependentUpon>

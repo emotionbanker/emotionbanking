@@ -104,6 +104,7 @@ namespace umfrage2._2007.Controls
             this.historicChangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gaugeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Radar2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.balkenSegmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel5.SuspendLayout();
             this.EditPanelX.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -558,9 +559,10 @@ namespace umfrage2._2007.Controls
             this.toolStripMenuItem7,
             this.historicChangeToolStripMenuItem,
             this.gaugeToolStripMenuItem,
-            this.Radar2ToolStripMenuItem});
+            this.Radar2ToolStripMenuItem,
+            this.balkenSegmentToolStripMenuItem});
             this.AddMenuStrip.Name = "AddMenuStrip";
-            this.AddMenuStrip.Size = new System.Drawing.Size(187, 552);
+            this.AddMenuStrip.Size = new System.Drawing.Size(187, 574);
             // 
             // prozentmatrixToolStripMenuItem
             // 
@@ -751,6 +753,13 @@ namespace umfrage2._2007.Controls
             this.Radar2ToolStripMenuItem.Text = "Radar 2";
             this.Radar2ToolStripMenuItem.Click += new System.EventHandler(this.Radar2ToolStripMenuItem_Click);
             // 
+            // balkenSegmentToolStripMenuItem
+            // 
+            this.balkenSegmentToolStripMenuItem.Name = "balkenSegmentToolStripMenuItem";
+            this.balkenSegmentToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.balkenSegmentToolStripMenuItem.Text = "Balken-Segment";
+            this.balkenSegmentToolStripMenuItem.Click += new System.EventHandler(this.balkenSegmentToolStripMenuItem_Click);
+            // 
             // ReportControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -852,6 +861,7 @@ namespace umfrage2._2007.Controls
         private System.Windows.Forms.ToolStripMenuItem historicChangeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gaugeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Radar2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem balkenSegmentToolStripMenuItem;
 
 
     }

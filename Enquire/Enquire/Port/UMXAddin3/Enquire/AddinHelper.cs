@@ -9,6 +9,7 @@ using Compucare.Enquire.Common.Calculation.Texts.MatrixCrossings.Wizard;
 using Compucare.Enquire.Common.Calculation.Texts.Script.Wizard;
 using Compucare.Enquire.Common.Calculation.Texts.Sokd;
 using Compucare.Enquire.Common.Calculation.Texts.TopFlop.Wizard;
+using Compucare.Enquire.Common.Calculation.Texts.AnswerOfField;
 
 
 
@@ -82,6 +83,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Enquire
         public static void ShowMatrixCrossingDialog(Connect addin3)
         {
             MatrixCrossingWizard wiz = new MatrixCrossingWizard(addin3.eval);
+            if (wiz.ShowDialog() == DialogResult.OK)
+            {
+                addin3.AddField(FieldHelper.CreateCode("xmlText", wiz.GetXml(), addin3.GetDocument(), "", ""));
+            }
+        }
+
+        public static void ShowAnswerOfFieldDialog(Connect addin3)
+        {
+            AnswerOfFieldWizard wiz = new AnswerOfFieldWizard(addin3.eval);
             if (wiz.ShowDialog() == DialogResult.OK)
             {
                 addin3.AddField(FieldHelper.CreateCode("xmlText", wiz.GetXml(), addin3.GetDocument(), "", ""));

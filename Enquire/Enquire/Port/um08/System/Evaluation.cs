@@ -307,6 +307,11 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             }
         }
 
+        public void RemoveTarget(TargetData td, ArrayList add)
+        {
+            add.Remove(td);
+        }
+
         private void AddTarget(TargetData td, ArrayList add)
         {
             add.Add(td);
@@ -322,7 +327,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             global = null;
             ComboData = new ArrayList();
         }
-
+        public TargetData[] CombinedTargetList; 
         public TargetData[] CombinedTargets
         {
             get
@@ -335,42 +340,29 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                 foreach (TargetData t in Targets)
                 {
+                    
                     AddTarget(t, ts);
                 }
 
                 foreach (TargetData c in GetComboTargets())
                 {
+                    
                     AddTarget(c, ts);
                 }
 
                 TargetData[] ct = new TargetData[ts.Count];
                 int i = 0;
                 foreach (TargetData td in ts)
+                {
                     ct[i++] = td;
-
-                /*
-
-				int length = 1;
-				if (TargetCombos != null)
-					length += TargetCombos.Length;
-				if (Targets != null)
-					length += Targets.Length;
-
-				TargetData[] ct = new TargetData[length];
-
-				int i = 0;
-				foreach (TargetData t in Targets)
-					ct[i++] = t;
-				foreach (TargetData t in GetComboTargets())
-					ct[i++] = t;
-				ct[i] = Global;
-                */
-
-                return ct;
+                  
+                }
+                CombinedTargetList = ct;
+                return CombinedTargetList;
             }
             set
             {
-
+                CombinedTargetList = value;
             }
         }
 
@@ -750,6 +742,16 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
         public ArrayList TargetChilds;
         public ArrayList TargetChildsParent;
 
+        public void setTargets(TargetCombo [] td)
+        {
+            TargetCombos = td;
+        }
+
+        public TargetCombo[] getTargets()
+        {
+            return TargetCombos;
+        }
+
 
         public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
@@ -906,6 +908,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
         ///
 
+
         public void RemoveData()
         {
             Targets = new TargetData[0];
@@ -925,6 +928,11 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             {
 
             }
+        }
+
+        public TargetData[] GetData()
+        {
+            return Targets;
         }
 
         public void SetData(TargetData[] data)
@@ -1406,22 +1414,29 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
         public void RemoveTarget(TargetData combo)
         {
-            if (combo == null) return;
-
-            TargetData[] old = Targets;
-
-            Targets = new TargetData[Targets.Length - 1];
-
-            int i = 0;
-            foreach (TargetData p in old)
+            try
             {
-                if (p != combo)
-                {
-                    Targets[i++] = p;
-                }
-            }
+                if (combo == null) return;
 
-            i = 0;
+                TargetData[] old = Targets;
+
+                Targets = new TargetData[Targets.Length - 1];
+
+                int i = 0;
+                foreach (TargetData p in old)
+                {
+                    if (p != combo)
+                    {
+                        Targets[i++] = p;
+                    }
+                }
+
+                i = 0;
+            }
+            catch
+            {
+
+            }
         }
 
         public void FinishResultUpdate()
@@ -1764,13 +1779,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             dar.Status("Warte auf Zielauswahl");
         }
 
+        private int sek2 = 0;
+        private int sek = 0;
+
         public void Load2007_Process_Thread()
         {
-            /*MessageBox.Show("Datum aktiv: "+dar.datumAktiv+"\nDatum Von: "+dar.datumVon
-                +"\nDatum Bis: "+dar.datumBis);*/
 
-            int sek2 = 0;
-            int sek = 0;
+            dar.Status("Download Start");
+         
             if (dar.datumAktiv)
             {
                 DateTime date1 = new DateTime(1970, 1, 1).ToUniversalTime();  //Refernzdatum (festgelegt)
@@ -1805,6 +1821,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             //2.1 - Fragen
 
             dar.Status("Lade Fragen...");
+           
 
             cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "frage", db);
             d = cmd.ExecuteReaderEx();
@@ -1812,7 +1829,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
             qCount = d.GetInt32(0);
 
-
+            
             dar.LocalStatus.Maximum = qCount;
             dar.LocalStatus.Value = 0;
 
@@ -1860,7 +1877,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
             d.Read();
 
-            enew.Persons = new Person[d.GetInt32(0)];
+            int persons = d.GetInt32(0);
+            enew.Persons = new Person[persons];
+            dar.LocalStatus.Maximum = persons;
 
             cmd = new MySQLCommand("select * from " + DatabasePrefix + "personen", db);
             d = cmd.ExecuteReaderEx();
@@ -1870,36 +1889,46 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             while (d.Read())
             {
                 Person person = new Person(d.GetString(1), d.GetInt32(0));
+                enew.Persons[i++] = person;
 
-                bool found = false;
+                /*bool found = false;
                 foreach (Person po in Persons)
                 {
                     if (po.ID == person.ID && person.Name.Equals(person.Name))
                     {
                         found = true;
-                        enew.Persons[i++] = po;
+                        enew.Persons[i++] = person;
                         break;
                     }
                 }
 
-                if (!found) enew.Persons[i++] = person;
-
+                if (!found) enew.Persons[i++] = person;*/
+                dar.LocalStatus.Value++;
             }
-
+            dar.LocalStatus.Value = 0;
             //existing persons?
 
             //2.3 User
 
             dar.Status("Lade Benutzer/Zugangsdaten...");
 
-            if (dar.datumAktiv)
+            if (dar.datumAktiv == true && dar.percentAktiv == true)
+            {
+                cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = m_z_id and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+            }
+            else if (dar.datumAktiv == true)
             {
                 cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = m_z_id and (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+            }
+            else if (dar.percentAktiv == true)
+            {
+                cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ")", db);
             }
             else
             {
                 cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
             }
+
 
             d = cmd.ExecuteReaderEx();
 
@@ -1911,9 +1940,17 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 + "\nAnzahl der Zugangsdaten: " + xx);*/
             enew.Users = new User[xx];  //Anzahl der Zugangsdaten
 
-            if (dar.datumAktiv)
+            if (dar.datumAktiv==true && dar.percentAktiv==true)
+            {
+                cmd = new MySQLCommand("select * from " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = m_z_id and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+            }
+            else if (dar.datumAktiv==true)
             {
                 cmd = new MySQLCommand("select * from " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = m_z_id and (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+            }
+            else if (dar.percentAktiv==true)
+            {
+                cmd = new MySQLCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ")", db);
             }
             else
             {
@@ -1921,47 +1958,67 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             }
 
             d = cmd.ExecuteReaderEx();
-
             i = 0;
-
+            dar.LocalStatus.Maximum = xx;
+            
             while (d.Read())
             {
                 User user = new User(d.GetInt32(0), d.GetString(2), d.GetInt32(3));
-
                 enew.Users[i++] = user;
+                dar.LocalStatus.Value++;
             }
 
             ArrayList listEnewUser = new ArrayList();
+            
+            dar.LocalStatus.Value = 0;
 
-            cmd = new MySQLCommand("select * from " + DatabasePrefix + "meta", db);
+
+            cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "meta", db);
             d = cmd.ExecuteReaderEx();
+            d.Read();
+            dar.LocalStatus.Maximum = d.GetInt32(0);
+            
 
             int counter = 0;
-
-            while (d.Read()) //hier werden die meta Daten von jeweiligen Personen zugeteilt
+            dar.Status("Lade Metadaten");
+            cmd = new MySQLCommand("select * from " + DatabasePrefix + "meta", db);
+            d = cmd.ExecuteReaderEx();
+            try
             {
-                User set = null;
-
-                foreach (User u in enew.Users)
+                while (d.Read()) //hier werden die meta Daten von jeweiligen Personen zugeteilt
                 {
-                    if (u.ID == d.GetInt32(0))
-                        set = u;
+                    User set = null;
 
-                    if (set != null)
+                    foreach (User u in enew.Users)
                     {
-                        if (!d.IsDBNull(2))
+                        if (u.ID == d.GetInt32(0))
                         {
-                            set.Start = d.GetInt32(2);
+                            set = u;
                         }
 
-                        if (!d.IsDBNull(3))
+                        if (set != null)
                         {
-                            set.End = d.GetInt32(3);
-                        }
-                    }
-                }//endEnewUsers
+                            if (!d.IsDBNull(2))
+                            {
+                                set.Start = d.GetInt32(2);
+                            }
 
-            }//endRead
+                            if (!d.IsDBNull(3))
+                            {
+                                set.End = d.GetInt32(3);
+                            }
+                        }
+                    }//endEnewUsers
+                    dar.LocalStatus.Value++;
+
+                }//endRead
+            }
+            catch
+            {
+                MessageBox.Show("Meta Download Exception");
+            }
+            dar.LocalStatus.Value=0;
+            dar.Status("Lade Zieldaten");
 
 
 
@@ -1975,8 +2032,32 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             int maxTotal = 0;
 
             i = 0;
+            
+            if (dar.datumAktiv==true && dar.percentAktiv==true)
+            {
+                foreach (TargetData td in dar.ChooseTarget.CheckedItems)
+                {
 
-            if (dar.datumAktiv)
+                    try
+                    {
+                        cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = e_z_id and z_id = m_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+                        d = cmd.ExecuteReaderEx();
+                        d.Read();
+
+                        maxE[i] = d.GetInt32(0);
+                        maxTotal += maxE[i];
+
+                        i++;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.StackTrace);
+                    }
+                }
+
+
+            }
+            else if (dar.datumAktiv==true)
             {
                 foreach (TargetData td in dar.ChooseTarget.CheckedItems)
                 {
@@ -2000,6 +2081,20 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
 
             }
+            else if (dar.percentAktiv==true)
+            {
+                foreach (TargetData td in dar.ChooseTarget.CheckedItems)
+                {
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > " + dar.percentValue + ")", db);
+                    d = cmd.ExecuteReaderEx();
+                    d.Read();
+
+                    maxE[i] = d.GetInt32(0);
+                    maxTotal += maxE[i];
+
+                    i++;
+                }
+            }
             else
             {
 
@@ -2018,7 +2113,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
 
             dar.GlobalStatus.Maximum = maxTotal;
-
+            dar.Status("Ende Zieldaten");
             DateTime Start = DateTime.Now;
 
             int j = 0;
@@ -2053,8 +2148,12 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 }
                 */
 
-                if (dar.datumAktiv)
+                if (dar.datumAktiv && dar.percentAktiv)
+                    cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = e_z_id and z_id = m_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+                else if (dar.datumAktiv)
                     cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = e_z_id and z_id = m_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+                else if (dar.percentAktiv)
+                    cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > " + dar.percentValue + ")", db);
                 else
                     cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > 49)", db);
 
@@ -2179,7 +2278,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             dar.Status("Vorgang abgeschlossen");
             dar.ControlButton.Enabled = true;
             dar.ChooseTarget.Enabled = true;
-
+            
             lastResultUpdate = DateTime.Now;
 
             //resultDataChanged(this);
@@ -2189,6 +2288,11 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             db.Close();
 
             ComputeTargetSplits(this);
+            dar.LocalStatus.Maximum = 10;
+            dar.LocalStatus.Value = 10;
+            dar.GlobalStatus.Maximum = 10;
+            dar.GlobalStatus.Value = 10;
+            dar.Status("Vorgang abgeschlossen");
         }
 
         public void LoadTargetData(MySQLConnection db, umfrage2._2007.Controls.LoadDataControl dar)
@@ -2220,215 +2324,258 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             global = null;
         }
 
+
+
         public void LoadResultData(MySQLConnection db, umfrage2._2007.Controls.LoadDataControl dialog)
         {
-            DateTime Start = DateTime.Now;
-
-            dialog.Status("Zähle Ergebnisse...");
-
-            MySQLCommand cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and (used = '1' or status > 49)", db);
-            MySQLDataReader d = cmd.ExecuteReaderEx();
-
-            d.Read();
-
-            dialog.GlobalStatus.Maximum = d.GetInt32(0);
-
-            dialog.Status("Lade Fragebögen...");
-            cmd = new MySQLCommand("select * from " + DatabasePrefix + "fragebogen", db);
-            d = cmd.ExecuteReaderEx();
-
-            int[] TargetQuestions = new int[Targets.Length];
-
-            int j = 0;
-
-            for (int ti = 0; ti < Targets.Length; ti++)//each (TargetData t in Targets)
+            try
             {
-                dialog.Status("Lade Fragebögen für ..." + Targets[ti].Name);
-                cmd = new MySQLCommand("select * from " + DatabasePrefix + "fragebogen", db);
-                d = cmd.ExecuteReaderEx();
 
-                ArrayList IDs = new ArrayList();
+                DateTime Start = DateTime.Now;
 
-                while (d.Read())
+                dialog.Status("Zähle Ergebnisse...");
+                MySQLCommand cmd;
+
+                if (dar.datumAktiv && dar.percentAktiv)
                 {
-                    if (d.GetString(1) != "" && d.GetString(1).ToLower() != "null")
-                    {
-                        string[] elements = d.GetString(3).Split(';');
-
-                        for (int i = 0; i < elements.Length; i++)
-                        {
-                            if (elements[i].Length > 0)
-                            {
-                                if (elements[i][0] == '#')
-                                {
-                                    //TODO: HEADER
-                                }
-                                else if (elements[i][0] == '@')
-                                {
-                                    // do nothing
-                                }
-                                else
-                                {
-
-                                    MySQLCommand cmd2 = new MySQLCommand("select * from " + DatabasePrefix + "frage where fr_id='" + elements[i] + "' ", db);
-                                    MySQLDataReader d2 = cmd2.ExecuteReaderEx();
-
-                                    if (d2.Read())
-                                    {
-                                        bool add = true;
-                                        foreach (int ii in IDs)
-                                        {
-                                            if (ii == d2.GetInt32(0)) add = false;
-                                        }
-                                        if (add)
-                                        {
-                                            IDs.Add(d2.GetInt32(0));
-                                            TargetQuestions[j]++;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
                 }
-                j++;
-            }
+                else if (dar.datumAktiv)
+                {
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+                }
+                else if (dar.percentAktiv)
+                {
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and (used = '1' or status > " + dar.percentValue + ")", db);
+                }
+                else
+                {
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and (used = '1' or status > 49)", db);
+                }
 
-            //
+                MySQLDataReader d = cmd.ExecuteReaderEx();
 
-            int TargetCounter = 0;
+                d.Read();
 
-            foreach (TargetData target in Targets)
-            {
-                //questions
-                dialog.Status("Lade Fragen für " + target.Name);
+                dialog.GlobalStatus.Maximum = d.GetInt32(0);
 
-
-                dialog.LocalStatus.Value = 0;
-                dialog.LocalStatus.Maximum = TargetQuestions[TargetCounter];
-
-                target.Questions = new Question[TargetQuestions[TargetCounter]];
-
-                int qi = 0;
-
+                dialog.Status("Lade Fragebögen...");
                 cmd = new MySQLCommand("select * from " + DatabasePrefix + "fragebogen", db);
                 d = cmd.ExecuteReaderEx();
 
-                ArrayList IDs = new ArrayList();
+                int[] TargetQuestions = new int[Targets.Length];
 
-                while (d.Read())
+                int j = 0;
+
+                for (int ti = 0; ti < Targets.Length; ti++)//each (TargetData t in Targets)
                 {
-                    if (d.GetString(1) != "" && d.GetString(1).ToLower() != "null")
+                    dialog.Status("Lade Fragebögen für ..." + Targets[ti].Name);
+                    cmd = new MySQLCommand("select * from " + DatabasePrefix + "fragebogen", db);
+                    d = cmd.ExecuteReaderEx();
+
+                    ArrayList IDs = new ArrayList();
+
+                    while (d.Read())
                     {
-                        string[] elements = d.GetString(3).Split(';');
-
-                        Survey s = new Survey();
-                        s.QuestionList = elements;
-                        s.PID = d.GetInt32(2);
-
-                        target.AddSurvey(s);
-
-                        for (int i = 0; i < elements.Length; i++)
+                        if (d.GetString(1) != "" && d.GetString(1).ToLower() != "null")
                         {
-                            if (elements[i].Length > 0)
+                            string[] elements = d.GetString(3).Split(';');
+
+                            for (int i = 0; i < elements.Length; i++)
                             {
-                                if (elements[i][0] == '#')
+                                if (elements[i].Length > 0)
                                 {
-                                    //TODO: HEADER
-                                }
-                                else if (elements[i][0] == '@')
-                                {
-                                    // do nothing
-                                }
-                                else
-                                {
-
-                                    MySQLCommand cmd2 = new MySQLCommand("select * from " + DatabasePrefix + "frage where fr_id='" + elements[i] + "' ", db);
-                                    MySQLDataReader d2 = cmd2.ExecuteReaderEx();
-
-                                    if (d2.Read())
+                                    if (elements[i][0] == '#')
                                     {
-                                        bool add = true;
-                                        foreach (int ii in IDs)
-                                        {
-                                            if (ii == d2.GetInt32(0)) add = false;
-                                        }
-                                        if (add)
-                                        {
-                                            IDs.Add(d2.GetInt32(0));
-                                            target.Questions[qi++] = Question.Create(d2.GetInt32(0), d2.GetString(1), d2.GetString(2), d2.GetString(3), d2.GetString(4), 0);
+                                        //TODO: HEADER
+                                    }
+                                    else if (elements[i][0] == '@')
+                                    {
+                                        // do nothing
+                                    }
+                                    else
+                                    {
 
-                                            dialog.LocalStatus.Value++;
-                                            dialog.GlobalStatus.Value++;
+                                        MySQLCommand cmd2 = new MySQLCommand("select * from " + DatabasePrefix + "frage where fr_id='" + elements[i] + "' ", db);
+                                        MySQLDataReader d2 = cmd2.ExecuteReaderEx();
 
-                                            if (dialog.GlobalStatus.Value % 20 == 0)
+                                        if (d2.Read())
+                                        {
+                                            bool add = true;
+                                            foreach (int ii in IDs)
                                             {
-                                                if (dialog.GlobalStatus.Value > 0)
-                                                {
-                                                    TimeSpan elapsed = DateTime.Now - Start;
-                                                    long ticks = (long)(((double)elapsed.Ticks) / ((double)dialog.GlobalStatus.Value));
-                                                    TimeSpan remaining = new TimeSpan(ticks) - elapsed;
-                                                    dialog.TimeRemainingLabel.Text = remaining.Hours + "h " + remaining.Minutes + "m " + remaining.Seconds + "s ";
-                                                    dialog.TimeElapsedLabel.Text = elapsed.Hours + "h " + elapsed.Minutes + "m " + elapsed.Seconds + "s ";
-                                                }
-                                                dialog.Refresh();
+                                                if (ii == d2.GetInt32(0)) add = false;
+                                            }
+                                            if (add)
+                                            {
+                                                IDs.Add(d2.GetInt32(0));
+                                                TargetQuestions[j]++;
                                             }
                                         }
                                     }
                                 }
                             }
                         }
-
                     }
+                    j++;
                 }
 
-                dialog.LocalStatus.Value = dialog.LocalStatus.Minimum;
+                //
 
-                //results
-                dialog.Status("lade Ergebnisse für " + target.Name);
-                cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > 49)", db);
-                d = cmd.ExecuteReaderEx();
-                d.Read();
+                int TargetCounter = 0;
 
-                dialog.LocalStatus.Maximum = d.GetInt32(0);
-
-                cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > 49)", db);
-                d = cmd.ExecuteReaderEx();
-
-                while (d.Read())
+                foreach (TargetData target in Targets)
                 {
-                    foreach (Question q in target.Questions)
+                    //questions
+                    dialog.Status("Lade Fragen für " + target.Name);
+
+
+                    dialog.LocalStatus.Value = 0;
+                    dialog.LocalStatus.Maximum = TargetQuestions[TargetCounter];
+
+                    target.Questions = new Question[TargetQuestions[TargetCounter]];
+
+                    int qi = 0;
+
+                    cmd = new MySQLCommand("select * from " + DatabasePrefix + "fragebogen", db);
+                    d = cmd.ExecuteReaderEx();
+
+                    ArrayList IDs = new ArrayList();
+
+                    while (d.Read())
                     {
-                        if (q.ID == d.GetInt32(2))
+                        if (d.GetString(1) != "" && d.GetString(1).ToLower() != "null")
                         {
-                            //found question
-                            if (q.Display.Equals("radio"))
-                                q.Results.Add(Result.Create(q.GetAnswerId(d.GetString(3)), d.GetInt32(1)));
-                            else
-                                q.Results.Add(Result.Create(d.GetString(3), d.GetInt32(1)));
-                            break;
+                            string[] elements = d.GetString(3).Split(';');
+
+                            Survey s = new Survey();
+                            s.QuestionList = elements;
+                            s.PID = d.GetInt32(2);
+
+                            target.AddSurvey(s);
+
+                            for (int i = 0; i < elements.Length; i++)
+                            {
+                                if (elements[i].Length > 0)
+                                {
+                                    if (elements[i][0] == '#')
+                                    {
+                                        //TODO: HEADER
+                                    }
+                                    else if (elements[i][0] == '@')
+                                    {
+                                        // do nothing
+                                    }
+                                    else
+                                    {
+
+                                        MySQLCommand cmd2 = new MySQLCommand("select * from " + DatabasePrefix + "frage where fr_id='" + elements[i] + "' ", db);
+                                        MySQLDataReader d2 = cmd2.ExecuteReaderEx();
+
+                                        if (d2.Read())
+                                        {
+                                            bool add = true;
+                                            foreach (int ii in IDs)
+                                            {
+                                                if (ii == d2.GetInt32(0)) add = false;
+                                            }
+                                            if (add)
+                                            {
+                                                IDs.Add(d2.GetInt32(0));
+                                                target.Questions[qi++] = Question.Create(d2.GetInt32(0), d2.GetString(1), d2.GetString(2), d2.GetString(3), d2.GetString(4), 0);
+
+                                                dialog.LocalStatus.Value++;
+                                                dialog.GlobalStatus.Value++;
+
+                                                if (dialog.GlobalStatus.Value % 20 == 0)
+                                                {
+                                                    if (dialog.GlobalStatus.Value > 0)
+                                                    {
+                                                        TimeSpan elapsed = DateTime.Now - Start;
+                                                        long ticks = (long)(((double)elapsed.Ticks) / ((double)dialog.GlobalStatus.Value));
+                                                        TimeSpan remaining = new TimeSpan(ticks) - elapsed;
+                                                        dialog.TimeRemainingLabel.Text = remaining.Hours + "h " + remaining.Minutes + "m " + remaining.Seconds + "s ";
+                                                        dialog.TimeElapsedLabel.Text = elapsed.Hours + "h " + elapsed.Minutes + "m " + elapsed.Seconds + "s ";
+                                                    }
+                                                    dialog.Refresh();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                         }
                     }
 
-                    dialog.LocalStatus.Value++;
-                    dialog.GlobalStatus.Value++;
+                    dialog.LocalStatus.Value = dialog.LocalStatus.Minimum;
 
-                    if (dialog.GlobalStatus.Value % 100 == 0)
+                    //results
+                    dialog.Status("lade Ergebnisse für " + target.Name);
+
+                    if (dar.datumAktiv && dar.percentAktiv)
+                        cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+                    else if (dar.datumAktiv)
+                        cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+                    else if (dar.percentAktiv)
+                        cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > " + dar.percentValue + ")", db);
+                    else
+                        cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > 49)", db);
+
+                    d = cmd.ExecuteReaderEx();
+                    d.Read();
+
+                    dialog.LocalStatus.Maximum = d.GetInt32(0);
+
+                    if (dar.datumAktiv && dar.percentAktiv)
+                        cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+                    else if (dar.datumAktiv)
+                        cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+                    else if (dar.percentAktiv)
+                        cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > " + dar.percentValue + ")", db);
+                    else
+                        cmd = new MySQLCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > 49)", db);
+
+
+                    d = cmd.ExecuteReaderEx();
+
+                    while (d.Read())
                     {
-                        if (dialog.GlobalStatus.Value > 0)
+                        foreach (Question q in target.Questions)
                         {
-                            TimeSpan elapsed = DateTime.Now - Start;
-                            long ticks = (long)(((double)elapsed.Ticks) / ((double)dialog.GlobalStatus.Value));
-                            TimeSpan remaining = new TimeSpan(ticks) - elapsed;
-                            dialog.TimeRemainingLabel.Text = remaining.Hours + "h " + remaining.Minutes + "m " + remaining.Seconds + "s ";
-                            dialog.TimeElapsedLabel.Text = elapsed.Hours + "h " + elapsed.Minutes + "m " + elapsed.Seconds + "s ";
+                            if (q.ID == d.GetInt32(2))
+                            {
+                                //found question
+                                if (q.Display.Equals("radio"))
+                                    q.Results.Add(Result.Create(q.GetAnswerId(d.GetString(3)), d.GetInt32(1)));
+                                else
+                                    q.Results.Add(Result.Create(d.GetString(3), d.GetInt32(1)));
+                                break;
+                            }
                         }
-                        dialog.Refresh();
+
+                        dialog.LocalStatus.Value++;
+                        dialog.GlobalStatus.Value++;
+
+                        if (dialog.GlobalStatus.Value % 100 == 0)
+                        {
+                            if (dialog.GlobalStatus.Value > 0)
+                            {
+                                TimeSpan elapsed = DateTime.Now - Start;
+                                long ticks = (long)(((double)elapsed.Ticks) / ((double)dialog.GlobalStatus.Value));
+                                TimeSpan remaining = new TimeSpan(ticks) - elapsed;
+                                dialog.TimeRemainingLabel.Text = remaining.Hours + "h " + remaining.Minutes + "m " + remaining.Seconds + "s ";
+                                dialog.TimeElapsedLabel.Text = elapsed.Hours + "h " + elapsed.Minutes + "m " + elapsed.Seconds + "s ";
+                            }
+                            dialog.Refresh();
+                        }
                     }
+                    TargetCounter++;
                 }
-                TargetCounter++;
+                global = null;
+            }catch(Exception e){
+                
             }
-            global = null;
 
         }
 
@@ -2487,15 +2634,31 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                 //zugangsdaten
 
+                if (dar.datumAktiv && dar.percentAktiv)
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+                else if (dar.datumAktiv)
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+                else if (dar.percentAktiv)
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ")", db);
+                else
+                    cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
+                    
 
-                cmd = new MySQLCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
                 d = cmd.ExecuteReaderEx();
 
                 d.Read();
 
                 Users = new User[d.GetInt32(0)];
 
-                cmd = new MySQLCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
+                if (dar.datumAktiv && dar.percentAktiv)
+                    cmd = new MySQLCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+                else if (dar.datumAktiv)
+                    cmd = new MySQLCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+                else if (dar.percentAktiv)
+                    cmd = new MySQLCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ")", db);
+                else
+                    cmd = new MySQLCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
+                
                 d = cmd.ExecuteReaderEx();
 
                 i = 0;

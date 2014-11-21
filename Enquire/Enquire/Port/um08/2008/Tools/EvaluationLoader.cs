@@ -266,7 +266,7 @@ namespace umfrage2._2008.Tools
             }//end for*/
 
             EvaluationSaver save = new EvaluationSaver(eval);
-            save.SaveThreadBefore();
+            save.SaveThreadBefore(false, null);
 
             status.InitLabel.Text = "abgeschlossen";
 

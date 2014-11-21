@@ -40,7 +40,10 @@ namespace umfrage2._2007.Controls
             this.panel1 = new System.Windows.Forms.Panel();
             this.GoButton = new System.Windows.Forms.Button();
             this.Personengruppen = new System.Windows.Forms.GroupBox();
+            this.sizeControl = new compucare.Enquire.Legacy.Umfrage2Lib.Controls.SizeControl();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.SkalaBox = new System.Windows.Forms.ComboBox();
+            this.ColorPanel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.ArrowColorButton = new System.Windows.Forms.Button();
             this.DesignButton = new System.Windows.Forms.Button();
@@ -49,9 +52,7 @@ namespace umfrage2._2007.Controls
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.previewBox = new PreviewControl();
-            this.sizeControl = new SizeControl();
-            this.ColorPanel = new System.Windows.Forms.Panel();
+            this.previewBox = new compucare.Enquire.Legacy.Umfrage2Lib.Controls.PreviewControl();
             this.panel1.SuspendLayout();
             this.Personengruppen.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -215,7 +216,7 @@ namespace umfrage2._2007.Controls
             // 
             this.GoButton.BackColor = System.Drawing.Color.White;
             this.GoButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.GoButton.Image = Resources.shell32_dll_I00f6_0409;
+            this.GoButton.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.shell32_dll_I00f6_0409;
             this.GoButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GoButton.Location = new System.Drawing.Point(6, 6);
             this.GoButton.Name = "GoButton";
@@ -236,8 +237,17 @@ namespace umfrage2._2007.Controls
             this.Personengruppen.TabStop = false;
             this.Personengruppen.Text = "Personengruppen";
             // 
+            // sizeControl
+            // 
+            this.sizeControl.BackColor = System.Drawing.Color.Transparent;
+            this.sizeControl.Location = new System.Drawing.Point(6, 278);
+            this.sizeControl.Name = "sizeControl";
+            this.sizeControl.Size = new System.Drawing.Size(118, 57);
+            this.sizeControl.TabIndex = 39;
+            // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.SkalaBox);
             this.groupBox2.Controls.Add(this.ColorPanel);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.ArrowColorButton);
@@ -256,6 +266,33 @@ namespace umfrage2._2007.Controls
             this.groupBox2.TabIndex = 59;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Einstellungen";
+            // 
+            // SkalaBox
+            // 
+            this.SkalaBox.FormattingEnabled = true;
+            this.SkalaBox.Items.AddRange(new object[] {
+            "1-2",
+            "1-3",
+            "1-4",
+            "1-5",
+            "2-3",
+            "2-4",
+            "2-5",
+            "3-4",
+            "3-5",
+            "4-5"});
+            this.SkalaBox.Location = new System.Drawing.Point(258, 97);
+            this.SkalaBox.Name = "SkalaBox";
+            this.SkalaBox.Size = new System.Drawing.Size(76, 21);
+            this.SkalaBox.TabIndex = 61;
+            this.SkalaBox.SelectedIndexChanged += new System.EventHandler(this.SkalaBox_SelectedIndexChanged);
+            // 
+            // ColorPanel
+            // 
+            this.ColorPanel.Location = new System.Drawing.Point(340, 27);
+            this.ColorPanel.Name = "ColorPanel";
+            this.ColorPanel.Size = new System.Drawing.Size(329, 88);
+            this.ColorPanel.TabIndex = 60;
             // 
             // label1
             // 
@@ -282,7 +319,7 @@ namespace umfrage2._2007.Controls
             // 
             this.DesignButton.BackColor = System.Drawing.Color.White;
             this.DesignButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.DesignButton.Image = Resources.shell32_dll_I010e_0409;
+            this.DesignButton.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.shell32_dll_I010e_0409;
             this.DesignButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.DesignButton.Location = new System.Drawing.Point(154, 59);
             this.DesignButton.Name = "DesignButton";
@@ -349,21 +386,6 @@ namespace umfrage2._2007.Controls
             this.previewBox.TabIndex = 54;
             this.previewBox.Load += new System.EventHandler(this.previewBox_Load);
             // 
-            // sizeControl
-            // 
-            this.sizeControl.BackColor = System.Drawing.Color.Transparent;
-            this.sizeControl.Location = new System.Drawing.Point(6, 278);
-            this.sizeControl.Name = "sizeControl";
-            this.sizeControl.Size = new System.Drawing.Size(118, 57);
-            this.sizeControl.TabIndex = 39;
-            // 
-            // ColorPanel
-            // 
-            this.ColorPanel.Location = new System.Drawing.Point(340, 27);
-            this.ColorPanel.Name = "ColorPanel";
-            this.ColorPanel.Size = new System.Drawing.Size(329, 88);
-            this.ColorPanel.TabIndex = 60;
-            // 
             // OutputControl_SplitMatrix
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -419,5 +441,6 @@ namespace umfrage2._2007.Controls
         private System.Windows.Forms.CheckBox InvertBox;
         private System.Windows.Forms.CheckBox InvertLogBox;
         private System.Windows.Forms.Panel ColorPanel;
+        private System.Windows.Forms.ComboBox SkalaBox;
     }
 }

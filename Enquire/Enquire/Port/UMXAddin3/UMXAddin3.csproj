@@ -197,6 +197,7 @@
     <Compile Include="Tests\LinkDataTests.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="UmxOffice\WordManager.cs" />
+    <Compile Include="Xml\Computations\AnswerOfField.cs" />
     <Compile Include="Xml\Computations\Benchmark.cs">
       <SubType>Code</SubType>
     </Compile>

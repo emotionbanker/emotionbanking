@@ -211,5 +211,12 @@ namespace umfrage2._2007.Controls
             UncheckAll();
             RadarButton2.Checked = true;
         }
+
+        private void BarSegmentButton_Click(object sender, EventArgs e)
+        {
+            LoadControl(new OutputControl_Bar_Segment(eval));
+            UncheckAll();
+            BarSegmentButton.Checked = true; 
+        }
     }
 }

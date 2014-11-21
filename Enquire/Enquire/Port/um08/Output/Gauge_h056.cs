@@ -72,7 +72,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         public bool Opposites = false;
         public bool Antwortexte = true;
         public bool Absolutes = false;
-
+        public bool Horizontal = true;
         public bool Marker = false;
 
         public Question[] Questions;
@@ -94,13 +94,13 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         public Boolean UseManualWidth = false;
         public Int32 ManualWidth = 100;
 
+
         private float DrawAreaWidth
         {
             get
             {
-                return (width - GridOffXLeft - GridOffXRight);
-                /*if (!Horizontal) return (width - GridOffXLeft - GridOffXRight);
-                else return (height - GridOffYTop - GridOffYBottom);*/
+                if (!Horizontal) return (width - GridOffXLeft - GridOffXRight);
+                else return (height - GridOffYTop - GridOffYBottom);
             }
         }
 
@@ -108,9 +108,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         {
             get
             {
-                return (height - GridOffYTop - GridOffYBottom);
-                /*if (!Horizontal) return (height - GridOffYTop - GridOffYBottom);
-                else return (width - GridOffXLeft - GridOffXRight);*/
+                if (!Horizontal) return (height - GridOffYTop - GridOffYBottom);
+                else return (width - GridOffXLeft - GridOffXRight);
             }
         }
 
@@ -128,11 +127,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         {
             get
             {
-                if (!Percent)
-                    return (DrawAreaWidth / (MaxVal - MinVal));
-                else
-                    return ((DrawAreaWidth + 2 * GaugeOffset) / 100);
-                /*if (!Horizontal)
+                if (!Horizontal)
                 {
                     if (!Percent)
                         return (DrawAreaWidth / (MaxVal - MinVal));
@@ -145,37 +140,28 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                         return (DrawAreaHeight / (MaxVal - MinVal));
                     else
                         return ((DrawAreaHeight + 2 * GaugeOffset) / 100);
-                }*/
+                }
             }
         }
 
+
+
         private float GridX
         {
-            get { return (GridOffXLeft); // if (!Horizontal) return (GridOffXLeft); else return 30;
-            }
+            get { if (!Horizontal) return (GridOffXLeft); else return 30; }
         }
 
         private float GridY
         {
-            get
-            {
-                return (GridOffYTop); //if (!Horizontal) return (GridOffYTop); else return GridX; 
-            }
+            get { if (!Horizontal) return (GridOffYTop); else return GridX; }
         }
 
         private float GridOffXLeft
         {
             get
             {
-                if (text)
-                {
-                    return width / 3;
-
-                }
+                if (!Horizontal && text) return width / 3;
                 else return 10;
-
-                /*if (!Horizontal && text) return width / 3;
-                else return 10;*/
             }
         }
 
@@ -183,11 +169,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         {
             get
             {
-                if (text) return width / 3;
+                if (Horizontal && text) return width / 3;
                 else return gridOffXRight;
-
-                /*if (Horizontal && text) return width / 3;
-                else return gridOffXRight;*/
             }
             set
             {
@@ -195,30 +178,329 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             }
         }
 
+        #region SET & GET
+
+        public GaugeTypeh056 GetType()
+        {
+            return this.Type;
+        }
+
+        public void SetType(GaugeTypeh056 type)
+        {
+            this.Type = type;
+        }
+
+        public bool GetText()
+        {
+            return this.Text;
+        }
+
+        public void SetText(bool Text2)
+        {
+            this.Text = Text2;
+        }
+
+        public bool GetShowText()
+        {
+            return this.ShowText;
+        }
+
+        public void SetShowText(bool ShowText2)
+        {
+            this.ShowText = ShowText2;
+        }
+
+        public bool GetInvert()
+        {
+            return this.invert;
+        }
+
+        public void SetInvert(bool invert2)
+        {
+            this.invert = invert2;
+        }
+
+        public bool GetPercent()
+        {
+            return this.Percent;
+        }
+
+        public void SetPercent(bool percent)
+        {
+            this.Percent = percent;
+        }
+
+        public bool GetHorizontal()
+        {
+            return this.Horizontal;
+        }
+
+        public void SetHorizontal(bool horizontal)
+        {
+            this.Horizontal = horizontal;
+        }
+
+        public bool GetOpposites()
+        {
+            return this.Opposites;
+        }
+
+        public void SetOpposites(bool opposites)
+        {
+            this.Opposites = opposites;
+        }
+
+        public bool GetAbsolutes()
+        {
+            return this.Absolutes;
+        }
+
+        public void SetAbsolutes(bool absolutes)
+        {
+            this.Absolutes = absolutes;
+        }
+
+        public bool GetBase()
+        {
+            return this.Base;
+        }
+
+        public void SetBase(bool base2)
+        {
+            this.Base = base2;
+        }
+
+        public Question GetBaseQ()
+        {
+            return this.BaseQ;
+        }
+
+        public void SetBaseQ(Question baseq2)
+        {
+            this.BaseQ = baseq2;
+        }
+
+        public bool GetUseManualWidth()
+        {
+            return this.UseManualWidth;
+        }
+
+        public void SetUseManualWidth(bool useManualWidth)
+        {
+            this.UseManualWidth = useManualWidth;
+        }
+
+        public int GetManualWidth()
+        {
+            return this.ManualWidth;
+        }
+
+        public void SetManualWidth(int manualWidth)
+        {
+            this.ManualWidth = manualWidth;
+        }
+
+        public float GetMaxVal()
+        {
+            return this.MinVal;
+        }
+
+        public void SetMaxVal(float maxval)
+        {
+            this.MaxVal = maxval;
+        }
+
+        public float GetMinVal()
+        {
+            return this.MaxVal;
+        }
+
+        public void SetMinVal(float minval)
+        {
+            this.MinVal = minval;
+        }
+
+        public float GetSteps()
+        {
+            return this.Steps;
+        }
+
+        public void SetSteps(float steps)
+        {
+            this.Steps = steps;
+        }
+
+        public float GetGaugeOffSet()
+        {
+            return this.GaugeOffset;
+        }
+
+        public void SetGaugeOffSet(float gaugeOffset)
+        {
+            this.GaugeOffset = gaugeOffset;
+        }
+
+        public float GetGaugeHeight()
+        {
+            return this.GaugeHeight;
+        }
+
+        public void SetGaugeHeight(float gaugeHeight)
+        {
+            this.GaugeHeight = gaugeHeight;
+        }
+
+        public float GetGridOffXRight()
+        {
+            return this.gridOffXRight;
+        }
+
+        public void SetGridOffXRight(float gridOffXRight2)
+        {
+            this.gridOffXRight = gridOffXRight2;
+        }
+
+        public float GetGridOffYTop()
+        {
+            return this.GridOffYTop;
+        }
+
+        public void SetGridOffYTop(float gridOffYTop)
+        {
+            this.GridOffYTop = gridOffYTop;
+        }
+
+        public float GetGridOffYBottom()
+        {
+            return this.GridOffYBottom;
+        }
+
+        public void SetGridOffYBottom(float gridOffYBottom)
+        {
+            this.GridOffYBottom = gridOffYBottom;
+        }
+
+        public Font GetTxt()
+        {
+            return this.Txt;
+        }
+
+        public void SetTxt(Font txt)
+        {
+            this.Txt = txt;
+        }
+
+        public Color GetBackColor()
+        {
+            return this.BackColor;
+        }
+
+        public void SetBackColor(Color backColor)
+        {
+            this.BackColor = backColor;
+        }
+
+        public int GetDesign()
+        {
+            return this.Design;
+        }
+
+        public void SetDesign(int design)
+        {
+            this.Design = design;
+        }
+
+        public DNCSettings GetDNC()
+        {
+            return this.dnc;
+        }
+
+        public void SetDNC(DNCSettings dnc2)
+        {
+            this.dnc = dnc2;
+        }
+
+        public Question[] GetQuestionList()
+        {
+            return Questions;
+        }
+
+        public void SetQuestionList(Question[] question)
+        {
+            this.Questions = question;
+        }
+
+        public SortOrder GetSort()
+        {
+            return this.sort;
+        }
+
+        public void SetSort(SortOrder sort2)
+        {
+            this.sort = sort2;
+        }
+
+        public StringCollection GetHideAnswers()
+        {
+            return this.HideAnswers;
+        }
+
+        public void SetHideAnswers(StringCollection HideAnswers2)
+        {
+            this.HideAnswers = HideAnswers2;
+        }
+
+        public List<String> GetAnswerOrder()
+        {
+            return this.AnswerOrder;
+        }
+
+        public void SetAnswerOrder(List<String> AnswerOrder2)
+        {
+            this.AnswerOrder = AnswerOrder2;
+        }
+
+        public Hashtable GetPersonGroups()
+        {
+            return this.PersonGroups;
+        }
+
+        public void SetPersonGroups(Hashtable PersonGroups2)
+        {
+            this.PersonGroups = PersonGroups2;
+        }
+
+
         public int getPercentValue()
         {
-           return this.PercentValue;
+            return this.PercentValue;
         }
 
         public float getMaxYValue()
         {
             return this.MaxYValue;
         }
+        #endregion
+        
 
         public Gauge_h056(Evaluation eval)
 		{
             this.eval = eval;
 			MinVal = 1;
 			MaxVal = 5;
-            MaxYValue = 1;
-			Steps = 8;
+            Steps = 8;
+          
+			
             manuelHeight = false;
             manuelHeightValue = 0;
+            MaxYValue = 1;
+
 			GaugeOffset = 8;
 			GaugeHeight = 30;
             PercentValue = 1;
             answerList = new Hashtable();
             Antwortexte = true;
+
 			GridOffXRight  = 40 + GaugeOffset;
 			GridOffYTop    = 20;
 			GridOffYBottom = 30;
@@ -522,7 +804,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 								new PointF(GridX+DrawAreaWidth, GridY+DrawAreaHeight-GaugeOffset)},
                 FillMode.Alternate);
 
-
             //nummerierung
             Console.WriteLine("StepNum = " + StepNum);
             Console.WriteLine("Steps = " + Steps);
@@ -545,12 +826,12 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 SizeF size = g.MeasureString(numstring, Num);
                 float offset = (size.Width / 2);
 
-                //if (!Horizontal)
-                //{
+                if (!Horizontal)
+                {
                     Console.WriteLine(numstring + ": " + (GridX + GaugeOffset + i * Step - offset) + "/" + (GridY + DrawAreaHeight));
                     g.DrawString(numstring, Num, Black, GridX + GaugeOffset + i * Step - offset, GridY + DrawAreaHeight);
                     g.DrawLine(Grid, GridX + GaugeOffset + i * Step, GridY - GaugeOffset, GridX + GaugeOffset + i * Step, GridY + DrawAreaHeight - GaugeOffset);
-                /*}
+                }
                 else
                 {
                     if (!Percent)
@@ -571,7 +852,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
                     g.DrawString(numstring, Num, Black, 0, GridX - GaugeOffset + i * s);
                     g.DrawLine(Grid, GridY + GaugeOffset, GridX - GaugeOffset + i * s, GridY + DrawAreaWidth + GaugeOffset, GridX - GaugeOffset + i * s);
-                }*/
+                }
             }
 
             //grid
@@ -582,7 +863,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             //corner lines
 
             g.DrawLine(Border, GridX, GridY, GridX + GaugeOffset, GridY - GaugeOffset);
-            //g.DrawLine(Border, GridX + DrawAreaWidth, GridY, GridX + DrawAreaWidth + GaugeOffset, GridY - GaugeOffset);
+            //g.DrawLine(Border, GridX + DrawAreaWidth, GridY, GridX + DrawAreaWidth + BarOffset, GridY - BarOffset);
             g.DrawLine(Border, GridX, GridY + DrawAreaHeight, GridX + GaugeOffset, GridY + DrawAreaHeight - GaugeOffset);
             g.DrawLine(Border, GridX + DrawAreaWidth, GridY + DrawAreaHeight, GridX + GaugeOffset + DrawAreaWidth, GridY + DrawAreaHeight - GaugeOffset);
         }
@@ -601,6 +882,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         private void DrawGauge(float val, float y, Color c1, Color c2, Graphics g)
         {
             DrawGauge(val, y, GaugeHeight, c1, c2, g, "");
+           
         }
 
         private void DrawGauge(float val, float y, Color c1, Color c2, Graphics g, string text)
@@ -641,10 +923,10 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
             if (val2 != 0 && val != 0)
             {
-                //if (!Horizontal)
-                    GraphicTools.Gauge3d(GridX, GridY + y, (val2 - MinVal) * Val, hei, 0, GaugeOffset, c1, c2, g, true);
-                //else
-                    //GraphicTools.Gauge3d(GridX + y, GridY + DrawAreaHeight - ((val2 - MinVal) * Val), hei, (val2 - MinVal) * Val, 0, GaugeOffset, c1, c2, g, true);
+                if (!Horizontal)
+                    GraphicTools.Bar3d(GridX, GridY + y, (val2 - MinVal) * Val, hei, 0, GaugeOffset, c1, c2, g, true);
+                else
+                    GraphicTools.Bar3d(GridX + y, GridY + DrawAreaHeight - ((val2 - MinVal) * Val), hei, (val2 - MinVal) * Val, 0, GaugeOffset, c1, c2, g, true);
             }
 
             string numstring;
@@ -667,8 +949,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 float p = (val2 - MinVal) * Val - offset;
                 if (p < (nsize.Width + 5)) p = nsize.Width + 5;
 
-                /*if (!Horizontal)
-                {*/
+                if (!Horizontal)
+                {
                     if (!Percent)
                         g.DrawString(numstring, Num, Black, GridX + (val2 - MinVal) * Val - offset, y + GridY + 5);
                     else
@@ -676,7 +958,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                         g.DrawString(text, Num, Black, GridX, y + GridY);
                         g.DrawString(numstring, Num, Black, GridX + p, y + GridY);
                     }
-                /*}
+                }
                 else
                 {
                     if (!Percent)
@@ -691,11 +973,10 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                         g.DrawString(text, Num, Black, 0, 0, drawFormat);
                         g.ResetTransform();
 
-                        g.DrawString(numstring, Num, Black, y + GridY, GridX + (DrawAreaHeight -/*(val2-MinVal)*Val
-                    p - size.Height - GaugeOffset));
+                        g.DrawString(numstring, Num, Black, y + GridY, GridX + (DrawAreaHeight -/*(val2-MinVal)*Val*/p - size.Height - GaugeOffset));
                     }
 
-                }//end else*/
+                }
             }
 
 
@@ -704,8 +985,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
         private void DrawText(string text, float y, Graphics g)
         {
-            //if (!Horizontal)
-            //{
+            if (!Horizontal)
+            {
                 SolidBrush Black = new SolidBrush(Color.Black);
                 //text
 
@@ -713,8 +994,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 SizeF size = g.MeasureString(text, Txt);
 
                 g.DrawString(text, Txt, Black, 0 /*GridX-size.Width-5*/, y + GridY);
-            //}
-            /*else
+            }
+            else
             {
                 SolidBrush Black = new SolidBrush(Color.Black);
                 StringFormat drawFormat = new StringFormat(StringFormatFlags.DirectionRightToLeft | StringFormatFlags.DirectionVertical);
@@ -729,9 +1010,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 m.Rotate(180f, MatrixOrder.Append); // or m.RotateAt
                 m.Translate(y + GridY, width, MatrixOrder.Append);
                 g.Transform = m;
-                g.DrawString(text, Txt, Black, 0, 0, drawFormat/*GridX-size.Width-5);
+                g.DrawString(text, Txt, Black, 0, 0, drawFormat/*GridX-size.Width-5*/ );
                 g.ResetTransform();
-            }*/
+            }
         }
       
 
@@ -769,6 +1050,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
         public void Compute07()
         {
+           
+            
             MaxYValue = 0;
             
             if (width < 1) width = 500;
@@ -778,7 +1061,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
 
             Chart bc = new Chart();
-            
+           
 
             dnc.Apply(bc);
 
@@ -787,6 +1070,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             if (GEffekt == GaugeEffekt.Style1) bc.ShadingEffectMode = ShadingEffectMode.Three;
             else if (GEffekt == GaugeEffekt.Style2) bc.ShadingEffectMode = ShadingEffectMode.Four;
             else bc.ShadingEffectMode = ShadingEffectMode.Three;
+
+            if (!Horizontal) bc.Type = ChartType.ComboHorizontal;
+            else bc.Type = ChartType.Combo;
 
             if (Marker == true)
             {
@@ -810,16 +1096,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
 
             }
-           
-
-
-            /*if (!Horizontal)
-                 bc.Series.Type = GaugeType.Vertical;
-            else bc.DefaultSeries = GaugeType.Horizontal;*/
-            //bc.Type = ChartType.Gauges;
-            //bc.DefaultSeries.GaugeType = GaugeType.Vertical;
-            //bc.DefaultSeries.GaugeLinearStyle = GaugeLinearStyle.Thermometer;
-            bc.DefaultSeries.Background.Color = Color.White;
+          
            
             
             bc.Width = width;
@@ -923,8 +1200,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             {
                 Hashtable series = new Hashtable();
                 bc.XAxis.Scale = Scale.Stacked;
-                /*if (!Horizontal) bc.XAxis.Scale = Scale.Stacked;
-                else bc.YAxis.Scale = Scale.Stacked;*/
+                if (!Horizontal) bc.XAxis.Scale = Scale.Stacked;
+                else bc.YAxis.Scale = Scale.Stacked;
 
                 if (!Percent)
                 {
@@ -1144,10 +1421,11 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             bc.SeriesCollection.Add(sc);
 
             bc.YAxis.TickLabelMode = TickLabelMode.Wrapped;
-            if (!ShowText) bc.YAxis.ClearValues = true;
-            //if (!ShowText && Horizontal) bc.XAxis.ClearValues = true;
-            //if (!ShowText && !Horizontal) bc.YAxis.ClearValues = true;
-            //if (!ShowText && Horizontal) bc.XAxis.ClearValues = true;
+            if (!ShowText && !Horizontal) bc.YAxis.ClearValues = true;
+            if (!ShowText && Horizontal) bc.XAxis.ClearValues = true;
+
+            //if (invert && !Horizontal) bc.XAxis.InvertScale = true;
+            //if (invert && Horizontal) bc.YAxis.InvertScale = true;
             
             bc.LegendBox.DefaultEntry.Value = "";
 
@@ -1183,8 +1461,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 }
             }
 
-            
-            if (!Percent) { bc.XAxis.Maximum = 5; bc.XAxis.Minimum = 1; }
+
+            if (!Percent && Horizontal) { bc.YAxis.Maximum = 5; bc.YAxis.Minimum = 1; }
+            if (!Percent && !Horizontal) { bc.XAxis.Maximum = 5; bc.XAxis.Minimum = 1; }
 
             int adder = (int)maxPcnt;
             adder += 6;
@@ -1229,6 +1508,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
            
         }
+
+        
+
+        string getHTMLColor(Color c)
+        {
+            return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
+        }
+
 
         void bc_Paint(object sender, PaintEventArgs e)
         {

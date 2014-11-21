@@ -68,6 +68,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
         public bool Invert;
         public bool InvertLog;
+        public string Skala;
+        public int SkalaX;
+        public int SkalaY;
 
         public SplitMatrix(Evaluation eval)
         {
@@ -88,6 +91,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             InvertLog = false;
 
             width = height = 500;
+            SkalaX = 1;
+            SkalaY = 5;
         }
 
 
@@ -131,6 +136,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             info.AddValue("ArrowColor", ArrowColor);
             info.AddValue("Invert", Invert);
             info.AddValue("InvertLog", InvertLog);
+            info.AddValue("Skala",this.Skala);
         }
 
         public SplitMatrix(SerializationInfo info, StreamingContext ctxt)
@@ -660,7 +666,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
             SeriesCollection sc = new SeriesCollection();
 
-
             int numr = 1;
 
             foreach (TargetData td in seval.CombinedTargets)
@@ -741,7 +746,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             if (InvertLog) bc.XAxis.InvertScale = bc.YAxis.InvertScale = Invert;
             else bc.XAxis.InvertScale = bc.YAxis.InvertScale = !Invert;
 
-            bc.XAxis.Maximum = bc.YAxis.Maximum = 5;
+            bc.XAxis.Maximum = bc.YAxis.Maximum = 3;
             bc.XAxis.Minimum = bc.YAxis.Minimum = 1;
 
             bc.LegendBox.Visible = dnc.ShowLegend; // false;
