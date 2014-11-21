@@ -1,58 +1,55 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using Compucare.Enquire.Common.Tools.Logging;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using compucare.Enquire.Legacy.Umfrage2Lib.Output;
 using compucare.Enquire.Legacy.Umfrage2Lib.System;
+using Compucare.Enquire.Common.Tools.Logging;
 using Compucare.Enquire.Legacy.UMXAddin3.ControlForms;
 using Compucare.Enquire.Legacy.UMXAddin3.Enquire;
 using Compucare.Enquire.Legacy.UMXAddin3.Xml;
 using Compucare.Frontends.Common.Command;
-using System;
-using System.Runtime.InteropServices;
-using System.Reflection;
-using System.Windows.Forms;
-using log4net;
 using Microsoft.Office.Core;
-using Microsoft.Office.Interop;
-using Microsoft.Office;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
 
 namespace Compucare.Enquire.Legacy.UMXAddin3
 {
     public enum AppType { Word, PowerPoint }
 
-	#region Read me for Add-in installation and setup information.
-	// When run, the Add-in wizard prepared the registry for the Add-in.
-	// At a later time, if the Add-in becomes unavailable for reasons such as:
-	//   1) You moved this project to a computer other than which is was originally created on.
-	//   2) You chose 'Yes' when presented with a message asking if you wish to remove the Add-in.
-	//   3) Registry corruption.
-	// you will need to re-register the Add-in by building the UMXAddin3Setup project, 
-	// right click the project in the Solution Explorer, then choose install.
-	#endregion
-	
-	/// <summary>
-	///   The object for implementing an Add-in.
-	/// </summary>
-	/// <seealso class='IDTExtensibility2' />
+    #region Read me for Add-in installation and setup information.
+    // When run, the Add-in wizard prepared the registry for the Add-in.
+    // At a later time, if the Add-in becomes unavailable for reasons such as:
+    //   1) You moved this project to a computer other than which is was originally created on.
+    //   2) You chose 'Yes' when presented with a message asking if you wish to remove the Add-in.
+    //   3) Registry corruption.
+    // you will need to re-register the Add-in by building the UMXAddin3Setup project, 
+    // right click the project in the Solution Explorer, then choose install.
+    #endregion
+
+    /// <summary>
+    ///   The object for implementing an Add-in.
+    /// </summary>
+    /// <seealso class='IDTExtensibility2' />
     [GuidAttribute("D17FC01C-70C2-48DE-AEF1-4DB366BE6737"), ProgId("EnquireAddin.Connect")]
-	public class Connect : Object, Extensibility.IDTExtensibility2
-	{
+    public class Connect : Object, Extensibility.IDTExtensibility2
+    {
+        private Microsoft.Office.Interop.Word.Application _wordApp;
+        private Microsoft.Office.Interop.PowerPoint.Application _pptApp;
 
-        Microsoft.Office.Interop.Word.Application wordApp;
-        Microsoft.Office.Interop.PowerPoint.Application pptApp;
+        private CommandBarButton _settingsButton;
+        private CommandBarButton _insertButton;
+        private CommandBarButton _propButton;
+        private CommandBarButton _editButton;
+        private CommandBar _toolBar;
 
-        Microsoft.Office.Core.CommandBarButton settingsButton;
-        Microsoft.Office.Core.CommandBarButton insertButton;
-        Microsoft.Office.Core.CommandBarButton propButton;
-        Microsoft.Office.Core.CommandBarButton editButton;
+        private object _applicationObject;
+        private object _addInInstance;
 
-
-        Microsoft.Office.Core.CommandBar toolBar;
-
-	    public event CommonEventHandler<Boolean> EvalChanged;
+        public event CommonEventHandler<Boolean> EvalChanged;
 
         public Evaluation eval;
 
@@ -63,22 +60,26 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         {
             get
             {
-                if (wordApp != null) return AppType.Word;
-                else return AppType.PowerPoint;
+                if (_wordApp != null)
+                {
+                    return AppType.Word;
+                }
+
+                return AppType.PowerPoint;
             }
         }
 
-		/// <summary>
-		///		Implements the constructor for the Add-in object.
-		///		Place your initialization code within this method.
-		/// </summary>
-		public Connect()
-		{
+        /// <summary>
+        ///		Implements the constructor for the Add-in object.
+        ///		Place your initialization code within this method.
+        /// </summary>
+        public Connect()
+        {
             Application.EnableVisualStyles();
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-		}
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+        }
 
-        static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             Assembly ayResult = null;
             string sShortAssemblyName = args.Name.Split(',')[0];
@@ -94,132 +95,649 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             return ayResult;
         }
 
-		/// <summary>
-		///      Implements the OnConnection method of the IDTExtensibility2 interface.
-		///      Receives notification that the Add-in is being loaded.
-		/// </summary>
-		/// <param term='application'>
-		///      Root object of the host application.
-		/// </param>
-		/// <param term='connectMode'>
-		///      Describes how the Add-in is being loaded.
-		/// </param>
-		/// <param term='addInInst'>
-		///      Object representing this Add-in.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnConnection(object application, Extensibility.ext_ConnectMode connectMode, object addInInst, ref System.Array custom)
-		{
-			applicationObject = application;
-			addInInstance = addInInst;
+        /// <summary>
+        ///      Implements the OnConnection method of the IDTExtensibility2 interface.
+        ///      Receives notification that the Add-in is being loaded.
+        /// </summary>
+        /// <param name='application'>
+        ///      Root object of the host application.
+        /// </param>
+        /// <param name='connectMode'>
+        ///      Describes how the Add-in is being loaded.
+        /// </param>
+        /// <param name='addInInst'>
+        ///      Object representing this Add-in.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnConnection(object application, Extensibility.ext_ConnectMode connectMode, object addInInst, ref Array custom)
+        {
+            _applicationObject = application;
+            _addInInstance = addInInst;
 
-            toolBar = null;
+            _toolBar = null;
 
             if (application is Microsoft.Office.Interop.Word.Application)
             {
-                wordApp = (Microsoft.Office.Interop.Word.Application)application;
-                pptApp = null;
-               
-                toolBar = AddWordToolbar(wordApp, "UMXAddin3");
+                _wordApp = (Microsoft.Office.Interop.Word.Application)application;
+                _pptApp = null;
 
-                wordApp.DocumentOpen += new Microsoft.Office.Interop.Word.ApplicationEvents4_DocumentOpenEventHandler(wordapp_DocumentOpen);
-                wordApp.DocumentBeforeSave += new Microsoft.Office.Interop.Word.ApplicationEvents4_DocumentBeforeSaveEventHandler(wordapp_DocumentBeforeSave);
+                _toolBar = AddWordToolbar(_wordApp, "UMXAddin3");
+
+                _wordApp.DocumentOpen += wordapp_DocumentOpen;
+                _wordApp.DocumentBeforeSave += wordapp_DocumentBeforeSave;
 
             }
             else if (application is Microsoft.Office.Interop.PowerPoint.Application)
             {
-                pptApp = (Microsoft.Office.Interop.PowerPoint.Application)application;
-                wordApp = null;
+                _pptApp = (Microsoft.Office.Interop.PowerPoint.Application)application;
+                _wordApp = null;
 
 
-                toolBar = AddPPtToolbar(pptApp, "UMXAddin3");
+                _toolBar = AddPPtToolbar(_pptApp, "UMXAddin3");
 
-                pptApp.PresentationOpen += new Microsoft.Office.Interop.PowerPoint.EApplication_PresentationOpenEventHandler(pptApp_PresentationOpen);
-                pptApp.PresentationBeforeSave += new Microsoft.Office.Interop.PowerPoint.EApplication_PresentationBeforeSaveEventHandler(pptApp_PresentationBeforeSave);
+                _pptApp.PresentationOpen += pptApp_PresentationOpen;
+                _pptApp.PresentationBeforeSave += pptApp_PresentationBeforeSave;
 
-                propButton = AddButton(toolBar, "Eigenschaften", 25, new _CommandBarButtonEvents_ClickEventHandler(propButton_Click));
+                _propButton = AddButton(_toolBar, "Eigenschaften", 25, propButton_Click);
             }
 
-           
-
-
-            settingsButton = AddButton(toolBar, "Einstellungen", 16, new Microsoft.Office.Core._CommandBarButtonEvents_ClickEventHandler(settingsButton_Click));
-            insertButton = AddButton(toolBar, "Einfügen", 17, new Microsoft.Office.Core._CommandBarButtonEvents_ClickEventHandler(insertButton_Click));
-            editButton = AddButton(toolBar, "Bearbeiten", 162, new _CommandBarButtonEvents_ClickEventHandler(editButton_Click));
-		}
-
-        void pptApp_PresentationOpen(Microsoft.Office.Interop.PowerPoint.Presentation Pres)
-        {
-            //ProcessDocument(false);
+            _settingsButton = AddButton(_toolBar, "Einstellungen", 16, settingsButton_Click);
+            _insertButton = AddButton(_toolBar, "Einfügen", 17, insertButton_Click);
+            _editButton = AddButton(_toolBar, "Bearbeiten", 162, editButton_Click);
         }
 
-        void pptApp_PresentationBeforeSave(Microsoft.Office.Interop.PowerPoint.Presentation Pres, ref bool Cancel)
+        /// <summary>
+        ///     Implements the OnDisconnection method of the IDTExtensibility2 interface.
+        ///     Receives notification that the Add-in is being unloaded.
+        /// </summary>
+        /// <param name='disconnectMode'>
+        ///      Describes how the Add-in is being unloaded.
+        /// </param>
+        /// <param name='custom'>
+        ///      Array of parameters that are host application specific.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnDisconnection(Extensibility.ext_DisconnectMode disconnectMode, ref Array custom)
         {
-            //TODO
         }
 
-        void wordapp_DocumentOpen(Microsoft.Office.Interop.Word.Document Doc)
+        /// <summary>
+        ///      Implements the OnAddInsUpdate method of the IDTExtensibility2 interface.
+        ///      Receives notification that the collection of Add-ins has changed.
+        /// </summary>
+        /// <param name='custom'>
+        ///      Array of parameters that are host application specific.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnAddInsUpdate(ref Array custom)
         {
-            /*
+        }
+
+        /// <summary>
+        ///      Implements the OnStartupComplete method of the IDTExtensibility2 interface.
+        ///      Receives notification that the host application has completed loading.
+        /// </summary>
+        /// <param name='custom'>
+        ///      Array of parameters that are host application specific.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnStartupComplete(ref Array custom)
+        {
+
+        }
+
+        /// <summary>
+        ///      Implements the OnBeginShutdown method of the IDTExtensibility2 interface.
+        ///      Receives notification that the host application is being unloaded.
+        /// </summary>
+        /// <param name='custom'>
+        ///      Array of parameters that are host application specific.
+        /// </param>
+        /// <seealso class='IDTExtensibility2' />
+        public void OnBeginShutdown(ref Array custom)
+        {
+        }
+
+        public void OpenSettingsDialog()
+        {
+            OpenSettingsDialog(false);
+        }
+
+        public void OpenSettingsDialog(bool fileopen)
+        {
+            UMSettingsForm sf = null;
+
+            if (AType == AppType.PowerPoint)
+            {
+                sf = new UMSettingsForm(eval, multiEvals, multiTargets, _pptApp.ActivePresentation);
+            }
+            else if (AType == AppType.Word)
+            {
+                sf = new UMSettingsForm(eval, multiEvals, multiTargets, GetDocument());
+            }
+
+            if (sf != null && sf.ShowDialogInternal(fileopen) == DialogResult.Retry)
+            {
+                ProcessDocument(true);
+            }
+            eval = sf.eval;
+            EventHelper.Fire(EvalChanged, eval != null);
+            multiEvals = sf.multiEvals;
+            multiTargets = sf.multiTargets;
+        }
+
+        public Microsoft.Office.Interop.Word.Document GetDocument()
+        {
             try
             {
-                ProcessDocument(false);
+                Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
+                Microsoft.Office.Interop.Word.Document doc = wordapp.ActiveDocument;
+                return doc;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Microsoft.Office.Interop.PowerPoint.Presentation GetDocument1()
+        {
+            try
+            {
+                Microsoft.Office.Interop.PowerPoint.Application ppapp = (Microsoft.Office.Interop.PowerPoint.Application)_applicationObject;
+                Microsoft.Office.Interop.PowerPoint.Presentation doc = ppapp.ActivePresentation;
+                return doc;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public void ProcessDocument(bool tf)
+        {
+            DateTime start = DateTime.Now;
+
+            if (AType == AppType.PowerPoint)
+            {
+                ProcessPresentation(_pptApp.ActivePresentation, tf);
+            }
+            else if (AType == AppType.Word)
+            {
+                Microsoft.Office.Interop.Word.Document doc = GetDocument();
+
+                if (doc != null) ProcessDocument(doc, tf);
+            }
+            MessageBox.Show("Finished processing in " + (DateTime.Now - start).TotalMilliseconds + "ms");
+        }
+
+        public TargetData GetTarget()
+        {
+            TargetData tdr = null;
+
+            string name = null;
+
+
+            if (AType == AppType.PowerPoint)
+                name = Tools.GetPPtDocumentPropertyValue(_pptApp.ActivePresentation, "umo:target");
+            else if (AType == AppType.Word)
+                name = (string)Tools.GetWordDocumentPropertyValue(GetDocument(), "umo:target");
+
+            foreach (TargetData td in eval.CombinedTargets)
+            {
+                td.IncludedChanged += new IncludedChangedEventHandler(td_IncludedChanged);
+                if (name != null && name.Equals(td.Name)) { tdr = td; td.Included = true; }
+                else td.Included = false;
+
+                //gt += td.name + "\t\t" + td.Included + "\r\n";
+            }
+
+            //MessageBox.Show(gt);
+
+            return tdr;
+        }
+
+        public void AddTable(List<List<String>> table, int maxCols)
+        {
+            if (AType == AppType.PowerPoint)
+            {
+                
+            }
+            else if (AType == AppType.Word)
+            {
+                Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
+                Microsoft.Office.Interop.Word.Document doc = GetDocument();
+                object missing = null;
+                
+                Microsoft.Office.Interop.Word.Table wTable = doc.Tables.Add(wordapp.Selection.Range, 
+                   table.Count, maxCols, ref missing, ref missing);
+
+                wTable.Borders.Enable = 1;
+                wTable.Borders.OutsideColor = Microsoft.Office.Interop.Word.WdColor.wdColorGray60;
+
+                for (int i = 0; i < table.Count; i++) //rows
+                {
+                    int j = 0;
+                    foreach (String xml in table[i]) //columns
+                    {
+                        object direction = Microsoft.Office.Interop.Word.WdCollapseDirection.wdCollapseStart;
+                        object fieldType = Microsoft.Office.Interop.Word.WdFieldType.wdFieldAddin;
+
+                        Microsoft.Office.Interop.Word.Range range = wTable.Range.Rows[i + 1].Cells[j + 1].Range;
+                        range.Collapse(ref direction);
+
+                        range.Select();
+
+                        AddField(FieldHelper.CreateCode("xmlText", xml, GetDocument(), "", ""));
+
+                        j++;
+                    }
+                }
+            }
+        }
+
+        public void OpenPropertiesDialog()
+        {
+            try
+            {
+                if (_pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"].Equals("table") || (_pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"].IndexOf("ADDIN") != -1))
+                {
+                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"];
+
+                    string d = string.Empty;
+
+                    string[] master = (dat + "|").Split(new char[] { '|' });
+
+                    d += "Verknüpfungsdaten:\n\n";
+
+                    int i = 0;
+                    foreach (string v in master[0].Split(new char[] { ':' }))
+                        d += (i++) + ": " + v + "\n";
+
+                    d += "\n";
+
+                    d += "Word Object ID: " + master[1] + "\n";
+                    d += "Kreuzungen: " + master[2] + "\n";
+                    d += "Prozentbasis: " + master[3];
+
+                    MessageBox.Show(d, "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else MessageBox.Show("Auswahl enthält keine Umfrageverknüpfungen", "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.None);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.StackTrace, ex.Message);
+            }
+        }
+
+        public void OpenEditDialog()
+        {
+            if (this.AType == AppType.PowerPoint)
+            {
+                //get selection (all shapes)
+                //get all tags
+
+                List<Microsoft.Office.Interop.PowerPoint.Shape> selShapes = new List<Microsoft.Office.Interop.PowerPoint.Shape>();
+                List<string> tags = new List<string>();
+
+                foreach (Microsoft.Office.Interop.PowerPoint.Shape selShape in _pptApp.ActiveWindow.Selection.ShapeRange)
+                {
+                    if (!String.Empty.Equals(selShape.Tags["umxcode"]))
+                    {
+                        selShapes.Add(selShape);
+                        tags.Add((string)selShape.Tags["umxcode"]);
+                    }
+                }
+
+                //show replacement options dialog
+                EditLinkForm elf = new EditLinkForm();
+                elf.SetData(selShapes);
+                elf.ShowDialog();
+            }
+            else if (this.AType == AppType.Word)
+            {
+                List<Microsoft.Office.Interop.Word.Field> fields = new List<Microsoft.Office.Interop.Word.Field>();
+
+                foreach (Microsoft.Office.Interop.Word.Field f in _wordApp.Selection.Fields)
+                {
+                    if (f.Code.Text.StartsWith(" ADDIN umo:"))
+                    {
+                        //MessageBox.Show(f.Code.Text);
+                        fields.Add(f);
+                    }
+                }
+
+                EditLinkForm elf = new EditLinkForm();
+                elf.SetData(fields, GetDocument());
+                elf.ShowDialog();
+            }
+        }
+
+        public void OpenInsertDialog()
+        {
+            //open menu
+
+            try
+            {
+                InsertForm inf = new InsertForm(eval, GetDocument());
+
+                try
+                {
+                    DialogResult res = inf.ShowDialog();
+
+                    if (res == DialogResult.OK)
+                    {
+                        AddField(inf.FieldCode);
+                    }
+                    else if (res == DialogResult.Yes)
+                    {
+                        //table
+                        if (AType == AppType.PowerPoint)
+                        {
+                            CreateTablePPt(inf);
+                        }
+                        else if (AType == AppType.Word)
+                        {
+                            CreateTable(inf);
+                        }
+
+                    }
+                    else if (res == DialogResult.Retry)
+                    {
+                        //pottable
+                        if (AType == AppType.PowerPoint)
+                        {
+                            CreatePotTablePPt(inf.FieldCode, inf);
+                        }
+                        else if (AType == AppType.Word)
+                        {
+                            CreatePotTable(inf.FieldCode, inf);
+                        }
+
+                    }
+                    else if (res == DialogResult.Ignore)
+                    {
+                        //maturity
+                        if (AType == AppType.PowerPoint)
+                        {
+                            CreateMaturityPPt(inf.FieldCode, inf);
+                        }
+                        else if (AType == AppType.Word)
+                        {
+                            CreateMaturity(inf.FieldCode, inf);
+                        }
+                    }
+                    else if (res == DialogResult.No)
+                    {
+                        //tagcloud
+                        if (AType == AppType.PowerPoint)
+                        {
+                            CreateTagCloudPPt(inf.FieldCode, inf);
+                        }
+                        else if (AType == AppType.Word)
+                        {
+                            CreateTagCloud(inf.FieldCode, inf);
+                        }
+                    }
+                }
+                catch { }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.StackTrace, ex.Message);
             }
-             */
         }
 
-        void wordapp_DocumentBeforeSave(Microsoft.Office.Interop.Word.Document Doc, ref bool SaveAsUI, ref bool Cancel)
+        public void AddField(string code)
         {
-            //save!
-            foreach (Microsoft.Office.Interop.Word.InlineShape shape in Doc.InlineShapes)
+            if (AType == AppType.PowerPoint)
             {
-                try
-                {
-                    if (shape.AlternativeText.StartsWith("umo"))
-                    {
-                        string id = shape.AlternativeText.Substring(3);
-                        foreach (Microsoft.Office.Interop.Word.Field f in Doc.Fields)
-                        {
-                            if (f.Code.Text.StartsWith(" ADDIN umo:"))
-                            {
-                                string[] master = (f.Code.Text + "|").Split(new char[] { '|' });
-                                string[] param = master[0].Split(new char[] { ':' });
+                AddPField(code);
+            }
+            else if (AType == AppType.Word)
+            {
+                Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
+                AddField(code, wordapp.Selection.Range);
+            }
+        }
 
-                                if (id.Equals(master[1])) //found!
-                                {
-                                    param[4] = "" + shape.Width;
-                                    param[5] = "" + shape.Height;
+        private void AddPField(string code)
+        {
+            var tls = new PPTools(code, GetTarget(), eval);
+            var sl = (Microsoft.Office.Interop.PowerPoint.Slide)_pptApp.ActiveWindow.View.Slide;
 
-                                    f.Code.Text = " ADDIN umo";
+            Microsoft.Office.Interop.PowerPoint.Shape ns = null;
 
-                                    for (int i = 1; i < param.Length; i++)
-                                        f.Code.Text += ":" + param[i];
+            switch (tls.dat[1])
+            {
+                case "mw":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
 
-                                    for (int i = 1; i < master.Length; i++ )
-                                        f.Code.Text += "|" + master[i];
+                case "md":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetMedianValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
 
-                                        break;
-                                }
-                            }
-                        }
+                case "pc":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
 
+                case "apc":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentResponseValue(tls, GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
 
+                case "gap":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetGapValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
 
+                case "nps":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsValue(tls);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
 
-                    }
-                }
-                catch { }
+                case "n":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetSampleSizeValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "aas":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageReplyNumValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "aabs":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetAnswerCountByPersonValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-comp-mw":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetMeanForComparisonValue(tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-value":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetCompareValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-comp-apc":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentForComparisonValue(tls, tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-value-apc":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontCompareValue(tls, GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-nps-value":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsForComparisonValue(tls, tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "bcont-nps-diff":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontNpsValue(tls, GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "potval":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetDeviationValue(tls);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "origaw":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetOriginalAnswerValue(GetTarget(), tls.dat);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "xmlText":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetXmlValue(tls, GetTarget());
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "potpcnt":
+                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentDeviationValue(tls);
+                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
+                    ns = null;
+                    break;
+
+                case "potpic":
+                    ns = sl.Shapes.AddPicture(tls.Potpic(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 180, 20);
+                    break;
+
+                case "pbar":
+                    ns = sl.Shapes.AddPicture(tls.Pbar(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 180, 17);
+                    break;
+
+                case "tl":
+                    ns = sl.Shapes.AddPicture(tls.Tl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 16, 16);
+                    break;
+
+                case "idivtl":
+                    ns = sl.Shapes.AddPicture(tls.Idivtl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    break;
+
+                case "comparetl":
+                    ns = sl.Shapes.AddPicture(tls.Comparetl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    break;
+
+                case "comparetlnps":
+                    ns = sl.Shapes.AddPicture(tls.Comparetlnps(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    break;
+
+                case "compareidivtlpcnt":
+                    ns = sl.Shapes.AddPicture(tls.Comparetlpcnt(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    break;
+
+                case "idivtlpcnt":
+                    ns = sl.Shapes.AddPicture(tls.IdivtlPcnt(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    break;
+
+                case "idivtlnps":
+                    ns = sl.Shapes.AddPicture(tls.IdivtlNps(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    break;
+
+                case "idivtlnum":
+                    ns = sl.Shapes.AddPicture(tls.IdivtlNum(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    break;
+
+                case "bcont-light":
+                    ns = sl.Shapes.AddPicture(tls.bcontLight(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    break;
+
+                case "bcont-trend":
+                    ns = sl.Shapes.AddPicture(tls.bconTrend(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));                  
+                    break;
+
+                case "bcont-nps-trend":
+                    ns = sl.Shapes.AddPicture(tls.bconTrendNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));
+                    break;
+
+                case "bcont-nps-tlb":
+                    ns = sl.Shapes.AddPicture(tls.bcontLightNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    break;
+
+                case "bcont-light-apc":
+                    ns = sl.Shapes.AddPicture(tls.bcontLightApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    break;
+
+                case "bcont-Exclamation":
+                    ns = sl.Shapes.AddPicture(tls.bconExclamation(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22])*2, Int32.Parse(tls.dat[22])*2);
+                    break;
+
+                case "bcont-Exclamation-apc":
+                    ns = sl.Shapes.AddPicture(tls.bconExclamationApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]) * 2, Int32.Parse(tls.dat[22]) * 2);
+                    break;
+
+                case "bcont-Exclamation-nps":
+                    ns = sl.Shapes.AddPicture(tls.bconExclamationNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]) * 2, Int32.Parse(tls.dat[22]) * 2);
+                    break;
+
+                case "bcont-trend-apc":
+                    ns = sl.Shapes.AddPicture(tls.bconTrendApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));
+                    break;
+
+                case "op":
+                    ns = sl.Shapes.AddPicture(tls.op(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height);
+                    break;
+
+                case "op-c":
+                    ns = sl.Shapes.AddPicture(tls.opC(this), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height);
+                    break;
+
+                case "exclamation-single":
+                    ns = sl.Shapes.AddPicture(tls.ExclamationSingle(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    break;
+
+                case "exclamation-gap":
+                    ns = sl.Shapes.AddPicture(tls.ExclamationGap(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    break;
+
+                case "exclamation-compare":
+                    ns = sl.Shapes.AddPicture(tls.ExclamationCompare(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    break;
+
+                case "xmlGraphic":
+                    IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
+                    ns = sl.Shapes.AddPicture(gr.Store(),
+                                              MsoTriState.msoFalse, MsoTriState.msoTrue,
+                                              100, 100,
+                                              gr.Size.Width, gr.Size.Height);
+                    break;
             }
 
-            RecursiveShapeSaver(Doc.Shapes);
+            if (ns != null)
+            {
+                ns.Tags.Add("umxcode", code);
 
+                ProcessShape(ns, sl);
+            }
         }
 
-        public static void RecursiveShapeSaver(Microsoft.Office.Interop.Word.Shapes ss)
+        private static void RecursiveShapeSaver(Microsoft.Office.Interop.Word.Shapes ss)
         {
             foreach (Microsoft.Office.Interop.Word.Shape s in ss)
             {
@@ -272,8 +790,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-
-        private Microsoft.Office.Core.CommandBar AddPPtToolbar(Microsoft.Office.Interop.PowerPoint.Application ppt, string toolbarName)
+        private CommandBar AddPPtToolbar(Microsoft.Office.Interop.PowerPoint.Application ppt, string toolbarName)
         {
             Microsoft.Office.Core.CommandBar toolBar = null;
             try
@@ -281,7 +798,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 // Create a command bar for the add-in
                 object missing = System.Reflection.Missing.Value;
                 toolBar = (Microsoft.Office.Core.CommandBar)
-                    pptApp.CommandBars.Add(toolbarName,
+                    _pptApp.CommandBars.Add(toolbarName,
                     Microsoft.Office.Core.MsoBarPosition.msoBarTop,
                     missing, true);
                 toolBar.Visible = true;
@@ -295,18 +812,14 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-
-        private Microsoft.Office.Core.CommandBar AddWordToolbar(Microsoft.Office.Interop.Word.Application word, string toolbarName)
+        private CommandBar AddWordToolbar(Microsoft.Office.Interop.Word.Application word, string toolbarName)
         {
-            Microsoft.Office.Core.CommandBar toolBar = null;
+            CommandBar toolBar = null;
             try
             {
                 // Create a command bar for the add-in
-                object missing = System.Reflection.Missing.Value;
-                toolBar = (Microsoft.Office.Core.CommandBar)
-                    wordApp.CommandBars.Add(toolbarName,
-                    Microsoft.Office.Core.MsoBarPosition.msoBarTop,
-                    missing, true);
+                object missing = Missing.Value;
+                toolBar = _wordApp.CommandBars.Add(toolbarName, MsoBarPosition.msoBarTop, missing, true);
                 toolBar.Visible = true;
                 return toolBar;
             }
@@ -317,185 +830,44 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-
         // C#
-        private Microsoft.Office.Core.CommandBarButton AddButton(  Microsoft.Office.Core.CommandBar commandBar, string caption, int faceID, 
-                                                                   Microsoft.Office.Core._CommandBarButtonEvents_ClickEventHandler clickHandler)
+        private CommandBarButton AddButton(CommandBar commandBar, string caption, int faceID,
+                                            _CommandBarButtonEvents_ClickEventHandler clickHandler)
         {
-            object missing = System.Reflection.Missing.Value;
+            object missing = Missing.Value;
             try
             {
-                Microsoft.Office.Core.CommandBarButton newButton;
-                newButton = (Microsoft.Office.Core.CommandBarButton)
+                CommandBarButton newButton;
+                newButton = (CommandBarButton)
                     commandBar.Controls.Add(
-                    Microsoft.Office.Core.MsoControlType.msoControlButton,
+                    MsoControlType.msoControlButton,
                     missing, missing, missing, missing);
                 newButton.Caption = caption;
                 newButton.FaceId = faceID;
-                newButton.Style = Microsoft.Office.Core.MsoButtonStyle.msoButtonIconAndCaption;
+                newButton.Style = MsoButtonStyle.msoButtonIconAndCaption;
                 newButton.Click += clickHandler;
                 newButton.Tag = caption;
                 return newButton;
             }
-            catch 
+            catch
             {
                 // Add code here to handle the exception.
                 return null;
             }
         }
 
-		/// <summary>
-		///     Implements the OnDisconnection method of the IDTExtensibility2 interface.
-		///     Receives notification that the Add-in is being unloaded.
-		/// </summary>
-		/// <param term='disconnectMode'>
-		///      Describes how the Add-in is being unloaded.
-		/// </param>
-		/// <param term='custom'>
-		///      Array of parameters that are host application specific.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnDisconnection(Extensibility.ext_DisconnectMode disconnectMode, ref System.Array custom)
-		{
-		}
-
-		/// <summary>
-		///      Implements the OnAddInsUpdate method of the IDTExtensibility2 interface.
-		///      Receives notification that the collection of Add-ins has changed.
-		/// </summary>
-		/// <param term='custom'>
-		///      Array of parameters that are host application specific.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnAddInsUpdate(ref System.Array custom)
-		{
-		}
-
-		/// <summary>
-		///      Implements the OnStartupComplete method of the IDTExtensibility2 interface.
-		///      Receives notification that the host application has completed loading.
-		/// </summary>
-		/// <param term='custom'>
-		///      Array of parameters that are host application specific.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnStartupComplete(ref System.Array custom)
-		{
-            
-		}
-
-		/// <summary>
-		///      Implements the OnBeginShutdown method of the IDTExtensibility2 interface.
-		///      Receives notification that the host application is being unloaded.
-		/// </summary>
-		/// <param term='custom'>
-		///      Array of parameters that are host application specific.
-		/// </param>
-		/// <seealso class='IDTExtensibility2' />
-		public void OnBeginShutdown(ref System.Array custom)
-		{
-		}
-		
-		private object applicationObject;
-		private object addInInstance;
-
-
-
-
-
-        public void settingsButton_Click(Microsoft.Office.Core.CommandBarButton barButton, ref bool someBool)
-        {
-            OpenSettingsDialog();
-        }
-
-	    public void OpenSettingsDialog()
-	    {
-	        OpenSettingsDialog(false);
-	    }
-
-        public void OpenSettingsDialog(bool fileopen)
-        {
-            UMSettingsForm sf = null;
-
-            if (AType == AppType.PowerPoint)
-            {
-                sf = new UMSettingsForm(eval, multiEvals, multiTargets, pptApp.ActivePresentation);
-            }
-            else if (AType == AppType.Word)
-            {
-                sf = new UMSettingsForm(eval, multiEvals, multiTargets, GetDocument());
-            }
-
-            if (sf != null && sf.ShowDialogInternal(fileopen) == DialogResult.Retry)
-            {
-                ProcessDocument(true);
-            }
-            eval = sf.eval;
-            EventHelper.Fire(EvalChanged, eval != null);
-            multiEvals = sf.multiEvals;
-            multiTargets = sf.multiTargets;
-        }
-
-        public Microsoft.Office.Interop.Word.Document GetDocument()
-        {
-            try
-            {
-                    Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
-
-                    Microsoft.Office.Interop.Word.Document doc = wordapp.ActiveDocument;
-                    return doc;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public Microsoft.Office.Interop.PowerPoint.Presentation GetDocument1()
-        {
-            try
-            {
-                Microsoft.Office.Interop.PowerPoint.Application ppapp = (Microsoft.Office.Interop.PowerPoint.Application)applicationObject;
-                Microsoft.Office.Interop.PowerPoint.Presentation doc = ppapp.ActivePresentation;
-
-                return doc;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public void ProcessDocument(bool tf)
-        {
-            DateTime start = DateTime.Now;
-
-            if (AType == AppType.PowerPoint)
-            {
-                ProcessPresentation(pptApp.ActivePresentation, tf);
-            }
-            else if (AType == AppType.Word)
-            {
-                Microsoft.Office.Interop.Word.Document doc = GetDocument();
-
-                if (doc != null) ProcessDocument(doc, tf);
-            }
-            MessageBox.Show("Finished processing in " + (DateTime.Now - start).TotalMilliseconds + "ms");
-        }
-
-
         private void ProcessPresentation(Microsoft.Office.Interop.PowerPoint.Presentation pres, bool tf)
         {
 
             if (eval != null)
             {
-                Tools.SetPPtDocumentPropertyValue(pptApp.ActivePresentation, "umo:filename", eval.FileName);
+                Tools.SetPPtDocumentPropertyValue(_pptApp.ActivePresentation, "umo:filename", eval.FileName);
             }
             else
             {
                 object FileName = null;
 
-                FileName = Tools.GetPPtDocumentPropertyValue(pptApp.ActivePresentation, "umo:filename");
+                FileName = Tools.GetPPtDocumentPropertyValue(_pptApp.ActivePresentation, "umo:filename");
 
                 if (FileName != null)
                 {
@@ -503,7 +875,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     if (eval != null) ProcessDocument(tf);
                     else
                     {
-                       Tools.SetPPtDocumentPropertyValue(pptApp.ActivePresentation, "umo:filename", "");
+                       Tools.SetPPtDocumentPropertyValue(_pptApp.ActivePresentation, "umo:filename", "");
                     }
                     EventHelper.Fire(EvalChanged, eval != null);
                 }
@@ -513,8 +885,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             if (tf) ComputeDocument();
 
         }
-
-
 
         private void ProcessDocument(Microsoft.Office.Interop.Word.Document doc, bool tf)
         {
@@ -564,7 +934,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
 
             if (AType == AppType.PowerPoint)
-                name = Tools.GetPPtDocumentPropertyValue(pptApp.ActivePresentation, "umo:mtarget" + pos);
+                name = Tools.GetPPtDocumentPropertyValue(_pptApp.ActivePresentation, "umo:mtarget" + pos);
             else if (AType == AppType.Word)
                 name = (string)Tools.GetWordDocumentPropertyValue(GetDocument(), "umo:mtarget" + pos);
 
@@ -580,37 +950,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             //MessageBox.Show(gt);
 
             return tdr;
-        }
-
-        public TargetData GetTarget()
-        {
-            TargetData tdr = null;
-
-            string name = null;
-
-
-            if (AType == AppType.PowerPoint)
-                name = Tools.GetPPtDocumentPropertyValue(pptApp.ActivePresentation, "umo:target");
-            else if (AType == AppType.Word)
-                name = (string)Tools.GetWordDocumentPropertyValue(GetDocument(), "umo:target");
-
-            foreach (TargetData td in eval.CombinedTargets)
-            {
-                td.IncludedChanged += new IncludedChangedEventHandler(td_IncludedChanged);
-                if (name != null && name.Equals(td.Name)) { tdr = td; td.Included = true; }
-                else td.Included = false;
-
-                //gt += td.name + "\t\t" + td.Included + "\r\n";
-            }
-
-            //MessageBox.Show(gt);
-
-            return tdr;
-        }
-
-        void td_IncludedChanged(TargetData sender)
-        {
-            //scheiss .net- events
         }
 
         private void SetProps(Microsoft.Office.Interop.Word.Range r, string master, FieldStyle fs, int len)
@@ -629,9 +968,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             ProcessShape(s, sld, s.Tags["umxcode"]);
         }
 
-        private string personsToPerson(string p)
+        private string PersonsToPerson(string p)
         {
-            string[] dat = p.Split(new char[] {'#'});
+            string[] dat = p.Split(new[] {'#'});
 
             try
             {
@@ -642,7 +981,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 return "0";
             }
-
         }
 
         private void ProcessShape(Microsoft.Office.Interop.PowerPoint.Shape s, Microsoft.Office.Interop.PowerPoint.Slide sld, string code)
@@ -651,7 +989,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             try
             {
-                Microsoft.Office.Interop.PowerPoint.Presentation pres = pptApp.ActivePresentation;
+                Microsoft.Office.Interop.PowerPoint.Presentation pres = _pptApp.ActivePresentation;
 
                 //MessageBox.Show(s.Tags["umxcode"]);
                 PPTools tls = new PPTools(code, GetTarget(), eval);
@@ -739,20 +1077,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                                                 break;
 
                                             case Table.ColTypes.Median:
-                                                ProcessShape(range, sld, CreateCode("md:" + qid + ":" + tls.dat[3] + ":" + personsToPerson(tls.dat[4]), master[2],tls.master[3]));
+                                                ProcessShape(range, sld, CreateCode("md:" + qid + ":" + tls.dat[3] + ":" + PersonsToPerson(tls.dat[4]), master[2],tls.master[3]));
                                                 break;
 
                                             case Table.ColTypes.Mittelwert:
-                                                ProcessShape(range, sld, CreateCode("mw:" + qid + ":" + tls.dat[3] + ":" + personsToPerson(tls.dat[4]), master[2], tls.master[3]));
+                                                ProcessShape(range, sld, CreateCode("mw:" + qid + ":" + tls.dat[3] + ":" + PersonsToPerson(tls.dat[4]), master[2], tls.master[3]));
                                                 break;
 
                                             case Table.ColTypes.Prozent:
-                                                ProcessShape(range, sld, CreateCode("pc:" + qid + ":" + tls.dat[3] + ":" + personsToPerson(tls.dat[4]), master[2], tls.master[3]));
+                                                ProcessShape(range, sld, CreateCode("pc:" + qid + ":" + tls.dat[3] + ":" + PersonsToPerson(tls.dat[4]), master[2], tls.master[3]));
                                                 break;
 
                                             case Table.ColTypes.ProzentNachAntwort:
                                                 if (Tq.Answers.Length > c.ASel)
-                                                    ProcessShape(range, sld, CreateCode("apc:" + qid + ":" + tls.dat[3] + ":" + personsToPerson(tls.dat[4]) + ":" + Tq.AnswerList[c.ASel], master[2], master[3]));
+                                                    ProcessShape(range, sld, CreateCode("apc:" + qid + ":" + tls.dat[3] + ":" + PersonsToPerson(tls.dat[4]) + ":" + Tq.AnswerList[c.ASel], master[2], master[3]));
                                                 break;
 
                                             case Table.ColTypes.Fragentext:
@@ -840,20 +1178,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "origaw":
-                            Question oq = td.GetQuestion(Int32.Parse(dat[2]), eval);
-                            //MessageBox.Show("get oq for " + Int32.Parse(dat[2]));
-                            //text is 5
-                            string otxt = dat[5];
-                            if (oq.IsPlaceholder)
-                            {
-                                int oaid = oq.GetAnswerId(dat[5]);
-                                QuestionPlaceholder ph = eval.GetPlaceholder(oq.ID);
-                                if (ph != null && ph.AnswerList.Length > oaid)
-                                    otxt = ph.AnswerList[oaid];
-                            }
-
-                            s.TextFrame.TextRange.Text = otxt;
-
+                            s.TextFrame.TextRange.Text = GetOriginalAnswerValue(GetTarget(), tls.dat);
                             break;
 
                         case "tagcloud-val":
@@ -863,74 +1188,32 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             
                             s.TextFrame.TextRange.Font.Size = (float)res[1];
                             if (res[0] != null)
-                                s.TextFrame.TextRange.Font.Color.RGB = System.Drawing.ColorTranslator.ToWin32((Color)res[0]);
+                                s.TextFrame.TextRange.Font.Color.RGB = ColorTranslator.ToWin32((Color)res[0]);
                             break;
 
                         case "mw": //Mittelwert
-
-                            double val = Math.Round(td.GetQuestion(Int32.Parse(dat[2]), eval).GetAverageByPersonAsMark(eval, eval.CombinedPersons[Int32.Parse(dat[4])]), Int32.Parse(dat[3]));
-
-                            if (val == -1) ins = "k.A.";
-                            else ins = "" + val;
-
-
-                            s.TextFrame.TextRange.Text = ins;
-
+                            s.TextFrame.TextRange.Text = GetAverageValue(td, dat);
                             break;
 
                         case "xmlText":
-                            {
-                                IXmlText gr = XmlHelper.ComputeText(tls.GetXmlMaster(), GetTarget(), eval);
-                                s.TextFrame.TextRange.Text = gr.Compute();
-                            }
+                            s.TextFrame.TextRange.Text = GetXmlValue(tls, GetTarget());
                             break;
 
                         case "bcont-value":
-                            //get compare value
-
-
-                            TargetData ctv = GetCTarget(Int32.Parse(dat[5]));
-
-                            if (ctv != null)
-                            {
-                                double ctvoval = td.GetQuestion(Int32.Parse(dat[2]), eval).GetAverageByPersonAsMark(eval, eval.CombinedPersons[Int32.Parse(dat[4])]);
-                                double ctvcval = ctv.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]).GetAverageByPersonAsMark(multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
-
-                                s.TextFrame.TextRange.Text = "" + Math.Round(ctvoval - ctvcval, Int32.Parse(dat[3]));
-                            }
-                            else
-                            {
-                                MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
-                                s.TextFrame.TextRange.Text = "err";
-                            }
-
+                            s.TextFrame.TextRange.Text = GetCompareValue(td, dat);
                             break;
 
                         case "bcont-nps-value":
-                            {
-                                TargetData actvm = GetCTarget(Int32.Parse(dat[5]));
-                                s.TextFrame.TextRange.Text =
-                                    tls.NPS(actvm.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]),
-                                            multiEvals[Int32.Parse(dat[5])]);
-                            }
+                            s.TextFrame.TextRange.Text = GetNpsForComparisonValue(tls, dat);
                             break;
 
                         case "bcont-nps-diff":
-                            {
-                                TargetData actvm = GetCTarget(Int32.Parse(dat[5]));
-                                s.TextFrame.TextRange.Text =
-                                    tls.NPSDiff(td.GetQuestion(Int32.Parse(dat[2]), eval), eval, actvm.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]),
-                                            multiEvals[Int32.Parse(dat[5])]);
-                            }
+                            s.TextFrame.TextRange.Text = GetBcontNpsValue(tls, GetTarget(), dat);
                             break;
 
-                  
                         case "bcont-comp-mw":
-                            TargetData ctvm = GetCTarget(Int32.Parse(dat[5]));
-                            double ctvcvalmw = ctvm.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]).GetAverageByPersonAsMark(multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
-                            s.TextFrame.TextRange.Text = "" + Math.Round(ctvcvalmw, Int32.Parse(dat[3]));
+                            s.TextFrame.TextRange.Text = GetMeanForComparisonValue(dat);
                             break;
-
 
                         case "bcont-light":
                             ns = sld.Shapes.AddPicture(tls.bcontLight(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, s.Left, s.Top, s.Width, s.Height);
@@ -968,78 +1251,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             s.Delete();
                             break;
 
-
                         case "bcont-comp-apc":
-                            TargetData aatd = GetCTarget(Int32.Parse(dat[5]));
-                            Question aapq = aatd.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]);
-                            float aapcnt;
-                            if (tls.Base) aapcnt = aapq.GetAnswerPercentByPersonWithBase(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])], tls.bq);
-                            else aapcnt = (float)aapq.GetAnswerPercentByPerson(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
-
-
-                            //MessageBox.Show();
-                            ins = "" + Math.Round(aapcnt, Int32.Parse(dat[3]));
-
-                            s.TextFrame.TextRange.Text = ins + "%";
-
+                            s.TextFrame.TextRange.Text = GetPercentForComparisonValue(tls, tls.dat);
                             break;
 
                         case "bcont-value-apc":
-                            TargetData vaatd = GetCTarget(Int32.Parse(dat[5]));
-                            Question vaapq = vaatd.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]);
-
-                            float vaapcnt;
-                            if (tls.Base) vaapcnt = vaapq.GetAnswerPercentByPersonWithBase(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])], tls.bq);
-                            else vaapcnt = (float)vaapq.GetAnswerPercentByPerson(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
-
-                            Question vpq = td.GetQuestion(Int32.Parse(dat[2]), eval);
-
-                            float vpcnt;
-                            if (tls.Base) vpcnt = vpq.GetAnswerPercentByPersonWithBase(dat[6], eval, eval.CombinedPersons[Int32.Parse(dat[4])], tls.bq);
-                            else vpcnt = (float)vpq.GetAnswerPercentByPerson(dat[6], eval, eval.CombinedPersons[Int32.Parse(dat[4])]);
-
-
-                            ins = "" + Math.Round(vpcnt - vaapcnt, Int32.Parse(dat[3]));
-                            
-                            s.TextFrame.TextRange.Text = ins + "%";
-
+                            s.TextFrame.TextRange.Text = GetBcontCompareValue(tls, GetTarget(), tls.dat);
                             break;
 
                         case "apc":
-                            Question pq = td.GetQuestion(Int32.Parse(dat[2]), eval);
-
-                            float pcnt;
-                            if (tls.Base) pcnt = pq.GetAnswerPercentByPersonWithBase(dat[5], eval, eval.CombinedPersons[Int32.Parse(dat[4])], tls.bq);
-                            else pcnt = (float)pq.GetAnswerPercentByPerson(dat[5], eval, eval.CombinedPersons[Int32.Parse(dat[4])]);
-
-                            ins = "" + Math.Round(pcnt, Int32.Parse(dat[3]));
-
-                            s.TextFrame.TextRange.Text = ins + "%";
+                            s.TextFrame.TextRange.Text = GetPercentResponseValue(tls, td, dat);
                             break;
 
                         case "gap":
-                            //2: id
-                            //3: prec
-                            //4: plist
-
-                            string[] pids = dat[4].Split(new char[] { '#' });
-
-                            if (pids.Length >= 2)
-                            {
-                                int p1 = Int32.Parse(pids[0]);
-                                int p2 = Int32.Parse(pids[1]);
-
-                                double v1 = q.GetAverageByPersonAsMark(eval, eval.CombinedPersons[p1]);
-                                double v2 = q.GetAverageByPersonAsMark(eval, eval.CombinedPersons[p2]);
-
-                                ins = "" + Math.Round(Math.Abs(v1 - v2), Int32.Parse(dat[3]));
-
-                                s.TextFrame.TextRange.Text = ins;
-                            }
-                            else
-                            {
-                                s.TextFrame.TextRange.Text = "k.A.";
-                            }
+                            s.TextFrame.TextRange.Text = GetGapValue(td, dat);
                             break;
 
                         case "potpic":
@@ -1178,57 +1403,36 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             break;
 
                         case "potpcnt":
-                            s.TextFrame.TextRange.Text = tls.Potpcnt();
+                            s.TextFrame.TextRange.Text = GetPercentDeviationValue(tls);
                             break;
 
                         case "potval":
-                            s.TextFrame.TextRange.Text = tls.Potval();
+                            s.TextFrame.TextRange.Text = GetDeviationValue(tls);
                             break;
 
                         case "n":
-                            string[] npids = dat[4].Split(new char[] { '#' });
-
-                            int n = 0;
-
-                            foreach (string pid in npids)
-                            {
-                                n += q.NAnswersByPerson(eval, eval.CombinedPersons[Int32.Parse(pid)]);
-                            }
-
-                            ins = n.ToString();
-
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetSampleSizeValue(td, dat);
                             break;
 
                         case "nps":
-                            s.TextFrame.TextRange.Text = tls.NPS();
-
+                            s.TextFrame.TextRange.Text = GetNpsValue(tls);
                             break;
 
                         case "md":
-                            ins = "" + Math.Round(td.GetQuestion(Int32.Parse(dat[2]), eval).GetMedianByPersonAsMark(eval, eval.CombinedPersons[Int32.Parse(dat[4])], Int32.Parse(dat[3])), Int32.Parse(dat[3]));
-
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetMedianValue(td, dat);
                             break;
 
                         case "pc":
-                            ins = "" + Math.Round(((5f - td.GetQuestion(Int32.Parse(dat[2]), eval).GetAverageByPersonAsMark(eval, eval.CombinedPersons[Int32.Parse(dat[4])])) / 4f) * 100, Int32.Parse(dat[3]));
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetPercentValue(td, dat);
                             break;
 
                         case "aabs":
-                            Question apq = td.GetQuestion(Int32.Parse(dat[2]), eval);
-                            float apcnt = apq.GetAnswerCountByPerson(dat[5], eval, eval.CombinedPersons[Int32.Parse(dat[4])]);
-
-                            ins = "" + Math.Round(apcnt, Int32.Parse(dat[3]));
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetAnswerCountByPersonValue(td, dat);
                             break;
 
                         case "aas":
-                            ins = "" + Math.Round(td.GetQuestion(Int32.Parse(dat[2]), eval).GetAverageAnswersByUser(eval, eval.CombinedPersons[Int32.Parse(dat[4])]), Int32.Parse(dat[3]));
-                            s.TextFrame.TextRange.Text = ins;
+                            s.TextFrame.TextRange.Text = GetAverageReplyNumValue(td, dat);
                             break;
-
                     }
                 }
                 catch (Exception ex)
@@ -1244,13 +1448,281 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             //MessageBox("process done: " + s.Tags["umxcode"]);
         }
 
+        private string GetMedianValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var digits = Int32.Parse(dat[3]);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var median = question.GetMedianByPersonAsMark(eval, personSetting, digits);
+
+            return string.Format("{0}", Math.Round(median, digits));
+        }
+
+        private string GetAverageValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var average = question.GetAverageByPersonAsMark(eval, personSetting);
+            var digits = Int32.Parse(dat[3]);
+            var val = Math.Round(average, digits);
+
+            if (val == -1)
+            {
+                return "k.A.";
+            }
+
+            return val.ToString();
+        }
+
+        private string GetPercentValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var percent = ((5f - question.GetAverageByPersonAsMark(eval, personSetting)) / 4f) * 100;
+            var digits = Int32.Parse(dat[3]);
+
+            return string.Format("{0}", Math.Round(percent, digits));
+        }
+
+        private string GetPercentResponseValue(PPTools tls, TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var digits = Int32.Parse(dat[3]);
+
+            float pcnt;
+            if (tls.Base)
+            {
+                pcnt = question.GetAnswerPercentByPersonWithBase(dat[5], eval, personSetting, tls.bq);
+            }
+            else
+            {
+                pcnt = (float)question.GetAnswerPercentByPerson(dat[5], eval, personSetting);
+            }
+
+            return string.Format("{0}%", Math.Round(pcnt, digits));
+        }
+
+        private string GetGapValue(TargetData td, string[] dat)
+        {
+            //2: id
+            //3: prec
+            //4: plist
+
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var digits = Int32.Parse(dat[3]);
+
+            string[] pids = dat[4].Split(new[] { '#' });
+
+            if (pids.Length >= 2)
+            {
+                int p1 = Int32.Parse(pids[0]);
+                int p2 = Int32.Parse(pids[1]);
+
+                double v1 = question.GetAverageByPersonAsMark(eval, eval.CombinedPersons[p1]);
+                double v2 = question.GetAverageByPersonAsMark(eval, eval.CombinedPersons[p2]);
+
+                return Math.Round(Math.Abs(v1 - v2), digits).ToString();
+            }
+
+            return "k.A.";
+        }
+
+        private string GetNpsValue(PPTools tls)
+        {
+            return tls.NPS();
+        }
+
+        private string GetNpsForComparisonValue(PPTools tls, string[] dat)
+        {
+            var evaluationId = Int32.Parse(dat[5]);
+            var evaluation = multiEvals[evaluationId];
+            var actvm = GetCTarget(evaluationId);
+            var questionId = Int32.Parse(dat[2]);
+            var question = actvm.GetQuestion(questionId, evaluation);
+
+            return tls.NPS(question, evaluation);
+        }
+
+        private string GetBcontNpsValue(PPTools tls, TargetData td, string[] dat)
+        {
+            var evaluationId = Int32.Parse(dat[5]);
+            var evaluation = multiEvals[evaluationId];
+            var actvm = GetCTarget(evaluationId);
+            var questionId = Int32.Parse(dat[2]);
+            var targetQuestion = td.GetQuestion(questionId, eval);
+            var cTargetQuestion = actvm.GetQuestion(questionId, evaluation);
+
+            return tls.NPSDiff(targetQuestion, eval, cTargetQuestion, evaluation);
+        }
+
+        private string GetDeviationValue(PPTools tls)
+        {
+            return tls.Potval();
+        }
+
+        private string GetPercentDeviationValue(PPTools tls)
+        {
+            return tls.Potpcnt();
+        }
+
+        private string GetOriginalAnswerValue(TargetData td, string[] dat)
+        {
+            var oq = td.GetQuestion(Int32.Parse(dat[2]), eval);
+
+            string otxt = dat[5];
+            if (oq.IsPlaceholder)
+            {
+                int oaid = oq.GetAnswerId(dat[5]);
+                var ph = eval.GetPlaceholder(oq.ID);
+                if (ph != null && ph.AnswerList.Length > oaid)
+                {
+                    otxt = ph.AnswerList[oaid];
+                }
+            }
+
+            return otxt;
+        }
+
+        private string GetSampleSizeValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personIds = dat[4].Split(new[] { '#' });
+
+            int answersByPersonCount = 0;
+
+            foreach (string personId in personIds)
+            {
+                var personSetting = eval.CombinedPersons[Int32.Parse(personId)];
+                answersByPersonCount += question.NAnswersByPerson(eval, personSetting);
+            }
+
+            return answersByPersonCount.ToString();
+        }
+
+        private string GetAverageReplyNumValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var digits = Int32.Parse(dat[3]);
+
+            var averageAnswersByUser = question.GetAverageAnswersByUser(eval, personSetting);
+
+            return Math.Round(averageAnswersByUser, digits).ToString();
+        }
+
+        private string GetAnswerCountByPersonValue(TargetData td, string[] dat)
+        {
+            var question = td.GetQuestion(Int32.Parse(dat[2]), eval);
+            var personSetting = eval.CombinedPersons[Int32.Parse(dat[4])];
+            var digits = Int32.Parse(dat[3]);
+
+            var answerCountByPerson = question.GetAnswerCountByPerson(dat[5], eval, personSetting);
+
+            return Math.Round(answerCountByPerson, digits).ToString();
+        }
+
+        private string GetMeanForComparisonValue(string[] dat)
+        {
+            var ctvm = GetCTarget(Int32.Parse(dat[5]));
+            var evaluationId = Int32.Parse(dat[5]);
+            var evaluation = multiEvals[evaluationId];
+            var question = ctvm.GetQuestion(Int32.Parse(dat[2]), evaluation);
+            var personSetting = evaluation.CombinedPersons[Int32.Parse(dat[4])];
+            var digits = Int32.Parse(dat[3]);
+
+            double ctvcvalmw = question.GetAverageByPersonAsMark(evaluation, personSetting);
+            return Math.Round(ctvcvalmw, digits).ToString();
+        }
+
+        private string GetCompareValue(TargetData td, string[] dat)
+        {
+            var ctv = GetCTarget(Int32.Parse(dat[5]));
+            var evaluationId = Int32.Parse(dat[5]);
+            var evaluation = multiEvals[evaluationId];
+            var cTargetQuestion = ctv.GetQuestion(Int32.Parse(dat[2]), evaluation);
+            var questionId = Int32.Parse(dat[2]);
+            var targetQuestion = td.GetQuestion(questionId, eval);
+            var personSettingId = Int32.Parse(dat[4]);
+            var digits = Int32.Parse(dat[3]);
+
+            if (ctv != null)
+            {
+                double ctvoval = targetQuestion.GetAverageByPersonAsMark(eval, eval.CombinedPersons[personSettingId]);
+                double ctvcval = cTargetQuestion.GetAverageByPersonAsMark(evaluation, evaluation.CombinedPersons[personSettingId]);
+
+                return Math.Round(ctvoval - ctvcval, digits).ToString();
+            }
+
+            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
+            return "err";
+        }
+
+        private string GetBcontCompareValue(PPTools tls, TargetData td, string[] dat)
+        {
+            var evaluationId = Int32.Parse(dat[5]);
+            var questionId = Int32.Parse(dat[2]);
+            var evaluation = multiEvals[evaluationId];
+            var personSetting = evaluation.CombinedPersons[Int32.Parse(dat[4])];
+            var vaatd = GetCTarget(evaluationId);
+            var vaapq = vaatd.GetQuestion(questionId, multiEvals[evaluationId]);
+            var vpq = td.GetQuestion(questionId, eval);
+            var digits = Int32.Parse(dat[3]);
+
+            float vaapcnt;
+            if (tls.Base)
+            {
+                vaapcnt = vaapq.GetAnswerPercentByPersonWithBase(dat[6], evaluation, personSetting, tls.bq);
+            }
+            else
+            {
+                vaapcnt = (float)vaapq.GetAnswerPercentByPerson(dat[6], evaluation, personSetting);
+            }
+
+            float vpcnt;
+            if (tls.Base)
+            {
+                vpcnt = vpq.GetAnswerPercentByPersonWithBase(dat[6], eval, personSetting, tls.bq);
+            }
+            else
+            {
+                vpcnt = (float)vpq.GetAnswerPercentByPerson(dat[6], eval, personSetting);
+            }
+
+            return string.Format("{0}%", Math.Round(vpcnt - vaapcnt, digits));
+        }
+
+        private string GetPercentForComparisonValue(PPTools tls, string[] dat)
+        {
+            var aatd = GetCTarget(Int32.Parse(dat[5]));
+            Question aapq = aatd.GetQuestion(Int32.Parse(dat[2]), multiEvals[Int32.Parse(dat[5])]);
+            float aapcnt;
+            if (tls.Base)
+            {
+                aapcnt = aapq.GetAnswerPercentByPersonWithBase(dat[6], multiEvals[Int32.Parse(dat[5])],
+                    multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])], tls.bq);
+            }
+            else
+            {
+                aapcnt = (float)aapq.GetAnswerPercentByPerson(dat[6], multiEvals[Int32.Parse(dat[5])], multiEvals[Int32.Parse(dat[5])].CombinedPersons[Int32.Parse(dat[4])]);
+            }
+
+            return string.Format("{0}%", Math.Round(aapcnt, Int32.Parse(dat[3])));
+        }
+
+        private string GetXmlValue(PPTools tls, TargetData td)
+        {
+            var gr = XmlHelper.ComputeText(tls.GetXmlMaster(), td, eval);
+            return gr.Compute();
+        }
+
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
         {
             if (eval == null) return;
 
             PPTools tls = new PPTools(f.Code.Text, GetTarget(), eval);
 
-            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
+            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
             object wchar = Microsoft.Office.Interop.Word.WdUnits.wdCharacter;
             Microsoft.Office.Interop.Word.Document doc = GetDocument();
 
@@ -1321,8 +1793,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 switch (dat[1])
                 {
-
-
                     case "potpic":
 
                         //master
@@ -1361,11 +1831,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             }
                         }
 
+                        string pbfname = Path.GetTempFileName() + ".png";
 
-                        string pbfname = System.IO.Path.GetTempFileName() + ".png";
-
-
-                        Tools.CreatePotBar(eval, ppp, true, 50, 180, 20).Save(pbfname, System.Drawing.Imaging.ImageFormat.Png);
+                        Tools.CreatePotBar(eval, ppp, true, 50, 180, 20).Save(pbfname, ImageFormat.Png);
 
                         object pr96 = f.Result;
 
@@ -1543,8 +2011,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                         f.Select();
 
-                        wordApp.Selection.Font.Size = (float)res[1];
-                        if (res[0] != null) wordApp.Selection.Font.Color = (Microsoft.Office.Interop.Word.WdColor)System.Drawing.ColorTranslator.ToWin32((Color)res[0]);
+                        _wordApp.Selection.Font.Size = (float)res[1];
+                        if (res[0] != null) _wordApp.Selection.Font.Color = (Microsoft.Office.Interop.Word.WdColor)System.Drawing.ColorTranslator.ToWin32((Color)res[0]);
                         wordapp.Selection.TypeText(ins);
 
                         SetProps(f.Result, master[1], fs, ins.Length);
@@ -2441,32 +2909,39 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             if (AType == AppType.PowerPoint)
             {
                 try
-                {   
-                    foreach (Microsoft.Office.Interop.PowerPoint.Slide sld in pptApp.ActiveWindow.Presentation.Slides)
+                {
+                    foreach (Microsoft.Office.Interop.PowerPoint.Slide sld in _pptApp.ActiveWindow.Presentation.Slides)
                     {
                         //MessageBox.Show("compute " + sld.Shapes.Count + " shapes on sld " + sld.SlideIndex);
-                        System.Collections.ArrayList tempShapes = new System.Collections.ArrayList();
+                        ArrayList tempShapes = new ArrayList();
 
                         foreach (Microsoft.Office.Interop.PowerPoint.Shape sp in sld.Shapes)
                         {
-                            if (sp.Tags["umxcode"].Equals("table") || (sp.Tags["umxcode"].IndexOf("ADDIN") != -1) )
+                            if (sp.Tags["umxcode"].Equals("table") || (sp.Tags["umxcode"].IndexOf("ADDIN") != -1))
+                            {
                                 tempShapes.Add(sp);
+                            }
                         }
 
                         foreach (Microsoft.Office.Interop.PowerPoint.Shape sp in tempShapes)
                         {
-
                             if (sp.Tags["umxcode"].Equals("table"))
                             {
                                 for (int i = 1; i <= sp.Table.Columns.Count; i++)
+                                {
                                     for (int j = 1; j <= sp.Table.Rows.Count; j++)
+                                    {
                                         if (sp.Table.Cell(i, j).Shape.Tags["umxcode"].IndexOf("ADDIN") != -1)
+                                        {
                                             ProcessShape(sp.Table.Cell(i, j).Shape, sld);
-
+                                        }
+                                    }
+                                }
                             }
-
                             else if (sp.Tags["umxcode"].IndexOf("ADDIN") != -1)
+                            {
                                 ProcessShape(sp, sld);
+                            }
                         }
                     }
                 }
@@ -2489,7 +2964,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
 
                     //delete all relevant bookmarks
-                    Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
+                    Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
 
                     foreach (Microsoft.Office.Interop.Word.Bookmark bmk in GetDocument().Bookmarks)
                     {
@@ -2546,236 +3021,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-        public void insertButton_Click(Microsoft.Office.Core.CommandBarButton barButton, ref bool someBool)
-        {
-            OpenInsertDialog();
-        }
-
-        public void OpenInsertDialog()
-        {
-            //open menu
-
-            try
-            {
-                InsertForm inf = new InsertForm(eval, GetDocument());
-
-                try
-                {
-                    DialogResult res = inf.ShowDialog();
-
-                    if (res == DialogResult.OK)
-                    {
-                        AddField(inf.FieldCode);
-                    }
-                    else if (res == DialogResult.Yes)
-                    {
-                        //table
-                        if (AType == AppType.PowerPoint)
-                        {
-                            CreateTablePPt(inf);
-                        }
-                        else if (AType == AppType.Word)
-                        {
-                            CreateTable(inf);
-                        }
-
-                    }
-                    else if (res == DialogResult.Retry)
-                    {
-                        //pottable
-                        if (AType == AppType.PowerPoint)
-                        {
-                            CreatePotTablePPt(inf.FieldCode, inf);
-                        }
-                        else if (AType == AppType.Word)
-                        {
-                            CreatePotTable(inf.FieldCode, inf);
-                        }
-
-                    }
-                    else if (res == DialogResult.Ignore)
-                    {
-                        //maturity
-                        if (AType == AppType.PowerPoint)
-                        {
-                            CreateMaturityPPt(inf.FieldCode, inf);
-                        }
-                        else if (AType == AppType.Word)
-                        {
-                            CreateMaturity(inf.FieldCode, inf);
-                        }
-                    }
-                    else if (res == DialogResult.No)
-                    {
-                        //tagcloud
-                        if (AType == AppType.PowerPoint)
-                        {
-                            CreateTagCloudPPt(inf.FieldCode, inf);
-                        }
-                        else if (AType == AppType.Word)
-                        {
-                            CreateTagCloud(inf.FieldCode, inf);
-                        }
-                    }
-                }
-                catch { }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.StackTrace, ex.Message);
-            }
-        }
-
-        public void AddField(string code)
-        {
-            if (AType == AppType.PowerPoint)
-            {
-                AddPField(code);
-            }
-            else if (AType == AppType.Word)
-            {
-                Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
-                AddField(code, wordapp.Selection.Range);
-            }
-        }
-
-        void AddPField(string code)
-        {
-            PPTools tls = new PPTools(code, GetTarget(), eval);
-
-            Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)pptApp.ActiveWindow.View.Slide;
-
-            Microsoft.Office.Interop.PowerPoint.Shape ns = null;
-
-            //text fields
-            switch (tls.dat[1])
-            {
-                case "mw": case "potpcnt": case "potval": case "n": case "nps": case "md": case "pc": 
-                case "aabs": case "aas": case "gap": case "apc": case "bcont-value": case "bcont-comp-mw":
-                case "bcont-comp-apc": case "bcont-value-apc": case "origaw": case "bcont-nps-value":
-                case "bcont-nps-diff": case "xmlText":
-                    ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
-                    break;
-
-                case "potpic":
-                    ns = sl.Shapes.AddPicture(tls.Potpic(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 180, 20);
-                    break;
-
-                case "pbar":
-                    ns = sl.Shapes.AddPicture(tls.Pbar(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 180, 17);
-                    break;
-
-                case "tl":
-                    ns = sl.Shapes.AddPicture(tls.Tl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 16, 16);
-                    break;
-
-                case "idivtl":
-                    ns = sl.Shapes.AddPicture(tls.Idivtl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
-                    break;
-
-                case "comparetl":
-                    ns = sl.Shapes.AddPicture(tls.Comparetl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
-                    break;
-
-                case "comparetlnps":
-                    ns = sl.Shapes.AddPicture(tls.Comparetlnps(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
-                    break;
-
-                case "compareidivtlpcnt":
-                    ns = sl.Shapes.AddPicture(tls.Comparetlpcnt(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
-                    break;
-
-                case "idivtlpcnt":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlPcnt(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
-                    break;
-
-                case "idivtlnps":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlNps(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
-                    break;
-
-                case "idivtlnum":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlNum(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
-                    break;
-
-                case "bcont-light":
-                    ns = sl.Shapes.AddPicture(tls.bcontLight(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
-                    break;
-
-                case "bcont-trend":
-                    ns = sl.Shapes.AddPicture(tls.bconTrend(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));                  
-                    break;
-
-                case "bcont-nps-trend":
-                    ns = sl.Shapes.AddPicture(tls.bconTrendNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));
-                    break;
-
-                case "bcont-nps-tlb":
-                    ns = sl.Shapes.AddPicture(tls.bcontLightNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
-                    break;
-
-                case "bcont-light-apc":
-                    ns = sl.Shapes.AddPicture(tls.bcontLightApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
-                    break;
-
-                case "bcont-Exclamation":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamation(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22])*2, Int32.Parse(tls.dat[22])*2);
-                    break;
-
-                case "bcont-Exclamation-apc":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamationApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]) * 2, Int32.Parse(tls.dat[22]) * 2);
-                    break;
-
-                case "bcont-Exclamation-nps":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamationNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]) * 2, Int32.Parse(tls.dat[22]) * 2);
-                    break;
-
-                case "bcont-trend-apc":
-                    ns = sl.Shapes.AddPicture(tls.bconTrendApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));
-                    break;
-
-                case "op":
-                    ns = sl.Shapes.AddPicture(tls.op(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height);
-                    break;
-
-                case "op-c":
-                    ns = sl.Shapes.AddPicture(tls.opC(this), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height);
-                    break;
-
-                case "exclamation-single":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationSingle(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
-                    break;
-
-                case "exclamation-gap":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationGap(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
-                    break;
-
-                case "exclamation-compare":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationCompare(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
-                    break;
-
-                case "xmlGraphic":
-                    IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
-                    ns = sl.Shapes.AddPicture(gr.Store(),
-                                              MsoTriState.msoFalse, MsoTriState.msoTrue,
-                                              100, 100,
-                                              gr.Size.Width, gr.Size.Height);
-                    break;
-            }
-
-            if (ns != null)
-            {
-                ns.Tags.Add("umxcode", code);
-
-                ProcessShape(ns, sl);
-            }
-        }
-
-
-
-        void AddField(string code, Microsoft.Office.Interop.Word.Range range)
+        private void AddField(string code, Microsoft.Office.Interop.Word.Range range)
         {
             Microsoft.Office.Interop.Word.Document doc = GetDocument();
-            object missing = System.Reflection.Missing.Value;
+            object missing = Missing.Value;
 
             if (doc == null) return;
 
@@ -2789,50 +3038,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             ProcessField(nf);
         }
 
-        public void AddTable(List<List<String>> table, int maxCols)
-        {
-            if (AType == AppType.PowerPoint)
-            {
-                
-            }
-            else if (AType == AppType.Word)
-            {
-                Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
-                Microsoft.Office.Interop.Word.Document doc = GetDocument();
-                object missing = null;
-                
-                Microsoft.Office.Interop.Word.Table wTable = doc.Tables.Add(wordapp.Selection.Range, 
-                   table.Count, maxCols, ref missing, ref missing);
-
-                wTable.Borders.Enable = 1;
-                wTable.Borders.OutsideColor = Microsoft.Office.Interop.Word.WdColor.wdColorGray60;
-
-                for (int i = 0; i < table.Count; i++) //rows
-                {
-                    int j = 0;
-                    foreach (String xml in table[i]) //columns
-                    {
-                        object direction = Microsoft.Office.Interop.Word.WdCollapseDirection.wdCollapseStart;
-                        object fieldType = Microsoft.Office.Interop.Word.WdFieldType.wdFieldAddin;
-
-                        Microsoft.Office.Interop.Word.Range range = wTable.Range.Rows[i + 1].Cells[j + 1].Range;
-                        range.Collapse(ref direction);
-
-                        range.Select();
-
-                        AddField(FieldHelper.CreateCode("xmlText", xml, GetDocument(), "", ""));
-
-                        j++;
-                    }
-                }
-            }
-        }
-
-        void CreateTable(InsertForm inf)
+        private void CreateTable(InsertForm inf)
         {
             Table t = inf.tableset;
 
-            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
+            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
             Microsoft.Office.Interop.Word.Document doc = GetDocument();
 
             object missing = System.Reflection.Missing.Value;
@@ -2840,11 +3050,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             if (t.Items.Count <= 0 || t.Questions.Count <= 0 || doc == null) return;
 
-
             //schachbrett adder?
 
             //int modifier = 0;
-
 
             Microsoft.Office.Interop.Word.Table wtab = doc.Tables.Add(wordapp.Selection.Range, t.Questions.Count + 1, t.Items.Count + 1, ref missing, ref missing);
 
@@ -2920,9 +3128,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                             case Table.ColTypes.Prozentbalken:
                                 Code("pbar:" + qid + ":" + inf.Prec + ":" + inf.getPerson(), inf.CrossList, inf.pbf.IString, range);
                                 break;
-
                         }
-
                     }
                 }
                 catch (Exception ex)
@@ -2932,21 +3138,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 row++;
             }
-
-
         }
 
-
-        
-
-        void CreatePotTable(String code, InsertForm inf)
+        private void CreatePotTable(String code, InsertForm inf)
         {
-            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
+            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
             Microsoft.Office.Interop.Word.Document doc = GetDocument();
 
-            object missing = System.Reflection.Missing.Value;
+            object missing = Missing.Value;
             object direction = Microsoft.Office.Interop.Word.WdCollapseDirection.wdCollapseStart;
-
 
             string[] master = (code+"|").Split(new char[] { '|' });
 
@@ -2979,14 +3179,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             string ins = string.Empty;
             //Microsoft.Office.Interop.Word.Range r = null;
 
-
             Question q;
             if (!dat[1].Equals("op") && !dat[1].Equals("op-c"))
                 q = td.GetQuestion(Int32.Parse(dat[2]), eval);
             else
                 q = null;
-
-
 
             if (crosses == null) return;
 
@@ -2998,7 +3195,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             Question cq = tdo.GetQuestion(cqid, eval);
-
 
             Microsoft.Office.Interop.Word.Table wtab = doc.Tables.Add(wordapp.Selection.Range, cq.AnswerList.Length + 2, 4, ref missing, ref missing);
 
@@ -3037,14 +3233,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-
-
-        void CreateMaturity(String code, InsertForm inf)
+        private void CreateMaturity(String code, InsertForm inf)
         {
-            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
+            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
             Microsoft.Office.Interop.Word.Document doc = GetDocument();
 
-            object missing = System.Reflection.Missing.Value;
+            object missing = Missing.Value;
             object direction = Microsoft.Office.Interop.Word.WdCollapseDirection.wdCollapseStart;
 
             PPTools tls = new PPTools(code, GetTarget(), eval);
@@ -3069,20 +3263,18 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             wtab.Cell(5, 1).Range.Text = "R4";
 
             for (int r = 0; r < 4; r++)
+            {
                 for (int f = 0; f < 4; f++)
                 {
                     if (r == f) wtab.Cell(r + 2, f + 2).Shading.BackgroundPatternColor = Microsoft.Office.Interop.Word.WdColor.wdColorGray15;
-                    ran = wtab.Cell(r+2, f+2).Range;
+                    ran = wtab.Cell(r + 2, f + 2).Range;
                     ran.Collapse(ref direction);
                     Code("maturity-val:0:" + tls.dat[5] + ":" + tls.dat[6] + ":" + tls.dat[7] + ":" + tls.dat[8] + ":" + r + ":" + f + ":" + tls.dat[4] + ":" + tls.dat[3], tls.master[2], inf.pbf.IString, ran);
                 }
-
-
+            }
         }
 
-
-
-        void CreateTablePPt(InsertForm inf)
+        private void CreateTablePPt(InsertForm inf)
         {
             if (inf.countPersons() < 1)
             {
@@ -3092,10 +3284,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 Table t = inf.tableset;
 
-
-                Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)pptApp.ActiveWindow.View.Slide;
+                Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)_pptApp.ActiveWindow.View.Slide;
                 Microsoft.Office.Interop.PowerPoint.Shape ns = null;
-
 
                 ns = sl.Shapes.AddTable(t.Questions.Count + 1, t.Items.Count + 1, 50, 50, t.Items.Count * 150, t.Questions.Count * 25);
 
@@ -3104,18 +3294,14 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                 ProcessShape(ns, sl);
             }
-            
-
         }
 
-
-        void CreatePotTablePPt(String code, InsertForm inf)
+        private void CreatePotTablePPt(String code, InsertForm inf)
         {
             PPTools tls = new PPTools(code, GetTarget(), eval);
 
-            Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)pptApp.ActiveWindow.View.Slide;
+            Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)_pptApp.ActiveWindow.View.Slide;
             Microsoft.Office.Interop.PowerPoint.Shape ns = null;
-
 
             ns = sl.Shapes.AddTable(tls.cq.AnswerList.Length + 2, 4, 50, 50, 350, 50 * tls.cq.AnswerList.Length + 2);
 
@@ -3124,9 +3310,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             ProcessShape(ns, sl);
         }
 
-        void CreateMaturityPPt(String code, InsertForm inf)
+        private void CreateMaturityPPt(String code, InsertForm inf)
         {
-            Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)pptApp.ActiveWindow.View.Slide;
+            Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)_pptApp.ActiveWindow.View.Slide;
             Microsoft.Office.Interop.PowerPoint.Shape ns = null;
 
             ns = sl.Shapes.AddTable(5, 5, 50, 50, 550, 250);
@@ -3136,14 +3322,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             ProcessShape(ns, sl);
         }
 
-        void CreateTagCloudPPt(String code, InsertForm inf)
+        private void CreateTagCloudPPt(String code, InsertForm inf)
         {
             PPTools tls = new PPTools(code, GetTarget(), eval);
 
-            Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)pptApp.ActiveWindow.View.Slide;
+            Microsoft.Office.Interop.PowerPoint.Slide sl = (Microsoft.Office.Interop.PowerPoint.Slide)_pptApp.ActiveWindow.View.Slide;
             Microsoft.Office.Interop.PowerPoint.Shape ns = null;
-
-           
 
             int ypos = 0;
             int height = 40;
@@ -3168,12 +3352,12 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-        void CreateTagCloud(string code, InsertForm inf)
+        private void CreateTagCloud(string code, InsertForm inf)
         {
-            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)applicationObject;
+            Microsoft.Office.Interop.Word.Application wordapp = (Microsoft.Office.Interop.Word.Application)_applicationObject;
             Microsoft.Office.Interop.Word.Document doc = GetDocument();
 
-            object missing = System.Reflection.Missing.Value;
+            object missing = Missing.Value;
             object direction = Microsoft.Office.Interop.Word.WdCollapseDirection.wdCollapseStart;
 
             PPTools tls = new PPTools(code, GetTarget(), eval);
@@ -3205,22 +3389,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
-
-
-
-
-
-
-
-
-        
-
-
-
-
         private void Code(string code, string CrossList, string Base, Microsoft.Office.Interop.Word.Range range)
         {
-
             AddField(CreateCode(code, CrossList, Base), range);
         }
 
@@ -3231,7 +3401,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             if (AType == AppType.Word)
             {
                 Microsoft.Office.Interop.Word.Document doc = GetDocument();
-
 
                 foreach (Microsoft.Office.Interop.Word.Field f in doc.Fields)
                 {
@@ -3260,98 +3429,101 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             return " ADDIN umo:" + code + "|" + (max + 1) + "|" + CrossList + "|" + Base;
-
         }
 
+        #region Event Handlers
 
+        private void td_IncludedChanged(TargetData sender)
+        {
+            //scheiss .net- events
+        }
 
+        private void pptApp_PresentationOpen(Microsoft.Office.Interop.PowerPoint.Presentation Pres)
+        {
+            //ProcessDocument(false);
+        }
 
+        private void pptApp_PresentationBeforeSave(Microsoft.Office.Interop.PowerPoint.Presentation Pres, ref bool Cancel)
+        {
+            //TODO
+        }
 
-        public void propButton_Click(Microsoft.Office.Core.CommandBarButton barButton, ref bool someBool)
+        private void wordapp_DocumentOpen(Microsoft.Office.Interop.Word.Document Doc)
+        {
+            /*
+            try
+            {
+                ProcessDocument(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.StackTrace, ex.Message);
+            }
+             */
+        }
+
+        private void wordapp_DocumentBeforeSave(Microsoft.Office.Interop.Word.Document Doc, ref bool SaveAsUI, ref bool Cancel)
+        {
+            //save!
+            foreach (Microsoft.Office.Interop.Word.InlineShape shape in Doc.InlineShapes)
+            {
+                try
+                {
+                    if (shape.AlternativeText.StartsWith("umo"))
+                    {
+                        string id = shape.AlternativeText.Substring(3);
+                        foreach (Microsoft.Office.Interop.Word.Field f in Doc.Fields)
+                        {
+                            if (f.Code.Text.StartsWith(" ADDIN umo:"))
+                            {
+                                string[] master = (f.Code.Text + "|").Split(new char[] { '|' });
+                                string[] param = master[0].Split(new char[] { ':' });
+
+                                if (id.Equals(master[1])) //found!
+                                {
+                                    param[4] = "" + shape.Width;
+                                    param[5] = "" + shape.Height;
+
+                                    f.Code.Text = " ADDIN umo";
+
+                                    for (int i = 1; i < param.Length; i++)
+                                        f.Code.Text += ":" + param[i];
+
+                                    for (int i = 1; i < master.Length; i++ )
+                                        f.Code.Text += "|" + master[i];
+
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch { }
+            }
+
+            RecursiveShapeSaver(Doc.Shapes);
+        }
+
+        private void insertButton_Click(CommandBarButton barButton, ref bool someBool)
+        {
+            OpenInsertDialog();
+        }
+
+        private void propButton_Click(CommandBarButton barButton, ref bool someBool)
         {
             OpenPropertiesDialog();
         }
 
-        public void OpenPropertiesDialog()
+        private void settingsButton_Click(CommandBarButton barButton, ref bool someBool)
         {
-            try
-            {
-                if (pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"].Equals("table") || (pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"].IndexOf("ADDIN") != -1))
-                {
-                    string dat = pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"];
-
-                    string d = string.Empty;
-
-                    string[] master = (dat + "|").Split(new char[] { '|' });
-
-                    d += "Verknüpfungsdaten:\n\n";
-
-                    int i = 0;
-                    foreach (string v in master[0].Split(new char[] { ':' }))
-                        d += (i++) + ": " + v + "\n";
-
-                    d += "\n";
-
-                    d += "Word Object ID: " + master[1] + "\n";
-                    d += "Kreuzungen: " + master[2] + "\n";
-                    d += "Prozentbasis: " + master[3];
-
-                    MessageBox.Show(d, "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else MessageBox.Show("Auswahl enthält keine Umfrageverknüpfungen", "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.None);
-            }
-            catch (Exception ex)
-            {
-                //MessageBox.Show(ex.StackTrace, ex.Message);
-            }
+            OpenSettingsDialog();
         }
 
-        public void editButton_Click(Microsoft.Office.Core.CommandBarButton barButton, ref bool someBool)
+        private void editButton_Click(CommandBarButton barButton, ref bool someBool)
         {
-           OpenEditDialog();
+            OpenEditDialog();
         }
 
-        public void OpenEditDialog()
-        {
-            if (this.AType == AppType.PowerPoint)
-            {
-                //get selection (all shapes)
-                //get all tags
-
-                List<Microsoft.Office.Interop.PowerPoint.Shape> selShapes = new List<Microsoft.Office.Interop.PowerPoint.Shape>();
-                List<string> tags = new List<string>();
-
-                foreach (Microsoft.Office.Interop.PowerPoint.Shape selShape in pptApp.ActiveWindow.Selection.ShapeRange)
-                {
-                    if (!String.Empty.Equals(selShape.Tags["umxcode"]))
-                    {
-                        selShapes.Add(selShape);
-                        tags.Add((string)selShape.Tags["umxcode"]);
-                    }
-                }
-
-                //show replacement options dialog
-                EditLinkForm elf = new EditLinkForm();
-                elf.SetData(selShapes);
-                elf.ShowDialog();
-            }
-            else if (this.AType == AppType.Word)
-            {
-                List<Microsoft.Office.Interop.Word.Field> fields = new List<Microsoft.Office.Interop.Word.Field>();
-
-                foreach (Microsoft.Office.Interop.Word.Field f in wordApp.Selection.Fields)
-                {
-                    if (f.Code.Text.StartsWith(" ADDIN umo:"))
-                    {
-                        //MessageBox.Show(f.Code.Text);
-                        fields.Add(f);
-                    }
-                }
-
-                EditLinkForm elf = new EditLinkForm();
-                elf.SetData(fields, GetDocument());
-                elf.ShowDialog();
-            }
-        }
-	}
+        #endregion
+    }
 }

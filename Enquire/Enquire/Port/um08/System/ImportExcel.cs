@@ -2,12 +2,12 @@ using System;
 using System.Data;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using MySQLDriverCS;
 using System.Collections;
 using System.Collections.Specialized;
 using Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.IO;
+using MySql.Data.MySqlClient;
 
 namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 {
@@ -39,11 +39,11 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 			return code;
 		}
 
-		public Hashtable CreateLogin(TargetData bank, Person p, MySQLConnection db)
+		public Hashtable CreateLogin(TargetData bank, Person p, MySqlConnection db)
 		{
 			Hashtable l = new Hashtable();
-			MySQLCommand cmd;
-			MySQLDataReader d;
+			MySqlCommand cmd;
+			MySqlDataReader d;
 
 			bool found = true;
 
@@ -52,9 +52,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 			while (found)
 			{
 				code = RandomCode();
-				cmd = new MySQLCommand("select count(*) from " + eval.DatabasePrefix + "zugangsdaten where code='"+code+"'", db);
+				cmd = new MySqlCommand("select count(*) from " + eval.DatabasePrefix + "zugangsdaten where code='" + code + "'", db);
 
-				d = cmd.ExecuteReaderEx();
+				d = cmd.ExecuteReader();
 
 				d.Read();
 
@@ -68,14 +68,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 			l["p_id"] = p.ID;
 			l["used"] = 1;
 
-			cmd = new MySQLCommand("insert into " + eval.DatabasePrefix + "zugangsdaten (code, z_b_id, z_p_id, used) values ('" + l["code"] + "', '"+l["b_id"]+"', '"+l["p_id"] +"','"+l["used"]+"')", db);
+			cmd = new MySqlCommand("insert into " + eval.DatabasePrefix + "zugangsdaten (code, z_b_id, z_p_id, used) values ('" + l["code"] + "', '" + l["b_id"] + "', '" + l["p_id"] + "','" + l["used"] + "')", db);
 			cmd.ExecuteNonQuery();
 
 			Console.WriteLine("created user!");
 
 
-			cmd = new MySQLCommand("select z_id from " + eval.DatabasePrefix + "zugangsdaten where code='"+code+"'", db);
-			d = cmd.ExecuteReaderEx();
+			cmd = new MySqlCommand("select z_id from " + eval.DatabasePrefix + "zugangsdaten where code='" + code + "'", db);
+			d = cmd.ExecuteReader();
 
 			d.Read();
 
@@ -104,8 +104,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 		{
 			StringCollection statements = new StringCollection();
 
-            //MySQLConnection db = new MySQLConnection(new MySQLConnectionString("95.129.200.10", "bdj_db", "banksql", "ma10R58z").AsString);
-            MySQLConnection db = new MySQLConnection(new MySQLConnectionString(eval.DatabaseHost, eval.DatabaseName, eval.DatabaseUser, eval.DatabasePassword).AsString);
+			var sqlConnectionStringBuilder = new MySqlConnectionStringBuilder();
+			sqlConnectionStringBuilder.Server = eval.DatabaseHost;
+			sqlConnectionStringBuilder.Database = eval.DatabaseName;
+			sqlConnectionStringBuilder.UserID = eval.DatabaseUser;
+			sqlConnectionStringBuilder.Password = eval.DatabasePassword;
+
+			//MySQLConnection db = new MySQLConnection(new MySQLConnectionString("95.129.200.10", "bdj_db", "banksql", "ma10R58z").AsString);
+			MySqlConnection db = new MySqlConnection(sqlConnectionStringBuilder.ConnectionString);
 
 			try
 			{
@@ -209,7 +215,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
 			foreach (string s in statements)
 			{
-				MySQLCommand cmd = new MySQLCommand(s, db);
+				MySqlCommand cmd = new MySqlCommand(s, db);
 				cmd.ExecuteNonQuery();
 			}
 

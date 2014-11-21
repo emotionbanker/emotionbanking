@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Resources;
 using System.Windows.Forms;
 using compucare.Enquire.Legacy.Umfrage2Lib.System;
-using MySQLDriverCS;
+using MySql.Data.MySqlClient;
 
 namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 {
@@ -256,15 +256,22 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
         private void SelectVirtualButton_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            MySQLConnection db = new MySQLConnection(new MySQLConnectionString(ServerBox.Text, DatabaseBox.Text, UserBox.Text, PasswordBox.Text).AsString);
+
+            var sqlConnectionStringBuilder = new MySqlConnectionStringBuilder();
+            sqlConnectionStringBuilder.Server = ServerBox.Text;
+            sqlConnectionStringBuilder.Database = DatabaseBox.Text;
+            sqlConnectionStringBuilder.UserID = UserBox.Text;
+            sqlConnectionStringBuilder.Password = PasswordBox.Text;
+
+            MySqlConnection db = new MySqlConnection(sqlConnectionStringBuilder.ConnectionString);
 
             try
             {
                 db.Open();
                 ArrayList tables = new ArrayList();
 
-                MySQLCommand cmd = new MySQLCommand("show tables", db);
-                MySQLDataReader d = cmd.ExecuteReaderEx();
+                MySqlCommand cmd = new MySqlCommand("show tables", db);
+                MySqlDataReader d = cmd.ExecuteReader();
 
                 while (d.Read())
                 {

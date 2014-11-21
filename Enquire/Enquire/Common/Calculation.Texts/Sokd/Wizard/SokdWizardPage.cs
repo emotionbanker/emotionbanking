@@ -19,8 +19,8 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection;
 using Microsoft.SqlServer;
+using MySql.Data.MySqlClient;
 using umfrage2._2008;
-using MySQLDriverCS;
 using Compucare.Enquire.Legacy.Umfrage2Lib;
 using Compucare.Enquire.Common.Controls.Utils;
 using Compucare.Enquire.Common.Controls.DataItems;
@@ -36,9 +36,9 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
         private readonly Evaluation _eval;
         private readonly SokdValues _sokd;
         private readonly Datenbank _db;
-        private MySQLCommand cmd;
-        private MySQLDataReader d;
-        public MySQLConnection sql;
+        private MySqlCommand cmd;
+        private MySqlDataReader d;
+        public MySqlConnection sql;
         private String frage = "";
         private Question question;
         private Dictionary<string, string> map2012andUnder; 
@@ -101,8 +101,8 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
         private void loadYears(){
             try
             {
-                cmd = new MySQLCommand("select distinct jahr FROM sokd_teilnehmer", sql);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand("select distinct jahr FROM sokd_teilnehmer", sql);
+                d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
                     _control._comboBox_Jahr.Items.Add(d.GetString(0));
@@ -360,8 +360,8 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
         string returnBankName(int blz, int jahr)
         {
             string bName = ""; 
-             cmd = new MySQLCommand("select name from sokd_teilnehmer where blz = "+blz+" and jahr = "+jahr, sql);
-             d = cmd.ExecuteReaderEx();
+             cmd = new MySqlCommand("select name from sokd_teilnehmer where blz = "+blz+" and jahr = "+jahr, sql);
+             d = cmd.ExecuteReader();
              while (d.Read() && d != null)
              {
                  bName += d.GetString(0) + "\n";
@@ -377,8 +377,8 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
                 _control._comboBox_Blz2.Items.Clear();
             try
             {
-                cmd = new MySQLCommand("select distinct blz from sokd_teilnehmer where jahr = "+jahr +" order by blz asc", sql);
-                d = cmd.ExecuteReaderEx();
+                cmd = new MySqlCommand("select distinct blz from sokd_teilnehmer where jahr = " + jahr + " order by blz asc", sql);
+                d = cmd.ExecuteReader();
 
                 while (d.Read() && d != null)
                 {
