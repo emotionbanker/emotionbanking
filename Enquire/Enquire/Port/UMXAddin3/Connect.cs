@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -15,6 +16,9 @@ using Compucare.Enquire.Legacy.UMXAddin3.Enquire;
 using Compucare.Enquire.Legacy.UMXAddin3.Xml;
 using Compucare.Frontends.Common.Command;
 using Microsoft.Office.Core;
+using Microsoft.Office.Interop.PowerPoint;
+using Application = System.Windows.Forms.Application;
+using Point = System.Drawing.Point;
 
 namespace Compucare.Enquire.Legacy.UMXAddin3
 {
@@ -336,13 +340,193 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
+        static private Dictionary<string, string> Formulas = new Dictionary<string, string>();
+        static private Queue<Point> SourceCells = new Queue<Point>();
+
+        public void HandleCopy()
+        {
+            IDataObject clipboardData = Clipboard.GetDataObject();
+            if (clipboardData == null)
+            {
+                return;
+            }
+
+            var formats = clipboardData.GetFormats(true);
+            if (!formats.Any(x => x.StartsWith("Art::") || x.EndsWith("ClipFormat")))
+            {
+                // clipboard doesn't contain data in Office format
+                return;
+            }
+
+            if (_pptApp.ActiveWindow.Selection.Type != PpSelectionType.ppSelectionShapes && _pptApp.ActiveWindow.Selection.Type != PpSelectionType.ppSelectionText)
+            {
+                return;
+            }
+
+            if (_pptApp.ActiveWindow.Selection.ShapeRange.Type != MsoShapeType.msoTable)
+            {
+                return;
+            }
+
+            Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+
+            SourceCells.Clear();
+            Formulas.Clear();
+
+            var selectedCellsCoordinates = GetSelectedCellsCoordinates(tbl);
+            foreach (Point coordinate in selectedCellsCoordinates)
+            {
+                var key = string.Format("umxcode_{0}_{1}", coordinate.X, coordinate.Y);
+                string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
+                if (!string.IsNullOrEmpty(dat))
+                {
+                    SourceCells.Enqueue(coordinate);
+                    Formulas.Add(key, dat);
+                }
+            }
+        }
+
+        public void HandlePaste()
+        {
+            IDataObject clipboardData = Clipboard.GetDataObject();
+            if (clipboardData == null || !SourceCells.Any())
+            {
+                return;
+            }
+
+            var formats = clipboardData.GetFormats(true);
+            if (!formats.Any(x => x.StartsWith("Art::") || x.EndsWith("ClipFormat")))
+            {
+                // clipboard doesn't contain data in Office format
+                return;
+            }
+
+            if (_pptApp.ActiveWindow.Selection.Type == PpSelectionType.ppSelectionNone)
+            {
+                return;
+            }
+
+            Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+
+            var targetFirstCell = GetSelectedCellCoordinates(tbl);
+            var sourceFirstCell = SourceCells.Dequeue();
+            var sourceCurrentCell = sourceFirstCell;
+
+            while (SourceCells.Count >= 0)
+            {
+                var targetCurrentCell = new Point
+                {
+                    X = sourceCurrentCell.X - sourceFirstCell.X + targetFirstCell.X,
+                    Y = sourceCurrentCell.Y - sourceFirstCell.Y + targetFirstCell.Y
+                };
+
+                var sourceKey = string.Format("umxcode_{0}_{1}", sourceCurrentCell.X, sourceCurrentCell.Y);
+                var targetKey = string.Format("umxcode_{0}_{1}", targetCurrentCell.X, targetCurrentCell.Y);
+                _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(targetKey, Formulas[sourceKey]);
+
+                if (SourceCells.Any())
+                {
+                    sourceCurrentCell = SourceCells.Dequeue();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            Formulas.Clear();
+        }
+
+        public Cell GetSelectedCell(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+                    if (cell.Selected)
+                    {
+                        return cell;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Cell> GetSelectedCells(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            List<Cell> selectedCells = new List<Cell>();
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+                    if (cell.Selected)
+                    {
+                        selectedCells.Add(cell);
+                    }
+                }
+            }
+
+            return selectedCells;
+        }
+
+        public Point GetSelectedCellCoordinates(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+                    if (cell.Selected)
+                    {
+                        return new Point(i, j);
+                    }
+                }
+            }
+
+            return Point.Empty;
+        }
+
+        public IEnumerable<Point> GetSelectedCellsCoordinates(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            List<Point> coordinates = new List<Point>();
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+                    if (cell.Selected)
+                    {
+                        coordinates.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            return coordinates;
+        }
+
         public void OpenPropertiesDialog()
         {
             try
             {
-                if (_pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"].Equals("table") || (_pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"].IndexOf("ADDIN") != -1))
+                var key = GetFieldKeyForSelectedCell();
+                if (_pptApp.ActiveWindow.Selection.ShapeRange.Tags[key].Equals("table") || (_pptApp.ActiveWindow.Selection.ShapeRange.Tags[key].IndexOf("ADDIN") != -1))
                 {
-                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"];
+                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
 
                     string d = string.Empty;
 
@@ -488,6 +672,153 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
+        private Dictionary<Point, string> GetAllCellsWithFormulas(Microsoft.Office.Interop.PowerPoint.Table table)
+        {
+            var cells = new Dictionary<Point, string>();
+
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+
+                    cell.Select();
+                    var key = GetFieldKeyForSelectedCell();
+                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
+                    if (!string.IsNullOrEmpty(dat))
+                    {
+                        if (cell.Shape.TextFrame.HasText == MsoTriState.msoFalse)
+                        {
+                            _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+                        }
+                        else
+                        {
+                            var coords = new Point(i, j);
+                            cells[coords] = dat;
+                        }
+                    }
+                }
+            }
+
+            return cells;
+        }
+
+        public void OpenUpdateFormulaDialog()
+        {
+            if (eval == null)
+            {
+                MessageBox.Show("Sollte eine Verknüpfung eingestellt sein, speichern und laden Sie das Word- Dokument neu.", "Keine Datenverknüpfung eingestellt");
+                return;
+            }
+
+            if(_pptApp.ActiveWindow.Selection.Type == PpSelectionType.ppSelectionNone)
+            {
+                MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
+                return;
+            }
+
+            var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+            if (shapeType != MsoShapeType.msoTable && shapeType != MsoShapeType.msoPicture && shapeType != MsoShapeType.msoTextBox)
+            {
+                MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
+                return;
+            }
+
+            if (shapeType == MsoShapeType.msoTable)
+            {
+                var tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+
+                var formulas = GetAllCellsWithFormulas(tbl);
+
+                var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
+                var dialogResult = form.ShowDialog();
+                if (dialogResult == DialogResult.OK)
+                {
+                    foreach (var formula in form.Formulas)
+                    {
+                        var coord = formula.Key;
+
+                        if (formulas[formula.Key] != formula.Value)
+                        {
+                            var cell = tbl.Cell(coord.X, coord.Y);
+                            cell.Select();
+
+                            // clean up the selected cell
+                            SetTextForSelectedShape(string.Empty);
+                            var key = GetFieldKeyForSelectedCell();
+                            _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+
+                            AddPField(formula.Value);
+                        }
+                    }
+
+                    _pptApp.ActiveWindow.Selection.Unselect();
+                }
+                return;
+            }
+
+            if (shapeType == MsoShapeType.msoPicture)
+            {
+                if (_pptApp.ActiveWindow.Selection.ShapeRange.Count > 1)
+                {
+                    var selectedShapes = new List<Microsoft.Office.Interop.PowerPoint.Shape>();
+                    var formulas = new Dictionary<Point, string>();
+                    for (int i = 1; i <= _pptApp.ActiveWindow.Selection.ShapeRange.Count; i++)
+                    {
+                        var formula = _pptApp.ActiveWindow.Selection.ShapeRange[i].Tags["umxcode"];
+                        formulas.Add(new Point(i, i), formula);
+                        selectedShapes.Add(_pptApp.ActiveWindow.Selection.ShapeRange[i]);
+                    }
+
+                    var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
+                    var dialogResult = form.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        _pptApp.ActiveWindow.Selection.Unselect();
+                        int i = 1;
+                        foreach (var shape in selectedShapes)
+                        {
+                            // AddPField() replaces the first shape from Selection.ShapeRange
+                            // so we need to unselect all shapes and after that to select
+                            // each shape individually
+
+                            shape.Select(MsoTriState.msoTrue);
+
+                            var formula = form.Formulas[new Point(i, i)];
+                            AddPField(formula);
+
+                            shape.Select(MsoTriState.msoFalse);
+                            i++;
+                        }
+                    }
+                }
+                else
+                {
+                    ShowEditFormulaDialogForSingleShape();
+                }
+            }
+
+            if (shapeType == MsoShapeType.msoTextBox)
+            {
+                ShowEditFormulaDialogForSingleShape();
+            }
+        }
+
+        private void ShowEditFormulaDialogForSingleShape()
+        {
+            var formula = _pptApp.ActiveWindow.Selection.ShapeRange.Tags["umxcode"];
+
+            var form = new UpdateFormulaForm(formula);
+            var dialogResult = form.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                AddPField(form.Formula);
+            }
+        }
+
         public void AddField(string code)
         {
             if (AType == AppType.PowerPoint)
@@ -501,231 +832,405 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
+        private void SetTextForSelectedShape(string text)
+        {
+            if (_pptApp.ActiveWindow.Selection.Type == PpSelectionType.ppSelectionNone)
+            {
+                return;
+            }
+
+            var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+            if (shapeType == MsoShapeType.msoTable)
+            {
+                Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+                var selectedCell = GetSelectedCell(tbl);
+                selectedCell.Shape.TextFrame.TextRange.Text = text;
+                return;
+            }
+
+            if (shapeType == MsoShapeType.msoTextBox)
+            {
+                _pptApp.ActiveWindow.Selection.ShapeRange.TextFrame.TextRange.Text = text;
+            }
+        }
+
+        private string GetFieldKeyForSelectedCell()
+        {
+            string key = "umxcode";
+
+            PpSelectionType selectionType = _pptApp.ActiveWindow.Selection.Type;
+            if (selectionType == PpSelectionType.ppSelectionNone)
+            {
+                return key;
+            }
+
+            var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+            if (shapeType == MsoShapeType.msoTable)
+            {
+                Microsoft.Office.Interop.PowerPoint.Table tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
+                var selectedCellCoordinates = GetSelectedCellCoordinates(tbl);
+                if (selectedCellCoordinates != Point.Empty)
+                {
+                    key = string.Format("umxcode_{0}_{1}", selectedCellCoordinates.X, selectedCellCoordinates.Y);
+                }
+            }
+
+            return key;
+        }
+
         private void AddPField(string code)
         {
             var tls = new PPTools(code, GetTarget(), eval);
-            var sl = (Microsoft.Office.Interop.PowerPoint.Slide)_pptApp.ActiveWindow.View.Slide;
-
+            var sl = (Slide)_pptApp.ActiveWindow.View.Slide;
             Microsoft.Office.Interop.PowerPoint.Shape ns = null;
 
+            bool createTextBlock;
+            bool replacePicture = false;
+            var ppSelectionType = _pptApp.ActiveWindow.Selection.Type;
+            if (ppSelectionType == PpSelectionType.ppSelectionNone)
+            {
+                createTextBlock = true;
+            }
+            else
+            {
+                MsoShapeType shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
+                if (shapeType == MsoShapeType.msoPicture)
+                {
+                    replacePicture = true;
+                }
+
+                createTextBlock = shapeType != MsoShapeType.msoTable && shapeType != MsoShapeType.msoTextBox;
+            }
+
+            var key = GetFieldKeyForSelectedCell();
             switch (tls.dat[1])
             {
                 case "mw":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetAverageValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "md":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetMedianValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetMedianValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "pc":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetPercentValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "apc":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentResponseValue(tls, GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetPercentResponseValue(tls, GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "gap":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetGapValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetGapValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "nps":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsValue(tls);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetNpsValue(tls));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "n":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetSampleSizeValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetSampleSizeValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "aas":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetAverageReplyNumValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetAverageReplyNumValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "aabs":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetAnswerCountByPersonValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetAnswerCountByPersonValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-comp-mw":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetMeanForComparisonValue(tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetMeanForComparisonValue(tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-value":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetCompareValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetCompareValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-comp-apc":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentForComparisonValue(tls, tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetPercentForComparisonValue(tls, tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-value-apc":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontCompareValue(tls, GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetBcontCompareValue(tls, GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-nps-value":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetNpsForComparisonValue(tls, tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetNpsForComparisonValue(tls, tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "bcont-nps-diff":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetBcontNpsValue(tls, GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetBcontNpsValue(tls, GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "potval":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetDeviationValue(tls);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetDeviationValue(tls));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "origaw":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetOriginalAnswerValue(GetTarget(), tls.dat);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetOriginalAnswerValue(GetTarget(), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "xmlText":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetXmlValue(tls, GetTarget());
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetXmlValue(tls, GetTarget()));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "potpcnt":
-                    _pptApp.ActiveWindow.Selection.TextRange.Text = GetPercentDeviationValue(tls);
-                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add("umxcode", code);
-                    ns = null;
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetPercentDeviationValue(tls));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
                     break;
 
                 case "potpic":
-                    ns = sl.Shapes.AddPicture(tls.Potpic(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 180, 20);
+                    ns = InsertPotpicShape(sl, tls, replacePicture);
                     break;
 
                 case "pbar":
-                    ns = sl.Shapes.AddPicture(tls.Pbar(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 180, 17);
+                    ns = InsertPbarShape(sl, tls, replacePicture);
                     break;
 
                 case "tl":
-                    ns = sl.Shapes.AddPicture(tls.Tl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, 16, 16);
+                    ns = InsertTlShape(sl, tls, replacePicture);
                     break;
 
                 case "idivtl":
-                    ns = sl.Shapes.AddPicture(tls.Idivtl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertIdivtlShape(sl, tls, replacePicture);
                     break;
 
                 case "comparetl":
-                    ns = sl.Shapes.AddPicture(tls.Comparetl(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertComparetlShape(sl, tls, replacePicture);
                     break;
 
                 case "comparetlnps":
-                    ns = sl.Shapes.AddPicture(tls.Comparetlnps(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertComparetlnpsShape(sl, tls, replacePicture);
                     break;
 
                 case "compareidivtlpcnt":
-                    ns = sl.Shapes.AddPicture(tls.Comparetlpcnt(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertComparetlpcntShape(sl, tls, replacePicture);
                     break;
 
                 case "idivtlpcnt":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlPcnt(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertIdivtlPcntShape(sl, tls, replacePicture);
                     break;
 
                 case "idivtlnps":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlNps(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertIdivtlNpsShape(sl, tls, replacePicture);
                     break;
 
                 case "idivtlnum":
-                    ns = sl.Shapes.AddPicture(tls.IdivtlNum(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertIdivtlNumShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-light":
-                    ns = sl.Shapes.AddPicture(tls.bcontLight(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertBcontLightShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-trend":
-                    ns = sl.Shapes.AddPicture(tls.bconTrend(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));                  
+                    ns = InsertBconTrendShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-nps-trend":
-                    ns = sl.Shapes.AddPicture(tls.bconTrendNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));
+                    ns = InsertBconTrendNpsShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-nps-tlb":
-                    ns = sl.Shapes.AddPicture(tls.bcontLightNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertBcontLightNpsShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-light-apc":
-                    ns = sl.Shapes.AddPicture(tls.bcontLightApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertBcontLightApcShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-Exclamation":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamation(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22])*2, Int32.Parse(tls.dat[22])*2);
+                    ns = InsertBconExclamationShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-Exclamation-apc":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamationApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]) * 2, Int32.Parse(tls.dat[22]) * 2);
+                    ns = InsertBconExclamationApcShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-Exclamation-nps":
-                    ns = sl.Shapes.AddPicture(tls.bconExclamationNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]) * 2, Int32.Parse(tls.dat[22]) * 2);
+                    ns = InsertBconExclamationNpsShape(sl, tls, replacePicture);
                     break;
 
                 case "bcont-trend-apc":
-                    ns = sl.Shapes.AddPicture(tls.bconTrendApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[22]), Int32.Parse(tls.dat[22]));
+                    ns = InsertBbconTrendApcShape(sl, tls, replacePicture);
                     break;
 
                 case "op":
-                    ns = sl.Shapes.AddPicture(tls.op(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height);
+                    ns = InsertOpShape(sl, tls, replacePicture);
                     break;
 
                 case "op-c":
-                    ns = sl.Shapes.AddPicture(tls.opC(this), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height);
+                    ns = InsertOpCShape(sl, tls, replacePicture);
                     break;
 
                 case "exclamation-single":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationSingle(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertExclamationSingleShape(sl, tls, replacePicture);
                     break;
 
                 case "exclamation-gap":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationGap(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[10]) * 2, Int32.Parse(tls.dat[10]) * 2);
+                    ns = InsertExclamationGapShape(sl, tls, replacePicture);
                     break;
 
                 case "exclamation-compare":
-                    ns = sl.Shapes.AddPicture(tls.ExclamationCompare(), MsoTriState.msoFalse, MsoTriState.msoTrue, 100, 100, Int32.Parse(tls.dat[11]) * 2, Int32.Parse(tls.dat[11]) * 2);
+                    ns = InsertExclamationCompareShape(sl, tls, replacePicture);
                     break;
 
                 case "xmlGraphic":
-                    IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
-                    ns = sl.Shapes.AddPicture(gr.Store(),
-                                              MsoTriState.msoFalse, MsoTriState.msoTrue,
-                                              100, 100,
-                                              gr.Size.Width, gr.Size.Height);
+                    ns = InsertXmlGraphicShape(sl, tls, replacePicture);
                     break;
             }
 
@@ -1714,6 +2219,195 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         {
             var gr = XmlHelper.ComputeText(tls.GetXmlMaster(), td, eval);
             return gr.Compute();
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertPicShape(Slide sl, string fileName, float left, float top, float width, float height, bool replace)
+        {
+            if (replace)
+            {
+                var shape = _pptApp.ActiveWindow.Selection.ShapeRange[1];
+                left = shape.Left;
+                top = shape.Top;
+                width = shape.Width;
+                height = shape.Height;
+                shape.Delete();
+            }
+
+            var ns = sl.Shapes.AddPicture(fileName, MsoTriState.msoFalse, MsoTriState.msoTrue, left, top, width, height);
+            return ns;
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertPotpicShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.Potpic(), 100, 100, 180, 20, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertPbarShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.Pbar(), 100, 100, 180, 17, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertTlShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.Tl(), 100, 100, 16, 16, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertIdivtlShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.Idivtl(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertComparetlShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            return InsertPicShape(sl, tls.Comparetl(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertComparetlnpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            return InsertPicShape(sl, tls.Comparetlnps(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertComparetlpcntShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            return InsertPicShape(sl, tls.Comparetlpcnt(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertIdivtlPcntShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.IdivtlPcnt(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertIdivtlNpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.IdivtlNps(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertIdivtlNumShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.IdivtlNum(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBcontLightShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            var fileName = tls.bcontLight(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconTrendShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconTrend(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconTrendNpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconTrendNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBcontLightNpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            var fileName = tls.bcontLightNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBcontLightApcShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            var fileName = tls.bcontLightApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconExclamationShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconExclamation(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconExclamationApcShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconExclamationApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBconExclamationNpsShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconExclamationNPS(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertBbconTrendApcShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[22]) * 2;
+            var height = Int32.Parse(tls.dat[22]) * 2;
+            var fileName = tls.bconTrendApc(GetCTarget(Int32.Parse(tls.dat[5])), multiEvals);
+            return InsertPicShape(sl, fileName, 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertOpShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.op(), 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertOpCShape(Slide sl, PPTools tls, bool replace)
+        {
+            return InsertPicShape(sl, tls.opC(this), 100, 100, tls.compop.OutputImage.Width, tls.compop.OutputImage.Height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertExclamationSingleShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.ExclamationSingle(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertExclamationGapShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[10]) * 2;
+            var height = Int32.Parse(tls.dat[10]) * 2;
+            return InsertPicShape(sl, tls.ExclamationGap(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertExclamationCompareShape(Slide sl, PPTools tls, bool replace)
+        {
+            var width = Int32.Parse(tls.dat[11]) * 2;
+            var height = Int32.Parse(tls.dat[11]) * 2;
+            return InsertPicShape(sl, tls.ExclamationCompare(), 100, 100, width, height, replace);
+        }
+
+        private Microsoft.Office.Interop.PowerPoint.Shape InsertXmlGraphicShape(Slide sl, PPTools tls, bool replace)
+        {
+            IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
+            return InsertPicShape(sl, gr.Store(), 100, 100, gr.Size.Width, gr.Size.Height, replace);
         }
 
         private void ProcessField(Microsoft.Office.Interop.Word.Field f)
