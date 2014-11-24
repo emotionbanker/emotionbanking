@@ -545,8 +545,13 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
         {
             if (MessageBox.Show("Sind Sie sicher dass sie alle Ergebnisdaten löschen wollen?", "Ergebnisse löschen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                if(eval != null) eval.RemoveData();
-                MessageBox.Show("Ergebnisdaten wurden gelöscht", "Ergebnisse löschen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (eval != null)
+                {
+                    eval.RemoveData();
+                    
+                    
+                    MessageBox.Show("Ergebnisdaten wurden gelöscht", "Ergebnisse löschen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 

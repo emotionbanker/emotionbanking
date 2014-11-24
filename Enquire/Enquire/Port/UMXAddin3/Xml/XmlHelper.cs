@@ -60,6 +60,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml
                     return new MatrixCrossing(doc, td, eval);
                 case "sokd":
                    return new Sokd(eval, doc);
+                case "answerOfField":
+                   return new AnswerOfField(eval, doc, td);
             }
 
             return null;

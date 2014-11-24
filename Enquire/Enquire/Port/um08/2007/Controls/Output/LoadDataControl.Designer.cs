@@ -54,6 +54,10 @@ namespace umfrage2._2007.Controls
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.checkBoxPercent = new System.Windows.Forms.CheckBox();
+            this.hScrollBarValue = new System.Windows.Forms.HScrollBar();
+            this.labelValue = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.SelectTargetPanel.SuspendLayout();
             this.groupBoxDate.SuspendLayout();
             this.SuspendLayout();
@@ -203,11 +207,11 @@ namespace umfrage2._2007.Controls
             // checkBoxDate
             // 
             this.checkBoxDate.AutoSize = true;
-            this.checkBoxDate.Location = new System.Drawing.Point(597, 189);
+            this.checkBoxDate.Location = new System.Drawing.Point(597, 211);
             this.checkBoxDate.Name = "checkBoxDate";
-            this.checkBoxDate.Size = new System.Drawing.Size(94, 17);
+            this.checkBoxDate.Size = new System.Drawing.Size(57, 17);
             this.checkBoxDate.TabIndex = 37;
-            this.checkBoxDate.Text = "Datum - Filter ";
+            this.checkBoxDate.Text = "Datum";
             this.checkBoxDate.UseVisualStyleBackColor = true;
             this.checkBoxDate.CheckedChanged += new System.EventHandler(this.checkBoxDate_CheckedChanged);
             // 
@@ -215,7 +219,7 @@ namespace umfrage2._2007.Controls
             // 
             this.groupBoxDate.Controls.Add(this.monthCalendarBis);
             this.groupBoxDate.Controls.Add(this.monthCalendarVon);
-            this.groupBoxDate.Location = new System.Drawing.Point(597, 210);
+            this.groupBoxDate.Location = new System.Drawing.Point(597, 232);
             this.groupBoxDate.Name = "groupBoxDate";
             this.groupBoxDate.Size = new System.Drawing.Size(389, 183);
             this.groupBoxDate.TabIndex = 38;
@@ -244,7 +248,7 @@ namespace umfrage2._2007.Controls
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(606, 406);
+            this.label4.Location = new System.Drawing.Point(606, 428);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 13);
             this.label4.TabIndex = 39;
@@ -254,7 +258,7 @@ namespace umfrage2._2007.Controls
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(708, 406);
+            this.label5.Location = new System.Drawing.Point(708, 428);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 13);
             this.label5.TabIndex = 40;
@@ -264,7 +268,7 @@ namespace umfrage2._2007.Controls
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(771, 406);
+            this.label6.Location = new System.Drawing.Point(771, 428);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(25, 13);
             this.label6.TabIndex = 41;
@@ -274,7 +278,7 @@ namespace umfrage2._2007.Controls
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(792, 406);
+            this.label7.Location = new System.Drawing.Point(792, 428);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(35, 13);
             this.label7.TabIndex = 42;
@@ -284,18 +288,63 @@ namespace umfrage2._2007.Controls
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(857, 406);
+            this.label8.Location = new System.Drawing.Point(857, 428);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(37, 13);
             this.label8.TabIndex = 43;
             this.label8.Text = "laden.";
             this.label8.Visible = false;
             // 
+            // checkBoxPercent
+            // 
+            this.checkBoxPercent.AutoSize = true;
+            this.checkBoxPercent.Location = new System.Drawing.Point(597, 188);
+            this.checkBoxPercent.Name = "checkBoxPercent";
+            this.checkBoxPercent.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxPercent.TabIndex = 44;
+            this.checkBoxPercent.UseVisualStyleBackColor = true;
+            this.checkBoxPercent.CheckedChanged += new System.EventHandler(this.checkBoxPercent_CheckedChanged);
+            // 
+            // hScrollBarValue
+            // 
+            this.hScrollBarValue.Location = new System.Drawing.Point(615, 188);
+            this.hScrollBarValue.Maximum = 58;
+            this.hScrollBarValue.Minimum = 1;
+            this.hScrollBarValue.Name = "hScrollBarValue";
+            this.hScrollBarValue.Size = new System.Drawing.Size(131, 14);
+            this.hScrollBarValue.TabIndex = 45;
+            this.hScrollBarValue.Value = 1;
+            this.hScrollBarValue.Visible = false;
+            this.hScrollBarValue.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBarValue_Scroll);
+            // 
+            // labelValue
+            // 
+            this.labelValue.AutoSize = true;
+            this.labelValue.Location = new System.Drawing.Point(749, 188);
+            this.labelValue.Name = "labelValue";
+            this.labelValue.Size = new System.Drawing.Size(19, 13);
+            this.labelValue.TabIndex = 46;
+            this.labelValue.Text = "49";
+            this.labelValue.Visible = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(594, 172);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(45, 13);
+            this.label9.TabIndex = 47;
+            this.label9.Text = "Fragen:";
+            // 
             // LoadDataControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.labelValue);
+            this.Controls.Add(this.hScrollBarValue);
+            this.Controls.Add(this.checkBoxPercent);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -353,5 +402,9 @@ namespace umfrage2._2007.Controls
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox checkBoxPercent;
+        private System.Windows.Forms.HScrollBar hScrollBarValue;
+        private System.Windows.Forms.Label labelValue;
+        private System.Windows.Forms.Label label9;
     }
 }

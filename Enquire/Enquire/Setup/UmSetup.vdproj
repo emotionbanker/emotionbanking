@@ -622,7 +622,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0B7D789D30334C57AEA144B1341A4321"
+        "OwnerKey" = "8:_FC9F9F05079D28F4F279E33A8CCFBE3D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1916,7 +1916,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:4.24"
+        "ProductVersion" = "8:1.0"
         "Manufacturer" = "8:Compucare & Celik"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

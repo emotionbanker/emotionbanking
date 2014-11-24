@@ -1623,7 +1623,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             return new umfrage2._2007.Controls.OutputControl_Bar(eval, false, this);
         }
 
-
 		public override void Save(string name, string path)
 		{
 			//
@@ -1644,6 +1643,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 				seval = this.eval;
 			}
 			//Targets
+
 
 			foreach (TargetData td in seval.CombinedTargets)
 			{

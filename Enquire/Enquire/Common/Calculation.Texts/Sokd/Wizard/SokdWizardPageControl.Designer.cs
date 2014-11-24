@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SokdWizardPageControl));
             this._groupBoxSokd = new System.Windows.Forms.GroupBox();
+            this._questionSelect = new Compucare.Enquire.Common.Controls.Utils.DropDownTextbox();
             this._groupBox2 = new System.Windows.Forms.GroupBox();
             this._comboBox_Jahr2 = new System.Windows.Forms.ComboBox();
             this._bindestrich = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@
             this._rbValue = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this._lb_Frage = new System.Windows.Forms.Label();
-            this._questionSelect = new Compucare.Enquire.Common.Controls.Utils.DropDownTextbox();
             this._groupBoxSokd.SuspendLayout();
             this._groupBox2.SuspendLayout();
             this._groupBox1.SuspendLayout();
@@ -73,6 +73,16 @@
             this._groupBoxSokd.Size = new System.Drawing.Size(549, 321);
             this._groupBoxSokd.TabIndex = 0;
             this._groupBoxSokd.TabStop = false;
+            // 
+            // _questionSelect
+            // 
+            this._questionSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._questionSelect.InitString = "choose question...";
+            this._questionSelect.Location = new System.Drawing.Point(87, 135);
+            this._questionSelect.Name = "_questionSelect";
+            this._questionSelect.Size = new System.Drawing.Size(430, 20);
+            this._questionSelect.TabIndex = 28;
             // 
             // _groupBox2
             // 
@@ -292,16 +302,6 @@
             this._lb_Frage.Size = new System.Drawing.Size(42, 15);
             this._lb_Frage.TabIndex = 1;
             this._lb_Frage.Text = "Frage:";
-            // 
-            // _questionSelect
-            // 
-            this._questionSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._questionSelect.InitString = "choose question...";
-            this._questionSelect.Location = new System.Drawing.Point(87, 135);
-            this._questionSelect.Name = "_questionSelect";
-            this._questionSelect.Size = new System.Drawing.Size(430, 20);
-            this._questionSelect.TabIndex = 28;
             // 
             // SokdWizardPageControl
             // 

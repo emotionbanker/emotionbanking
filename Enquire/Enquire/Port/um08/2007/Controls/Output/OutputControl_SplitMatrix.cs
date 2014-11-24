@@ -378,5 +378,13 @@ namespace umfrage2._2007.Controls
             mm.InvertLog = InvertLogBox.Checked;
             Preview();
         }
+
+        private void SkalaBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            mm.Skala = SkalaBox.SelectedItem.ToString();
+            mm.SkalaX = Convert.ToInt32(SkalaBox.SelectedItem.ToString().Split('-').GetValue(0));
+            mm.SkalaY = Convert.ToInt32(SkalaBox.SelectedItem.ToString().Split('-').GetValue(1));
+        }
+
     }
 }

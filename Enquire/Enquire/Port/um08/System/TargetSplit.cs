@@ -10,14 +10,12 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
         public TargetData master;
         public Question splitter;
         public ArrayList ChildSplits;
-        public Hashtable List;
 
 
         public TargetSplit(TargetData master, Question splitter)
         {
             this.master = master;
             this.splitter = splitter;
-            this.List = master.QuestionAndTargetList;
             ChildSplits = new ArrayList();
         }
 
@@ -36,17 +34,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
         public TargetData[] ComputeSplitTarget(Evaluation eval)
         {
             bool ok = false;
-            //List.Add(splitter, master);
-            //master.QuestionAndTargetList.Add(splitter, master);
-            /*try
-            {
-                MessageBox.Show(master.masterSplit.ToString());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }*/
-            //MessageBox.Show(master.Name + "/" + splitter.SID);
+
             TargetData[] res = null;
             try
             {
@@ -64,7 +52,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 //MessageBox.Show("Question: "+splitter.Text+"\nListengroese: "+splitter.AnswerList.Length);
                 foreach (string answer in splitter.AnswerList)//durchauft alle Antworten
                 {
-                    //erzeugt das gesplittete Ziel (NameVonDerBank_FragenId_)
                     TargetData split = new TargetData(master.ID + "_" + splitter.SID + "_" + i, master.Name + "_" + splitter.SID + "_" + answer, master.Class);
 
                     ArrayList UIDs = new ArrayList();

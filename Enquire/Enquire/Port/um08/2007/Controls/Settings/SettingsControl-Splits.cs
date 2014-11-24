@@ -9,6 +9,8 @@ using compucare.Enquire.Legacy.Umfrage2Lib.Dialogs;
 using compucare.Enquire.Legacy.Umfrage2Lib.System;
 using umfrage2._2008.Tools;
 using Compucare.Enquire.Legacy.Umfrage2Lib.SystemExtensions;
+using compucare.Enquire.Legacy.Umfrage2Lib.System;
+using Compucare.Enquire.Legacy.Umfrage2Lib._2007.Controls.Settings;
 using System.Collections;
 
 namespace umfrage2._2007.Controls
@@ -19,6 +21,7 @@ namespace umfrage2._2007.Controls
         private ChooseTargetControl ctc;
 
         private Question splitQuestion;
+        private EvaluationSaver save;
 
         public SettingsControl_Splits(Evaluation eval)
         {
@@ -32,6 +35,7 @@ namespace umfrage2._2007.Controls
             ChooseTargetPanel.Controls.Add(ctc);
 
             splitQuestion = null;
+            save = new EvaluationSaver(eval);
         }
 
 
@@ -48,23 +52,7 @@ namespace umfrage2._2007.Controls
 
         private void Split_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("Ziel '"+ctc.SelectedItem+"' ist selektiert und wird mit der Frage '"+splitQuestion.Text+"' geteilt.");
-
-          
             ctc.SelectedItem.Splits.Add(new TargetSplit(ctc.SelectedItem, splitQuestion));
-
-            /*if (ctc.SelectedItem.WasCombo){
-                ctc.SelectedItem.OriginalCombo.Splits.Add(new TargetSplit(ctc.SelectedItem, splitQuestion));
-            }*/
-
-            /*
-            Console.WriteLine("[splits]\tadded " + splitQuestion.ID + " to " + ctc.SelectedItem.Name);
-
-            Console.WriteLine("[splits]\tsplits for " + ctc.SelectedItem.Name);
-            
-            foreach (TargetSplit ts in ctc.SelectedItem.Splits)
-                Console.WriteLine("\t\t" + ts.master.Name + "/" + ts.splitter.ID);
-            */
 
             eval.ComputeTargetSplits2(eval, ctc.SelectedItem.Name.ToString());
 
@@ -75,6 +63,14 @@ namespace umfrage2._2007.Controls
             ctc.Checkboxes = checkboxes;
 
             ChooseTargetPanel.Controls.Add(ctc);
+
+            save.SaveThreadBefore(false,null);
+
+            /*String tmp = "";
+            foreach (TargetAndSplitQuestion tdParent in eval.TargetChildsParent)
+                tmp += tdParent.getQuestionId() + " -- " + tdParent.getTargetData().Name+"\n";
+
+            if(!tmp.Equals("")) MessageBox.Show(tmp);*/
         }
 
 
@@ -83,33 +79,95 @@ namespace umfrage2._2007.Controls
             if (MessageBox.Show("Alle Zielteilungen nach dem ausgewählten Schema werden gelöscht (alle nach der ausgewählten Frage geteilten Ziele in der aktuellen Hierarchieebene). Fortfahren?", "Achtung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 TargetSplit master = ctc.SelectedItem.masterSplit;
-
-                master.master.Splits.Remove(master);
-                
-                eval.ComputeTargetSplits(eval);
-
-                ChooseTargetPanel.Controls.Clear();
-
-                ctc = new ChooseTargetControl(eval);
-
-                ChooseTargetPanel.Controls.Add(ctc);
-            }
-            //////////////////////////////////////////////////////////
-            /*TargetAndSplitQuestion tasq = null;
-            string x = ctc.SelectedItem.masterSplit.master.ToString()+"/"+ctc.SelectedItem.masterSplit.splitter.ID;
-            MessageBox.Show(x);
-            foreach (TargetAndSplitQuestion tdParent in eval.TargetChildsParent)
-            {
-                if (tdParent.getTargetData().Name.Equals(x))
+                bool found = false;
+                foreach (TargetAndSplitQuestion tdParent in eval.TargetChildsParent)
                 {
-                    tasq = tdParent;
-                    break;
+                    if (tdParent.getQuestionId() == master.splitter.ID && tdParent.getTargetData().Name.Equals(master.master.name))
+                    {
+                        found = true;
+                        break;
+                    }else{
+                        found = false;
+                    }
                 }
+
+                string targetAndQuestion = "";
+                if (found == false)
+                {
+                    master.master.Splits.Remove(master);
+
+                    eval.ComputeTargetSplits(eval);
+
+                    ChooseTargetPanel.Controls.Clear();
+
+                    ctc = new ChooseTargetControl(eval);
+
+                    ChooseTargetPanel.Controls.Add(ctc);
+                    save.SaveThreadBefore(false, targetAndQuestion);
+                }
+                else
+                {
+                    int index = 0;
+                    
+                    foreach (TargetAndSplitQuestion tdParent in eval.TargetChildsParent)
+                    {
+                        if (tdParent.getQuestionId() == master.splitter.ID && tdParent.getTargetData().Name.Equals(master.master.name))
+                        {
+                            targetAndQuestion = tdParent.getTargetData().Name + "_" + tdParent.getQuestionId();
+                            break;
+                        }
+                        else
+                        {
+                            index++;
+                        }
+                    }
+
+
+                    eval.TargetChildsParent.RemoveAt(index);
+
+                    save.SaveThreadBefore(true, targetAndQuestion);
+                    ChooseTargetPanel.Controls.Clear();
+
+                    ctc = new ChooseTargetControl(eval);
+
+                    ChooseTargetPanel.Controls.Add(ctc);
+                    /*ArrayList oldTargetsArrayList = new ArrayList();
+                    ArrayList kopieoldTargetsArrayList = new ArrayList();
+                    
+                    foreach (TargetData targets in eval.CombinedTargets)
+                    {
+                        oldTargetsArrayList.Add(targets);
+                        kopieoldTargetsArrayList.Add(targets);
+                    }
+
+                    ArrayList newTargetsArrayList = new ArrayList();
+                    ArrayList Answers = new ArrayList();
+                    foreach (string answer in master.splitter.AnswerList)//durchlaufe alle Antworten
+                    {
+                        string x = master.master.name + "_" + master.splitter.ID + "_" + answer;
+                        foreach (TargetData targets in oldTargetsArrayList)
+                        {
+                            if (targets.Name.Equals(x))
+                            {
+                                //eval.RemoveTarget(targets);
+                                kopieoldTargetsArrayList.Remove(targets);
+                            }
+                        }
+                    }//end 1st foreach
+
+                    
+
+                    TargetData[] targett = new TargetData[kopieoldTargetsArrayList.Count];
+                    int i = 0;
+                    foreach (TargetData targets in kopieoldTargetsArrayList)
+                        targett[i++] = targets;*/
+                    
+
+                }
+                
             }
-            if (tasq != null) eval.TargetChildsParent.Remove(tasq);*/
-            /////////////////////////////////////////////////////////
-            EvaluationSaver save = new EvaluationSaver(eval);
-            save.SaveThreadBefore();
+            
+            
         }//end zielteilungenlöschen
 
         private void _btn_rename_Click(object sender, EventArgs e)

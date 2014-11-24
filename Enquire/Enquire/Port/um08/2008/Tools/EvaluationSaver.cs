@@ -59,18 +59,17 @@ namespace umfrage2._2008.Tools
         }
 
 
-        public void SaveThreadBefore()
+        public void SaveThreadBefore(bool remove, string targetAndQuestion)
         {
-            ArrayList targetchilds = new ArrayList();
-            //ArrayList childsParents = new ArrayList();
-            ArrayList targetsAndQuestions = new ArrayList();
-            TargetData[] old = eval.CombinedTargets;
-            foreach (TargetData td in eval.CombinedTargets)
+            ArrayList targetchilds = new ArrayList(); //Liste für die Kinder der Zielknoten
+            ArrayList targetsAndQuestions = new ArrayList(); //Liste für Zielknoten und Splitfrage(mit dem gesplittet wird)
+            TargetData[] old = eval.CombinedTargets; //alle Zielknoten werden auf "old" zugewiesen
+            foreach (TargetData td in eval.CombinedTargets) //alle Zielknoten durchlaufen
             {
-                if (td.WasCombo == true && !td.name.Equals("Global"))  //Wenn der Zielknoten eine Kombi und nicht Globalknoten ist
+                if (td.WasCombo == true && !td.name.Equals("Global"))  //Wenn "Zielknoten eine Kombi" und "keine Globalknoten" ist
                 {
-                    foreach (TargetData tdata in td.Children)
-                    {//durchlaufe alle Kinder von der kombinierten Zielknoten
+                    foreach (TargetData tdata in td.Children)//durchlaufe alle Kinder von der kombinierten Zielknoten
+                    {
 
                         bool exist = false;
                         TargetAndSplitQuestion temp = new TargetAndSplitQuestion(tdata.masterSplit.master, tdata.masterSplit.splitter.ID);
@@ -123,6 +122,29 @@ namespace umfrage2._2008.Tools
 
             eval.TargetChilds = targetchilds;
             eval.TargetChildsParent = targetsAndQuestions;
+
+          
+        
+
+            if(remove==true){
+                int index = 0;
+                foreach (TargetAndSplitQuestion tdParent in eval.TargetChildsParent)
+                {
+                    string t = tdParent.getTargetData().name + "_" + tdParent.getQuestionId();
+                    if (t.Equals(targetAndQuestion))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        index++;
+                    }
+
+                   
+                }
+                eval.TargetChildsParent.RemoveAt(index);
+            }
+
             TargetData[] firstData = new TargetData[1000];
             int i = 0;
 
@@ -142,6 +164,7 @@ namespace umfrage2._2008.Tools
                 }
             }
 
+
             foreach (TargetData td in eval.CombinedTargets)
                 if (!targetchilds.Contains(td))
                     firstData[i++] = td;
@@ -151,6 +174,7 @@ namespace umfrage2._2008.Tools
                 secondData[j] = firstData[i];
 
             //Die Zieldaten wieder in die Liste einfügen
+
             foreach (TargetAndSplitQuestion tdParent in eval.TargetChildsParent)
             {
 
@@ -180,7 +204,7 @@ namespace umfrage2._2008.Tools
 
         private void SaveThread()
         {
-            SaveThreadBefore();
+            SaveThreadBefore(false,null);
 
             string Data = Path.GetDirectoryName(Filename) + "\\" + Path.GetFileNameWithoutExtension(Filename) + " data\\";
 

@@ -104,11 +104,43 @@
     <Reference Include="Ciloci.Flee">
       <HintPath>..\..\..\Lib\Ciloci.Flee.dll</HintPath>
     </Reference>
-    <Reference Include="Compucare.Enquire.Common.DataModule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f8a8c5f426fd8e8d" />
     <Reference Include="dotnetCharting.WinForms">
       <HintPath>..\..\..\Lib\dotnetCharting.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
+    <COMReference Include="Microsoft.Office.Interop.PowerPoint">
+      <Guid>{91493440-5A91-11CF-8700-00AA0060263B}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>11</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Excel">
+      <Guid>{00020813-0000-0000-c000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="mRibbon">
       <HintPath>..\..\..\Lib\mRibbon.dll</HintPath>
@@ -123,7 +155,10 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
-    <Reference Include="System.Data.SQLite, Version=1.0.77.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
+    <Reference Include="System.Data.SQLite, Version=1.0.77.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
@@ -136,24 +171,6 @@
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
-      <VersionMinor>4</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>6</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Word">
-      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>8</VersionMajor>
       <VersionMinor>4</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
@@ -294,6 +311,12 @@
     </Compile>
     <Compile Include="2007\Controls\Benchmarking\BenchmarkingControl.Designer.cs">
       <DependentUpon>BenchmarkingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="2007\Controls\Output\OutputControl_Bar_Segment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="2007\Controls\Output\OutputControl_Bar_Segment.Designer.cs">
+      <DependentUpon>OutputControl_Bar_Segment.cs</DependentUpon>
     </Compile>
     <Compile Include="2007\Controls\Output\OutputControl-Radar2.cs">
       <SubType>UserControl</SubType>
@@ -818,6 +841,7 @@
     </Compile>
     <Compile Include="Datenbank.cs" />
     <Compile Include="Output\Gauge_h056.cs" />
+    <Compile Include="Output\Bar_Segment.cs" />
     <Compile Include="Output\Radar2.cs" />
     <Compile Include="Output\Scoring\CockpitElement.cs" />
     <Compile Include="Output\Scoring\ScoringCockpit.cs" />
@@ -1066,6 +1090,10 @@
     <EmbeddedResource Include="2007\Controls\Benchmarking\BenchmarkingControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>BenchmarkingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2007\Controls\Output\OutputControl_Bar_Segment.resx">
+      <DependentUpon>OutputControl_Bar_Segment.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="2007\Controls\Output\OutputControl-Radar2.resx">
       <DependentUpon>OutputControl-Radar2.cs</DependentUpon>

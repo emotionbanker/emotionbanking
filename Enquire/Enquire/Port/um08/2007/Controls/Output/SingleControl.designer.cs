@@ -32,9 +32,6 @@ namespace umfrage2._2007.Controls
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SingleControl));
             this.SettingsToolstrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.MainPane = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.StarButton = new System.Windows.Forms.ToolStripButton();
             this.DNCButton = new System.Windows.Forms.ToolStripButton();
             this.PmButton = new System.Windows.Forms.ToolStripButton();
@@ -54,10 +51,14 @@ namespace umfrage2._2007.Controls
             this.RadarButton = new System.Windows.Forms.ToolStripButton();
             this.GaugeButton = new System.Windows.Forms.ToolStripButton();
             this.PotentialButton = new System.Windows.Forms.ToolStripButton();
+            this.BarSegmentButton = new System.Windows.Forms.ToolStripButton();
             this.SplitMatrixButton = new System.Windows.Forms.ToolStripButton();
             this.Gaugeh056Button = new System.Windows.Forms.ToolStripButton();
             this.SocioButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._buttonHistoricChart = new System.Windows.Forms.ToolStripButton();
+            this.MainPane = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.SettingsToolstrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -87,6 +88,7 @@ namespace umfrage2._2007.Controls
             this.RadarButton,
             this.GaugeButton,
             this.PotentialButton,
+            this.BarSegmentButton,
             this.SplitMatrixButton,
             this.Gaugeh056Button,
             this.SocioButton,
@@ -98,31 +100,6 @@ namespace umfrage2._2007.Controls
             this.SettingsToolstrip.TabIndex = 3;
             this.SettingsToolstrip.Text = "toolStrip1";
             this.SettingsToolstrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.SettingsToolstrip_ItemClicked);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(109, 6);
-            // 
-            // MainPane
-            // 
-            this.MainPane.AutoScroll = true;
-            this.MainPane.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainPane.Location = new System.Drawing.Point(112, 0);
-            this.MainPane.Name = "MainPane";
-            this.MainPane.Size = new System.Drawing.Size(718, 546);
-            this.MainPane.TabIndex = 4;
-            this.MainPane.Paint += new System.Windows.Forms.PaintEventHandler(this.MainPane_Paint);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.shell32_dll_I0113_0409;
-            this.pictureBox1.Location = new System.Drawing.Point(32, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // StarButton
             // 
@@ -316,6 +293,17 @@ namespace umfrage2._2007.Controls
             this.PotentialButton.Text = "Potentialanalyse";
             this.PotentialButton.Click += new System.EventHandler(this.PotentialButton_Click);
             // 
+            // BarSegmentButton
+            // 
+            this.BarSegmentButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.BarSegmentButton.Image = ((System.Drawing.Image)(resources.GetObject("BarSegmentButton.Image")));
+            this.BarSegmentButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BarSegmentButton.Name = "BarSegmentButton";
+            this.BarSegmentButton.Size = new System.Drawing.Size(109, 19);
+            this.BarSegmentButton.Text = "Balken-Segment";
+            this.BarSegmentButton.ToolTipText = "Balken-Segment";
+            this.BarSegmentButton.Click += new System.EventHandler(this.BarSegmentButton_Click);
+            // 
             // SplitMatrixButton
             // 
             this.SplitMatrixButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -332,7 +320,7 @@ namespace umfrage2._2007.Controls
             this.Gaugeh056Button.Image = ((System.Drawing.Image)(resources.GetObject("Gaugeh056Button.Image")));
             this.Gaugeh056Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Gaugeh056Button.Name = "Gaugeh056Button";
-            this.Gaugeh056Button.Size = new System.Drawing.Size(109, 19);
+            this.Gaugeh056Button.Size = new System.Drawing.Size(45, 19);
             this.Gaugeh056Button.Text = "Gauge";
             this.Gaugeh056Button.ToolTipText = "Gauge";
             this.Gaugeh056Button.Click += new System.EventHandler(this.Gaugeh056Button_Click);
@@ -347,6 +335,11 @@ namespace umfrage2._2007.Controls
             this.SocioButton.Text = "Soziomatrix";
             this.SocioButton.Click += new System.EventHandler(this.SocioButton_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(109, 6);
+            // 
             // _buttonHistoricChart
             // 
             this._buttonHistoricChart.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.office_chart_line_stacked;
@@ -355,6 +348,26 @@ namespace umfrage2._2007.Controls
             this._buttonHistoricChart.Size = new System.Drawing.Size(100, 20);
             this._buttonHistoricChart.Text = "Historic Chart";
             this._buttonHistoricChart.Click += new System.EventHandler(this.ButtonHistoricChartClick);
+            // 
+            // MainPane
+            // 
+            this.MainPane.AutoScroll = true;
+            this.MainPane.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainPane.Location = new System.Drawing.Point(112, 0);
+            this.MainPane.Name = "MainPane";
+            this.MainPane.Size = new System.Drawing.Size(718, 546);
+            this.MainPane.TabIndex = 4;
+            this.MainPane.Paint += new System.Windows.Forms.PaintEventHandler(this.MainPane_Paint);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.shell32_dll_I0113_0409;
+            this.pictureBox1.Location = new System.Drawing.Point(32, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // SingleControl
             // 
@@ -404,5 +417,6 @@ namespace umfrage2._2007.Controls
         private System.Windows.Forms.ToolStripButton _buttonHistoricChart;
         private System.Windows.Forms.ToolStripButton Gaugeh056Button;
         private System.Windows.Forms.ToolStripButton RadarButton2;
+        private System.Windows.Forms.ToolStripButton BarSegmentButton;
     }
 }
