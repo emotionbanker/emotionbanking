@@ -210,7 +210,7 @@ switch($k)
     if ($v)
     {
       if (!createBank($r['bezeichnung'], $r['id'], $r['klasse']))
-        echo ('fehler beim erstellen der bank (bank unter umständen schon in der datenbank)');
+        echo ('fehler beim erstellen der bank (bank unter umstï¿½nden schon in der datenbank)');
       else
         echo "bank wurde erstellt";
       echoBankList(getBankList(),true);
@@ -223,7 +223,7 @@ switch($k)
     if ($v)
     {
     	if (!createLang($r['name'], $r['short']))
-    	echo ('fehler beim erstellen der sprache (bank unter umständen schon in der datenbank)');
+    	echo ('fehler beim erstellen der sprache (bank unter umstï¿½nden schon in der datenbank)');
       else
         echo "sprache wurde erstellt";
       echoLangList(getLangList());
@@ -246,7 +246,7 @@ switch($k)
   	if (!updateLang($r['name'], $r['update-lang'], $r['short']))
       echo ('fehler beim bearbeiten der sprache');
     else
-      echo "änderungen wurden gespeichert";
+      echo "ï¿½nderungen wurden gespeichert";
     echoLangList(getLangList());
     break;
     
@@ -254,13 +254,13 @@ switch($k)
   	if ($r['accept'] && $r['submit'] == "ja")
     {
       deleteLang($v);
-      echo "sprache wurde gelöscht";
+      echo "sprache wurde gelï¿½scht";
       echoLangList(getLangList());
     }
     else if ($v && $r['submit'] == "nein")
       echoLangList(getLangList());
     else
-      areyousure("?delete-lang=" . $v . "&accept=true", "sprache löschen", "achtung! diese sprache wird gelöscht!");
+      areyousure("?delete-lang=" . $v . "&accept=true", "sprache lï¿½schen", "achtung! diese sprache wird gelï¿½scht!");
     break;
     
   case "translate":
@@ -288,7 +288,7 @@ switch($k)
     if (!updateBank($r['bezeichnung'], $r['update-bank'], $r['klasse']))
       echo ('fehler beim bearbeiten der bank');
     else
-      echo "änderungen wurden gespeichert";
+      echo "ï¿½nderungen wurden gespeichert";
     echoBankList(getBankList(),true);
     break;
     
@@ -296,13 +296,13 @@ switch($k)
     if ($r['accept'] && $r['submit'] == "ja")
     {
       deleteBank($v);
-      echo "bank wurde gelöscht";
+      echo "bank wurde gelï¿½scht";
       echoBankList(getBankList(),true);
     }
     else if ($v && $r['submit'] == "nein")
       echoBankList(getBankList(),true);
     else
-      areyousure("?delete-bank=" . $v . "&accept=true", "bank löschen", "achtung! diese bank wird gelöscht. existieren zugangscodes für diese bank kann dies zu systemfehlern führen!");
+      areyousure("?delete-bank=" . $v . "&accept=true", "bank lï¿½schen", "achtung! diese bank wird gelï¿½scht. existieren zugangscodes fï¿½r diese bank kann dies zu systemfehlern fï¿½hren!");
     break;
     
   case "create-userg":
@@ -322,13 +322,13 @@ switch($k)
     if ($r['accept'] && $r['submit'] == "ja")
     {
       deleteUserg($v);
-      echo "benutzergruppe wurde gelöscht";
+      echo "benutzergruppe wurde gelï¿½scht";
       echoUsergList(getUsergList());
     }
     else if ($v && $r['submit'] == "nein")
       echoUsergList(getUsergList());
     else
-      areyousure("?delete-userg=" . $v . "&accept=true", "benutzergruppe löschen", "achtung! diese benutzergruppe wird gelöscht. existieren zugangscodes oder fragebögen für diese benutzergruppe kann dies zu systemfehlern führen!");
+      areyousure("?delete-userg=" . $v . "&accept=true", "benutzergruppe lï¿½schen", "achtung! diese benutzergruppe wird gelï¿½scht. existieren zugangscodes oder fragebï¿½gen fï¿½r diese benutzergruppe kann dies zu systemfehlern fï¿½hren!");
     break;
     break;
 
@@ -341,7 +341,7 @@ switch($k)
     if (!updateUserg($v, $r['bezeichnung']))
       echo ('fehler beim bearbeiten der benutzergruppe');
     else
-      echo "änderungen wurden gespeichert";
+      echo "ï¿½nderungen wurden gespeichert";
     echoUsergList(getUsergList());
     break;
     
@@ -353,12 +353,12 @@ switch($k)
     if ($v && $r['submit'] == "ja")
     {
       createDB($db);
-      echo "datenbank zurückgesetzt";
+      echo "datenbank zurï¿½ckgesetzt";
     }
     else if ($v)
       include(STATIC_DIR . "admin-welcome");
     else
-      areyousure("?reset=true", "datenbank zurücksetzen", "achtung! alle daten werden dabei gelöscht!");
+      areyousure("?reset=true", "datenbank zurï¿½cksetzen", "achtung! alle daten werden dabei gelï¿½scht!");
     break;
     
   case "create-codes":
@@ -375,8 +375,8 @@ switch($k)
     break;
     
   case "del-code":
-  	echo "Benutzer " . $r['del-code'] . " inkl. Antworten wirklich löschen?<br>";
-  	echo "<a href='?do-del-code=" . $r['del-code'] . "'>löschen</a>";
+  	echo "Benutzer " . $r['del-code'] . " inkl. Antworten wirklich lï¿½schen?<br>";
+  	echo "<a href='?do-del-code=" . $r['del-code'] . "'>lï¿½schen</a>";
     break;
     
   case "do-del-code":
@@ -413,7 +413,7 @@ switch($k)
     if (!updateQuestion($v, $r['text'],$r['display'], $r['answers'], $r['search']))
       echo ('fehler beim bearbeiten der frage');
     else
-      echo "änderungen wurden gespeichert";
+      echo "ï¿½nderungen wurden gespeichert";
     echoQuestionList(getQuestionList());
     break;
     
@@ -421,13 +421,13 @@ switch($k)
     if ($r['accept'] && $r['submit'] == "ja")
     {
       deleteQuestion($v);
-      echo "frage wurde gelöscht";
+      echo "frage wurde gelï¿½scht";
       echoQuestionList(getQuestionList());
     }
     else if ($v && $r['submit'] == "nein")
       echoQuestionList(getQuestionList());
     else
-      areyousure("?delete-question=" . $v . "&accept=true", "frage löschen", "achtung! diese frage wird gelöscht. ist diese frage teil eines fragebogens kann dies zu systemfehlern führen!");
+      areyousure("?delete-question=" . $v . "&accept=true", "frage lï¿½schen", "achtung! diese frage wird gelï¿½scht. ist diese frage teil eines fragebogens kann dies zu systemfehlern fï¿½hren!");
     break;
     break;
     
@@ -497,12 +497,12 @@ switch($k)
     {
       query("delete from ".ZUG);
       query("delete from ".RES);
-      echo "ergebnisse gelöscht";
+      echo "ergebnisse gelï¿½scht";
     }
     else if ($v)
       include(STATIC_DIR . "admin-welcome");
     else
-      areyousure("?drop-results=true", "ergebnisse löschen", "achtung! alle ergebnisdaten werden dabei gelöscht! NUR NACH ENDE DER TESTPHASE AKTIVIEREN, IN KEINEM FALL WÄHREN DEM BETRIEB!");
+      areyousure("?drop-results=true", "ergebnisse lï¿½schen", "achtung! alle ergebnisdaten werden dabei gelï¿½scht! NUR NACH ENDE DER TESTPHASE AKTIVIEREN, IN KEINEM FALL Wï¿½HREN DEM BETRIEB!");
     break;
     
   default:

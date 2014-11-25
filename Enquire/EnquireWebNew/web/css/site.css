@@ -1,0 +1,120 @@
+html,
+body {
+    height: 100%;
+}
+
+.form-control {
+	border-radius: 0;
+}
+.btn {
+	border-radius: 0;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -93px;
+    padding: 0 0 60px;
+}
+
+header {
+	background: url("../images/headImage.gif") center center #F08827 no-repeat;
+	height: 150px;
+}
+header a {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+.footer {
+    background-color: #F08827;;
+    border-top: 3px solid #fff;
+	text-align: right;
+	font-size:10px;
+	padding: 10px 15px;
+	color:lightgray;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+.form-div {
+	width: 500px;
+	margin: auto;
+}
+.site-login {
+	width: 500px;
+	margin: auto;
+}
+.form-view {
+	padding: 10px;
+}
+.page-break {
+	border-bottom: 1px solid red;
+	margin: 10px 0;
+}
+.radio-group label {
+	display: block;
+}
+.radio-group .radio {
+	width:25%;
+	float:left;
+	margin-top:10px !important;
+}
+.check-group label {
+	display: block;
+}
+.check-group .checkbox {
+	width:50%;
+	float:left;
+	margin-top:10px !important;
+}
+.radio-column {
+	text-align: center;
+	vertical-align: middle !important;
+}
+th {
+	text-align: center;
+	vertical-align: middle !important;
+}
+.form-div {
+	margin-top:10px;
+}
+.content {
+	padding: 20px 0;
+}
+.anket-form {
+	margin: 20px 0;
+	border: 1px solid #ccc;
+}
+.anket-form .head{
+	height: 40px;
+	background-color: #eee;
+	padding: 10px;
+}
+.anket-form .foot{
+	height: 63px;
+	background-color: #eee;
+	padding: 10px;
+}
+.anket-form .head .progress {
+	width: 30%;
+	margin-left:70%;
+}
+.anket-content {
+	padding: 20px 10px;
+}
+.radio-column {
+	cursor:pointer;
+}

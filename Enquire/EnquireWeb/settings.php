@@ -18,21 +18,21 @@
 	
 	//victor
 	
-	define ('DB_HOST', "95.129.200.10");
-	define ('DB_USER', "banksql");
-	define ('DB_PASS', "ma10R58z");
+	define ('DB_HOST', "localhost");
+	define ('DB_USER', "root");
+	define ('DB_PASS', "mirskidok");
 	//define ('DB_PASS', "am3sads2");
 	//define ('DB_USER', "bdj_www");
-	define ('DB_BASE', "bdj_db");
+	define ('DB_BASE', "eb");
 	define ('DB_SCRIPT', SYSTEM_DIR . "database.sql");
 	
 	
 	
 	define('USERNAME', "administrator");
-	define('PASSWORD', "um08vieb");
+	define('PASSWORD', "1111");
 	
-  define ('TITLE', "victor 2011");
-  define ('DB_ID', "victor2011");
+  define ('TITLE', "victor 2014");
+  define ('DB_ID', "victor2014");
   
   define ('BANK',     DB_ID . "bank");
   define ('ZUG',      DB_ID . "zugangsdaten");
