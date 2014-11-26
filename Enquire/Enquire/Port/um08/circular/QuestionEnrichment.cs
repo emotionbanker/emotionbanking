@@ -29,20 +29,35 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.circular
             QuestionnaireInfos infos = new QuestionnaireInfos();
 
             MySqlCommand command = new MySqlCommand(_queryQuestionnaires, _connection);
+            
             MySqlDataReader reader = command.ExecuteReader();
+            int first = 0;
+            string second = "";
+            int third = 0;
+            string four = "";
 
-            while (reader.Read())
+            if (reader != null)
             {
-                QuestionnaireInfo info = new QuestionnaireInfo
-                        {
-                            Identifier = reader.GetInt32(0),
-                            Class = reader.GetString(1),
-                            PersonId = reader.GetInt32(2),
-                            Code = reader.GetString(3)
-                        };
-                info.ComputeAlii();
-                infos.Add(info);
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(0)) first = reader.GetInt32(0);
+                    if (!reader.IsDBNull(1)) second = reader.GetString(1);
+                    if (!reader.IsDBNull(2)) third = reader.GetInt32(2);
+                    if (!reader.IsDBNull(3)) four = reader.GetString(3);
+                    
+                    QuestionnaireInfo info = new QuestionnaireInfo
+                            {
+                                Identifier = first,
+                                Class = second,
+                                PersonId = third,
+                                Code = four
+                            };
+                    info.ComputeAlii();
+                    infos.Add(info);
+                }
             }
+            reader.Close();
+            
             
             //store alternative pointer for each question, for each result
             foreach (Question q in td.Questions)

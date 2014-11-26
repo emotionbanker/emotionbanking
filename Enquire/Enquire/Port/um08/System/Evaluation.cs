@@ -780,10 +780,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             info.AddValue("QuestionCombos", QuestionCombos);
             info.AddValue("lastResultUpdate", lastResultUpdate);
             info.AddValue("lastSettingsUpdate", lastSettingsUpdate);
-            info.AddValue("History", this.History);
-
+            info.AddValue("History", History);
             info.AddValue("QuestionAlternates", QuestionAlternates);
-
             info.AddValue("SavedResultData", SavedResultData);
             info.AddValue("SavedAs", SavedAs);
 
@@ -1771,21 +1769,29 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
 
             cmd = new MySqlCommand("select * from " + DatabasePrefix + "bank", db);
+            
             d = cmd.ExecuteReader();
-
+            
             ArrayList nTargets = new ArrayList();
 
             while (d.Read())
             {
-                TargetData td = new TargetData(d.GetString(0), d.GetString(1), d.GetString(2));
+
+                string first = "";
+                string second = "";
+                string third = "";
+                if (d.IsDBNull(0)) first = ""; else first = d.GetString(0);
+                if (d.IsDBNull(1)) second = ""; else second = d.GetString(1);
+                if (d.IsDBNull(2)) third = ""; else third = d.GetString(2);
+
+                TargetData td = new TargetData(first, second, third);
                 nTargets.Add(td);
 
                 dar.ChooseTarget.Items.Add(td);
 
                 //dar.ctc = new ChooseTargetControl(
             }
-
-
+            d.Close();
             dar.ControlButton.Enabled = true;
             dar.Loadfix();
             dar.Status("Warte auf Zielauswahl");
@@ -1820,6 +1826,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             if (db.State != ConnectionState.Open) return;
 
             MySqlCommand cmd;
+          
             MySqlDataReader d;
 
             Evaluation enew = new Evaluation();
@@ -1829,28 +1836,49 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             int qCount = 0;
 
             //2. Zielunabhängige Daten laden
-
             //2.1 - Fragen
 
             dar.Status("Lade Fragen...");
-           
-
+                   
             cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "frage", db);
+
+            //cmd.CommandText = "select count(*) from " + DatabasePrefix + "frage";
+            
             d = cmd.ExecuteReader();
+          
             d.Read();
 
-            qCount = d.GetInt32(0);
+            if (!d.IsDBNull(0))
+                qCount = d.GetInt32(0);
+            else
+                qCount = 0;
 
             
             dar.LocalStatus.Maximum = qCount;
             dar.LocalStatus.Value = 0;
 
             cmd = new MySqlCommand("select * from " + DatabasePrefix + "frage", db);
+
+            d.Close();
             d = cmd.ExecuteReader();
+           
 
             while (d.Read())//Fragen mit Alias laden und speichern
             {
-                Question q = Question.Create(d.GetInt32(0), d.GetString(1), d.GetString(2), d.GetString(3), d.GetString(4), 0);
+                
+                int first = 0;
+                string second = "";
+                string third = "";
+                string four = "";
+                string five = "";
+                if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                if (!d.IsDBNull(1)) second = d.GetString(1);
+                if (!d.IsDBNull(2)) third = d.GetString(2);
+                if (!d.IsDBNull(3)) four = d.GetString(3);
+                if (!d.IsDBNull(4)) five = d.GetString(4);
+
+                
+                Question q = Question.Create(first, second, third, four, five, 0);
 
                 try
                 {
@@ -1859,8 +1887,10 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                     while (ar.Read())
                     {
-                        int alias = ar.GetInt32(1);
-                        string str = ar.GetString(2);
+                        int alias = 0;
+                        if (!ar.IsDBNull(1)) alias = ar.GetInt32(1);
+                        string str = "";
+                        if (!ar.IsDBNull(2)) str = ar.GetString(2); 
                         q.TextAlii[alias] = str;
                     }
                 }
@@ -1885,22 +1915,31 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
             dar.Status("Lade Personengruppen...");
             cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "personen", db);
+            d.Close();
             d = cmd.ExecuteReader();
 
             d.Read();
 
-            int persons = d.GetInt32(0);
+            int persons = 0;
+            if(!d.IsDBNull(0)) persons = d.GetInt32(0);
+
             enew.Persons = new Person[persons];
             dar.LocalStatus.Maximum = persons;
 
             cmd = new MySqlCommand("select * from " + DatabasePrefix + "personen", db);
+            d.Close();
             d = cmd.ExecuteReader();
 
             int i = 0;
 
             while (d.Read())
             {
-                Person person = new Person(d.GetString(1), d.GetInt32(0));
+                int first = 0;
+                string second = "";
+                if(!d.IsDBNull(0)) first = d.GetInt32(0);
+                if (!d.IsDBNull(1)) second = d.GetString(1);
+
+                Person person = new Person(second, first);
                 enew.Persons[i++] = person;
 
                 /*bool found = false;
@@ -1940,11 +1979,12 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             {
                 cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
             }
-
+            d.Close();
             d = cmd.ExecuteReader();
 
             d.Read();
-            int xx = d.GetInt32(0);
+            int xx = 0;
+            if(!d.IsDBNull(0)) xx = d.GetInt32(0);
 
 
             /*MessageBox.Show("Anzahl der Fragen: " + qCount + "DatabasePrefix: " + DatabasePrefix 
@@ -1967,7 +2007,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             {
                 cmd = new MySqlCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
             }
-
+            d.Close();
             d = cmd.ExecuteReader();
 
             i = 0;
@@ -1975,7 +2015,15 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             
             while (d.Read())
             {
-                User user = new User(d.GetInt32(0), d.GetString(2), d.GetInt32(3));
+                int first = 0;
+                string second = "";
+                int third = 0;
+
+                if(!d.IsDBNull(0)) first = d.GetInt32(0);
+                if(!d.IsDBNull(2)) second = d.GetString(2);
+                if (!d.IsDBNull(3)) third = d.GetInt32(3);
+
+                User user = new User(first, second, third);
                 enew.Users[i++] = user;
                 dar.LocalStatus.Value++;
             }
@@ -1985,13 +2033,17 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             dar.LocalStatus.Value = 0;
 
             cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "meta", db);
+            d.Close();
             d = cmd.ExecuteReader();
             d.Read();
-            dar.LocalStatus.Maximum = d.GetInt32(0);
+            int firstone = 0;
+            if (!d.IsDBNull(0)) firstone = d.GetInt32(0);
+            dar.LocalStatus.Maximum = firstone;
 
             int counter = 0;
             dar.Status("Lade Metadaten");
             cmd = new MySqlCommand("select * from " + DatabasePrefix + "meta", db);
+            d.Close();
             d = cmd.ExecuteReader();
             try
             {
@@ -2001,7 +2053,10 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                     foreach (User u in enew.Users)
                     {
-                        if (u.ID == d.GetInt32(0))
+                        int first = 0;
+                        if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                        
+                        if (u.ID == first)
                         {
                             set = u;
                         }
@@ -2051,10 +2106,13 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                     try
                     {
                         cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = e_z_id and z_id = m_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
+                        d.Close();
                         d = cmd.ExecuteReader();
                         d.Read();
 
-                        maxE[i] = d.GetInt32(0);
+                        int first = 0;
+                        if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                        maxE[i] = first;
                         maxTotal += maxE[i];
 
                         i++;
@@ -2075,10 +2133,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                     try
                     {
                         cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten, " + DatabasePrefix + "meta where z_id = e_z_id and z_id = m_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > 49) and time_start >= " + sek + " and time_end <= " + sek2, db);
+                        d.Close();
                         d = cmd.ExecuteReader();
                         d.Read();
 
-                        maxE[i] = d.GetInt32(0);
+                        int first = 0;
+                        if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                        maxE[i] = first;
+
                         maxTotal += maxE[i];
 
                         i++;
@@ -2096,10 +2158,15 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 foreach (TargetData td in dar.ChooseTarget.CheckedItems)
                 {
                     cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > " + dar.percentValue + ")", db);
+
+                    d.Close();
                     d = cmd.ExecuteReader();
                     d.Read();
 
-                    maxE[i] = d.GetInt32(0);
+                    int first = 0;
+                    if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                    maxE[i] = first;
+
                     maxTotal += maxE[i];
 
                     i++;
@@ -2111,10 +2178,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 foreach (TargetData td in dar.ChooseTarget.CheckedItems)
                 {
                     cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > 49)", db);
+                    d.Close();
                     d = cmd.ExecuteReader();
                     d.Read();
 
-                    maxE[i] = d.GetInt32(0);
+                    int first = 0;
+                    if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                    maxE[i] = first;
+
                     maxTotal += maxE[i];
 
                     i++;
@@ -2167,20 +2238,30 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 else
                     cmd = new MySqlCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + td.ID + "' and (used = '1' or status > 49)", db);
 
+                d.Close();
                 d = cmd.ExecuteReader();
 
 
                 dar.Status("Lade Ergebnisse für " + td + "... (Verarbeite Daten)");
                 while (d.Read())
                 {
-                    int nID = d.GetInt32(2);
+
+                    int first = 0;
+                    if (!d.IsDBNull(1)) first = d.GetInt32(1);
+                    
+                    int nID = 0;
+                    if (!d.IsDBNull(2)) nID = d.GetInt32(2);
+
+                    string third = "";
+                    if (!d.IsDBNull(3)) third = d.GetString(3);
 
                     foreach (Question q in td.Questions)
                     {
                         if (q.ID == nID)
                         {
                             //found question
-                            if (d.GetString(3).Trim().Equals(string.Empty) && d.IsDBNull(4))
+                            
+                            if (third.Trim().Equals(string.Empty) && d.IsDBNull(4))
                             {
                                 // Console.WriteLine("Null!");
                                 q.NullAnswers++;
@@ -2192,16 +2273,16 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                                 if (!d.IsDBNull(4)) //new 
                                 {
-                                    q.Results.Add(Result.Create(d.GetInt32(4), d.GetInt32(1)));
+                                    q.Results.Add(Result.Create(d.GetInt32(4), first));
                                 }
                                 else //old
                                 {
-                                    q.Results.Add(Result.Create(q.GetAnswerId(d.GetString(3)), d.GetInt32(1)));
+                                    q.Results.Add(Result.Create(q.GetAnswerId(third), first));
                                 }
                             }
                             else
                             {
-                                q.Results.Add(Result.Create(d.GetString(3), d.GetInt32(1)));
+                                q.Results.Add(Result.Create(third, first));
                             }
                             break;
                         }
@@ -2268,7 +2349,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
             dar.Status("Alias...");
 
-
+            d.Close();
             try
             {
                 QuestionEnrichment enr = new QuestionEnrichment(db, DatabasePrefix);
@@ -2316,18 +2397,29 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             d.Read();
 
             dar.Status("Erstelle Zieltabelle...");
+
+
             Targets = new TargetData[d.GetInt32(0)];
 
 
             dar.Status("Lade Zieldaten...");
             cmd = new MySqlCommand("select * from " + DatabasePrefix + "bank", db);
+            d.Close();
             d = cmd.ExecuteReader();
 
             int i = 0;
             while (d.Read())
             {
-                Console.WriteLine("Lade " + d.GetString(1) + "...");
-                TargetData td = new TargetData(d.GetString(0), d.GetString(1), d.GetString(2));
+                string first = "";
+                string second = "";
+                string third = "";
+
+                if (!d.IsDBNull(0)) first = d.GetString(0);
+                if (!d.IsDBNull(1)) second = d.GetString(1);
+                if (!d.IsDBNull(2)) third = d.GetString(2);
+
+                Console.WriteLine("Lade " + second + "...");
+                TargetData td = new TargetData(first, second, third);
                 Targets[i++] = td;
             }
 
@@ -2363,11 +2455,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 MySqlDataReader d = cmd.ExecuteReader();
 
                 d.Read();
+                int max = 0;
+                if (!d.IsDBNull(0)) max = d.GetInt32(0);
 
-                dialog.GlobalStatus.Maximum = d.GetInt32(0);
+                dialog.GlobalStatus.Maximum = max;
 
                 dialog.Status("Lade Fragebögen...");
                 cmd = new MySqlCommand("select * from " + DatabasePrefix + "fragebogen", db);
+                d.Close();
                 d = cmd.ExecuteReader();
 
                 int[] TargetQuestions = new int[Targets.Length];
@@ -2378,6 +2473,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 {
                     dialog.Status("Lade Fragebögen für ..." + Targets[ti].Name);
                     cmd = new MySqlCommand("select * from " + DatabasePrefix + "fragebogen", db);
+                    d.Close();
                     d = cmd.ExecuteReader();
 
                     ArrayList IDs = new ArrayList();
@@ -2444,6 +2540,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                     int qi = 0;
 
                     cmd = new MySqlCommand("select * from " + DatabasePrefix + "fragebogen", db);
+                    d.Close();
                     d = cmd.ExecuteReader();
 
                     ArrayList IDs = new ArrayList();
@@ -2527,7 +2624,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                         cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > " + dar.percentValue + ")", db);
                     else
                         cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > 49)", db);
-
+                    d.Close();
                     d = cmd.ExecuteReader();
                     d.Read();
 
@@ -2542,7 +2639,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                     else
                         cmd = new MySqlCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > 49)", db);
 
-
+                    d.Close();
                     d = cmd.ExecuteReader();
 
                     while (d.Read())
@@ -2622,6 +2719,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 Persons = new Person[d.GetInt32(0)];
 
                 cmd = new MySqlCommand("select * from " + DatabasePrefix + "personen", db);
+                d.Close();
                 d = cmd.ExecuteReader();
 
                 int i = 0;
@@ -2654,7 +2752,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                     cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ")", db);
                 else
                     cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
-
+                d.Close();
                 d = cmd.ExecuteReader();
 
                 d.Read();
@@ -2669,7 +2767,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                     cmd = new MySqlCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ")", db);
                 else
                     cmd = new MySqlCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > 49)", db);
-                
+                d.Close();
                 d = cmd.ExecuteReader();
 
                 i = 0;
