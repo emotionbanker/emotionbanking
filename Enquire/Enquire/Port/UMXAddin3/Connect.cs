@@ -301,6 +301,31 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             return tdr;
         }
 
+        public TargetData GetTargetWithCrosses(string code)
+        {
+            TargetData td = GetTarget();
+            TargetData tdo = td.Clone;
+
+            string[] master = (code + "|").Split(new char[] { '|' });
+
+            if (master.Length > 2 && master[2].Trim().Length > 0)
+            {
+                //cross!
+                string[] crosses = master[2].Split(new char[] { '#' });
+
+                foreach (string cross in crosses)
+                {
+                    string[] cdat = cross.Split(new char[] { '.' });
+
+                    int qid = Int32.Parse(cdat[0]);
+                    int aid = Int32.Parse(cdat[1]);
+
+                    td = Tools.Cross(eval, td, td.GetQuestion(qid, eval), aid);
+                }
+            }
+            return td;
+        }
+
         public void AddTable(List<List<String>> table, int maxCols)
         {
             if (AType == AppType.PowerPoint)
@@ -912,7 +937,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetAverageValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetAverageValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -924,7 +949,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetMedianValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetMedianValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -936,7 +961,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetPercentValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetPercentValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -948,7 +973,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetPercentResponseValue(tls, GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetPercentResponseValue(tls, GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -960,7 +985,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetGapValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetGapValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -984,7 +1009,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetSampleSizeValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetSampleSizeValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -996,7 +1021,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetAverageReplyNumValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetAverageReplyNumValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1008,7 +1033,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetAnswerCountByPersonValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetAnswerCountByPersonValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1032,7 +1057,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetCompareValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetCompareValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1056,7 +1081,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetBcontCompareValue(tls, GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetBcontCompareValue(tls, GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1080,7 +1105,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetBcontNpsValue(tls, GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetBcontNpsValue(tls, GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1104,7 +1129,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetOriginalAnswerValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetOriginalAnswerValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1116,7 +1141,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetXmlValue(tls, GetTarget()));
+                        SetTextForSelectedShape(GetXmlValue(tls, GetTargetWithCrosses(code)));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1503,26 +1528,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
 
                 string[] dat = master[0].Split(new char[] { ':' });
-                string[] crosses = null;
 
-                TargetData td = GetTarget();
-                TargetData tdo = td.Clone;
-
-                if (master.Length > 2 && master[2].Trim().Length > 0)
-                {
-                    //cross!
-                    crosses = master[2].Split(new char[] { '#' });
-
-                    foreach (string cross in crosses)
-                    {
-                        string[] cdat = cross.Split(new char[] { '.' });
-
-                        int qid = Int32.Parse(cdat[0]);
-                        int aid = Int32.Parse(cdat[1]);
-
-                        td = Tools.Cross(eval, td, td.GetQuestion(qid, eval), aid);
-                    }
-                }
+                TargetData td = GetTargetWithCrosses(code);
 
                 if (td == null) return;
 
