@@ -19,6 +19,7 @@ using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
 using Application = System.Windows.Forms.Application;
 using Point = System.Drawing.Point;
+using Shape = Microsoft.Office.Interop.PowerPoint.Shape;
 
 namespace Compucare.Enquire.Legacy.UMXAddin3
 {
@@ -59,7 +60,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         public Evaluation[] multiEvals = new Evaluation[5];
         public string[] multiTargets = new string[5];
-
+        private log4net.ILog _log = log4net.LogManager.GetLogger(typeof (Connect));
         public AppType AType
         {
             get
@@ -3611,44 +3612,56 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 try
                 {
-                    foreach (Microsoft.Office.Interop.PowerPoint.Slide sld in _pptApp.ActiveWindow.Presentation.Slides)
+                    Slide activeSlide = _pptApp.ActiveWindow.View.Slide;
+                    foreach (Slide sld in _pptApp.ActiveWindow.Presentation.Slides)
                     {
-                        //MessageBox.Show("compute " + sld.Shapes.Count + " shapes on sld " + sld.SlideIndex);
-                        ArrayList tempShapes = new ArrayList();
+                        var tempShapes = new List<Shape>();
 
-                        foreach (Microsoft.Office.Interop.PowerPoint.Shape sp in sld.Shapes)
+                        foreach (var sp in sld.Shapes.Cast<Shape>().Where(sp => sp.Tags["umxcode"].Equals("table") || (sp.Tags["umxcode"].IndexOf("ADDIN", System.StringComparison.Ordinal) != -1) || sp.Type == MsoShapeType.msoTable))
                         {
-                            if (sp.Tags["umxcode"].Equals("table") || (sp.Tags["umxcode"].IndexOf("ADDIN") != -1))
+                            if (sp.Type == MsoShapeType.msoTable)
                             {
-                                tempShapes.Add(sp);
-                            }
-                        }
-
-                        foreach (Microsoft.Office.Interop.PowerPoint.Shape sp in tempShapes)
-                        {
-                            if (sp.Tags["umxcode"].Equals("table"))
-                            {
-                                for (int i = 1; i <= sp.Table.Columns.Count; i++)
+                                sld.Select();
+                                var tbl = sp.Table;
+                                _log.InfoFormat("INFO: Processing Table {0}. Slide: {1}", tbl.Title, sld.SlideNumber);
+                                var formulas = GetAllCellsWithFormulas(tbl);
+                                foreach (var formula in formulas)
                                 {
-                                    for (int j = 1; j <= sp.Table.Rows.Count; j++)
+                                    var coord = formula.Key;
+                                    _log.InfoFormat("INFO: Processing Cell {0}. Formula: {1}", formula.Key, formula.Value);
+                                    var cell = tbl.Cell(coord.X, coord.Y);
+                                    cell.Select();
+
+                                    SetTextForSelectedShape(string.Empty);
+                                    var key = GetFieldKeyForSelectedCell();
+                                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+                                    try
                                     {
-                                        if (sp.Table.Cell(i, j).Shape.Tags["umxcode"].IndexOf("ADDIN") != -1)
-                                        {
-                                            ProcessShape(sp.Table.Cell(i, j).Shape, sld);
-                                        }
+                                        AddPField(formula.Value);
                                     }
+                                    catch (Exception e)
+                                    {
+                                        _log.ErrorFormat("ERROR: Updating table with key {0}. InnerException: {1}", key, e.Message);
+                                    }
+                                    _pptApp.ActiveWindow.Selection.Unselect();
                                 }
                             }
-                            else if (sp.Tags["umxcode"].IndexOf("ADDIN") != -1)
+                            else
                             {
-                                ProcessShape(sp, sld);
+                                tempShapes.Add(sp);    
                             }
                         }
+
+                        foreach (var sp in tempShapes.Where(sp => sp.Tags["umxcode"].IndexOf("ADDIN", StringComparison.Ordinal) != -1))
+                        {
+                            ProcessShape(sp, sld);
+                        }
                     }
+                    _pptApp.ActiveWindow.View.GotoSlide(activeSlide.SlideIndex);
                 }
-                catch
+                catch (Exception e)
                 {
-                    //MessageBox.Show("main loop err");
+                    _log.ErrorFormat("GENERAL ERROR: Updating document exception: Exception {0}. InnerException: {1}.", e.Message, e.InnerException);
                 }
             
             }
