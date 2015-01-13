@@ -83,7 +83,7 @@
             this.addColumn.Name = "addColumn";
             this.addColumn.Size = new System.Drawing.Size(130, 24);
             this.addColumn.TabIndex = 29;
-            this.addColumn.Text = "Spalte einfügen";
+            this.addColumn.Text = "Spalte Einfügen";
             this.addColumn.UseVisualStyleBackColor = true;
             this.addColumn.Click += new System.EventHandler(this.addColumn_Click);
             // 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -190,7 +190,7 @@ namespace umfrage2
 			this.HorizontalButton.Name = "HorizontalButton";
 			this.HorizontalButton.Size = new System.Drawing.Size(104, 32);
 			this.HorizontalButton.TabIndex = 19;
-			this.HorizontalButton.Text = "�ndern...";
+			this.HorizontalButton.Text = "ändern...";
 			this.HorizontalButton.Click += new System.EventHandler(this.HorizontalButton_Click);
 			// 
 			// QLabel

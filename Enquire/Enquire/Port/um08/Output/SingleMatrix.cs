@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
@@ -833,7 +833,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             double highest = 0;
             double highest25 = 0;
             double highest8 = 0;
-            //Überprüfung ob Personenlist, ComboList, h(horizontale Question) und v (vertikal Question) nicht null bzw. leer sind  
+            //Ð¬berprÑŒfung ob Personenlist, ComboList, h(horizontale Question) und v (vertikal Question) nicht null bzw. leer sind  
             if (h != null && v != null && (PersonList.Length != 0 || ComboList.Length != 0))
             {
                 
@@ -843,12 +843,12 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 {
                     if (users.Contains(r.UserID)) //ob user id in der userliste (Arraylist) enthalten ist
                     {
-                        continue;  //bedeutet zur nächsten index
+                        continue;  //bedeutet zur nÃ¤chsten index
                     }
                    
                     users.Add(r.UserID);  //user id in die Liste einfuegen
 
-                    noadd++;  //erhoeht counter wenn user in die Liste eingefügt wurde
+                    noadd++;  //erhoeht counter wenn user in die Liste eingefÑŒgt wurde
                     bool add = false;
                     int PID;
 

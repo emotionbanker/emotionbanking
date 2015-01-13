@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+ï»¿namespace umfrage2._2007.Controls
 {
     partial class SettingsControl_Placeholders
     {
@@ -55,7 +55,7 @@ namespace umfrage2._2007.Controls
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(140, 24);
             this.label2.TabIndex = 17;
-            this.label2.Text = "ist Platzhalter für (Default):";
+            this.label2.Text = "ist Platzhalter fÃ¼r (Default):";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
@@ -65,7 +65,7 @@ namespace umfrage2._2007.Controls
             this.StatsButton.Name = "StatsButton";
             this.StatsButton.Size = new System.Drawing.Size(138, 24);
             this.StatsButton.TabIndex = 22;
-            this.StatsButton.Text = "Frage auswählen...";
+            this.StatsButton.Text = "Frage auswÃ¤hlen...";
             this.StatsButton.UseVisualStyleBackColor = true;
             this.StatsButton.Click += new System.EventHandler(this.StatsButton_Click);
             // 
@@ -95,7 +95,7 @@ namespace umfrage2._2007.Controls
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(171, 24);
             this.button2.TabIndex = 25;
-            this.button2.Text = "Platzhalter löschen";
+            this.button2.Text = "Platzhalter lÃ¶schen";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 

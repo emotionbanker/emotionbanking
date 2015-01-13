@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
@@ -144,7 +144,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new Size(53, 20);
             this.BrowseButton.TabIndex = 21;
-            this.BrowseButton.Text = "�ndern...";
+            this.BrowseButton.Text = "ändern...";
             this.BrowseButton.UseVisualStyleBackColor = false;
             this.BrowseButton.Click += new EventHandler(this.BrowseButton_Click);
             // 

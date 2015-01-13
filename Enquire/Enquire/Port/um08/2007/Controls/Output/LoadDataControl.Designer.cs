@@ -1,4 +1,4 @@
-using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
+Ôªøusing Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
 {
@@ -170,7 +170,7 @@ namespace umfrage2._2007.Controls
             this._selectAllButton.Name = "_selectAllButton";
             this._selectAllButton.Size = new System.Drawing.Size(112, 26);
             this._selectAllButton.TabIndex = 33;
-            this._selectAllButton.Text = "alle ausw‰hlen";
+            this._selectAllButton.Text = "alle ausw√§hlen";
             this._selectAllButton.UseVisualStyleBackColor = false;
             this._selectAllButton.Click += new System.EventHandler(this._selectAllButton_Click);
             // 
@@ -200,7 +200,7 @@ namespace umfrage2._2007.Controls
             this._selectABButton.Name = "_selectABButton";
             this._selectABButton.Size = new System.Drawing.Size(112, 26);
             this._selectABButton.TabIndex = 36;
-            this._selectABButton.Text = "alle abw‰hlen";
+            this._selectABButton.Text = "alle abw√§hlen";
             this._selectABButton.UseVisualStyleBackColor = false;
             this._selectABButton.Click += new System.EventHandler(this._selectABButton_Click);
             // 

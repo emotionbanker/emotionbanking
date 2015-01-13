@@ -1,4 +1,4 @@
-namespace umfrage2
+Ôªønamespace umfrage2
 {
     partial class UGSplitDialog
     {
@@ -143,7 +143,7 @@ namespace umfrage2
             this.SelectQButton.Name = "SelectQButton";
             this.SelectQButton.Size = new System.Drawing.Size(201, 26);
             this.SelectQButton.TabIndex = 0;
-            this.SelectQButton.Text = "Frage ausw‰hlen...";
+            this.SelectQButton.Text = "Frage ausw√§hlen...";
             this.SelectQButton.UseVisualStyleBackColor = true;
             this.SelectQButton.Click += new System.EventHandler(this.SelectQButton_Click);
             // 
@@ -208,7 +208,7 @@ namespace umfrage2
             this.Name = "UGSplitDialog";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Polarit‰tenprofil - Spalteneinstellung";
+            this.Text = "Polarit√§tenprofil - Spalteneinstellung";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MultipartSaveDialog_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.GroupSelector)).EndInit();
             this.groupBox1.ResumeLayout(false);

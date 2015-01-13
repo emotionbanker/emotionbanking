@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -147,7 +147,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             _settingsButton = AddButton(_toolBar, "Einstellungen", 16, settingsButton_Click);
-            _insertButton = AddButton(_toolBar, "Einfügen", 17, insertButton_Click);
+            _insertButton = AddButton(_toolBar, "EinfÃ¼gen", 17, insertButton_Click);
             _editButton = AddButton(_toolBar, "Bearbeiten", 162, editButton_Click);
         }
 
@@ -558,7 +558,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                     string[] master = (dat + "|").Split(new char[] { '|' });
 
-                    d += "Verknüpfungsdaten:\n\n";
+                    d += "VerknÃ¼pfungsdaten:\n\n";
 
                     int i = 0;
                     foreach (string v in master[0].Split(new char[] { ':' }))
@@ -572,7 +572,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                     MessageBox.Show(d, "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else MessageBox.Show("Auswahl enthält keine Umfrageverknüpfungen", "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.None);
+                else MessageBox.Show("Auswahl enthÃ¤lt keine UmfrageverknÃ¼pfungen", "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.None);
             }
             catch (Exception ex)
             {
@@ -698,6 +698,38 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
+        private Dictionary<Point, string> GetSelectedFormulas(Microsoft.Office.Interop.PowerPoint.Table table) 
+        {
+            var result = new Dictionary<Point, string>();
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+
+                    if (!cell.Selected) continue;
+                    var key = string.Format("umxcode_{0}_{1}", i, j);
+                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
+                    if (!string.IsNullOrEmpty(dat))
+                    {
+                        if (cell.Shape.TextFrame.HasText == MsoTriState.msoFalse)
+                        {
+                            _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+                        }
+                        else
+                        {
+                            result[new Point(i, j)] = dat;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         private Dictionary<Point, string> GetAllCellsWithFormulas(Microsoft.Office.Interop.PowerPoint.Table table)
         {
             var cells = new Dictionary<Point, string>();
@@ -736,20 +768,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         {
             if (eval == null)
             {
-                MessageBox.Show("Sollte eine Verknüpfung eingestellt sein, speichern und laden Sie das Word- Dokument neu.", "Keine Datenverknüpfung eingestellt");
+                MessageBox.Show("Sollte eine VerknÃ¼pfung eingestellt sein, speichern und laden Sie das Word- Dokument neu.", "Keine DatenverknÑŒpfung eingestellt");
                 return;
             }
 
             if(_pptApp.ActiveWindow.Selection.Type == PpSelectionType.ppSelectionNone)
             {
-                MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
+                MessageBox.Show("Bitte wÃ¤hlen sie zuerst ein Element aus.");
                 return;
             }
 
             var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
             if (shapeType != MsoShapeType.msoTable && shapeType != MsoShapeType.msoPicture && shapeType != MsoShapeType.msoTextBox)
             {
-                MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
+                MessageBox.Show("Bitte wÃ¤hlen sie zuerst ein Element aus.");
                 return;
             }
 
@@ -757,7 +789,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 var tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
 
-                var formulas = GetAllCellsWithFormulas(tbl);
+                var formulas = GetSelectedFormulas(tbl);
+                    //GetAllCellsWithFormulas(tbl);
+                //var formula = GetSelectedCell(tbl);
 
                 var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
                 var dialogResult = form.ShowDialog();
@@ -790,7 +824,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 if (_pptApp.ActiveWindow.Selection.ShapeRange.Count > 1)
                 {
-                    var selectedShapes = new List<Microsoft.Office.Interop.PowerPoint.Shape>();
+                    var selectedShapes = new List<Shape>();
                     var formulas = new Dictionary<Point, string>();
                     for (int i = 1; i <= _pptApp.ActiveWindow.Selection.ShapeRange.Count; i++)
                     {
@@ -1664,7 +1698,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                         case "maturity":
 
                             //MessageBox.Show("huiy");
-                            s.Table.Cell(1, 1).Shape.TextFrame.TextRange.Text = "Reifegrad/Führung";
+                            s.Table.Cell(1, 1).Shape.TextFrame.TextRange.Text = "Reifegrad/FÃ¼hrung";
 
                             s.Table.Cell(1, 2).Shape.TextFrame.TextRange.Text = "Telling";
                             s.Table.Cell(1, 3).Shape.TextFrame.TextRange.Text = "Selling";
@@ -2167,7 +2201,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return Math.Round(ctvoval - ctvcval, digits).ToString();
             }
 
-            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
+            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nÃ¶tigen Daten geladen?", "Banksteuerungsbericht");
             return "err";
         }
 
@@ -3136,7 +3170,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                         }
                         else
                         {
-                            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
+                            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nÃ¶tigen Daten geladen?", "Banksteuerungsbericht");
                             ins = "err";
                         }
 
@@ -3720,7 +3754,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                                 catch
                                 {
                                     MessageBox.Show("processfield err");
-                                    //gfährlich!
+                                    //gfÃ¤hrlich!
                                 }
                             }
                         }
@@ -3964,7 +3998,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             wtab.Borders.Enable = 1;
             wtab.Borders.OutsideColor = Microsoft.Office.Interop.Word.WdColor.wdColorGray60;
 
-            wtab.Cell(1, 1).Range.Text = "Reifegrad/Führung";
+            wtab.Cell(1, 1).Range.Text = "Reifegrad/FÃ¼hrung";
 
             wtab.Cell(1, 2).Range.Text = "Telling";
             wtab.Cell(1, 3).Range.Text = "Selling";
@@ -3992,7 +4026,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         {
             if (inf.countPersons() < 1)
             {
-                MessageBox.Show("Sie haben keine Personengruppen ausgewählt", "Eingabefehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sie haben keine Personengruppen ausgewÃ¤hlt", "Eingabefehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

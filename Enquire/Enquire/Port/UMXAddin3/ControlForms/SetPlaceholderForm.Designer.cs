@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+ï»¿namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class SetPlaceholderForm
     {
@@ -60,7 +60,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(383, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "ACHTUNG: Alle hier vorgenommenen Änderungen bleiben nur für die Dauer der";
+            this.label1.Text = "ACHTUNG: Alle hier vorgenommenen Ã¤nderungen bleiben nur fÃ¼r die Dauer der";
             // 
             // label2
             // 

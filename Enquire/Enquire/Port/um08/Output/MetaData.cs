@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.IO;
 using System.Collections;
 using compucare.Enquire.Legacy.Umfrage2Lib.System;
@@ -77,13 +77,13 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 {
                     sr.WriteLine();
 
-                    if (c > 0) sr.WriteLine("Durchschnittliche Ausfüllzeit in Sekunden: " + (tot / c) + " (= " + ((tot / c) / 60) + " Minuten)");
-                    if (times.Count > 1) sr.WriteLine("Median der Ausfüllzeit in Sekunden: " + times[times.Count / 2] + " (= " + (((int)(times[times.Count / 2])) / 60) + " Minuten)");
+                    if (c > 0) sr.WriteLine("Durchschnittliche AusfÃ¼llzeit in Sekunden: " + (tot / c) + " (= " + ((tot / c) / 60) + " Minuten)");
+                    if (times.Count > 1) sr.WriteLine("Median der AusfÃ¼llzeit in Sekunden: " + times[times.Count / 2] + " (= " + (((int)(times[times.Count / 2])) / 60) + " Minuten)");
                     //eval.Users[0].
 
 
                     sr.WriteLine();
-                    sr.WriteLine("Ausfülldauer nach Benutzergruppe (in Minuten)");
+                    sr.WriteLine("AusfÃ¼lldauer nach Benutzergruppe (in Minuten)");
                     sr.WriteLine("Mittel\tMedian\tBenutzergruppe\tEinzelwerte");
 
                     foreach (Person p in eval.Persons)
@@ -131,7 +131,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
 
                     sr.WriteLine();
-                    sr.WriteLine("Ausfülldauer pro Benutzer (kommagetrennte liste)");
+                    sr.WriteLine("AusfÃ¼lldauer pro Benutzer (kommagetrennte liste)");
 
                     foreach (int utt in times)
                         sr.Write( (utt/60) + ",");
@@ -195,7 +195,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 if (type.Equals("vert"))
                 {
                     sr.WriteLine();
-                    sr.WriteLine("Ausfüllquote");
+                    sr.WriteLine("AusfÃ¼llquote");
                     
                     
                     for (int j = 10; j <= td.Questions.Length; j++)

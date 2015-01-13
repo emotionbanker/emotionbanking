@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -55,14 +55,14 @@ namespace umfrage2._2007.Controls
             sizeControl.ChosenSizeChanged += new SizeEventHandler(sizeControl_ChosenSizeChanged);
 
             StyleBox.Items.Clear();
-            StyleBox.Items.Add("4 Verl‰ufe");
+            StyleBox.Items.Add("4 Verl√§ufe");
             StyleBox.Items.Add("Victor 05");
             StyleBox.Items.Add("Kegel");
             StyleBox.Items.Add("Balken");
             StyleBox.Items.Add("Victor 07");
-            StyleBox.Items.Add("4 Verl‰ufe (Ohne Gitter)");
+            StyleBox.Items.Add("4 Verl√§ufe (Ohne Gitter)");
             StyleBox.Items.Add("Victor 05 (Ohne Gitter)");
-            StyleBox.Items.Add("4 Verl‰ufe (5x5 Gitter)");
+            StyleBox.Items.Add("4 Verl√§ufe (5x5 Gitter)");
             StyleBox.Items.Add("Verlaufend (5x5 Gitter)");
 
             PrecBox.Items.Clear();

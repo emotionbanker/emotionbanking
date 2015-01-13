@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -95,7 +95,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             this.SelectButton.Name = "SelectButton";
             this.SelectButton.Size = new Size(104, 26);
             this.SelectButton.TabIndex = 13;
-            this.SelectButton.Text = "�ndern...";
+            this.SelectButton.Text = "ändern...";
             this.SelectButton.UseVisualStyleBackColor = false;
             this.SelectButton.Click += new EventHandler(this.SelectButton_Click);
             // 

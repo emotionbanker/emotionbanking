@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -267,7 +267,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             }
             catch
             {
-                MessageBox.Show("Nur ganze Zahlen �ber 0 erlaubt.", "Falsches Zahlenformat", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Nur ganze Zahlen über 0 erlaubt.", "Falsches Zahlenformat", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 sizeBox.Text = "20";
             }
         }

@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
+﻿using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -344,7 +344,7 @@ namespace umfrage2._2007.Controls
             this.ManualHeightLabel.Name = "ManualHeightLabel";
             this.ManualHeightLabel.Size = new System.Drawing.Size(35, 14);
             this.ManualHeightLabel.TabIndex = 87;
-            this.ManualHeightLabel.Text = "H�he:";
+            this.ManualHeightLabel.Text = "Höhe:";
             // 
             // ManualWidthLabel
             // 

@@ -1,7 +1,7 @@
-namespace compucare.Enquire.Legacy.Umfrage2Lib.System
+﻿namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 {
 	/// <summary>
-	/// Zusammenfassung f�r Tools.
+	/// Zusammenfassung für Tools.
 	/// </summary>
 	public class Tools
 	{

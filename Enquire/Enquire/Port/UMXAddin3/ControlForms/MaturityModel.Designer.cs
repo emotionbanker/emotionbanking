@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+ï»¿namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class MaturityModel
     {
@@ -58,7 +58,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(110, 27);
             this.OKButton.TabIndex = 1;
-            this.OKButton.Text = "Einfügen";
+            this.OKButton.Text = "EinfÃ¼gen";
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
@@ -162,7 +162,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Reifegradmodell einfügen";
+            this.Text = "Reifegradmodell einfÃ¼gen";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

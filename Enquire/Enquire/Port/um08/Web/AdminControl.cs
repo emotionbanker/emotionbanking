@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
@@ -131,7 +131,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Web
 
 				survey.setCSS(styleBox.Text);
 
-				if (!imgBox.Text.Equals("unver‰ndert"))
+				if (!imgBox.Text.Equals("unver√§ndert"))
 					survey.SaveImage(imgBox.Text);
 
 				survey.SaveData();
@@ -390,7 +390,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Web
 			this.button1.Name = "button1";
 			this.button1.Size = new Size(82, 24);
 			this.button1.TabIndex = 4;
-			this.button1.Text = "ausw‰hlen";
+			this.button1.Text = "ausw√§hlen";
 			this.button1.Click += new EventHandler(this.button1_Click);
 			// 
 			// imgBox
@@ -400,7 +400,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Web
 			this.imgBox.Name = "imgBox";
 			this.imgBox.Size = new Size(180, 23);
 			this.imgBox.TabIndex = 3;
-			this.imgBox.Text = "unver‰ndert";
+			this.imgBox.Text = "unver√§ndert";
 			// 
 			// label9
 			// 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -30,7 +30,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 
 			InitializeComponent();
 
-			this.Text = "Gaps für Frage " + q.QuestionID;
+			this.Text = "Gaps fÃ¼r Frage " + q.QuestionID;
 
 			GapStepBox.Value = (decimal)q.gap.Limit;
 
@@ -63,8 +63,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 
 		#region Vom Designer generierter Code
 		/// <summary>
-		/// Erforderliche Methode für die Designerunterstützung. 
-		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+		/// Erforderliche Methode fÃ¼r die DesignerunterstÑŒtzung. 
+		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geÃ¤ndert werden.
 		/// </summary>
 		private void InitializeComponent()
 		{
@@ -138,7 +138,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 			this.Add.Name = "Add";
 			this.Add.Size = new Size(200, 32);
 			this.Add.TabIndex = 53;
-			this.Add.Text = "<- Hinzufügen";
+            this.Add.Text = "<- HinzufÃ¼gen";
 			this.Add.Click += new EventHandler(this.Add_Click);
 			// 
 			// RemoveButton

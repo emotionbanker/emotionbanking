@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
@@ -138,7 +138,7 @@ namespace umfrage2._2007.Controls
             catch 
             {
                 AlertLabel.ForeColor = Color.Red;
-                AlertLabel.Text = "ACHTUNG: Die aktuellen Einstellungen sind nicht g�ltig! (Beistriche beachten)";
+                AlertLabel.Text = "ACHTUNG: Die aktuellen Einstellungen sind nicht gültig! (Beistriche beachten)";
                 return false;
             }
         }

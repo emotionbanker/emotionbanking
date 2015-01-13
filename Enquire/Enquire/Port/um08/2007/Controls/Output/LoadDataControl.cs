@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -67,7 +67,7 @@ namespace umfrage2._2007.Controls
                 ChooseTarget.Enabled = ControlButton.Enabled = false;
                 Begin();
             }else{
-                MessageBox.Show("Datum aus�hlen");
+                MessageBox.Show("Datum ausählen");
             }
         }
 

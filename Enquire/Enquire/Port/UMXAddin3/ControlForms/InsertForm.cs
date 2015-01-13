@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Drawing;
@@ -74,7 +74,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
             if (eval == null)
             {
-                MessageBox.Show("Sollte eine Verkn¸pfung eingestellt sein, speichern und laden Sie das Word- Dokument neu.", "Keine Datenverkn¸pfung eingestellt");
+                MessageBox.Show("Sollte eine Verkn√ºpfung eingestellt sein, speichern und laden Sie das Word- Dokument neu.", "Keine Datenverkn—åpfung eingestellt");
                 this.DialogResult = DialogResult.None;
                 this.Close();
                 return;
@@ -577,7 +577,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else 
             if (CheckQ())
             {
@@ -593,7 +593,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else 
             if (CheckQ())
             {
@@ -608,7 +608,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else 
             if (CheckQ())
             {
@@ -641,7 +641,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else 
             if (CheckQ())
                 Code("bcont-comp-mw:" + qid + ":" + Precision.Value + ":" + getPersons() + ":" + compVal.SelectedIndex);
@@ -654,7 +654,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else 
             if (CheckQ())
             {
@@ -682,7 +682,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
         private void button6_Click(object sender, EventArgs e)
         {
 
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                 {
@@ -709,7 +709,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
         private void button7_Click(object sender, EventArgs e)
         {
 
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                 {
@@ -741,7 +741,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button8_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                 {
@@ -783,7 +783,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button9_Click(object sender, EventArgs e)
         {
-            if (getPersons().Trim().Equals("")) MessageBox.Show("Bitte eine Personengruppe ausw‰hlen!", "Reifegradmodell", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (getPersons().Trim().Equals("")) MessageBox.Show("Bitte eine Personengruppe ausw√§hlen!", "Reifegradmodell", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
                 ControlForms.MaturityModel mm = new UMXAddin3.ControlForms.MaturityModel();
@@ -799,7 +799,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button10_Click(object sender, EventArgs e)
         {
-            if (!CheckQ()) MessageBox.Show("Bitte eine Frage ausw‰hlen!", "Begriffswolke", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (!CheckQ()) MessageBox.Show("Bitte eine Frage ausw√§hlen!", "Begriffswolke", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
                 ControlForms.TagCloud mm = new UMXAddin3.ControlForms.TagCloud();
@@ -954,7 +954,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button19_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                     Code("bcont-nps-value:" + qid + ":" + Precision.Value + ":" + getPersons() + ":" + compVal.SelectedIndex);
@@ -962,7 +962,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button18_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                     Code("bcont-nps-diff:" + qid + ":" + Precision.Value + ":" + getPersons() + ":" + compVal.SelectedIndex);
@@ -970,7 +970,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button17_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                 {
@@ -985,7 +985,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button16_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                 {
@@ -1033,7 +1033,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button21_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                 {
@@ -1048,7 +1048,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button22_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                 {
@@ -1080,7 +1080,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void button23_Click(object sender, EventArgs e)
         {
-            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw‰hlen!");
+            if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert ausw√§hlen!");
             else
                 if (CheckQ())
                 {

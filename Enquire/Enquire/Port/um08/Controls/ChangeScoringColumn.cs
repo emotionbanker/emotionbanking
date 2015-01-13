@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 {
 	/// <summary>
-	/// Zusammenfassung für ChangeScoringColumn.
+	/// Zusammenfassung fÃ¼r ChangeScoringColumn.
 	/// </summary>
 	public class ChangeScoringColumn : UserControl
 	{
@@ -81,8 +81,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 
 		#region Vom Komponenten-Designer generierter Code
 		/// <summary> 
-		/// Erforderliche Methode für die Designerunterstützung. 
-		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+		/// Erforderliche Methode fÃ¼r die DesignerunterstÑŒtzung. 
+		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geÃ¤ndert werden.
 		/// </summary>
 		private void InitializeComponent()
 		{
@@ -147,7 +147,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			}
 			catch
 			{
-				MessageBox.Show("Der eingegebene Wert ist keine gültige Zahl!", "Fehler");
+				MessageBox.Show("Der eingegebene Wert ist keine gÃ¼ltige Zahl!", "Fehler");
 				ValBox.Text = val.ToString();
 			}
 		}

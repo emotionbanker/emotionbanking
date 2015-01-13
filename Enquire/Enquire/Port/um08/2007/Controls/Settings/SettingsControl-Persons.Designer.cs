@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+ï»¿namespace umfrage2._2007.Controls
 {
     partial class SettingsControl_Persons
     {
@@ -42,7 +42,7 @@ namespace umfrage2._2007.Controls
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(216, 29);
             this.DeleteButton.TabIndex = 25;
-            this.DeleteButton.Text = "Kombination löschen";
+            this.DeleteButton.Text = "Kombination lÃ¶schen";
             this.DeleteButton.UseVisualStyleBackColor = false;
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
@@ -54,7 +54,7 @@ namespace umfrage2._2007.Controls
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(216, 29);
             this.AddButton.TabIndex = 24;
-            this.AddButton.Text = "Kombination hinzufügen";
+            this.AddButton.Text = "Kombination hinzufÃ¼gen";
             this.AddButton.UseVisualStyleBackColor = false;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 

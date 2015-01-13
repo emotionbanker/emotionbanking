@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
+ï»¿using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -105,7 +105,7 @@ namespace umfrage2._2007.Controls
             this.VerticalButton.Name = "VerticalButton";
             this.VerticalButton.Size = new System.Drawing.Size(104, 29);
             this.VerticalButton.TabIndex = 34;
-            this.VerticalButton.Text = "ändern...";
+            this.VerticalButton.Text = "Ã¤ndern...";
             this.VerticalButton.UseVisualStyleBackColor = false;
             this.VerticalButton.Click += new System.EventHandler(this.VerticalButton_Click);
             // 
@@ -133,7 +133,7 @@ namespace umfrage2._2007.Controls
             this.HorizontalButton.Name = "HorizontalButton";
             this.HorizontalButton.Size = new System.Drawing.Size(104, 29);
             this.HorizontalButton.TabIndex = 31;
-            this.HorizontalButton.Text = "ändern...";
+            this.HorizontalButton.Text = "Ã¤ndern...";
             this.HorizontalButton.UseVisualStyleBackColor = false;
             this.HorizontalButton.Click += new System.EventHandler(this.HorizontalButton_Click);
             // 
@@ -267,7 +267,7 @@ namespace umfrage2._2007.Controls
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 2;
-            this.label3.Text = "max. Stärke";
+            this.label3.Text = "max. StÃ¤rke";
             // 
             // minThickControl
             // 
@@ -283,7 +283,7 @@ namespace umfrage2._2007.Controls
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "min. Stärke";
+            this.label1.Text = "min. StÃ¤rke";
             // 
             // groupBox3
             // 
@@ -349,7 +349,7 @@ namespace umfrage2._2007.Controls
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(32, 13);
             this.label6.TabIndex = 40;
-            this.label6.Text = "Höhe";
+            this.label6.Text = "HÃ¶he";
             // 
             // nodeFontButton
             // 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -28,7 +28,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         public bool ShowValue;     //Wert sichtbar/unsichtbar
 
         public bool Base = false;  //Basis Frage ja/nein
-        public Question BaseQ = null;  //ausgewählte Basisfrage
+        public Question BaseQ = null;  //ausgewÃ¤hlte Basisfrage
 
         public Question[] Questions;
 
@@ -409,14 +409,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                     {
 
                         /*****   Berechnung    **/
-                        double val = q.GetAverageByPersonAsMark(Eval, ps, 1);  //muss noch überprüft werden
+                        double val = q.GetAverageByPersonAsMark(Eval, ps, 1);  //muss noch ÑŒberprÑŒft werden
                         double valC = 0.0;
                         if (val > 0)
                         {
                             valC = (125 - val * 25);
                             if (valC > 100)
                             {
-                                MessageBox.Show("Wert größer als 100:\nWert:" + valC);
+                                MessageBox.Show("Wert grÃ¶ÃŸer als 100:\nWert:" + valC);
                                 valC = 100;
                             }
                         }
@@ -475,7 +475,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                             if (this.ShowPerson == true | this.ShowQuestion == true) text += "/" + Math.Round(valC);
                             else text += Math.Round(valC);
                         }
-                                  //Schriftart, Schriftgröße, 
+                        //Schriftart, SchriftgrÃ¶ÃŸenbereich, 
                         formGraphics.DrawString(text, this.Txt, new SolidBrush(this.BrushColor), xAchse, yAchse, new StringFormat());
                         
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
@@ -44,7 +44,7 @@ namespace umfrage2._2007.Controls
             }
             else
             {
-                label1.Text = "kein Platzhalter ausgew�hlt.";
+                label1.Text = "kein Platzhalter ausgewählt.";
                 QView.Text = "";
                 PHTextBox.Text = "";
             }

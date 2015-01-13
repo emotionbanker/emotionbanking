@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
+﻿using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -346,7 +346,7 @@ namespace umfrage2._2007.Controls
             this.checkBoxHeight.Name = "checkBoxHeight";
             this.checkBoxHeight.Size = new System.Drawing.Size(99, 18);
             this.checkBoxHeight.TabIndex = 93;
-            this.checkBoxHeight.Text = "Manuelle H�he:";
+            this.checkBoxHeight.Text = "Manuelle Höhe:";
             this.checkBoxHeight.UseVisualStyleBackColor = true;
             this.checkBoxHeight.CheckedChanged += new System.EventHandler(this.checkBoxHeight_CheckedChanged);
             // 

@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
+﻿using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -352,7 +352,7 @@ namespace umfrage2._2007.Controls
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(106, 23);
             this.label4.TabIndex = 91;
-            this.label4.Text = "�berschriften:";
+            this.label4.Text = "Überschriften:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label5

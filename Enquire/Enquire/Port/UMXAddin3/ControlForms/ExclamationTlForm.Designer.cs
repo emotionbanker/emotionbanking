@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+﻿namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class ExclamationTlForm
     {
@@ -84,7 +84,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.mw.Name = "mw";
             this.mw.Size = new System.Drawing.Size(106, 29);
             this.mw.TabIndex = 3;
-            this.mw.Text = "Einf�gen";
+            this.mw.Text = "Einfügen";
             this.mw.UseVisualStyleBackColor = true;
             this.mw.Click += new System.EventHandler(this.mw_Click);
             // 

@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Output;
+ï»¿using compucare.Enquire.Legacy.Umfrage2Lib.Output;
 
 namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
@@ -93,7 +93,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.OSel.Name = "OSel";
             this.OSel.Size = new System.Drawing.Size(183, 28);
             this.OSel.TabIndex = 35;
-            this.OSel.Text = "Auswahl einfügen";
+            this.OSel.Text = "Auswahl einfÃ¼gen";
             this.OSel.UseVisualStyleBackColor = true;
             this.OSel.Click += new System.EventHandler(this.OSel_Click);
             // 
@@ -121,7 +121,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "OutputSelect";
             this.ShowInTaskbar = false;
-            this.Text = "Auswertung auswählen";
+            this.Text = "Auswertung auswÃ¤hlen";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
@@ -287,7 +287,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.DeleteOutputButton.Name = "DeleteOutputButton";
 			this.DeleteOutputButton.Size = new Size(168, 32);
 			this.DeleteOutputButton.TabIndex = 26;
-			this.DeleteOutputButton.Text = "Auswertung löschen";
+			this.DeleteOutputButton.Text = "Auswertung lÃ¶schen";
 			this.DeleteOutputButton.Click += new EventHandler(this.DeleteOutputButton_Click);
 			// 
 			// AddOutputButton
@@ -298,7 +298,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.AddOutputButton.Name = "AddOutputButton";
 			this.AddOutputButton.Size = new Size(192, 32);
 			this.AddOutputButton.TabIndex = 25;
-			this.AddOutputButton.Text = "Auswertung hinzufügen ->";
+			this.AddOutputButton.Text = "Auswertung hinzufÃ¼gen ->";
 			this.AddOutputButton.Click += new EventHandler(this.AddOutputButton_Click);
 			// 
 			// OutputList
@@ -336,7 +336,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.DeleteReportButton.Name = "DeleteReportButton";
 			this.DeleteReportButton.Size = new Size(208, 32);
 			this.DeleteReportButton.TabIndex = 22;
-			this.DeleteReportButton.Text = "Bericht löschen";
+			this.DeleteReportButton.Text = "Bericht lÃ¶schen";
 			this.DeleteReportButton.Click += new EventHandler(this.DeleteReportButton_Click);
 			// 
 			// NewReportButton
@@ -422,7 +422,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			// menuItem7
 			// 
 			this.menuItem7.Index = 6;
-			this.menuItem7.Text = "Polaritätenprofil";
+			this.menuItem7.Text = "PolaritÃ¤tenprofil";
 			this.menuItem7.Click += new EventHandler(this.menuItem7_Click);
 			// 
 			// menuItem8

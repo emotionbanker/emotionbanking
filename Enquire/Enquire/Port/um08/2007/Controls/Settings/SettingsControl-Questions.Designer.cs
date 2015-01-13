@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+ï»¿namespace umfrage2._2007.Controls
 {
     partial class SettingsControl_Questions
     {
@@ -117,7 +117,7 @@ namespace umfrage2._2007.Controls
             this.RemoveQuestionButton.Name = "RemoveQuestionButton";
             this.RemoveQuestionButton.Size = new System.Drawing.Size(160, 29);
             this.RemoveQuestionButton.TabIndex = 40;
-            this.RemoveQuestionButton.Text = "Frage löschen";
+            this.RemoveQuestionButton.Text = "Frage lÃ¶schen";
             this.RemoveQuestionButton.UseVisualStyleBackColor = false;
             this.RemoveQuestionButton.Click += new System.EventHandler(this.RemoveQuestionButton_Click);
             // 
@@ -129,7 +129,7 @@ namespace umfrage2._2007.Controls
             this.AddQuestionButton.Name = "AddQuestionButton";
             this.AddQuestionButton.Size = new System.Drawing.Size(160, 29);
             this.AddQuestionButton.TabIndex = 39;
-            this.AddQuestionButton.Text = "Frage hinzufügen";
+            this.AddQuestionButton.Text = "Frage hinzufÃ¼gen";
             this.AddQuestionButton.UseVisualStyleBackColor = false;
             this.AddQuestionButton.Click += new System.EventHandler(this.AddQuestionButton_Click);
             // 
@@ -141,7 +141,7 @@ namespace umfrage2._2007.Controls
             this.DeleteComboButton.Name = "DeleteComboButton";
             this.DeleteComboButton.Size = new System.Drawing.Size(160, 29);
             this.DeleteComboButton.TabIndex = 38;
-            this.DeleteComboButton.Text = "Kombination löschen";
+            this.DeleteComboButton.Text = "Kombination lÃ¶schen";
             this.DeleteComboButton.UseVisualStyleBackColor = false;
             this.DeleteComboButton.Click += new System.EventHandler(this.DeleteComboButton_Click);
             // 

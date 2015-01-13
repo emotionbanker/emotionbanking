@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
@@ -195,7 +195,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 				for (int i = 0; i < (CombinedPersons.Length); i++)
 				{	
 					ResultTable += CombinedPersons[i].ToString() + "\r\n";
-					ResultTable += "Frage/#Antworten\tAntwortmöglichkeiten/Prozent";
+					ResultTable += "Frage/#Antworten\tAntwortmÃ¶glichkeiten/Prozent";
 					ResultTable += "\r\n\r\n";
 					foreach (Question q in Questions)
 					{
@@ -235,7 +235,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
             if (n)
             {
-                ResultTable += "STICHPROBENGRÖSSE (MITTELWERTE)\r\n\r\n";
+                ResultTable += "STICHPROBENGRÃ–SSE (MITTELWERTE)\r\n\r\n";
 
                 ResultTable += "Frage\t";
 

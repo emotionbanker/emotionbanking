@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -255,7 +255,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.SelectAll.Name = "SelectAll";
             this.SelectAll.Size = new Size(180, 33);
             this.SelectAll.TabIndex = 14;
-            this.SelectAll.Text = "        Alle Fragen ausw�hlen";
+            this.SelectAll.Text = "        Alle Fragen auswählen";
             this.SelectAll.UseVisualStyleBackColor = false;
             this.SelectAll.Click += new EventHandler(this.SelectAll_Click);
             // 

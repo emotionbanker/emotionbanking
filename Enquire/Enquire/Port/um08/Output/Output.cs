@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Collections;
 using System.Runtime.Serialization;
@@ -352,7 +352,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 			}
 
             if (crosserr)
-                MessageBox.Show("Es konnte f�r zumindest eine eingestellte Bank keine Kreuzungsfrage gefunden werden.\nDiese Kreuzungen wurden nicht berechnet.", "Fehler bei Kreuzung", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Es konnte für zumindest eine eingestellte Bank keine Kreuzungsfrage gefunden werden.\nDiese Kreuzungen wurden nicht berechnet.", "Fehler bei Kreuzung", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 			if (wasnull) OvEval = null;
 			return true;

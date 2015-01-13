@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -303,7 +303,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Datenbank konnte nicht ge�ffnet werden!\n" + ex.Message + "\n" + ex.StackTrace, "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Datenbank konnte nicht geöffnet werden!\n" + ex.Message + "\n" + ex.StackTrace, "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             this.Enabled = true;

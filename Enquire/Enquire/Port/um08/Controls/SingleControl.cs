@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
@@ -227,7 +227,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.button1.Name = "button1";
 			this.button1.Size = new Size(168, 32);
 			this.button1.TabIndex = 5;
-			this.button1.Text = "Polarit�ten";
+			this.button1.Text = "Polaritäten";
 			this.button1.Click += new EventHandler(this.button1_Click);
 			// 
 			// Bar

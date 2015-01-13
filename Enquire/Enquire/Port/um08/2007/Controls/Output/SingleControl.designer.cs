@@ -1,4 +1,4 @@
-using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
+Ôªøusing Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
 {
@@ -140,7 +140,7 @@ namespace umfrage2._2007.Controls
             this.Pol08Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Pol08Button.Name = "Pol08Button";
             this.Pol08Button.Size = new System.Drawing.Size(109, 19);
-            this.Pol08Button.Text = "Polarit‰tenprofil 08";
+            this.Pol08Button.Text = "Polarit√§tenprofil 08";
             this.Pol08Button.Click += new System.EventHandler(this.Pol08Button_Click);
             // 
             // MButton
@@ -180,7 +180,7 @@ namespace umfrage2._2007.Controls
             this.PolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.PolButton.Name = "PolButton";
             this.PolButton.Size = new System.Drawing.Size(109, 19);
-            this.PolButton.Text = "Polarit‰ten";
+            this.PolButton.Text = "Polarit√§ten";
             this.PolButton.Click += new System.EventHandler(this.PolButton_Click);
             // 
             // GapButton

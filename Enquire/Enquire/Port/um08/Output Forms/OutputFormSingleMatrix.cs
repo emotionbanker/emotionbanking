@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -140,7 +140,7 @@ namespace umfrage2
 			}
 
 			StyleBox.Items.Clear();
-			StyleBox.Items.Add("4 Verl‰ufe");
+			StyleBox.Items.Add("4 Verl√§ufe");
 			StyleBox.Items.Add("Victor 05");
 			StyleBox.Items.Add("Kegel");
 			StyleBox.Items.Add("Balken");
@@ -272,7 +272,7 @@ namespace umfrage2
             this.HorizontalButton.Name = "HorizontalButton";
             this.HorizontalButton.Size = new System.Drawing.Size(86, 26);
             this.HorizontalButton.TabIndex = 10;
-            this.HorizontalButton.Text = "‰ndern...";
+            this.HorizontalButton.Text = "√§ndern...";
             this.HorizontalButton.UseVisualStyleBackColor = false;
             this.HorizontalButton.Click += new System.EventHandler(this.HorizontalButton_Click);
             // 
@@ -284,7 +284,7 @@ namespace umfrage2
             this.VerticalButton.Name = "VerticalButton";
             this.VerticalButton.Size = new System.Drawing.Size(86, 26);
             this.VerticalButton.TabIndex = 13;
-            this.VerticalButton.Text = "‰ndern...";
+            this.VerticalButton.Text = "√§ndern...";
             this.VerticalButton.UseVisualStyleBackColor = false;
             this.VerticalButton.Click += new System.EventHandler(this.VerticalButton_Click);
             // 

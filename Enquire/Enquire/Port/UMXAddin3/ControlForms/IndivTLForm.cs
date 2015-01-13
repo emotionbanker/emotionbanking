@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -63,7 +63,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
             x1Box.Text = "8";
             x2Box.Text = "4";
-            label2.Text = "über";
+            label2.Text = "Ã¼ber";
             this.Text = "Individuelle Ampelgraphik - Anzahl Antworten";
         }
 
@@ -96,7 +96,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
 
             if (val) button1.Text = "OK";
-            else button1.Text = "Einfügen";
+            else button1.Text = "EinfÃ¼gen";
         }
 
         private void cancel_Click(object sender, EventArgs e)

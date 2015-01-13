@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -40,7 +40,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.öffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Ã¶ffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speichernUnterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -72,7 +72,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
             this.anonymisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             this.metadatenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ausfülldauerSplitHalfReliabilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ausfÃ¼lldauerSplitHalfReliabilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.antwortverteilungToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,7 +130,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
             this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nToolStripMenuItem,
             this.toolStripMenuItem4,
-            this.öffnenToolStripMenuItem,
+            this.Ã¶ffnenToolStripMenuItem,
             this.speichernToolStripMenuItem,
             this.speichernUnterToolStripMenuItem,
             this.toolStripMenuItem1,
@@ -150,12 +150,12 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
             resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             // 
-            // öffnenToolStripMenuItem
+            // Ã¶ffnenToolStripMenuItem
             // 
-            resources.ApplyResources(this.öffnenToolStripMenuItem, "öffnenToolStripMenuItem");
-            this.öffnenToolStripMenuItem.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.shell32_dll_I0005_0409;
-            this.öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
-            this.öffnenToolStripMenuItem.Click += new System.EventHandler(this.openMultipartToolStripMenuItem_Click);
+            resources.ApplyResources(this.Ã¶ffnenToolStripMenuItem, "Ã¶ffnenToolStripMenuItem");
+            this.Ã¶ffnenToolStripMenuItem.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.shell32_dll_I0005_0409;
+            this.Ã¶ffnenToolStripMenuItem.Name = "Ã¶ffnenToolStripMenuItem";
+            this.Ã¶ffnenToolStripMenuItem.Click += new System.EventHandler(this.openMultipartToolStripMenuItem_Click);
             // 
             // speichernToolStripMenuItem
             // 
@@ -376,15 +376,15 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
             // 
             resources.ApplyResources(this.metadatenToolStripMenuItem, "metadatenToolStripMenuItem");
             this.metadatenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ausfülldauerSplitHalfReliabilityToolStripMenuItem,
+            this.ausfÃ¼lldauerSplitHalfReliabilityToolStripMenuItem,
             this.antwortverteilungToolStripMenuItem});
             this.metadatenToolStripMenuItem.Name = "metadatenToolStripMenuItem";
             // 
-            // ausfülldauerSplitHalfReliabilityToolStripMenuItem
+            // ausfÑŒlldauerSplitHalfReliabilityToolStripMenuItem
             // 
-            resources.ApplyResources(this.ausfülldauerSplitHalfReliabilityToolStripMenuItem, "ausfülldauerSplitHalfReliabilityToolStripMenuItem");
-            this.ausfülldauerSplitHalfReliabilityToolStripMenuItem.Name = "ausfülldauerSplitHalfReliabilityToolStripMenuItem";
-            this.ausfülldauerSplitHalfReliabilityToolStripMenuItem.Click += new System.EventHandler(this.ausfülldauerSplitHalfReliabilityToolStripMenuItem_Click);
+            resources.ApplyResources(this.ausfÃ¼lldauerSplitHalfReliabilityToolStripMenuItem, "ausfÑŒlldauerSplitHalfReliabilityToolStripMenuItem");
+            this.ausfÃ¼lldauerSplitHalfReliabilityToolStripMenuItem.Name = "ausfÑŒlldauerSplitHalfReliabilityToolStripMenuItem";
+            this.ausfÃ¼lldauerSplitHalfReliabilityToolStripMenuItem.Click += new System.EventHandler(this.ausfÃ¼lldauerSplitHalfReliabilityToolStripMenuItem_Click);
             // 
             // antwortverteilungToolStripMenuItem
             // 
@@ -674,7 +674,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
         private ToolStripButton BenchmarkingButton;
         private ToolStripButton ScoringButton;
         private ToolStripButton HelpButton;
-        private ToolStripMenuItem öffnenToolStripMenuItem;
+        private ToolStripMenuItem Ã¶ffnenToolStripMenuItem;
         private ToolStripMenuItem speichernToolStripMenuItem;
         private ToolStripMenuItem auswertungToolStripMenuItem;
         private ToolStripMenuItem einstellungenToolStripMenuItem;
@@ -723,7 +723,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
         private ToolStripMenuItem user117ToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem9;
         private ToolStripMenuItem metadatenToolStripMenuItem;
-        private ToolStripMenuItem ausfülldauerSplitHalfReliabilityToolStripMenuItem;
+        private ToolStripMenuItem ausfÃ¼lldauerSplitHalfReliabilityToolStripMenuItem;
         private ToolStripMenuItem antwortverteilungToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem11;
         private ToolStripMenuItem toolStripMenuItem13;

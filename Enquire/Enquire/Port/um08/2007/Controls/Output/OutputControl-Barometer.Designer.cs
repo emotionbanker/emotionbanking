@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
+﻿using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -195,7 +195,7 @@ namespace umfrage2._2007.Controls
             this.BArrowLarge.Name = "BArrowLarge";
             this.BArrowLarge.Size = new System.Drawing.Size(123, 24);
             this.BArrowLarge.TabIndex = 73;
-            this.BArrowLarge.Text = "Gro�er Pfeil....";
+            this.BArrowLarge.Text = "Großer Pfeil....";
             this.BArrowLarge.UseVisualStyleBackColor = false;
             this.BArrowLarge.Click += new System.EventHandler(this.BArrowLarge_Click);
             // 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using Compucare.Enquire.Common.Tools.Logging;
@@ -131,7 +131,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
 		public Column()
 		{
-			Name = "Neue Säule";
+			Name = "Neue SÃ¤ule";
 			AnswerPoints = new float[5];
 			MaxPoints = 0;
 			GapStep = 1f;
@@ -271,7 +271,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 		{
 			if (cat != null && CatCount(cat) > 0)
 			{
-				if (MessageBox.Show(CatCount(cat) + " Fragen sind dieser Kategorie zugewiesen.\nSoll diese Kategorie wirklich gelöscht werden?", "ACHTUNG", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+				if (MessageBox.Show(CatCount(cat) + " Fragen sind dieser Kategorie zugewiesen.\nSoll diese Kategorie wirklich gelÃ¶scht werden?", "ACHTUNG", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
 					return;
 				
 			}
