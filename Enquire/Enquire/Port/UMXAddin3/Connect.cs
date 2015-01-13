@@ -790,10 +790,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 var tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
 
                 var formulas = GetSelectedFormulas(tbl);
-                    //GetAllCellsWithFormulas(tbl);
-                //var formula = GetSelectedCell(tbl);
-
-                var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
+                
+                var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));//remove reference to formulas
                 var dialogResult = form.ShowDialog();
                 if (dialogResult == DialogResult.OK)
                 {
