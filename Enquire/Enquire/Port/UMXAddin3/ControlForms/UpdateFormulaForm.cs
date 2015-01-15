@@ -83,20 +83,21 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             DialogResult = DialogResult.OK;
         }
 
-        private void btnReplace_Click(object sender, EventArgs e)
+        private void btnReplace_Click(object sender, EventArgs e) 
         {
-            if (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(txtReplace.Text))
+            if (string.IsNullOrWhiteSpace(txtFind.Text) || string.IsNullOrWhiteSpace(txtReplace.Text)) return;
+            if (!string.IsNullOrWhiteSpace(txtFormulas.SelectedText))
             {
-                if (!string.IsNullOrEmpty(txtFormulas.SelectedText))
-                {
-                    int selectionStart = txtFormulas.SelectionStart;
-                    int selectionLength = txtFormulas.SelectionLength;
-
-                    txtFormulas.Text = txtFormulas.Text.Remove(selectionStart, selectionLength)
-                        .Insert(selectionStart, txtReplace.Text);
-                    txtFormulas.Select(selectionStart, selectionLength);
-                }
+                var selectionStart = txtFormulas.SelectionStart;
+                var selectionLength = txtFormulas.SelectionLength;
+                txtFormulas.SelectedText = txtFormulas.SelectedText.Replace(txtFind.Text.Trim(), txtReplace.Text.Trim());
+                txtFormulas.Select(selectionStart, selectionLength);  
             }
+            else 
+            {
+                txtFormulas.Text =  txtFormulas.Text.Replace(txtFind.Text.Trim(), txtReplace.Text.Trim());
+            }
+            //txtFormulas.Text = txtFormulas.Text.Remove(selectionStart, selectionLength).Insert(selectionStart, txtReplace.Text);
         }
 
         private void btnReplaceAll_Click(object sender, EventArgs e)
