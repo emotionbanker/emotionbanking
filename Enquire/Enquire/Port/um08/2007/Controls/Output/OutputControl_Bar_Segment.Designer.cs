@@ -46,8 +46,6 @@ namespace umfrage2._2007.Controls
             this.Personengruppen = new System.Windows.Forms.GroupBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.BaseCheck = new System.Windows.Forms.CheckBox();
-            this.BaseBox = new System.Windows.Forms.ComboBox();
             this.GoButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -62,7 +60,6 @@ namespace umfrage2._2007.Controls
             this.ShowValueText = new System.Windows.Forms.CheckBox();
             this.ShowPersonText = new System.Windows.Forms.CheckBox();
             this.previewBox = new compucare.Enquire.Legacy.Umfrage2Lib.Controls.PreviewControl();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.Personengruppen.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -170,11 +167,12 @@ namespace umfrage2._2007.Controls
             // 
             // crossPanel
             // 
-            this.crossPanel.Location = new System.Drawing.Point(7, 161);
+            this.crossPanel.Location = new System.Drawing.Point(7, 131);
             this.crossPanel.Margin = new System.Windows.Forms.Padding(4);
             this.crossPanel.Name = "crossPanel";
-            this.crossPanel.Size = new System.Drawing.Size(219, 64);
+            this.crossPanel.Size = new System.Drawing.Size(219, 94);
             this.crossPanel.TabIndex = 55;
+            this.crossPanel.Visible = false;
             // 
             // panel1
             // 
@@ -191,9 +189,9 @@ namespace umfrage2._2007.Controls
             // Personengruppen
             // 
             this.Personengruppen.Controls.Add(this.panel3);
-            this.Personengruppen.Location = new System.Drawing.Point(11, 305);
+            this.Personengruppen.Location = new System.Drawing.Point(11, 203);
             this.Personengruppen.Name = "Personengruppen";
-            this.Personengruppen.Size = new System.Drawing.Size(241, 182);
+            this.Personengruppen.Size = new System.Drawing.Size(241, 233);
             this.Personengruppen.TabIndex = 90;
             this.Personengruppen.TabStop = false;
             this.Personengruppen.Text = "Personengruppen";
@@ -203,13 +201,11 @@ namespace umfrage2._2007.Controls
             this.panel3.Location = new System.Drawing.Point(3, 16);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(13, 15, 13, 15);
-            this.panel3.Size = new System.Drawing.Size(235, 163);
+            this.panel3.Size = new System.Drawing.Size(235, 211);
             this.panel3.TabIndex = 47;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.BaseCheck);
-            this.groupBox1.Controls.Add(this.BaseBox);
             this.groupBox1.Controls.Add(this.QBox);
             this.groupBox1.Controls.Add(this.crossPanel);
             this.groupBox1.Controls.Add(this.QAdd);
@@ -218,31 +214,10 @@ namespace umfrage2._2007.Controls
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(241, 231);
+            this.groupBox1.Size = new System.Drawing.Size(241, 129);
             this.groupBox1.TabIndex = 70;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Daten";
-            // 
-            // BaseCheck
-            // 
-            this.BaseCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BaseCheck.Location = new System.Drawing.Point(7, 129);
-            this.BaseCheck.Margin = new System.Windows.Forms.Padding(4);
-            this.BaseCheck.Name = "BaseCheck";
-            this.BaseCheck.Size = new System.Drawing.Size(53, 25);
-            this.BaseCheck.TabIndex = 77;
-            this.BaseCheck.Text = "Basis";
-            this.BaseCheck.CheckedChanged += new System.EventHandler(this.BaseCheck_CheckedChanged);
-            // 
-            // BaseBox
-            // 
-            this.BaseBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BaseBox.Location = new System.Drawing.Point(68, 131);
-            this.BaseBox.Margin = new System.Windows.Forms.Padding(4);
-            this.BaseBox.Name = "BaseBox";
-            this.BaseBox.Size = new System.Drawing.Size(158, 22);
-            this.BaseBox.TabIndex = 76;
-            this.BaseBox.SelectedIndexChanged += new System.EventHandler(this.BaseBox_SelectedIndexChanged);
             // 
             // GoButton
             // 
@@ -272,7 +247,6 @@ namespace umfrage2._2007.Controls
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.ScrollBarHeightValue);
             this.groupBox2.Controls.Add(this.ScrollBarWidthValue);
             this.groupBox2.Controls.Add(this.ScrollBarHeight);
@@ -412,15 +386,6 @@ namespace umfrage2._2007.Controls
             this.previewBox.TabIndex = 50;
             this.previewBox.Load += new System.EventHandler(this.previewBox_Load);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(639, 83);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 92;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // OutputControl_Bar_Segment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -464,8 +429,6 @@ namespace umfrage2._2007.Controls
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox Personengruppen;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.ComboBox BaseBox;
-        private System.Windows.Forms.CheckBox BaseCheck;
         private System.Windows.Forms.CheckBox ShowPersonText;
         private System.Windows.Forms.CheckBox ShowValueText;
         private System.Windows.Forms.Panel BColorTextPanel;
@@ -476,6 +439,5 @@ namespace umfrage2._2007.Controls
         private System.Windows.Forms.Label ManualWidthLabel;
         private System.Windows.Forms.Label ScrollBarHeightValue;
         private System.Windows.Forms.Label ScrollBarWidthValue;
-        private System.Windows.Forms.Button button1;
     }
 }

@@ -1839,7 +1839,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             //2.1 - Fragen
 
             dar.Status("Lade Fragen...");
-                   
+            
             cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "frage", db);
 
             //cmd.CommandText = "select count(*) from " + DatabasePrefix + "frage";
@@ -1876,7 +1876,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 if (!d.IsDBNull(2)) third = d.GetString(2);
                 if (!d.IsDBNull(3)) four = d.GetString(3);
                 if (!d.IsDBNull(4)) five = d.GetString(4);
-
                 
                 Question q = Question.Create(first, second, third, four, five, 0);
 
@@ -1927,6 +1926,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             dar.LocalStatus.Maximum = persons;
 
             cmd = new MySqlCommand("select * from " + DatabasePrefix + "personen", db);
+
             d.Close();
             d = cmd.ExecuteReader();
 
@@ -2398,8 +2398,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
             dar.Status("Erstelle Zieltabelle...");
 
-
-            Targets = new TargetData[d.GetInt32(0)];
+            int f = 0;
+            if (!d.IsDBNull(1)) f = d.GetInt32(0);
+            Targets = new TargetData[f];
 
 
             dar.Status("Lade Zieldaten...");
@@ -2480,9 +2481,14 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                     while (d.Read())
                     {
-                        if (d.GetString(1) != "" && d.GetString(1).ToLower() != "null")
+                        string first = "";
+                        string three = "";
+                        if (!d.IsDBNull(1)) first = d.GetString(1);
+                        if (!d.IsDBNull(3)) three = d.GetString(3);
+
+                        if (first != "" && first.ToLower() != "null")
                         {
-                            string[] elements = d.GetString(3).Split(';');
+                            string[] elements = three.Split(';');
 
                             for (int i = 0; i < elements.Length; i++)
                             {
@@ -2504,16 +2510,19 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                                         if (d2.Read())
                                         {
                                             bool add = true;
+                                            int iii = 0;
+                                            if (!d2.IsDBNull(0)) iii = d2.GetInt32(0);
                                             foreach (int ii in IDs)
                                             {
-                                                if (ii == d2.GetInt32(0)) add = false;
+
+                                                if (ii == iii) add = false;
                                             }
                                             if (add)
                                             {
-                                                IDs.Add(d2.GetInt32(0));
+                                                IDs.Add(iii);
                                                 TargetQuestions[j]++;
                                             }
-                                        }
+                                        }//end Read
                                     }
                                 }
                             }
@@ -2547,13 +2556,21 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                     while (d.Read())
                     {
-                        if (d.GetString(1) != "" && d.GetString(1).ToLower() != "null")
+                        string first = "";
+                        int second = 0;
+                        string third = "";
+
+                        if (!d.IsDBNull(1)) first = d.GetString(1);
+                        if (!d.IsDBNull(2)) second = d.GetInt32(2);
+                        if (!d.IsDBNull(3)) third = d.GetString(3);
+
+                        if (first != "" && first.ToLower() != "null")
                         {
-                            string[] elements = d.GetString(3).Split(';');
+                            string[] elements = third.Split(';');
 
                             Survey s = new Survey();
                             s.QuestionList = elements;
-                            s.PID = d.GetInt32(2);
+                            s.PID = second;
 
                             target.AddSurvey(s);
 
@@ -2577,6 +2594,18 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                                         if (d2.Read())
                                         {
+                                            int zero0 = 0;
+                                            string first1 = "";
+                                            string second2 = "";
+                                            string three3 = "";
+                                            string four4 = "";
+
+                                            if (d2.IsDBNull(0)) zero0 = d2.GetInt32(0);
+                                            if (d2.IsDBNull(1)) first1 = d2.GetString(1);
+                                            if (d2.IsDBNull(2)) second2 = d2.GetString(2);
+                                            if (d2.IsDBNull(3)) three3 = d2.GetString(3);
+                                            if (d2.IsDBNull(4)) four4 = d2.GetString(4);
+
                                             bool add = true;
                                             foreach (int ii in IDs)
                                             {
@@ -2585,7 +2614,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                                             if (add)
                                             {
                                                 IDs.Add(d2.GetInt32(0));
-                                                target.Questions[qi++] = Question.Create(d2.GetInt32(0), d2.GetString(1), d2.GetString(2), d2.GetString(3), d2.GetString(4), 0);
+                                                target.Questions[qi++] = Question.Create(zero0, first1, second2, three3, four4, 0);
 
                                                 dialog.LocalStatus.Value++;
                                                 dialog.GlobalStatus.Value++;
@@ -2628,7 +2657,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                     d = cmd.ExecuteReader();
                     d.Read();
 
-                    dialog.LocalStatus.Maximum = d.GetInt32(0);
+                    int fi = 0;
+                    if(!d.IsDBNull(0)) fi = d.GetInt32(0);
+                    dialog.LocalStatus.Maximum = fi;
 
                     if (dar.datumAktiv && dar.percentAktiv)
                         cmd = new MySqlCommand("select * from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
@@ -2644,15 +2675,20 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                     while (d.Read())
                     {
+                        int f = 0; if (!d.IsDBNull(1)) f = d.GetInt32(1);
+                        int s = 0; if (!d.IsDBNull(2)) s = d.GetInt32(2);
+                        string t = ""; if (!d.IsDBNull(3)) t = d.GetString(3);
+
+
                         foreach (Question q in target.Questions)
                         {
-                            if (q.ID == d.GetInt32(2))
+                            if (q.ID == s)
                             {
                                 //found question
                                 if (q.Display.Equals("radio"))
-                                    q.Results.Add(Result.Create(q.GetAnswerId(d.GetString(3)), d.GetInt32(1)));
+                                    q.Results.Add(Result.Create(q.GetAnswerId(t), f));
                                 else
-                                    q.Results.Add(Result.Create(d.GetString(3), d.GetInt32(1)));
+                                    q.Results.Add(Result.Create(t, f));
                                 break;
                             }
                         }
@@ -2715,8 +2751,11 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                 d.Read();
 
+                int zero = 0;
+                if (!d.IsDBNull(0)) zero = d.GetInt32(0);
+
                 Person[] old = Persons;
-                Persons = new Person[d.GetInt32(0)];
+                Persons = new Person[zero];
 
                 cmd = new MySqlCommand("select * from " + DatabasePrefix + "personen", db);
                 d.Close();
@@ -2726,17 +2765,21 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                 while (d.Read())
                 {
+                    zero = 0; if (!d.IsDBNull(0)) zero = d.GetInt32(0);
+                    string first = ""; if (!d.IsDBNull(1)) first = d.GetString(1);
+                    
+
                     Person o = null;
                     foreach (Person p in old)
                     {
-                        if (p.ID == d.GetInt32(0))
+                        if (p.ID == zero)
                             o = p;
                     }
                     if (o != null)
                         Persons[i++] = o;
                     else
                     {
-                        Person person = new Person(d.GetString(1), d.GetInt32(0));
+                        Person person = new Person(first, zero);
                         Persons[i++] = person;
                     }
                 }
@@ -2756,8 +2799,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 d = cmd.ExecuteReader();
 
                 d.Read();
-
-                Users = new User[d.GetInt32(0)];
+                zero = 0; if (!d.IsDBNull(0)) zero = d.GetInt32(0);
+                Users = new User[zero];
 
                 if (dar.datumAktiv && dar.percentAktiv)
                     cmd = new MySqlCommand("select * from " + DatabasePrefix + "zugangsdaten where (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
@@ -2774,7 +2817,11 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                 while (d.Read())
                 {
-                    User user = new User(d.GetInt32(0), d.GetString(2), d.GetInt32(3));
+                    zero = 0; if (!d.IsDBNull(0)) zero = d.GetInt32(0);
+                    string first = ""; if (!d.IsDBNull(1)) first = d.GetString(1);
+                    int three = 0; if (!d.IsDBNull(3)) three = d.GetInt32(3);
+
+                    User user = new User(zero, first, three);
                     Users[i++] = user;
                 }
 

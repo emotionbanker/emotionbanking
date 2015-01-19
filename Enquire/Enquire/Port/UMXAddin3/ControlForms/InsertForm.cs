@@ -454,7 +454,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
         private void table_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("table:0:" + Precision.Value + ":" + getPersons());
+            //MessageBox.Show("table:0:" + Precision.Value + ":" + getPersons());
             GetFieldCode("table:0:" + Precision.Value + ":" + getPersons());
             this.DialogResult = DialogResult.Yes;
             Close();

@@ -35,8 +35,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
 
             Question allQ = _td.GetQuestion(item.QuestionId, _eval);
             Question splitQ = _td.GetQuestion(item.QuestionCrossing, _eval);
-
-            
+      
             bm.Evaluation = _eval;
 
             bm.OwnValue = allQ.GetAverageByPersonAsMark(_eval, item.Persons[0]);

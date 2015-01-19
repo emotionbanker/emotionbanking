@@ -947,9 +947,6 @@ namespace umfrage2._2007.Controls
                 barSegment.SetShowValue(tmp.GetShowValue());
                 barSegment.SetShowText(tmp.GetShowText());
 
-                barSegment.SetBase(tmp.GetBase());
-                barSegment.SetBaseQ(tmp.GetBaseQ());
-
                 barSegment.SetTxt(tmp.GetTxt());
 
                 barSegment.SetBackColor(tmp.GetBackColor());

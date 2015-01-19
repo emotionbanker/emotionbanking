@@ -27,9 +27,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         public bool ShowPerson;    //Persongruppe sichtbar/unsichtbar
         public bool ShowValue;     //Wert sichtbar/unsichtbar
 
-        public bool Base = false;  //Basis Frage ja/nein
-        public Question BaseQ = null;  //ausgewählte Basisfrage
-
         public Question[] Questions;
 
         public Font Txt;
@@ -95,26 +92,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
         public void SetShowValue(bool ShowValue)
         {
             this.ShowValue = ShowValue;
-        }
-    
-        public bool GetBase()
-        {
-            return this.Base;
-        }
-
-        public void SetBase(bool base2)
-        {
-            this.Base = base2;
-        }
-
-        public Question GetBaseQ()
-        {
-            return this.BaseQ;
-        }
-
-        public void SetBaseQ(Question baseq2)
-        {
-            this.BaseQ = baseq2;
         }
       
         public Font GetTxt()
@@ -268,10 +245,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 info.AddValue("sort", this.sort);
 
                 info.AddValue("PersonGroups", this.PersonGroups);
-
-                info.AddValue("Base", this.Base);
-
-                info.AddValue("BaseQ", this.BaseQ);
             }
             catch
             {
@@ -340,6 +313,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 try { this.AnswerOrder = (List<String>)info.GetValue("AnswerOrder", typeof(List<String>)); }
                 catch { AnswerOrder = new List<String>(); }
 
+                
+
                 try { this.PersonGroups = (Hashtable)info.GetValue("PersonGroups", typeof(Hashtable)); }
                 catch
                 {
@@ -348,16 +323,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                         PersonGroups[ps] = 0;
                 }
 
-                try
-                {
-                    this.Base = info.GetBoolean("Base");
-                    this.BaseQ = (Question)info.GetValue("BaseQ", typeof(Question));
-                }
-                catch
-                {
-                    Base = false;
-                    BaseQ = null;
-                }
+               
 			}
 			catch (Exception ex)
 			{
@@ -416,7 +382,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                             valC = (125 - val * 25);
                             if (valC > 100)
                             {
-                                MessageBox.Show("Wert größer als 100:\nWert:" + valC);
+                                //MessageBox.Show("Wert größer als 100:\nWert:" + valC);
                                 valC = 100;
                             }
                         }

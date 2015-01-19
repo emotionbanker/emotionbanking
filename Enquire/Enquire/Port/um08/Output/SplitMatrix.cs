@@ -136,7 +136,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             info.AddValue("ArrowColor", ArrowColor);
             info.AddValue("Invert", Invert);
             info.AddValue("InvertLog", InvertLog);
-            info.AddValue("Skala",this.Skala);
+            info.AddValue("Skala", this.Skala);
         }
 
         public SplitMatrix(SerializationInfo info, StreamingContext ctxt)
@@ -645,9 +645,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             }
 
 
-
             bc.MaximumBubbleSizeValue = 1;
-
 
             if (Cross == null) return;
 
@@ -660,9 +658,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
 
             CrossTargets(all, false, false);
-            
+
             Evaluation seval = this.CrEval;
-            
+
 
             SeriesCollection sc = new SeriesCollection();
 
@@ -696,7 +694,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
                         if (e.XValue == -1 || e.YValue == -1) continue;
 
-                        Console.WriteLine("[splitmatrix]\thund: '"+td.ToString()+"' x=" + e.XValue + ", y=" + e.YValue);
+                        Console.WriteLine("[splitmatrix]\thund: '" + td.ToString() + "' x=" + e.XValue + ", y=" + e.YValue);
 
                         if (InvertLog)
                         {
@@ -706,22 +704,22 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
                         e.BubbleSize = 1;
 
-                        string tds = td.ToString().Substring(td.ToString().IndexOf(",")+1).Trim();
-                        Console.WriteLine("[splitmatrix]\tcoloring " + td.ToString() + " (=" + tds +")");
+                        string tds = td.ToString().Substring(td.ToString().IndexOf(",") + 1).Trim();
+                        Console.WriteLine("[splitmatrix]\tcoloring " + td.ToString() + " (=" + tds + ")");
                         try
                         {
                             e.Color = (Color)eval.PieColors[tds];
                         }
-                        catch 
+                        catch
                         {
                             Console.WriteLine("[splitmatrix]\t get pie colors failed");
                         }
                         //e.SecondaryColor = ps.Color2;
-                        
+
 
                         //MessageBox.Show(td.ToString());
                         //eval.PieColors[td.];
-                        
+
                         e.SmartLabel.Text = numr.ToString();
                         e.SmartLabel.Alignment = LabelAlignment.Center;
                         //if (!Small) e.ShowValue = true;
@@ -746,7 +744,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             if (InvertLog) bc.XAxis.InvertScale = bc.YAxis.InvertScale = Invert;
             else bc.XAxis.InvertScale = bc.YAxis.InvertScale = !Invert;
 
-            bc.XAxis.Maximum = bc.YAxis.Maximum = 3;
+            bc.XAxis.Maximum = bc.YAxis.Maximum = 5;
             bc.XAxis.Minimum = bc.YAxis.Minimum = 1;
 
             bc.LegendBox.Visible = dnc.ShowLegend; // false;
@@ -930,9 +928,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 all[li++] = l;
 
             //cross?
-            
+
             Evaluation seval;
-            
+
             /*
              * if (CrossTargets(all))
             {

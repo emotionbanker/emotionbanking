@@ -40,15 +40,11 @@ namespace umfrage2._2007.Controls
 			foreach (Question q in bar.Questions)
 				QBox.Items.Add(q);
 
-            SetBaseBox(bar.BaseQ);
-
 			Preview();
 		}
 
         private void Set(Evaluation eval, bool single, Bar_Segment bar)
 		{
-            Console.WriteLine("bar base= " + bar.Base + "/ baseq= " + bar.BaseQ);
-
 			this.eval = eval;
 			this.single = single;
 
@@ -78,8 +74,6 @@ namespace umfrage2._2007.Controls
             ScrollBarHeight.Value = bar.height;
             ScrollBarHeightValue.Text = bar.height.ToString();
 
-
-
 			QFontDialog.Font = bar.Txt;
 
             BColorPanel.BackColor = bar.BackColor;
@@ -93,27 +87,12 @@ namespace umfrage2._2007.Controls
             //if (bar.sort == SortOrder.Ascending) SortBox.SelectedIndex = 1;
             //if (bar.sort == SortOrder.Descending) SortBox.SelectedIndex = 2;
 
-            SetBaseBox(bar.BaseQ);
-            BaseBox.Enabled = bar.Base;
-            BaseCheck.Checked = bar.Base;
-
             //SortBox.SelectedIndexChanged += new EventHandler(SortBox_SelectedIndexChanged);
 
             SetStyleControls();
 		}
 
         bool hbinit = false;
-
-
-        /*void SortBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (SortBox.SelectedIndex == 0) bar.sort = SortOrder.None;
-            if (SortBox.SelectedIndex == 1) bar.sort = SortOrder.Ascending;
-            if (SortBox.SelectedIndex == 2) bar.sort = SortOrder.Descending;
-
-            Preview();
-        }*/
-
 
         private void previewBox_Load(object sender, EventArgs e)
         {
@@ -203,7 +182,6 @@ namespace umfrage2._2007.Controls
             }
 
             bar.Questions = getList();
-            SetBaseBox();
             Preview();
         }
 
@@ -215,27 +193,7 @@ namespace umfrage2._2007.Controls
             }
 
             bar.Questions = getList();
-            SetBaseBox();
             Preview();
-        }
-
-        private void SetBaseBox()
-        {
-            SetBaseBox(null);
-        }
-
-        private void SetBaseBox(Question sel)
-        {
-            if (sel == null)
-                sel = (Question)BaseBox.SelectedItem;
-
-            BaseBox.Items.Clear();
-            foreach (Question q in  eval.Global.Questions)//getList())
-            {
-                BaseBox.Items.Add(q);
-            }
-
-            if (sel != null) BaseBox.SelectedItem = sel;
         }
 
         private void OverloadButton_Click(object sender, EventArgs e)
@@ -311,18 +269,6 @@ namespace umfrage2._2007.Controls
             Preview();
         }
 
-        private void BaseCheck_CheckedChanged(object sender, EventArgs e)
-        {
-            bar.Base = BaseCheck.Checked;
-            BaseBox.Enabled = bar.Base;
-            Preview();
-        }
-
-        private void BaseBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            bar.BaseQ = (Question)BaseBox.SelectedItem;
-            Preview();
-        }
 
         private void ScrollBarWidth_Scroll(object sender, ScrollEventArgs e)
         {

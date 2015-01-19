@@ -69,6 +69,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
         public bool Invert;
         public bool InvertLog;
+        public bool NewSkala;
 
 		public MultiMatrix(Evaluation eval)
 		{
@@ -87,6 +88,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
             Invert = false;
             InvertLog = false;
+            NewSkala = false;
 
             width = height = 500;
 		}
@@ -132,6 +134,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             info.AddValue("ArrowColor", ArrowColor);
             info.AddValue("Invert", Invert);
             info.AddValue("InvertLog", InvertLog);
+            info.AddValue("NewSkala", NewSkala);
+            
 		}
 
 		public MultiMatrix(SerializationInfo info, StreamingContext ctxt)
@@ -177,6 +181,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
             try { this.InvertLog = info.GetBoolean("InvertLog"); }
             catch { InvertLog = false; }
+
+            try { this.NewSkala = info.GetBoolean("NewSkala"); }
+                 catch { NewSkala = false; }
 		}
 
 		public void ComputeScaled(Graphics g)
@@ -555,7 +562,11 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
 		public void Compute06()
 		{
-            if (width == 0 || height == 0) return;
+            if (width == 0 || height == 0)
+            {
+                return;
+            }
+
 			OutputImage = new Bitmap(width,height);
 			offset = width/15;
 
@@ -604,7 +615,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
         public void Compute07()
         {
-            Compute06();
+            //Compute06();
 
             OutputImage = new Bitmap(width, height, PixelFormat.Format24bppRgb);
 
@@ -619,12 +630,12 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             bc.DefaultSeries.Type = SeriesType.Spline;
 
             bc.DefaultSeries.DefaultElement.Transparency = dnc.Transparency;
-
-
+            
             bc.Width = this.width;
             bc.Height = this.height;
             bc.Title = "";
 
+            
             bc.MaximumBubbleSize = 40;
             if (Small)
             {
@@ -635,24 +646,26 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             if (Format == Output.FORMAT_SCALED)
             {
                 bc.XAxis.Scale = bc.YAxis.Scale = Scale.Logarithmic;
-                //bc.XAxis.LogarithmicBase = bc.YAxis.LogarithmicBase = 1.71;
-                bc.XAxis.LogarithmicBase = bc.YAxis.LogarithmicBase = 4.5;
-             }
-
-             
+               
+                if(NewSkala == true)
+                    bc.XAxis.LogarithmicBase = bc.YAxis.LogarithmicBase = 4.5;
+                else
+                    bc.XAxis.LogarithmicBase = bc.YAxis.LogarithmicBase = 4.5;
+            }
 
             bc.MaximumBubbleSizeValue = 1;
 
             SeriesCollection sc = new SeriesCollection();
-
+            
             foreach (PersonSetting ps in CombinedPersons)
             {
                 Series s = new Series();
                 s.Name = ps.ToString();
-
+                
                 for (int i = 0; i < Math.Min(xq.Length, yq.Length); i++)
                 {
                     Element e = new Element();
+
                     e.XValue = xq[i].GetAverageByPersonAsMark(eval, ps);
                     e.YValue = yq[i].GetAverageByPersonAsMark(eval, ps);
 
@@ -673,7 +686,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 }
 
                 sc.Add(s);
-            }
+            }//end foreach
 
             //bc.XAxis.InvertScale = true;
             //bc.YAxis.InvertScale = true;
@@ -682,23 +695,45 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             else bc.XAxis.InvertScale = bc.YAxis.InvertScale = !Invert;
 
             bc.XAxis.Maximum = bc.YAxis.Maximum = 5;
-            bc.XAxis.Minimum = bc.YAxis.Minimum = 1;
+            if (NewSkala == true && Format == Output.FORMAT_BASIC)
+            {
+                bc.XAxis.Minimum = bc.YAxis.Minimum = 0;
+            }
+            else if (NewSkala == true && Format == Output.FORMAT_SCALED)
+            {
+                bc.XAxis.Maximum = bc.YAxis.Maximum = 5.5;
+                bc.XAxis.Minimum = bc.YAxis.Minimum = 0.85;
+            }
+            else
+            {
+                bc.XAxis.Minimum = bc.YAxis.Minimum = 1;
+            }
 
             bc.LegendBox.Visible = false;
 
             //arrows
 
-            AxisMarker hor = new AxisMarker();
+            AxisMarker hor = new AxisMarker(); 
             hor.Label.Text = "";
             hor.Line.EndCap = LineCap.ArrowAnchor;
             hor.Line.StartCap = LineCap.ArrowAnchor;
             hor.Line.Width = 3;
             hor.Line.Color = ArrowColor;
+            
+            if (NewSkala == true)
+            {
+                if (Format != Output.FORMAT_SCALED)
+                    hor.Value = 2.5f;
+                else hor.Value = 2f;
+            }
+            else
+            {
+                if (Format != Output.FORMAT_SCALED)
+                    hor.Value = 3.0f;
+                else hor.Value = 2.0f;
+            }
 
-            if (Format != Output.FORMAT_SCALED) hor.Value = 3f;
-            else hor.Value = 2f;
-
-            hor.Line.AnchorCapScale = 50;
+            //hor.Line.AnchorCapScale = 50;
 
             bc.XAxis.Markers.Add(hor);
             bc.YAxis.Markers.Add(hor);
@@ -715,8 +750,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             if (Format == Output.FORMAT_SCALED)
             {
                 bc.YAxis.ClearValues = bc.XAxis.ClearValues = true;
-
-                for (int i = 1; i <= 5; i++)
+                int x = 1;
+                                
+                for (int i = x; i <= 5; i++)
                 {
                     AxisTick at = new AxisTick(i);
                     if (InvertLog) at.Label = new dotnetCHARTING.WinForms.Label(""+(6-i)+",0");
@@ -724,12 +760,18 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                     bc.XAxis.ExtraTicks.Add(at);
                 }
 
-                AxisTick at5 = new AxisTick(4.5f);
+                AxisTick at5;
+                if (NewSkala == true)
+                    at5 = new AxisTick(4.5f);
+                else
+                    at5 = new AxisTick(4.5f);
                 if (InvertLog) at5.Label = new dotnetCHARTING.WinForms.Label("1,5");
                 bc.XAxis.ExtraTicks.Add(at5);
                 bc.YAxis.ExtraTicks.Add(at5);
             }
 
+            
+          
             bc.Application = "itcIidhdhyk+bW1OOBTArpfNOr3GopKuOit20bU6/G4MlNN6vnk4wkfGB+NlXC+EWdY1Rm4vJ0qKOQOmw7d7gw==";
 
             bc.DrawToBitmap(OutputImage, new Rectangle(0, 0, OutputImage.Width, OutputImage.Height));
@@ -758,24 +800,40 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             {
                 int hpos, wpos;
 
-                bool i = Invert;
-                if (InvertLog) i = !i;
 
-                if (!i)
+                bool i = Invert;
+                
+               
+                
+
+                if (NewSkala == false)
                 {
-                    hpos = (int)(((float)cr.Height) / 4.62f) * 2;
-                    wpos = (int)(((float)cr.Width) / 1.75f);
+                    if (!i)
+                    {
+                        hpos = (int)(((float)cr.Height) / 4.62f) * 2;
+                        wpos = (int)(((float)cr.Width) / 1.75f);
+                    }
+                    else
+                    {
+                        hpos = (int)(((float)cr.Height) / 1.75f);
+                        wpos = (int)(((float)cr.Width) / 2.31f);
+                    }
+
+                    DrawArrow07(g, new Point(cr.X, cr.Y + hpos), Direction.Left);
+                    DrawArrow07(g, new Point(cr.X + cr.Width, cr.Y + hpos), Direction.Right);
+                    DrawArrow07(g, new Point(cr.X + wpos, cr.Y), Direction.Up);
+                    DrawArrow07(g, new Point(cr.X + wpos, cr.Y + cr.Height), Direction.Down);
                 }
                 else
                 {
-                    hpos = (int)(((float)cr.Height) / 1.75f);
-                    wpos = (int)(((float)cr.Width) / 2.31f);
-                }
+                    hpos = (int)(((float)cr.Height) / 2.18f);
+                    wpos = (int)(((float)cr.Width) / 1.843f);
 
-                DrawArrow07(g, new Point(cr.X, cr.Y + hpos), Direction.Left);
-                DrawArrow07(g, new Point(cr.X + cr.Width, cr.Y + hpos), Direction.Right);
-                DrawArrow07(g, new Point(cr.X + wpos, cr.Y), Direction.Up);
-                DrawArrow07(g, new Point(cr.X + wpos, cr.Y + cr.Height), Direction.Down);
+                    DrawArrow07(g, new Point(cr.X, cr.Y + hpos), Direction.Left);
+                    DrawArrow07(g, new Point(cr.X + cr.Width, cr.Y + hpos), Direction.Right);
+                    DrawArrow07(g, new Point(cr.X + wpos, cr.Y), Direction.Up);
+                    DrawArrow07(g, new Point(cr.X + wpos, cr.Y + cr.Height), Direction.Down);
+                }
             }
         }
 

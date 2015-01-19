@@ -80,6 +80,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             float pcnt3 = (float)q.GetAnswerPercentByPerson(2, eval, ps);
             float pcnt4 = (float)q.GetAnswerPercentByPerson(3, eval, ps);
             float pcnt5 = (float)q.GetAnswerPercentByPerson(4, eval, ps);
+            float pcnt6 = (float)q.GetAnswerPercentByPerson(5, eval, ps);
 
             Bitmap bmp = new Bitmap(width, height);
 
@@ -90,9 +91,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
             g.FillRectangle(new SolidBrush(Color.Green), 0, 0, (pcnt1 * fact), height);
             g.FillRectangle(new SolidBrush(Color.LightGreen), (pcnt1 * fact), 0, (pcnt2 * fact), height);
-
+            //g.FillRectangle(new SolidBrush(Color.Orange), (pcnt1 * fact) + (pcnt2 * fact), 0, (pcnt3 * fact), height);
             g.FillRectangle(new SolidBrush(Color.Red), (pcnt1 * fact) + (pcnt2 * fact) + (pcnt3 * fact), 0, (pcnt4 * fact), height);
             g.FillRectangle(new SolidBrush(Color.DarkRed), (pcnt1 * fact) + (pcnt2 * fact) + (pcnt3 * fact) + (pcnt4 * fact), 0, (pcnt5 * fact), height);
+            //g.FillRectangle(new SolidBrush(Color.DarkGray), (pcnt1 * fact) + (pcnt2 * fact) + (pcnt3 * fact) + (pcnt4 * fact) + (pcnt5 * fact), 0, (pcnt6 * fact), height);
 
             return bmp;
 

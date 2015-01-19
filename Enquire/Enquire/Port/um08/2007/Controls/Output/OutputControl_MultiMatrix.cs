@@ -100,6 +100,7 @@ namespace umfrage2._2007.Controls
 
             InvertBox.Checked = mm.Invert;
             InvertLogBox.Checked = mm.InvertLog;
+            NewSkalaButton.Checked = mm.NewSkala;
 
             SetStyleControls();
 
@@ -354,6 +355,12 @@ namespace umfrage2._2007.Controls
         private void InvertLogBox_CheckedChanged(object sender, EventArgs e)
         {
             mm.InvertLog = InvertLogBox.Checked;
+            Preview();
+        }
+
+        private void NewSkalaButton_CheckedChanged(object sender, EventArgs e)
+        {
+            mm.NewSkala = NewSkalaButton.Checked;
             Preview();
         }
     }

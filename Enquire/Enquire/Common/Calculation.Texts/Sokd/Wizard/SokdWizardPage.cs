@@ -45,7 +45,6 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
 
         public SokdWizardPage(Evaluation eval)
         {
-            
             this.map2012andUnder = new Dictionary<string, string>();
             
             _eval = eval;
@@ -105,9 +104,12 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    _control._comboBox_Jahr.Items.Add(d.GetString(0));
-                    _control._comboBox_Jahr2.Items.Add(d.GetString(0));
+                    string first = "";
+                    if (!d.IsDBNull(0)) first = d.GetString(0);
+                    _control._comboBox_Jahr.Items.Add(first);
+                    _control._comboBox_Jahr2.Items.Add(first);
                 }
+                d.Close();
             }
             catch(Exception e)
             {
@@ -364,8 +366,10 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
              d = cmd.ExecuteReader();
              while (d.Read() && d != null)
              {
-                 bName += d.GetString(0) + "\n";
+                 string f = ""; if (!d.IsDBNull(0)) f = d.GetString(0);
+                 bName += f + "\n";
              }
+             d.Close();
              return bName;
         }
 
@@ -382,11 +386,13 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
 
                 while (d.Read() && d != null)
                 {
+                    string f = ""; if (!d.IsDBNull(0)) f = d.GetString(0);
                     if (type.Equals("combo1"))
-                        _control._comboBox_Blz.Items.Add(d.GetString(0));
+                        _control._comboBox_Blz.Items.Add(f);
                     else
-                        _control._comboBox_Blz2.Items.Add(d.GetString(0));    
+                        _control._comboBox_Blz2.Items.Add(f);    
                 }
+                d.Close();
 
                 if (type.Equals("combo1"))
                 {
@@ -413,9 +419,9 @@ namespace Compucare.Enquire.Common.Calculation.Texts.Sokd.Wizard
                     }
                 }
             }
-            catch
+            catch(Exception e)
             {
-                MessageBox.Show("Sql Command Exception");
+                MessageBox.Show(e.Message);
             }
         }
 

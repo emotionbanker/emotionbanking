@@ -19,7 +19,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
         private readonly Evaluation _eval;
         private readonly XmlDocument _doc;
         private MySqlConnection database;
-        private Datenbank _db;
         private MySqlCommand cmd;
         private MySqlDataReader d;
         private string sqlResult1 = "";
@@ -32,7 +31,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
         private QuestionCombo qCombo;
         private int CombiSumme = 0;
         private int CombiCounter = 0;
-        private TargetData targetData;
         private double[] endsummen;
         private int endsummencounter = 0;
         private double[] endsummen2;
@@ -459,8 +457,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    blz.Add(d.GetInt32(0));
+                    int first = 0; if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                    blz.Add(first);
                 }
+                d.Close();
 
                 foreach (int b in blz)
                 {
@@ -469,17 +469,19 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                     d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
-                        sql2 = d.GetString(0);
+                        string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                        sql2 = first;
                     }
-
+                    d.Close();
                     sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
                     cmd = new MySqlCommand(sql, database);
                     d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
-                        sql1 = d.GetString(0);
+                        string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                        sql1 = first;
                     }
-
+                    d.Close();
                     counter += Convert.ToDouble(sql2);
                     summe += Convert.ToDouble(sql1);
 
@@ -510,9 +512,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    blz.Add(d.GetInt32(0));
+                    int first = 0; if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                    blz.Add(first);
                 }
-
+                d.Close();
                 foreach (int b in blz)
                 {
                     sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
@@ -520,15 +523,19 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                     d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
-                        sql2 = d.GetString(0);
+                        string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                        sql2 = first;
                     }
+                    d.Close();
                     sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` = '" + (_val2.getSpaltenId() + 1) + "'";
                     cmd = new MySqlCommand(sql, database);
                     d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
-                        sql1 = d.GetString(0);
+                        string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                        sql1 = first;
                     }
+                    d.Close();
                     counter += Convert.ToDouble(sql2);
                     counter2 += Convert.ToDouble(sql1);
 
@@ -562,9 +569,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    bankenliste.Add(d.GetInt32(0));
+                    int first = 0; if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                    bankenliste.Add(first);
                 }
-
+                d.Close();
                 foreach (int b in bankenliste)
                 {
                     UP1getGesamt2012Greater(_val2, jahr, ref counterUP, ref summeUP, b);
@@ -593,16 +601,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sql2 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sql2 = first;
                 }
+                d.Close();
 
                 sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
                 cmd = new MySqlCommand(sql, database);
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sql1 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sql1 = first;
                 }
+                d.Close();
 
                 counterUP += Convert.ToInt16(sql2);
                 summeUP += Convert.ToInt16(sql1);
@@ -617,17 +629,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                     d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
-                        sqlResult1 = d.GetString(0);
+                        string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                        sqlResult1 = first;
                     }
-
+                    d.Close();
                     sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3' and status >='50'";
                     cmd = new MySqlCommand(sql, database);
                     d = cmd.ExecuteReader();
                     sqlResult1 = "";
                     while (d.Read() && d != null)
                     {
-                        sqlResult1 += d.GetString(0) + " ";
+                        string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                        sqlResult1 += first + " ";
                     }
+                    d.Close();
                     String[] fragebogenIds = sqlResult1.Split(' ');
 
                     for (int j = 0; j < fragebogenIds.Length - 1; j++)
@@ -642,7 +657,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                             {
                                 try
                                 {
-                                    sqlResult1 = d.GetString(0);
+                                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                                    sqlResult1 = first;
                                     if (sqlResult1 != null)
                                     {
                                         if (sqlResult1.Equals("0")) { summeUP += Convert.ToInt32(sqlResult1); counterUP++; }
@@ -655,6 +671,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                                 }
                                 catch { }
                             }//end while
+                            d.Close();
 
                         }//end if
                     }
@@ -678,13 +695,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    bankenliste.Add(d.GetInt32(0));
+                    int first = 0; if (!d.IsDBNull(0)) first = d.GetInt32(0);
+                    bankenliste.Add(first);
                 }
 
                 foreach (int b in bankenliste)
                 {
                     UP1getPercentGesamt2012Greater(_val2, jahr, ref counterUP, ref summeUP, b, ref EndCounter2, ref EndSumme2);
                 }
+                d.Close();
             }
             catch (Exception ex)
             {
@@ -712,8 +731,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sql2 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sql2 = first;
                 }
+                d.Close();
 
                 sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` = '" + (_val2.getSpaltenId() + 1) + "'";
                 //sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + jahr + "` where `sokd_blz`='" + b + "' AND `" + _val2.getFrage() + "` != '999'";
@@ -721,8 +742,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sql1 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sql1 = first;
                 }
+                d.Close();
+
                 EndCounter2 += Convert.ToInt16(sql2);
                 EndSumme2 += Convert.ToInt16(sql1);
 
@@ -739,8 +763,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                     d = cmd.ExecuteReader();
                     while (d.Read() && d != null)
                     {
-                        sqlResult1 = d.GetString(0);
+                        string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                        sqlResult1 = first;
                     }
+                    d.Close();
 
                     sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3' and status >='50'";
                     cmd = new MySqlCommand(sql, database);
@@ -748,8 +774,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                     sqlResult1 = "";
                     while (d.Read() && d != null)
                     {
-                        sqlResult1 += d.GetString(0) + " ";
+                        string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                        sqlResult1 += first+ " ";
                     }
+                    d.Close();
                     String[] fragebogenIds = sqlResult1.Split(' ');
 
                     for (int j = 0; j < fragebogenIds.Length - 1; j++)
@@ -764,7 +792,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                             {
                                 try
                                 {
-                                    sqlResult1 = d.GetString(0);
+                                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                                    sqlResult1 = first;
                                     if (sqlResult1 != null)
                                     {
                                         if (sqlResult1.Equals(_val2.getSpaltenId().ToString())) { summeUP++; counterUP++; CombiSumme++; CombiCounter++; results.Add(sqlResult1); }
@@ -774,6 +803,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                                 }
                                 catch { }
                             }//end while
+                            d.Close();
 
                         }//end if
                     }
@@ -870,15 +900,19 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sql2 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sql2 = first;
                 }
+                d.Close();
                 sql = "select count(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` = '" + (_val2.getSpaltenId() + 1) + "'";
                 cmd = new MySqlCommand(sql, database);
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sql1 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sql1 = first;
                 }
+                d.Close();
 
                 double sqlResult = (double)100 / Convert.ToInt32(sql2) * Convert.ToInt32(sql1);
                 //MessageBox.Show(sql2 + " -- " + sql1 + " -- " + sqlResult);
@@ -928,8 +962,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sqlResult1 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sqlResult1 = first;
                 }
+                d.Close();
                 //MessageBox.Show("kürzel: " + sqlResult1);
                 //fragebogen ids selektieren welche privatkunde und status größer als 50
                 sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3' and status >='50'";
@@ -939,8 +975,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 sqlResult1 = "";
                 while (d.Read() && d != null)
                 {
-                    sqlResult1 += d.GetString(0) + " ";
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sqlResult1 += first + " ";
                 }
+                d.Close();
                 String[] fragebogenIds = sqlResult1.Split(' ');
 
                 //MessageBox.Show("fragebogenIds: " + (fragebogenIds.Length-1));
@@ -956,8 +994,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                         {
                             try
                             {
-
-                                sqlResult1 = d.GetString(0);
+                                string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                                sqlResult1 = first;
                                 if (sqlResult1 != null)
                                 {
                                     if (sqlResult1.Equals(_val2.getSpaltenId().ToString())) { temp++; counter++; CombiSumme++; CombiCounter++; results.Add(sqlResult1); }
@@ -969,6 +1007,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                             }
                             catch { }
                         }//end while
+                        d.Close();
                     }//end if
                 }//end for 
             }//end 1st for 
@@ -1062,14 +1101,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sql2 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sql2 = first;
                 }
+                d.Close();
                 //sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999'";
                 //sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999' AND `" + _val2.getFrage() + "` != '6'";
                 sql = "select sum(`" + _val2.getFrage() + "`) from `sokd_" + _val2.getJahr() + "` where `sokd_blz`='" + _val2.getBlz() + "' AND `" + _val2.getFrage() + "` != '999'";
                 cmd = new MySqlCommand(sql, database);
                 d = cmd.ExecuteReader();
-                while (d.Read() && d != null) { sql1 = d.GetString(0); }
+                while (d.Read() && d != null) {
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sql1 = first; 
+                }
+                d.Close();
 
                 double sqlResult = (double)Convert.ToInt32(sql1) / Convert.ToInt32(sql2);
                 sqlResult = Math.Round(sqlResult, 1);
@@ -1118,8 +1163,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 d = cmd.ExecuteReader();
                 while (d.Read() && d != null)
                 {
-                    sqlResult1 = d.GetString(0);
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sqlResult1 = first;
                 }
+                d.Close();
                 //MessageBox.Show("kürzel: " + sqlResult1);
                 //fragebogen ids selektieren welche privatkunde und status größer als 50
                 sql = "select z_id from victor" + jahr + "zugangsdaten where z_b_id = '" + sqlResult1 + "' and z_p_id = '3' and status >='50'";
@@ -1129,8 +1176,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                 sqlResult1 = "";
                 while (d.Read() && d != null)
                 {
-                    sqlResult1 += d.GetString(0) + " ";
+                    string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                    sqlResult1 += first + " ";
                 }
+                d.Close();
                 String[] fragebogenIds = sqlResult1.Split(' ');
 
                 //MessageBox.Show("fragebogenIds: " + (fragebogenIds.Length-1));
@@ -1146,7 +1195,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                         {
                             try
                             {
-                                sqlResult1 = d.GetString(0);
+                                string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                                sqlResult1 = first;
                                 if (sqlResult1 != null)
                                 {
                                     if (sqlResult1.Equals("0")) { temp += 0; counter++; CombiSumme += 0; CombiCounter++; }
@@ -1159,6 +1209,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
                             }
                             catch { }
                         }//end while
+                        d.Close();
 
                     }//end if
                 }//end for 
@@ -1180,8 +1231,11 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             d = cmd.ExecuteReader();
             while (d.Read() && d != null)
             {
-                rohdaten = d.GetBoolean(0);
+                bool first = false;
+                if (!d.IsDBNull(0)) first = d.GetBoolean(0);
+                rohdaten = first;
             }
+            d.Close();
 
             return rohdaten;
         }
@@ -1193,8 +1247,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             d = cmd.ExecuteReader();
             while (d.Read() && d != null)
             {
-                bName += d.GetString(0) + "*";
+                string first = ""; if (!d.IsDBNull(0)) first = d.GetString(0);
+                bName += first + "*";
             }
+            d.Close();
             return bName;
         }
     }

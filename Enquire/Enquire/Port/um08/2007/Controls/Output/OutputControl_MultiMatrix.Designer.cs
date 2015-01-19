@@ -45,13 +45,14 @@ namespace umfrage2._2007.Controls
             this.ArrowColorButton = new System.Windows.Forms.Button();
             this.MasterDesignBox = new System.Windows.Forms.ComboBox();
             this.DesignButton = new System.Windows.Forms.Button();
+            this.InvertBox = new System.Windows.Forms.CheckBox();
+            this.InvertLogBox = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.InvertBox = new System.Windows.Forms.CheckBox();
-            this.previewBox = new PreviewControl();
-            this.sizeControl = new SizeControl();
-            this.InvertLogBox = new System.Windows.Forms.CheckBox();
+            this.NewSkalaButton = new System.Windows.Forms.CheckBox();
+            this.previewBox = new compucare.Enquire.Legacy.Umfrage2Lib.Controls.PreviewControl();
+            this.sizeControl = new compucare.Enquire.Legacy.Umfrage2Lib.Controls.SizeControl();
             this.panel1.SuspendLayout();
             this.Personengruppen.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -214,7 +215,7 @@ namespace umfrage2._2007.Controls
             // 
             this.GoButton.BackColor = System.Drawing.Color.White;
             this.GoButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.GoButton.Image = Resources.shell32_dll_I00f6_0409;
+            this.GoButton.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.shell32_dll_I00f6_0409;
             this.GoButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GoButton.Location = new System.Drawing.Point(6, 6);
             this.GoButton.Name = "GoButton";
@@ -237,6 +238,7 @@ namespace umfrage2._2007.Controls
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.NewSkalaButton);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.ArrowColorButton);
             this.groupBox2.Controls.Add(this.MasterDesignBox);
@@ -251,7 +253,7 @@ namespace umfrage2._2007.Controls
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox2.Location = new System.Drawing.Point(8, 437);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(15, 15, 15, 15);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(15);
             this.groupBox2.Size = new System.Drawing.Size(584, 124);
             this.groupBox2.TabIndex = 59;
             this.groupBox2.TabStop = false;
@@ -271,7 +273,7 @@ namespace umfrage2._2007.Controls
             // 
             this.ArrowColorButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ArrowColorButton.Location = new System.Drawing.Point(515, 89);
-            this.ArrowColorButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ArrowColorButton.Margin = new System.Windows.Forms.Padding(2);
             this.ArrowColorButton.Name = "ArrowColorButton";
             this.ArrowColorButton.Size = new System.Drawing.Size(41, 19);
             this.ArrowColorButton.TabIndex = 56;
@@ -291,7 +293,7 @@ namespace umfrage2._2007.Controls
             // 
             this.DesignButton.BackColor = System.Drawing.Color.White;
             this.DesignButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.DesignButton.Image = Resources.shell32_dll_I010e_0409;
+            this.DesignButton.Image = global::Compucare.Enquire.Legacy.Umfrage2Lib.Properties.Resources.shell32_dll_I010e_0409;
             this.DesignButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.DesignButton.Location = new System.Drawing.Point(272, 63);
             this.DesignButton.Name = "DesignButton";
@@ -300,6 +302,24 @@ namespace umfrage2._2007.Controls
             this.DesignButton.Text = "     Einstellungen...";
             this.DesignButton.UseVisualStyleBackColor = true;
             this.DesignButton.Click += new System.EventHandler(this.DesignButton_Click);
+            // 
+            // InvertBox
+            // 
+            this.InvertBox.Location = new System.Drawing.Point(14, 68);
+            this.InvertBox.Name = "InvertBox";
+            this.InvertBox.Size = new System.Drawing.Size(167, 17);
+            this.InvertBox.TabIndex = 58;
+            this.InvertBox.Text = "Werte Invertieren (nur 07)";
+            this.InvertBox.CheckedChanged += new System.EventHandler(this.InvertBox_CheckedChanged);
+            // 
+            // InvertLogBox
+            // 
+            this.InvertLogBox.Location = new System.Drawing.Point(14, 82);
+            this.InvertLogBox.Name = "InvertLogBox";
+            this.InvertLogBox.Size = new System.Drawing.Size(201, 25);
+            this.InvertLogBox.TabIndex = 59;
+            this.InvertLogBox.Text = "Logarithmus Invertieren (nur 07)";
+            this.InvertLogBox.CheckedChanged += new System.EventHandler(this.InvertLogBox_CheckedChanged);
             // 
             // panel2
             // 
@@ -329,14 +349,16 @@ namespace umfrage2._2007.Controls
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Daten";
             // 
-            // InvertBox
+            // NewSkalaButton
             // 
-            this.InvertBox.Location = new System.Drawing.Point(14, 68);
-            this.InvertBox.Name = "InvertBox";
-            this.InvertBox.Size = new System.Drawing.Size(167, 17);
-            this.InvertBox.TabIndex = 58;
-            this.InvertBox.Text = "Werte Invertieren (nur 07)";
-            this.InvertBox.CheckedChanged += new System.EventHandler(this.InvertBox_CheckedChanged);
+            this.NewSkalaButton.AutoSize = true;
+            this.NewSkalaButton.Location = new System.Drawing.Point(110, 102);
+            this.NewSkalaButton.Name = "NewSkalaButton";
+            this.NewSkalaButton.Size = new System.Drawing.Size(62, 17);
+            this.NewSkalaButton.TabIndex = 60;
+            this.NewSkalaButton.Text = "Skala 2";
+            this.NewSkalaButton.UseVisualStyleBackColor = true;
+            this.NewSkalaButton.CheckedChanged += new System.EventHandler(this.NewSkalaButton_CheckedChanged);
             // 
             // previewBox
             // 
@@ -357,15 +379,6 @@ namespace umfrage2._2007.Controls
             this.sizeControl.Size = new System.Drawing.Size(118, 57);
             this.sizeControl.TabIndex = 39;
             // 
-            // InvertLogBox
-            // 
-            this.InvertLogBox.Location = new System.Drawing.Point(14, 82);
-            this.InvertLogBox.Name = "InvertLogBox";
-            this.InvertLogBox.Size = new System.Drawing.Size(201, 25);
-            this.InvertLogBox.TabIndex = 59;
-            this.InvertLogBox.Text = "Logarithmus Invertieren (nur 07)";
-            this.InvertLogBox.CheckedChanged += new System.EventHandler(this.InvertLogBox_CheckedChanged);
-            // 
             // OutputControl_MultiMatrix
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -375,9 +388,9 @@ namespace umfrage2._2007.Controls
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.panel2);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "OutputControl_MultiMatrix";
-            this.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.Padding = new System.Windows.Forms.Padding(8);
             this.Size = new System.Drawing.Size(600, 569);
             this.Load += new System.EventHandler(this.OutputControl_MultiMatrix_Load);
             this.panel1.ResumeLayout(false);
@@ -421,5 +434,6 @@ namespace umfrage2._2007.Controls
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.CheckBox InvertBox;
         private System.Windows.Forms.CheckBox InvertLogBox;
+        private System.Windows.Forms.CheckBox NewSkalaButton;
     }
 }

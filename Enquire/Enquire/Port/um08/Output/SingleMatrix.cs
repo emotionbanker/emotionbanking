@@ -647,7 +647,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 g.DrawLine(grayPen, offset + x * 4, offset, offset + x * 4, offset + y * 8);
                 g.DrawLine(grayPen, offset, offset + y * 4, offset + x * 8, offset + y * 4);
             }
-
+            
             return oi;
         }
 
@@ -1010,16 +1010,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 }
 
 
-                if (ComboList.Length != 0)
-                {
-                    SphereColor1 = ComboList[0].Color1;
-                    SphereColor2 = ComboList[0].Color2;
-                }
-                else
-                {
-                    SphereColor1 = PersonList[0].Color1;
-                    SphereColor2 = PersonList[0].Color2;
-                }
+               
             }
 
             #endregion
@@ -1188,9 +1179,20 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
             #region draw07
 
+            if (ComboList.Length != 0)
+            {
+                SphereColor1 = ComboList[0].Color2;
+                SphereColor2 = ComboList[0].Color1;
+            }
+            else
+            {
+                SphereColor1 = PersonList[0].Color2;
+                SphereColor2 = PersonList[0].Color1;
+            }
+
             s.DefaultElement.Color = SphereColor1;
             s.DefaultElement.SecondaryColor = SphereColor2;
-
+       
             bc.LegendBox.Visible = false;
             bc.XAxis.Label.Text = dnc.XLabel;
             bc.XAxis.ClearValues = true;
@@ -1278,7 +1280,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
                                 s.Elements.Add(e);
 
-                                // GraphicTools.Sphere((float)(offset + dx), (float)(offset + dy), radius, SphereColor1, SphereColor2, g);
+                                //GraphicTools.Sphere((float)(offset + dx), (float)(offset + dy), radius, SphereColor1, SphereColor2,g);
 
                                 // if (Legend)
                                 //     g.DrawString(resultArray[n, m].ToString() + "%", f2, black, offset + dx - width / 25, offset + dy - width / 50);
@@ -1330,7 +1332,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
                                 s.Elements.Add(e);
 
-                                // GraphicTools.Sphere((float)(offset + dx), (float)(offset + dy), radius, SphereColor1, SphereColor2, g);
+                                //GraphicTools.Sphere((float)(offset + dx), (float)(offset + dy), radius, SphereColor1, SphereColor2, g);
 
                                 // if (Legend)
                                 //     g.DrawString(resultArray[n, m].ToString() + "%", f2, black, offset + dx - width / 25, offset + dy - width / 50);
@@ -1386,6 +1388,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                                 }
 
                                 s.Elements.Add(e);
+                                //GraphicTools.Sphere((float)(offset + dx), (float)(offset + dy), radius, SphereColor1, SphereColor2, g);
+
                             }
                         }
                         break;

@@ -286,11 +286,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             double count = 0;
             double[,] table = new double[4, 4];
 
-            string rowlist = "";
-
-            string r1 = "";
-            string r2 = "";
-            string r3 = "";
             
             
             foreach (User u in eval.Users)
@@ -500,6 +495,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         {
             string bfname = System.IO.Path.GetTempFileName() + ".png";
 
+            
             Tools.CreateBarImage(eval, q, eval.CombinedPersons[Int32.Parse(dat[4])], 180, 17).Save(bfname, System.Drawing.Imaging.ImageFormat.Png);
 
 
