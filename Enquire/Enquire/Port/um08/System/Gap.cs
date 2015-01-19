@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 
 namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 {
 	/// <summary>
-	/// Zusammenfassung f�r Gap.
+	/// Zusammenfassung für Gap.
 	/// </summary>
 	/// 
 

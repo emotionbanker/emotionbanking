@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
+Ôªøusing compucare.Enquire.Legacy.Umfrage2Lib.Controls;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -290,7 +290,7 @@ namespace umfrage2._2007.Controls
             this.ShortFontButton.Name = "ShortFontButton";
             this.ShortFontButton.Size = new System.Drawing.Size(164, 20);
             this.ShortFontButton.TabIndex = 84;
-            this.ShortFontButton.Text = "‹berschrift (Schriftart)...";
+            this.ShortFontButton.Text = "√úberschrift (Schriftart)...";
             this.ShortFontButton.UseVisualStyleBackColor = false;
             this.ShortFontButton.Click += new System.EventHandler(this.ShortFontButton_Click);
             // 
@@ -332,7 +332,7 @@ namespace umfrage2._2007.Controls
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 86;
-            this.label6.Text = "Linienst‰rke:";
+            this.label6.Text = "Linienst√§rke:";
             // 
             // previewBox
             // 

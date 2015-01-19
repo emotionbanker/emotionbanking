@@ -1,4 +1,4 @@
-using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
+ï»¿using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Dialogs
 {
@@ -652,7 +652,7 @@ namespace umfrage2._2007.Dialogs
             this.ShowNBox.Name = "ShowNBox";
             this.ShowNBox.Size = new System.Drawing.Size(155, 17);
             this.ShowNBox.TabIndex = 72;
-            this.ShowNBox.Text = "Stichprobengröße anzeigen";
+            this.ShowNBox.Text = "StichprobengrÃ¶ÃŸe anzeigen";
             this.ShowNBox.UseVisualStyleBackColor = false;
             this.ShowNBox.CheckedChanged += new System.EventHandler(this.ShowNBox_CheckedChanged);
             // 

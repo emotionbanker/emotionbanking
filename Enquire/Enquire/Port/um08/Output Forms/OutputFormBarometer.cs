@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -258,7 +258,7 @@ namespace umfrage2
 			this.BArrowLarge.Name = "BArrowLarge";
 			this.BArrowLarge.Size = new System.Drawing.Size(104, 24);
 			this.BArrowLarge.TabIndex = 52;
-			this.BArrowLarge.Text = "Gro�er Pfeil...";
+			this.BArrowLarge.Text = "Großer Pfeil...";
 			this.BArrowLarge.Click += new System.EventHandler(this.BArrowLarge_Click);
 			// 
 			// LArrowBig

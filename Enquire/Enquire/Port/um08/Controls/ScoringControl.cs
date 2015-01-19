@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -202,7 +202,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             this.EditColumnButton.Name = "EditColumnButton";
             this.EditColumnButton.Size = new Size(168, 32);
             this.EditColumnButton.TabIndex = 36;
-            this.EditColumnButton.Text = "Säule bearbeiten";
+            this.EditColumnButton.Text = "SÃ¤ule bearbeiten";
             this.EditColumnButton.UseVisualStyleBackColor = false;
             this.EditColumnButton.Click += new EventHandler(this.EditColumnButton_Click);
             // 
@@ -214,7 +214,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             this.DeleteColumnButton.Name = "DeleteColumnButton";
             this.DeleteColumnButton.Size = new Size(168, 32);
             this.DeleteColumnButton.TabIndex = 35;
-            this.DeleteColumnButton.Text = "Säule löschen";
+            this.DeleteColumnButton.Text = "SÃ¤ule lÃ¶schen";
             this.DeleteColumnButton.UseVisualStyleBackColor = false;
             this.DeleteColumnButton.Click += new EventHandler(this.DeleteColumnButton_Click);
             // 
@@ -226,7 +226,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             this.NewColumnButton.Name = "NewColumnButton";
             this.NewColumnButton.Size = new Size(168, 32);
             this.NewColumnButton.TabIndex = 34;
-            this.NewColumnButton.Text = "Neue Säule";
+            this.NewColumnButton.Text = "Neue SÃ¤ule";
             this.NewColumnButton.UseVisualStyleBackColor = false;
             this.NewColumnButton.Click += new EventHandler(this.NewColumnButton_Click);
             // 

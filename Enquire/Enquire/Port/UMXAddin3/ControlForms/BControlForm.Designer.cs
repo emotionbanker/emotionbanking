@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+﻿namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class BControlForm
     {
@@ -187,7 +187,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(84, 29);
             this.button1.TabIndex = 23;
-            this.button1.Text = "Einf�gen";
+            this.button1.Text = "Einfügen";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 

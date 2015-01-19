@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -25,7 +25,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 
         private Output.Output output;
         private Button AlleAbwaehlen;
-        private Button AlleAusw‰hlen;
+        private Button Alleausw√§hlen;
         private Button button1;
         private Button button2;
 
@@ -79,7 +79,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.Browser = new FolderBrowserDialog();
             this.targetBox = new GroupBox();
             this.AlleAbwaehlen = new Button();
-            this.AlleAusw‰hlen = new Button();
+            this.Alleausw√§hlen = new Button();
             this.button1 = new Button();
             this.button2 = new Button();
             this.SuspendLayout();
@@ -177,7 +177,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.button1.Name = "button1";
             this.button1.Size = new Size(140, 30);
             this.button1.TabIndex = 20;
-            this.button1.Text = "alle abw‰hlen";
+            this.button1.Text = "alle abw√§hlen";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new EventHandler(this.button1_Click);
             // 
@@ -190,7 +190,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.button2.Name = "button2";
             this.button2.Size = new Size(140, 30);
             this.button2.TabIndex = 21;
-            this.button2.Text = "alle ausw‰hlen";
+            this.button2.Text = "alle ausw√§hlen";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new EventHandler(this.button2_Click);
             // 
@@ -250,7 +250,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 
             if (!Directory.Exists(PathBox.Text))
             {
-                MessageBox.Show("Der ausgew‰hlte Ordner existiert nicht!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Der ausgew√§hlte Ordner existiert nicht!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 

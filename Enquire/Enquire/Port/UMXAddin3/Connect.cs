@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,6 +19,7 @@ using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
 using Application = System.Windows.Forms.Application;
 using Point = System.Drawing.Point;
+using Shape = Microsoft.Office.Interop.PowerPoint.Shape;
 
 namespace Compucare.Enquire.Legacy.UMXAddin3
 {
@@ -59,7 +60,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         public Evaluation[] multiEvals = new Evaluation[5];
         public string[] multiTargets = new string[5];
-
+        private log4net.ILog _log = log4net.LogManager.GetLogger(typeof (Connect));
         public AppType AType
         {
             get
@@ -146,7 +147,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
 
             _settingsButton = AddButton(_toolBar, "Einstellungen", 16, settingsButton_Click);
-            _insertButton = AddButton(_toolBar, "Einfügen", 17, insertButton_Click);
+            _insertButton = AddButton(_toolBar, "EinfÃ¼gen", 17, insertButton_Click);
             _editButton = AddButton(_toolBar, "Bearbeiten", 162, editButton_Click);
         }
 
@@ -299,6 +300,31 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             //MessageBox.Show(gt);
 
             return tdr;
+        }
+
+        public TargetData GetTargetWithCrosses(string code)
+        {
+            TargetData td = GetTarget();
+            TargetData tdo = td.Clone;
+
+            string[] master = (code + "|").Split(new char[] { '|' });
+
+            if (master.Length > 2 && master[2].Trim().Length > 0)
+            {
+                //cross!
+                string[] crosses = master[2].Split(new char[] { '#' });
+
+                foreach (string cross in crosses)
+                {
+                    string[] cdat = cross.Split(new char[] { '.' });
+
+                    int qid = Int32.Parse(cdat[0]);
+                    int aid = Int32.Parse(cdat[1]);
+
+                    td = Tools.Cross(eval, td, td.GetQuestion(qid, eval), aid);
+                }
+            }
+            return td;
         }
 
         public void AddTable(List<List<String>> table, int maxCols)
@@ -532,7 +558,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                     string[] master = (dat + "|").Split(new char[] { '|' });
 
-                    d += "Verknüpfungsdaten:\n\n";
+                    d += "VerknÃ¼pfungsdaten:\n\n";
 
                     int i = 0;
                     foreach (string v in master[0].Split(new char[] { ':' }))
@@ -546,7 +572,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                     MessageBox.Show(d, "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else MessageBox.Show("Auswahl enthält keine Umfrageverknüpfungen", "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.None);
+                else MessageBox.Show("Auswahl enthÃ¤lt keine UmfrageverknÃ¼pfungen", "Eigenschaften", MessageBoxButtons.OK, MessageBoxIcon.None);
             }
             catch (Exception ex)
             {
@@ -672,6 +698,38 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
         }
 
+        private Dictionary<Point, string> GetSelectedFormulas(Microsoft.Office.Interop.PowerPoint.Table table) 
+        {
+            var result = new Dictionary<Point, string>();
+            int columnsCount = table.Columns.Count;
+            int rowsCount = table.Rows.Count;
+
+            for (int i = 1; i <= rowsCount; i++)
+            {
+                for (int j = 1; j <= columnsCount; j++)
+                {
+                    var cell = table.Cell(i, j);
+
+                    if (!cell.Selected) continue;
+                    var key = string.Format("umxcode_{0}_{1}", i, j);
+                    string dat = _pptApp.ActiveWindow.Selection.ShapeRange.Tags[key];
+                    if (!string.IsNullOrEmpty(dat))
+                    {
+                        if (cell.Shape.TextFrame.HasText == MsoTriState.msoFalse)
+                        {
+                            _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+                        }
+                        else
+                        {
+                            result[new Point(i, j)] = dat;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         private Dictionary<Point, string> GetAllCellsWithFormulas(Microsoft.Office.Interop.PowerPoint.Table table)
         {
             var cells = new Dictionary<Point, string>();
@@ -710,20 +768,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         {
             if (eval == null)
             {
-                MessageBox.Show("Sollte eine Verknüpfung eingestellt sein, speichern und laden Sie das Word- Dokument neu.", "Keine Datenverknüpfung eingestellt");
+                MessageBox.Show("Sollte eine VerknÃ¼pfung eingestellt sein, speichern und laden Sie das Word- Dokument neu.", "Keine DatenverknÑŒpfung eingestellt");
                 return;
             }
 
             if(_pptApp.ActiveWindow.Selection.Type == PpSelectionType.ppSelectionNone)
             {
-                MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
+                MessageBox.Show("Bitte wÃ¤hlen sie zuerst ein Element aus.");
                 return;
             }
 
             var shapeType = _pptApp.ActiveWindow.Selection.ShapeRange.Type;
             if (shapeType != MsoShapeType.msoTable && shapeType != MsoShapeType.msoPicture && shapeType != MsoShapeType.msoTextBox)
             {
-                MessageBox.Show("Bitte wählen sie zuerst ein Element aus.");
+                MessageBox.Show("Bitte wÃ¤hlen sie zuerst ein Element aus.");
                 return;
             }
 
@@ -731,9 +789,9 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 var tbl = _pptApp.ActiveWindow.Selection.ShapeRange[1].Table;
 
-                var formulas = GetAllCellsWithFormulas(tbl);
-
-                var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));
+                var formulas = GetSelectedFormulas(tbl);
+                
+                var form = new UpdateFormulaForm(new Dictionary<Point, string>(formulas));//remove reference to formulas
                 var dialogResult = form.ShowDialog();
                 if (dialogResult == DialogResult.OK)
                 {
@@ -764,7 +822,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 if (_pptApp.ActiveWindow.Selection.ShapeRange.Count > 1)
                 {
-                    var selectedShapes = new List<Microsoft.Office.Interop.PowerPoint.Shape>();
+                    var selectedShapes = new List<Shape>();
                     var formulas = new Dictionary<Point, string>();
                     for (int i = 1; i <= _pptApp.ActiveWindow.Selection.ShapeRange.Count; i++)
                     {
@@ -912,7 +970,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetAverageValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetAverageValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -924,7 +982,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetMedianValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetMedianValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -936,7 +994,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetPercentValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetPercentValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -948,7 +1006,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetPercentResponseValue(tls, GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetPercentResponseValue(tls, GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -960,7 +1018,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetGapValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetGapValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -984,7 +1042,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetSampleSizeValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetSampleSizeValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -996,7 +1054,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetAverageReplyNumValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetAverageReplyNumValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1008,7 +1066,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetAnswerCountByPersonValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetAnswerCountByPersonValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1032,7 +1090,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetCompareValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetCompareValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1056,7 +1114,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetBcontCompareValue(tls, GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetBcontCompareValue(tls, GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1080,7 +1138,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetBcontNpsValue(tls, GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetBcontNpsValue(tls, GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1104,7 +1162,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetOriginalAnswerValue(GetTarget(), tls.dat));
+                        SetTextForSelectedShape(GetOriginalAnswerValue(GetTargetWithCrosses(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1116,7 +1174,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     }
                     else
                     {
-                        SetTextForSelectedShape(GetXmlValue(tls, GetTarget()));
+                        SetTextForSelectedShape(GetXmlValue(tls, GetTargetWithCrosses(code)));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1503,26 +1561,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
 
                 string[] dat = master[0].Split(new char[] { ':' });
-                string[] crosses = null;
 
-                TargetData td = GetTarget();
-                TargetData tdo = td.Clone;
-
-                if (master.Length > 2 && master[2].Trim().Length > 0)
-                {
-                    //cross!
-                    crosses = master[2].Split(new char[] { '#' });
-
-                    foreach (string cross in crosses)
-                    {
-                        string[] cdat = cross.Split(new char[] { '.' });
-
-                        int qid = Int32.Parse(cdat[0]);
-                        int aid = Int32.Parse(cdat[1]);
-
-                        td = Tools.Cross(eval, td, td.GetQuestion(qid, eval), aid);
-                    }
-                }
+                TargetData td = GetTargetWithCrosses(code);
 
                 if (td == null) return;
 
@@ -1656,7 +1696,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                         case "maturity":
 
                             //MessageBox.Show("huiy");
-                            s.Table.Cell(1, 1).Shape.TextFrame.TextRange.Text = "Reifegrad/Führung";
+                            s.Table.Cell(1, 1).Shape.TextFrame.TextRange.Text = "Reifegrad/FÃ¼hrung";
 
                             s.Table.Cell(1, 2).Shape.TextFrame.TextRange.Text = "Telling";
                             s.Table.Cell(1, 3).Shape.TextFrame.TextRange.Text = "Selling";
@@ -2159,7 +2199,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                 return Math.Round(ctvoval - ctvcval, digits).ToString();
             }
 
-            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
+            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nÃ¶tigen Daten geladen?", "Banksteuerungsbericht");
             return "err";
         }
 
@@ -3128,7 +3168,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                         }
                         else
                         {
-                            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nötigen Daten geladen?", "Banksteuerungsbericht");
+                            MessageBox.Show("Konnte nicht auf Vergleichsdaten zugreifen. Sind alle nÃ¶tigen Daten geladen?", "Banksteuerungsbericht");
                             ins = "err";
                         }
 
@@ -3604,44 +3644,56 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 try
                 {
-                    foreach (Microsoft.Office.Interop.PowerPoint.Slide sld in _pptApp.ActiveWindow.Presentation.Slides)
+                    Slide activeSlide = _pptApp.ActiveWindow.View.Slide;
+                    foreach (Slide sld in _pptApp.ActiveWindow.Presentation.Slides)
                     {
-                        //MessageBox.Show("compute " + sld.Shapes.Count + " shapes on sld " + sld.SlideIndex);
-                        ArrayList tempShapes = new ArrayList();
+                        var tempShapes = new List<Shape>();
 
-                        foreach (Microsoft.Office.Interop.PowerPoint.Shape sp in sld.Shapes)
+                        foreach (var sp in sld.Shapes.Cast<Shape>().Where(sp => sp.Tags["umxcode"].Equals("table") || (sp.Tags["umxcode"].IndexOf("ADDIN", System.StringComparison.Ordinal) != -1) || sp.Type == MsoShapeType.msoTable))
                         {
-                            if (sp.Tags["umxcode"].Equals("table") || (sp.Tags["umxcode"].IndexOf("ADDIN") != -1))
+                            if (sp.Type == MsoShapeType.msoTable)
                             {
-                                tempShapes.Add(sp);
-                            }
-                        }
-
-                        foreach (Microsoft.Office.Interop.PowerPoint.Shape sp in tempShapes)
-                        {
-                            if (sp.Tags["umxcode"].Equals("table"))
-                            {
-                                for (int i = 1; i <= sp.Table.Columns.Count; i++)
+                                sld.Select();
+                                var tbl = sp.Table;
+                                _log.InfoFormat("INFO: Processing Table {0}. Slide: {1}", tbl.Title, sld.SlideNumber);
+                                var formulas = GetAllCellsWithFormulas(tbl);
+                                foreach (var formula in formulas)
                                 {
-                                    for (int j = 1; j <= sp.Table.Rows.Count; j++)
+                                    var coord = formula.Key;
+                                    _log.InfoFormat("INFO: Processing Cell {0}. Formula: {1}", formula.Key, formula.Value);
+                                    var cell = tbl.Cell(coord.X, coord.Y);
+                                    cell.Select();
+
+                                    SetTextForSelectedShape(string.Empty);
+                                    var key = GetFieldKeyForSelectedCell();
+                                    _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Delete(key);
+                                    try
                                     {
-                                        if (sp.Table.Cell(i, j).Shape.Tags["umxcode"].IndexOf("ADDIN") != -1)
-                                        {
-                                            ProcessShape(sp.Table.Cell(i, j).Shape, sld);
-                                        }
+                                        AddPField(formula.Value);
                                     }
+                                    catch (Exception e)
+                                    {
+                                        _log.ErrorFormat("ERROR: Updating table with key {0}. InnerException: {1}", key, e.Message);
+                                    }
+                                    _pptApp.ActiveWindow.Selection.Unselect();
                                 }
                             }
-                            else if (sp.Tags["umxcode"].IndexOf("ADDIN") != -1)
+                            else
                             {
-                                ProcessShape(sp, sld);
+                                tempShapes.Add(sp);    
                             }
                         }
+
+                        foreach (var sp in tempShapes.Where(sp => sp.Tags["umxcode"].IndexOf("ADDIN", StringComparison.Ordinal) != -1))
+                        {
+                            ProcessShape(sp, sld);
+                        }
                     }
+                    _pptApp.ActiveWindow.View.GotoSlide(activeSlide.SlideIndex);
                 }
-                catch
+                catch (Exception e)
                 {
-                    //MessageBox.Show("main loop err");
+                    _log.ErrorFormat("GENERAL ERROR: Updating document exception: Exception {0}. InnerException: {1}.", e.Message, e.InnerException);
                 }
             
             }
@@ -3700,7 +3752,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                                 catch
                                 {
                                     MessageBox.Show("processfield err");
-                                    //gfährlich!
+                                    //gfÃ¤hrlich!
                                 }
                             }
                         }
@@ -3944,7 +3996,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             wtab.Borders.Enable = 1;
             wtab.Borders.OutsideColor = Microsoft.Office.Interop.Word.WdColor.wdColorGray60;
 
-            wtab.Cell(1, 1).Range.Text = "Reifegrad/Führung";
+            wtab.Cell(1, 1).Range.Text = "Reifegrad/FÃ¼hrung";
 
             wtab.Cell(1, 2).Range.Text = "Telling";
             wtab.Cell(1, 3).Range.Text = "Selling";
@@ -3972,7 +4024,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         {
             if (inf.countPersons() < 1)
             {
-                MessageBox.Show("Sie haben keine Personengruppen ausgewählt", "Eingabefehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sie haben keine Personengruppen ausgewÃ¤hlt", "Eingabefehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

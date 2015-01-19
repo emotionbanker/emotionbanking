@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
@@ -61,8 +61,8 @@ namespace umfrage2._2008.Tools
 
         public void SaveThreadBefore(bool remove, string targetAndQuestion)
         {
-            ArrayList targetchilds = new ArrayList(); //Liste für die Kinder der Zielknoten
-            ArrayList targetsAndQuestions = new ArrayList(); //Liste für Zielknoten und Splitfrage(mit dem gesplittet wird)
+            ArrayList targetchilds = new ArrayList(); //Liste fÃ¼r die Kinder der Zielknoten
+            ArrayList targetsAndQuestions = new ArrayList(); //Liste fÃ¼r Zielknoten und Splitfrage(mit dem gesplittet wird)
             TargetData[] old = eval.CombinedTargets; //alle Zielknoten werden auf "old" zugewiesen
             foreach (TargetData td in eval.CombinedTargets) //alle Zielknoten durchlaufen
             {
@@ -173,7 +173,7 @@ namespace umfrage2._2008.Tools
             for (int j = 0; j < i; j++)
                 secondData[j] = firstData[i];
 
-            //Die Zieldaten wieder in die Liste einfügen
+            //Die Zieldaten wieder in die Liste EinfÃ¼gen
 
             foreach (TargetAndSplitQuestion tdParent in eval.TargetChildsParent)
             {

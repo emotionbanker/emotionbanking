@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
@@ -46,7 +46,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 			//eval.UpdateData(this);
 
 			/*
-			Status("öffne Datenbank");
+			Status("Ã¶ffne Datenbank");
 			MySQLConnection db = new MySQLConnection(new MySQLConnectionString(eval.DatabaseHost, eval.DatabaseName, eval.DatabaseUser, eval.DatabasePassword).AsString);
 
 			try
@@ -55,7 +55,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Fehler beim öffnen der Datenbank!\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Fehler beim Ã¶ffnen der Datenbank!\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 			Status("Initialisiere...");

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
@@ -26,7 +26,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             if (FileName.Equals("")) return null;
             if (!File.Exists(FileName))
             {
-                MessageBox.Show("Datei konnte nicht gefunden werden, die Verlinkung wurde aufgehoben.\r\nDie Verlinkung kann über \"Daten\" jederzeit wieder hergestellt werden.", "Fehler beim laden der Datei");
+                MessageBox.Show("Datei konnte nicht gefunden werden, die Verlinkung wurde aufgehoben.\r\nDie Verlinkung kann Ã¼ber \"Daten\" jederzeit wieder hergestellt werden.", "Fehler beim laden der Datei");
                 return null;
             }
             try
@@ -39,7 +39,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             }
             catch
             {
-                MessageBox.Show("Datei konnte nicht gefunden werden, die Verlinkung wurde aufgehoben.\r\nDie Verlinkung kann über \"Daten\" jederzeit wieder hergestellt werden.", "Fehler beim laden der Datei" );
+                MessageBox.Show("Datei konnte nicht gefunden werden, die Verlinkung wurde aufgehoben.\r\nDie Verlinkung kann Ã¼ber \"Daten\" jederzeit wieder hergestellt werden.", "Fehler beim laden der Datei" );
                 return null;
             }
 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Reflection;
 using System.Text;
@@ -382,8 +382,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 				foreach (PersonSetting person in CombinedPersons)
 				{
 					HtmlTools doc = new HtmlTools();
-					db.Status("Erstelle Dokumente für " + td.Name + "... " + person);
-					doc.SetTitle("Benchmarking für " + td.Name + "(" + person.ToString() + ")");
+					db.Status("Erstelle Dokumente fÃ¼r " + td.Name + "... " + person);
+					doc.SetTitle("Benchmarking fÃ¼r " + td.Name + "(" + person.ToString() + ")");
 					doc.SetStyle(style);
 
 					alternate = "light";
@@ -558,7 +558,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 						if (i==6) if (answerList.Length > 3) h += answerList[3];
 						if (i==7) if (answerList.Length > 4) h += answerList[4];
 						if (i==8) h += "Vergleich";
-                        if (i == 9) if (ShowNulls) h += "Nicht ausgefüllt";
+                        if (i == 9) if (ShowNulls) h += "Nicht ausgefÃ¼llt";
 						break;
 					}
 					else

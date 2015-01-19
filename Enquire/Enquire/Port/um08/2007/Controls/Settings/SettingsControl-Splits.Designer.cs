@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+Ôªønamespace umfrage2._2007.Controls
 {
     partial class SettingsControl_Splits
     {
@@ -51,7 +51,7 @@ namespace umfrage2._2007.Controls
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(154, 13);
             this.label1.TabIndex = 32;
-            this.label1.Text = "Ausgew‰hltes Ziel Teilen nach:";
+            this.label1.Text = "Ausgew√§hltes Ziel Teilen nach:";
             // 
             // ChooseQuestion
             // 
@@ -60,7 +60,7 @@ namespace umfrage2._2007.Controls
             this.ChooseQuestion.Name = "ChooseQuestion";
             this.ChooseQuestion.Size = new System.Drawing.Size(186, 33);
             this.ChooseQuestion.TabIndex = 33;
-            this.ChooseQuestion.Text = "Frage ausw‰hlen";
+            this.ChooseQuestion.Text = "Frage ausw√§hlen";
             this.ChooseQuestion.UseVisualStyleBackColor = true;
             this.ChooseQuestion.Click += new System.EventHandler(this.ChooseQuestion_Click);
             // 
@@ -82,7 +82,7 @@ namespace umfrage2._2007.Controls
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(186, 33);
             this.button1.TabIndex = 35;
-            this.button1.Text = "Zielteilungen lˆschen";
+            this.button1.Text = "Zielteilungen l√∂schen";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 

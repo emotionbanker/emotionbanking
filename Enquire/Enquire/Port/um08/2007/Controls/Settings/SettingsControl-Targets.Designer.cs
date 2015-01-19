@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+ï»¿namespace umfrage2._2007.Controls
 {
     partial class SettingsControl_Targets
     {
@@ -80,7 +80,7 @@ namespace umfrage2._2007.Controls
             this.RemoveTarget.Name = "RemoveTarget";
             this.RemoveTarget.Size = new System.Drawing.Size(216, 29);
             this.RemoveTarget.TabIndex = 32;
-            this.RemoveTarget.Text = "Kombination löschen";
+            this.RemoveTarget.Text = "Kombination lÃ¶schen";
             this.RemoveTarget.UseVisualStyleBackColor = false;
             this.RemoveTarget.Click += new System.EventHandler(this.RemoveTarget_Click);
             // 
@@ -92,7 +92,7 @@ namespace umfrage2._2007.Controls
             this.AddTarget.Name = "AddTarget";
             this.AddTarget.Size = new System.Drawing.Size(216, 29);
             this.AddTarget.TabIndex = 31;
-            this.AddTarget.Text = "Kombination hinzufügen";
+            this.AddTarget.Text = "Kombination hinzufÃ¼gen";
             this.AddTarget.UseVisualStyleBackColor = false;
             this.AddTarget.Click += new System.EventHandler(this.AddTarget_Click);
             // 
@@ -139,7 +139,7 @@ namespace umfrage2._2007.Controls
             this._btn_allesAuswaehlen.Name = "_btn_allesAuswaehlen";
             this._btn_allesAuswaehlen.Size = new System.Drawing.Size(216, 29);
             this._btn_allesAuswaehlen.TabIndex = 38;
-            this._btn_allesAuswaehlen.Text = "alle auswählen";
+            this._btn_allesAuswaehlen.Text = "alle auswÃ¤hlen";
             this._btn_allesAuswaehlen.UseVisualStyleBackColor = false;
             this._btn_allesAuswaehlen.Click += new System.EventHandler(this._btn_allesAuswaehlen_Click);
             // 
@@ -151,7 +151,7 @@ namespace umfrage2._2007.Controls
             this._btn_allesAbwaehlen.Name = "_btn_allesAbwaehlen";
             this._btn_allesAbwaehlen.Size = new System.Drawing.Size(216, 29);
             this._btn_allesAbwaehlen.TabIndex = 39;
-            this._btn_allesAbwaehlen.Text = "alle abwählen";
+            this._btn_allesAbwaehlen.Text = "alle abwÃ¤hlen";
             this._btn_allesAbwaehlen.UseVisualStyleBackColor = false;
             this._btn_allesAbwaehlen.Click += new System.EventHandler(this._btn_allesAbwaehlen_Click);
             // 

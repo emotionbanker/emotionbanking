@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.IO;
@@ -49,7 +49,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 			sheet.Cells[1,"D"] = "Typ";
 			((Microsoft.Office.Interop.Excel.Range)sheet.Cells[1,"D"]).EntireColumn.ColumnWidth = 10;
 
-			sheet.Cells[1,"E"] = "K�rzel";
+			sheet.Cells[1,"E"] = "Kürzel";
 			((Microsoft.Office.Interop.Excel.Range)sheet.Cells[1,"E"]).EntireColumn.ColumnWidth = 10;
 			
 			int line = 3;

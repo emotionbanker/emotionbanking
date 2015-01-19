@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -1533,7 +1533,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             if (dnc.ShowN)
             {
                 LegendBox lb = new LegendBox();
-                LegendEntry le = new LegendEntry("Stichprobengröße", total.ToString());
+                LegendEntry le = new LegendEntry("StichprobengrÃ¶ÃŸe", total.ToString());
                 lb.ExtraEntries.Add(le);
                 bc.ExtraLegendBoxes.Add(lb);
 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -240,7 +240,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.label1.Name = "label1";
             this.label1.Size = new Size(87, 26);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Säule";
+            this.label1.Text = "SÃ¤ule";
             // 
             // pictureBox2
             // 
@@ -412,7 +412,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.button1.Name = "button1";
             this.button1.Size = new Size(127, 26);
             this.button1.TabIndex = 46;
-            this.button1.Text = "Kategorie löschen";
+            this.button1.Text = "Kategorie lÃ¶schen";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new EventHandler(this.button1_Click);
             // 
@@ -541,7 +541,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.JustGaps.Name = "JustGaps";
             this.JustGaps.Size = new Size(180, 19);
             this.JustGaps.TabIndex = 49;
-            this.JustGaps.Text = "Nur Gapabzüge (Keine Punkte)";
+            this.JustGaps.Text = "Nur GapabzÃ¼ge (Keine Punkte)";
             this.JustGaps.CheckedChanged += new EventHandler(this.JustGaps_CheckedChanged);
             // 
             // label16
@@ -810,7 +810,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.label14.Name = "label14";
             this.label14.Size = new Size(64, 14);
             this.label14.TabIndex = 0;
-            this.label14.Text = "Überschrift:";
+            this.label14.Text = "Ãœberschrift:";
             // 
             // DialogColumn
             // 

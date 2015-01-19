@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+ï»¿namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class EditLinkForm
     {
@@ -63,7 +63,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.groupBox1.Size = new System.Drawing.Size(198, 316);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Ausgewählte Verknüpfungen";
+            this.groupBox1.Text = "AusgewÃ¤hlte VerknÃ¼pfungen";
             // 
             // LinkList
             // 
@@ -175,7 +175,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.Name = "EditLinkForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Verknüpfungen bearbeiten";
+            this.Text = "VerknÃ¼pfungen bearbeiten";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();

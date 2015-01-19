@@ -1,4 +1,4 @@
-using System.ComponentModel;
+ï»¿using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
 using System.Windows.Forms;
@@ -17,10 +17,10 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Web
 
 		public Admin()
 		{
-			// Dieser Aufruf ist für den Windows Form-Designer erforderlich.
+			// Dieser Aufruf ist fÃ¼r den Windows Form-Designer erforderlich.
 			InitializeComponent();
 
-			// TODO: Initialisierungen nach dem Aufruf von InitializeComponent hinzufügen
+			// TODO: Initialisierungen nach dem Aufruf von InitializeComponent hinzufÃ¼gen
 
 			// 
 			// adminControl1
@@ -54,8 +54,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Web
 
 		#region Vom Designer generierter Code
 		/// <summary>
-		/// Erforderliche Methode für die Designerunterstützung. 
-		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+		/// Erforderliche Methode fÃ¼r die DesignerunterstÑŒtzung. 
+		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geÃ¤ndert werden.
 		/// </summary>
 		private void InitializeComponent()
 		{

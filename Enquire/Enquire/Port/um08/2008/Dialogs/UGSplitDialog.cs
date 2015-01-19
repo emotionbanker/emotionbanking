@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -38,7 +38,7 @@ namespace umfrage2
             GroupSelector.Value = split.GroupID;
 
             if (split.split != null) SelectQButton.Text = split.split.SID;
-            else SelectQButton.Text = "Frage ausw�hlen...";
+            else SelectQButton.Text = "Frage auswählen...";
 
             SetAnswerBox();
 

@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+ï»¿namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class PercentBaseForm
     {
@@ -80,7 +80,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.SelectQButton.Name = "SelectQButton";
             this.SelectQButton.Size = new System.Drawing.Size(107, 27);
             this.SelectQButton.TabIndex = 54;
-            this.SelectQButton.Text = "auswählen";
+            this.SelectQButton.Text = "auswÃ¤hlen";
             this.SelectQButton.UseVisualStyleBackColor = false;
             this.SelectQButton.Click += new System.EventHandler(this.SelectQButton_Click);
             // 
@@ -167,7 +167,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.AddCross.Name = "AddCross";
             this.AddCross.Size = new System.Drawing.Size(107, 27);
             this.AddCross.TabIndex = 51;
-            this.AddCross.Text = "Hinzufügen...";
+            this.AddCross.Text = "HinzufÃ¼gen...";
             this.AddCross.UseVisualStyleBackColor = false;
             this.AddCross.Click += new System.EventHandler(this.AddCross_Click);
             // 
@@ -190,7 +190,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.Controls.Add(this.CButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "PercentBaseForm";
-            this.Text = "Basis für Prozentwerte einstellen...";
+            this.Text = "Basis fÃ¼r Prozentwerte einstellen...";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);

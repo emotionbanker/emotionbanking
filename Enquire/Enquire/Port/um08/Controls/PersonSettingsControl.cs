@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -110,7 +110,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             this.SelectColor1Button.Name = "SelectColor1Button";
             this.SelectColor1Button.Size = new Size(72, 24);
             this.SelectColor1Button.TabIndex = 2;
-            this.SelectColor1Button.Text = "ändern";
+            this.SelectColor1Button.Text = "Ã¤ndern";
             this.SelectColor1Button.UseVisualStyleBackColor = false;
             this.SelectColor1Button.Click += new EventHandler(this.SelectColor1Button_Click);
             // 
@@ -122,7 +122,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             this.SelectColor2Button.Name = "SelectColor2Button";
             this.SelectColor2Button.Size = new Size(72, 24);
             this.SelectColor2Button.TabIndex = 5;
-            this.SelectColor2Button.Text = "ändern";
+            this.SelectColor2Button.Text = "Ã¤ndern";
             this.SelectColor2Button.UseVisualStyleBackColor = false;
             this.SelectColor2Button.Click += new EventHandler(this.SelectColor2Button_Click);
             // 
@@ -149,7 +149,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             this.label2.Name = "label2";
             this.label2.Size = new Size(61, 24);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Kürzel:";
+            this.label2.Text = "KÃ¼rzel:";
             this.label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // CutBox
@@ -237,7 +237,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
             this.label5.Name = "label5";
             this.label5.Size = new Size(56, 24);
             this.label5.TabIndex = 15;
-            this.label5.Text = "Größe";
+            this.label5.Text = "GrÃ¶ÃŸe";
             this.label5.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // PersonSettingsControl

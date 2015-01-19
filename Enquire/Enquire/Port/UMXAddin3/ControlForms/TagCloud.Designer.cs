@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+ï»¿namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class TagCloud
     {
@@ -69,7 +69,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(110, 27);
             this.OKButton.TabIndex = 3;
-            this.OKButton.Text = "Einfügen";
+            this.OKButton.Text = "EinfÃ¼gen";
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
@@ -256,7 +256,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.noColRadio.Size = new System.Drawing.Size(95, 17);
             this.noColRadio.TabIndex = 35;
             this.noColRadio.TabStop = true;
-            this.noColRadio.Text = "nicht einfärben";
+            this.noColRadio.Text = "nicht einfÃ¤rben";
             this.noColRadio.UseVisualStyleBackColor = true;
             this.noColRadio.CheckedChanged += new System.EventHandler(this.noColRadio_CheckedChanged);
             // 
@@ -288,7 +288,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.groupBox2.Size = new System.Drawing.Size(295, 94);
             this.groupBox2.TabIndex = 35;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Schriftgrößenbereich";
+            this.groupBox2.Text = "SchriftgrÃ¶ÃŸenbereich";
             // 
             // linButton
             // 

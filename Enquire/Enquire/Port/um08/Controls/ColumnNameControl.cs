@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -73,7 +73,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.label3.Name = "label3";
 			this.label3.Size = new Size(208, 24);
 			this.label3.TabIndex = 4;
-			this.label3.Text = "Name dieser S�ule:";
+			this.label3.Text = "Name dieser Säule:";
 			this.label3.TextAlign = ContentAlignment.TopRight;
 			// 
 			// OutputNameControl

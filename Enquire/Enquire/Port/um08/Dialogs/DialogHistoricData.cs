@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
@@ -167,7 +167,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(140, 26);
             this.SaveButton.TabIndex = 24;
-            this.SaveButton.Text = "Öffnen";
+            this.SaveButton.Text = "Ã–ffnen";
             this.SaveButton.UseVisualStyleBackColor = false;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
@@ -197,7 +197,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(54, 20);
             this.BrowseButton.TabIndex = 21;
-            this.BrowseButton.Text = "ändern...";
+            this.BrowseButton.Text = "Ã¤ndern...";
             this.BrowseButton.UseVisualStyleBackColor = false;
             this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
             // 

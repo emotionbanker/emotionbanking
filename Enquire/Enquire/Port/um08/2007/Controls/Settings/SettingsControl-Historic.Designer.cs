@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+ï»¿namespace umfrage2._2007.Controls
 {
     partial class SettingsControl_Historic
     {
@@ -54,7 +54,7 @@ namespace umfrage2._2007.Controls
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(206, 29);
             this.button1.TabIndex = 32;
-            this.button1.Text = "Auswertung löschen";
+            this.button1.Text = "Auswertung lÃ¶schen";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -66,7 +66,7 @@ namespace umfrage2._2007.Controls
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(206, 29);
             this.button2.TabIndex = 31;
-            this.button2.Text = "Auswertung Hinzufügen";
+            this.button2.Text = "Auswertung HinzufÃ¼gen";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 

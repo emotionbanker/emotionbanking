@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
@@ -96,7 +96,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             get
             {
                 return Name;
-                //return Name.Replace("ü","ue").Replace("ö","oe").Replace("ä","ae").Replace("Ü","Ue").Replace("Ö","Oe").Replace("Ä","Ae").Replace("/","_").Replace("\\","_");
+                //return Name.Replace("ÑŒ","ue").Replace("Ã¶","oe").Replace("Ã¤","ae").Replace("Ð¬","Ue").Replace("Ã–","Oe").Replace("Ã„","Ae").Replace("/","_").Replace("\\","_");
             }
         }
 

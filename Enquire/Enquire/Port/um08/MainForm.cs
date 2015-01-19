@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -40,7 +40,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
             InitializeComponent();
 
 
-            //alle 3 Elemente auf true setzen um das Flimmern zu verringern, Zeichenvorgang wird im Buffer durchgeführt
+            //alle 3 Elemente auf true setzen um das Flimmern zu verringern, Zeichenvorgang wird im Buffer durchgefÑŒhrt
             this.SetStyle(
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.UserPaint |
@@ -57,7 +57,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
 
             String architecture = "";
 
-            //IntPtr.Size liefert System Byte zurück
+            //IntPtr.Size liefert System Byte zurÑŒck
             if (IntPtr.Size == 4)
             {
                 architecture = "32bit";
@@ -237,7 +237,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
         **/
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            //Falls die Auswertung keinen Namen hat d.h. neue Auswertung/keine geöffnete Datei/wurde davor nicht einmal gespeichert
+            //Falls die Auswertung keinen Namen hat d.h. neue Auswertung/keine geÃ¶ffnete Datei/wurde davor nicht einmal gespeichert
             if (eval.FileName.Equals(string.Empty)){ 
                 saveMultipartToolStripMenuItem_Click(this, e); //ruft die Multi-Save Dialog auf
                  //speichernUnterToolStripMenuItem_Click(this, e);
@@ -543,14 +543,12 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
 
         private void RemoveDataButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Sind Sie sicher dass sie alle Ergebnisdaten löschen wollen?", "Ergebnisse löschen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show("Sind Sie sicher dass sie alle Ergebnisdaten lÃ¶schen wollen?", "Ergebnisse lÃ¶schen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 if (eval != null)
                 {
                     eval.RemoveData();
-                    
-                    
-                    MessageBox.Show("Ergebnisdaten wurden gelöscht", "Ergebnisse löschen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Ergebnisdaten wurden gelÃ¶scht", "Ergebnisse lÃ¶schen", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -580,7 +578,7 @@ namespace Compucare.Enquire.Legacy.Umfrage2Lib
             
         }
 
-        private void ausfülldauerSplitHalfReliabilityToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ausfÃ¼lldauerSplitHalfReliabilityToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.DefaultExt = "txt";

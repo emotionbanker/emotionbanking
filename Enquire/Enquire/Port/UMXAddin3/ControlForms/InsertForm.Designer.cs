@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+ï»¿namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class InsertForm
     {
@@ -291,7 +291,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.addN.Name = "addN";
             this.addN.Size = new System.Drawing.Size(151, 23);
             this.addN.TabIndex = 56;
-            this.addN.Text = "Stichprobengröße";
+            this.addN.Text = "StichprobengrÃ¶ÃŸe";
             this.addN.UseVisualStyleBackColor = true;
             this.addN.Click += new System.EventHandler(this.addN_Click);
             // 
@@ -430,7 +430,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.OSel.Name = "OSel";
             this.OSel.Size = new System.Drawing.Size(108, 23);
             this.OSel.TabIndex = 0;
-            this.OSel.Text = "auswählen...";
+            this.OSel.Text = "auswÃ¤hlen...";
             this.OSel.UseVisualStyleBackColor = true;
             this.OSel.Click += new System.EventHandler(this.OSel_Click);
             // 
@@ -496,7 +496,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.AddCross.Name = "AddCross";
             this.AddCross.Size = new System.Drawing.Size(107, 27);
             this.AddCross.TabIndex = 51;
-            this.AddCross.Text = "Hinzufügen...";
+            this.AddCross.Text = "HinzufÃ¼gen...";
             this.AddCross.UseVisualStyleBackColor = false;
             this.AddCross.Click += new System.EventHandler(this.AddCross_Click);
             // 
@@ -568,7 +568,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.table.Name = "table";
             this.table.Size = new System.Drawing.Size(124, 27);
             this.table.TabIndex = 53;
-            this.table.Text = "Einfügen";
+            this.table.Text = "EinfÃ¼gen";
             this.table.UseVisualStyleBackColor = true;
             this.table.Click += new System.EventHandler(this.table_Click);
             // 
@@ -715,7 +715,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.OSelComp.Name = "OSelComp";
             this.OSelComp.Size = new System.Drawing.Size(175, 23);
             this.OSelComp.TabIndex = 62;
-            this.OSelComp.Text = "auswählen...";
+            this.OSelComp.Text = "auswÃ¤hlen...";
             this.OSelComp.UseVisualStyleBackColor = true;
             this.OSelComp.Click += new System.EventHandler(this.OSelComp_Click);
             // 
@@ -754,7 +754,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(175, 23);
             this.button18.TabIndex = 58;
-            this.button18.Text = "Wertveränderung";
+            this.button18.Text = "WertverÃ¤nderung";
             this.button18.UseVisualStyleBackColor = true;
             this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
@@ -773,7 +773,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(175, 23);
             this.button19.TabIndex = 56;
-            this.button19.Text = "NPS für Vergleichswert";
+            this.button19.Text = "NPS fÃ¼r Vergleichswert";
             this.button19.UseVisualStyleBackColor = true;
             this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
@@ -803,7 +803,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(175, 23);
             this.button6.TabIndex = 53;
-            this.button6.Text = "Wertveränderung";
+            this.button6.Text = "WertverÃ¤nderung";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -822,7 +822,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(175, 23);
             this.button5.TabIndex = 51;
-            this.button5.Text = "Prozentwert für Vergleichswert";
+            this.button5.Text = "Prozentwert fÃ¼r Vergleichswert";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -841,7 +841,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(175, 23);
             this.button4.TabIndex = 49;
-            this.button4.Text = "Mittelwert für Vergleichswert";
+            this.button4.Text = "Mittelwert fÃ¼r Vergleichswert";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
@@ -890,7 +890,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(175, 23);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Wertveränderung";
+            this.button1.Text = "WertverÃ¤nderung";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -977,7 +977,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "InsertForm";
             this.ShowInTaskbar = false;
-            this.Text = "Umfragedaten einfügen";
+            this.Text = "Umfragedaten einfÃ¼gen";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.InsertForm_Paint);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

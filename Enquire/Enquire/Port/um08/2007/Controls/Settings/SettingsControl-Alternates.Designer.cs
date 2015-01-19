@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+ï»¿namespace umfrage2._2007.Controls
 {
     partial class SettingsControl_Alternates
     {
@@ -75,7 +75,7 @@ namespace umfrage2._2007.Controls
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(183, 24);
             this.label2.TabIndex = 17;
-            this.label2.Text = "Alternativen für diese Frage:";
+            this.label2.Text = "Alternativen fÃ¼r diese Frage:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
@@ -124,7 +124,7 @@ namespace umfrage2._2007.Controls
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(171, 24);
             this.button1.TabIndex = 23;
-            this.button1.Text = "Alternativen löschen";
+            this.button1.Text = "Alternativen lÃ¶schen";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 

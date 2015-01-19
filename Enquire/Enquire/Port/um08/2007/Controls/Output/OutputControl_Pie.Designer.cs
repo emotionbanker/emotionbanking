@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
+﻿using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -114,7 +114,7 @@ namespace umfrage2._2007.Controls
             this.HorizontalButton.Name = "HorizontalButton";
             this.HorizontalButton.Size = new System.Drawing.Size(86, 26);
             this.HorizontalButton.TabIndex = 32;
-            this.HorizontalButton.Text = "�ndern...";
+            this.HorizontalButton.Text = "ändern...";
             this.HorizontalButton.UseVisualStyleBackColor = false;
             this.HorizontalButton.Click += new System.EventHandler(this.HorizontalButton_Click);
             // 

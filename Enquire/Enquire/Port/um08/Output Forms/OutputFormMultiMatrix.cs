@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -338,7 +338,7 @@ namespace umfrage2
             this.BasicButton.Name = "BasicButton";
             this.BasicButton.Size = new System.Drawing.Size(104, 24);
             this.BasicButton.TabIndex = 31;
-            this.BasicButton.Text = "Gleichm‰ﬂig";
+            this.BasicButton.Text = "Gleichm√§√üig";
             this.BasicButton.CheckedChanged += new System.EventHandler(this.BasicButton_CheckedChanged);
             // 
             // SmallButton
@@ -347,7 +347,7 @@ namespace umfrage2
             this.SmallButton.Name = "SmallButton";
             this.SmallButton.Size = new System.Drawing.Size(112, 24);
             this.SmallButton.TabIndex = 32;
-            this.SmallButton.Text = "Groﬂe Punkte";
+            this.SmallButton.Text = "Gro√üe Punkte";
             this.SmallButton.CheckedChanged += new System.EventHandler(this.SmallButton_CheckedChanged_1);
             // 
             // crossPanel

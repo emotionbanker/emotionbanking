@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -176,7 +176,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new Size(120, 26);
             this.ResetButton.TabIndex = 33;
-            this.ResetButton.Text = "Zur�cksetzen";
+            this.ResetButton.Text = "Zurücksetzen";
             this.ResetButton.UseVisualStyleBackColor = false;
             this.ResetButton.Click += new EventHandler(this.ResetButton_Click);
             // 

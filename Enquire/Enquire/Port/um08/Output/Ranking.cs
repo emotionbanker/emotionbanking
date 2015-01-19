@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Collections;
 using System.Runtime.Serialization;
@@ -197,7 +197,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
 			if (nores)
 			{
-				ResultTable += "\r\n\r\nKeine Ergebnisse f�r:\r\n";
+				ResultTable += "\r\n\r\nKeine Ergebnisse für:\r\n";
 
 				for (int i = 0; i < rr.Length; i++)
 				{

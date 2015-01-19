@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Drawing;
 using System.IO;
 using System.ComponentModel;
@@ -131,7 +131,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new Size(64, 24);
             this.BrowseButton.TabIndex = 14;
-            this.BrowseButton.Text = "‰ndern...";
+            this.BrowseButton.Text = "√§ndern...";
             this.BrowseButton.UseVisualStyleBackColor = false;
             this.BrowseButton.Click += new EventHandler(this.BrowseButton_Click);
             // 
@@ -266,7 +266,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 		{
 			if (!Directory.Exists(PathBox.Text))
 			{
-				MessageBox.Show("Der ausgew‰hlte Ordner existiert nicht!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Der ausgew√§hlte Ordner existiert nicht!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 

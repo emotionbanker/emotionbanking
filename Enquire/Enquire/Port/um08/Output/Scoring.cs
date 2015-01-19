@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
@@ -77,10 +77,10 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 					for (int c = 0; c < col.Categories.Length; c++)
 						catpoints[c] = cattotals[c] = catplus[c] = catminus[c] = 0;
 
-					r.Append("SCORING BERICHT FÜR SÄULE " + col.Name);
+					r.Append("SCORING BERICHT fÃ¼r SÃ„ULE " + col.Name);
 					r.Append("\r\n\r\n");
 
-					r.Append("Punktberechnungen für Fragen\r\n");
+					r.Append("Punktberechnungen fÃ¼r Fragen\r\n");
 
 					///score!
 					///
@@ -140,7 +140,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                                     {
                                         //no results for one gap person, ignore and continue
 
-                                        r.Append("\t[gap]\tKeine Ergebnisse für Personengruppe [" + v.A.Name + "], wird für Gapabzüge ignoriert\r\n");
+                                        r.Append("\t[gap]\tKeine Ergebnisse fÃ¼r Personengruppe [" + v.A.Name + "], wird fÃ¼r GapabzÃ¼ge ignoriert\r\n");
 
                                         continue;
                                     }
@@ -148,7 +148,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                                     {
                                         //same, different output
 
-                                        r.Append("\t[gap]\tKeine Ergebnisse für Personengruppe [" + v.A.Name + "], wird für Gapabzüge ignoriert\r\n");
+                                        r.Append("\t[gap]\tKeine Ergebnisse fÃ¼r Personengruppe [" + v.A.Name + "], wird fÃ¼r GapabzÃ¼ge ignoriert\r\n");
 
                                         continue;
                                     }
@@ -171,7 +171,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 									}
 									else
 									{
-                                        r.Append("\t[gap]\tgap=" + q.gap.GetGapAbs(v, qu, eval) + " - Limit=" + q.gap.Limit + ", keine Abzüge!\r\n");
+                                        r.Append("\t[gap]\tgap=" + q.gap.GetGapAbs(v, qu, eval) + " - Limit=" + q.gap.Limit + ", keine AbzÃ¼ge!\r\n");
 									}
 								}
 
@@ -233,7 +233,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 					hgp = (float)Math.Round(val,0);
 
 
-					r.Append("Gesamtpunkte für Säule " + col.Name + ":\t" + points + "/" + counter + "\r\n");
+					r.Append("Gesamtpunkte fÃ¼r SÃ¤ule " + col.Name + ":\t" + points + "/" + counter + "\r\n");
                     if (col.GapOnly)
                     {
                         r.Append("Maximaler Punkteabzug durch Gaps: " + col.MinPointsForTarget(td, eval) + "\r\n");

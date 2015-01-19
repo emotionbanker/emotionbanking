@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
@@ -150,7 +150,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 			this.BrowseButton.Name = "BrowseButton";
 			this.BrowseButton.Size = new Size(64, 24);
 			this.BrowseButton.TabIndex = 21;
-			this.BrowseButton.Text = "ändern...";
+			this.BrowseButton.Text = "Ã¤ndern...";
 			this.BrowseButton.Click += new EventHandler(this.BrowseButton_Click);
 			// 
 			// PathBox
@@ -246,13 +246,13 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 			}
 			catch
 			{
-				MessageBox.Show("Bitte Personengruppe und Ziel auswählen", "Eingabefehler");
+				MessageBox.Show("Bitte Personengruppe und Ziel auswÃ¤hlen", "Eingabefehler");
 				return;
 			}
 
 			if (td == null || p == null)
 			{
-				MessageBox.Show("Bitte Personengruppe und Ziel auswählen", "Eingabefehler");
+				MessageBox.Show("Bitte Personengruppe und Ziel auswÃ¤hlen", "Eingabefehler");
 				return;
 			}
 
@@ -260,7 +260,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 			{
 				if (ei.ImportFile(this.Filename, td, p))
 				{
-					MessageBox.Show("Daten für 1 neuen Benutzer hinzugefügt", "Import abgeschlossen");
+					MessageBox.Show("Daten fÃ¼r 1 neuen Benutzer hinzugefÃ¼gt", "Import abgeschlossen");
 				}
 				else
 				{
@@ -271,7 +271,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
 			{
 				int num = ei.ImportFolder(this.Filename, td, p);
 				
-				MessageBox.Show("Daten für "+num+" neue(n) Benutzer hinzugefügt", "Import abgeschlossen");
+				MessageBox.Show("Daten fÃ¼r "+num+" neue(n) Benutzer hinzugefÃ¼gt", "Import abgeschlossen");
 			}
 		}
 

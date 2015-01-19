@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -337,7 +337,7 @@ namespace umfrage2
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(232, 48);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Polarit�ten";
+            this.label1.Text = "Polaritäten";
             // 
             // pictureBox1
             // 

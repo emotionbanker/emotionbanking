@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -1513,7 +1513,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
         private void UpdateDataThread()
         {
-            dar.Status("öffne Datenbank");
+            dar.Status("Ã¶ffne Datenbank");
 
             var sqlConnectionStringBuilder = new MySqlConnectionStringBuilder();
             sqlConnectionStringBuilder.Server = DatabaseHost;
@@ -1529,7 +1529,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim öffnen der Datenbank!\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Fehler beim Ã¶ffnen der Datenbank!\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             dar.Status("Lade Zieldaten");
@@ -1752,7 +1752,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim öffnen der Datenbank!\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Fehler beim Ã¶ffnen der Datenbank!\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             if (db.State != ConnectionState.Open) return;
@@ -1835,7 +1835,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
             int qCount = 0;
 
-            //2. Zielunabhängige Daten laden
+            //2. ZielunabhÃ¤ngige Daten laden
             //2.1 - Fragen
 
             dar.Status("Lade Fragen...");
@@ -2092,7 +2092,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             //3. Info holen - benutzer, was laden?
 
 
-            //3.1 zählen
+            //3.1 zÃ¤hlen
             int[] maxE = new int[dar.ChooseTarget.CheckedItems.Count];
             int maxTotal = 0;
 
@@ -2200,7 +2200,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             int j = 0;
             foreach (TargetData td in dar.ChooseTarget.CheckedItems)
             {
-                dar.Status("Lade Ergebnisse für " + td + "...");
+                dar.Status("Lade Ergebnisse fÃ¼r " + td + "...");
                 td.Questions = new Question[qnew.Count];
                 i = 0;
                 foreach (Question q in qnew) td.Questions[i++] = new Question(q);
@@ -2208,7 +2208,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 dar.LocalStatus.Value = 0;
                 dar.LocalStatus.Maximum = maxE[j];
 
-                dar.Status("Lade Ergebnisse für " + td + "... (DB- Abfrage - Kann einige Zeit beanspruchen)");
+                dar.Status("Lade Ergebnisse fÃ¼r " + td + "... (DB- Abfrage - Kann einige Zeit beanspruchen)");
 
                 /*
                 try
@@ -2242,7 +2242,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 d = cmd.ExecuteReader();
 
 
-                dar.Status("Lade Ergebnisse für " + td + "... (Verarbeite Daten)");
+                dar.Status("Lade Ergebnisse fÃ¼r " + td + "... (Verarbeite Daten)");
                 while (d.Read())
                 {
 
@@ -2301,7 +2301,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                             dar.TimeRemainingLabel.Text = remaining.Hours + "h " + remaining.Minutes + "m " + remaining.Seconds + "s ";
                             dar.TimeElapsedLabel.Text = elapsed.Hours + "h " + elapsed.Minutes + "m " + elapsed.Seconds + "s ";
                             Console.WriteLine(td.ID + ":\t" + dar.LocalStatus.Value + "/" + dar.LocalStatus.Maximum);
-                            dar.Status("Lade Ergebnisse für " + td + "... (" + dar.LocalStatus.Value + "/" + dar.LocalStatus.Maximum + ")");
+                            dar.Status("Lade Ergebnisse fÃ¼r " + td + "... (" + dar.LocalStatus.Value + "/" + dar.LocalStatus.Maximum + ")");
                         }
                     }
                 }
@@ -2391,7 +2391,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             if (db.State != ConnectionState.Open)
                 return;
 
-            dar.Status("Zähle Ziele...");
+            dar.Status("ZÃ¤hle Ziele...");
             MySqlCommand cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "bank", db);
             MySqlDataReader d = cmd.ExecuteReader();
             d.Read();
@@ -2433,7 +2433,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             {
                 DateTime Start = DateTime.Now;
 
-                dialog.Status("Zähle Ergebnisse...");
+                dialog.Status("ZÃ¤hle Ergebnisse...");
                 MySqlCommand cmd;
 
                 if (dar.datumAktiv && dar.percentAktiv)
@@ -2461,7 +2461,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                 dialog.GlobalStatus.Maximum = max;
 
-                dialog.Status("Lade Fragebögen...");
+                dialog.Status("Lade FragebÃ¶gen...");
                 cmd = new MySqlCommand("select * from " + DatabasePrefix + "fragebogen", db);
                 d.Close();
                 d = cmd.ExecuteReader();
@@ -2472,7 +2472,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                 for (int ti = 0; ti < Targets.Length; ti++)//each (TargetData t in Targets)
                 {
-                    dialog.Status("Lade Fragebögen für ..." + Targets[ti].Name);
+                    dialog.Status("Lade FragebÃ¶gen fÃ¼r ..." + Targets[ti].Name);
                     cmd = new MySqlCommand("select * from " + DatabasePrefix + "fragebogen", db);
                     d.Close();
                     d = cmd.ExecuteReader();
@@ -2538,7 +2538,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                 foreach (TargetData target in Targets)
                 {
                     //questions
-                    dialog.Status("Lade Fragen für " + target.Name);
+                    dialog.Status("Lade Fragen fÃ¼r " + target.Name);
 
 
                     dialog.LocalStatus.Value = 0;
@@ -2643,7 +2643,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
                     dialog.LocalStatus.Value = dialog.LocalStatus.Minimum;
 
                     //results
-                    dialog.Status("lade Ergebnisse für " + target.Name);
+                    dialog.Status("lade Ergebnisse fÃ¼r " + target.Name);
 
                     if (dar.datumAktiv && dar.percentAktiv)
                         cmd = new MySqlCommand("select count(*) from " + DatabasePrefix + "ergebnisse, " + DatabasePrefix + "zugangsdaten where z_id = e_z_id and z_b_id = '" + target.ID + "' and (used = '1' or status > " + dar.percentValue + ") and time_start >= " + sek + " and time_end <= " + sek2, db);
@@ -2833,7 +2833,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Datenbank konnte nicht geöffnet werden!\n" + ex.Message + "\n" + ex.StackTrace, "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Datenbank konnte nicht geÃ¶ffnet werden!\n" + ex.Message + "\n" + ex.StackTrace, "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

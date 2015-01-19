@@ -1,4 +1,4 @@
-namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
+Ôªønamespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 {
     partial class UMSettingsForm
     {
@@ -158,7 +158,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.groupBox1.Size = new System.Drawing.Size(338, 168);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Prim‰re Datenquelle";
+            this.groupBox1.Text = "Prim√§re Datenquelle";
             // 
             // groupBox3
             // 
@@ -233,7 +233,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             this.groupBox4.Size = new System.Drawing.Size(370, 299);
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Zus‰tzliche Datenquellen (Vergleiche)";
+            this.groupBox4.Text = "Zus√§tzliche Datenquellen (Vergleiche)";
             // 
             // tBox5
             // 

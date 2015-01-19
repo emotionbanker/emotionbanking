@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -115,7 +115,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Dialogs
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "DialogAbout";
-            this.Text = "�ber Umfrageverwaltung";
+            this.Text = "Über Umfrageverwaltung";
             ((ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 

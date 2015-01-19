@@ -1,4 +1,4 @@
-using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
+ï»¿using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
 {
@@ -247,7 +247,7 @@ namespace umfrage2._2007.Controls
             this.NBox.Name = "NBox";
             this.NBox.Size = new System.Drawing.Size(151, 20);
             this.NBox.TabIndex = 55;
-            this.NBox.Text = "Stichprobengröße";
+            this.NBox.Text = "StichprobengrÃ¶ÃŸe";
             this.NBox.CheckedChanged += new System.EventHandler(this.NBox_CheckedChanged);
             // 
             // OutputControl_Averages

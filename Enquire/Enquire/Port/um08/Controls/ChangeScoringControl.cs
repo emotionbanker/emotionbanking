@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 {
 	/// <summary>
-	/// Zusammenfassung für ChangeScoringControl.
+	/// Zusammenfassung fÃ¼r ChangeScoringControl.
 	/// </summary>
 	public class ChangeScoringControl : UserControl
 	{
@@ -98,8 +98,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 
 		#region Vom Komponenten-Designer generierter Code
 		/// <summary> 
-		/// Erforderliche Methode für die Designerunterstützung. 
-		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+		/// Erforderliche Methode fÃ¼r die DesignerunterstÑŒtzung. 
+		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geÃ¤ndert werden.
 		/// </summary>
 		private void InitializeComponent()
 		{

@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+ï»¿namespace umfrage2._2007.Controls
 {
     partial class ScoringControl
     {
@@ -116,7 +116,7 @@ namespace umfrage2._2007.Controls
             this.EditColumnButton.Name = "EditColumnButton";
             this.EditColumnButton.Size = new System.Drawing.Size(168, 32);
             this.EditColumnButton.TabIndex = 36;
-            this.EditColumnButton.Text = "Säule bearbeiten";
+            this.EditColumnButton.Text = "SÃ¤ule bearbeiten";
             this.EditColumnButton.UseVisualStyleBackColor = false;
             this.EditColumnButton.Click += new System.EventHandler(this.EditColumnButton_Click);
             // 
@@ -128,7 +128,7 @@ namespace umfrage2._2007.Controls
             this.DeleteColumnButton.Name = "DeleteColumnButton";
             this.DeleteColumnButton.Size = new System.Drawing.Size(168, 32);
             this.DeleteColumnButton.TabIndex = 35;
-            this.DeleteColumnButton.Text = "Säule löschen";
+            this.DeleteColumnButton.Text = "SÃ¤ule lÃ¶schen";
             this.DeleteColumnButton.UseVisualStyleBackColor = false;
             this.DeleteColumnButton.Click += new System.EventHandler(this.DeleteColumnButton_Click);
             // 
@@ -140,7 +140,7 @@ namespace umfrage2._2007.Controls
             this.NewColumnButton.Name = "NewColumnButton";
             this.NewColumnButton.Size = new System.Drawing.Size(168, 32);
             this.NewColumnButton.TabIndex = 34;
-            this.NewColumnButton.Text = "Neue Säule";
+            this.NewColumnButton.Text = "Neue SÃ¤ule";
             this.NewColumnButton.UseVisualStyleBackColor = false;
             this.NewColumnButton.Click += new System.EventHandler(this.NewColumnButton_Click);
             // 

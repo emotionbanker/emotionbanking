@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Data;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -12,7 +12,7 @@ using MySql.Data.MySqlClient;
 namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 {
 	/// <summary>
-	/// Zusammenfassung für ImportMicrosoft.Office.Interop.Excel.
+	/// Zusammenfassung fÃ¼r ImportMicrosoft.Office.Interop.Excel.
 	/// </summary>
 	public class ImportExcel
 	{
@@ -119,7 +119,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Fehler beim öffnen der Datenbank!\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Fehler beim Ã¶ffnen der Datenbank!\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 

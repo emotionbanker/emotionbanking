@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
@@ -257,7 +257,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.DeleteButton.Name = "DeleteButton";
 			this.DeleteButton.Size = new Size(216, 32);
 			this.DeleteButton.TabIndex = 21;
-			this.DeleteButton.Text = "Kombination löschen";
+			this.DeleteButton.Text = "Kombination lÃ¶schen";
 			this.DeleteButton.Click += new EventHandler(this.DeleteButton_Click);
 			// 
 			// AddButton
@@ -268,7 +268,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.AddButton.Name = "AddButton";
 			this.AddButton.Size = new Size(216, 32);
 			this.AddButton.TabIndex = 20;
-			this.AddButton.Text = "<- Kombination hinzufügen <-";
+			this.AddButton.Text = "<- Kombination hinzufÃ¼gen <-";
 			this.AddButton.Click += new EventHandler(this.AddButton_Click);
 			// 
 			// ChoosePersonPanel
@@ -328,7 +328,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.RemoveTarget.Name = "RemoveTarget";
 			this.RemoveTarget.Size = new Size(216, 32);
 			this.RemoveTarget.TabIndex = 25;
-			this.RemoveTarget.Text = "Kombination löschen";
+			this.RemoveTarget.Text = "Kombination lÃ¶schen";
 			this.RemoveTarget.Click += new EventHandler(this.RemoveTarget_Click);
 			// 
 			// AddTarget
@@ -339,7 +339,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.AddTarget.Name = "AddTarget";
 			this.AddTarget.Size = new Size(216, 32);
 			this.AddTarget.TabIndex = 24;
-			this.AddTarget.Text = "<- Kombination hinzufügen <-";
+			this.AddTarget.Text = "<- Kombination hinzufÃ¼gen <-";
 			this.AddTarget.Click += new EventHandler(this.AddTarget_Click);
 			// 
 			// ChooseTargetPanel
@@ -443,7 +443,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.RemoveQuestionButton.Name = "RemoveQuestionButton";
 			this.RemoveQuestionButton.Size = new Size(160, 32);
 			this.RemoveQuestionButton.TabIndex = 28;
-			this.RemoveQuestionButton.Text = "Frage löschen";
+			this.RemoveQuestionButton.Text = "Frage lÃ¶schen";
 			this.RemoveQuestionButton.Click += new EventHandler(this.RemoveQuestionButton_Click);
 			// 
 			// AddQuestionButton
@@ -454,7 +454,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.AddQuestionButton.Name = "AddQuestionButton";
 			this.AddQuestionButton.Size = new Size(160, 32);
 			this.AddQuestionButton.TabIndex = 27;
-			this.AddQuestionButton.Text = "Frage hinzufügen";
+			this.AddQuestionButton.Text = "Frage hinzufÃ¼gen";
 			this.AddQuestionButton.Click += new EventHandler(this.AddQuestionButton_Click);
 			// 
 			// DeleteComboButton
@@ -465,7 +465,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.DeleteComboButton.Name = "DeleteComboButton";
 			this.DeleteComboButton.Size = new Size(160, 32);
 			this.DeleteComboButton.TabIndex = 26;
-			this.DeleteComboButton.Text = "Kombination löschen";
+			this.DeleteComboButton.Text = "Kombination lÃ¶schen";
 			this.DeleteComboButton.Click += new EventHandler(this.DeleteComboButton_Click);
 			// 
 			// NewComboButton
@@ -544,7 +544,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.button1.Name = "button1";
 			this.button1.Size = new Size(160, 32);
 			this.button1.TabIndex = 28;
-			this.button1.Text = "Auswertung löschen";
+			this.button1.Text = "Auswertung lÃ¶schen";
 			this.button1.Click += new EventHandler(this.button1_Click);
 			// 
 			// button2
@@ -555,7 +555,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Controls
 			this.button2.Name = "button2";
 			this.button2.Size = new Size(160, 32);
 			this.button2.TabIndex = 27;
-			this.button2.Text = "Auswertung Hinzufügen";
+			this.button2.Text = "Auswertung HinzufÃ¼gen";
 			this.button2.Click += new EventHandler(this.button2_Click);
 			// 
 			// HistoryList

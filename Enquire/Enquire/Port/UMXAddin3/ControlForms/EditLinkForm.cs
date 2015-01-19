@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.PowerPoint;
@@ -109,7 +109,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
                 SetData(_fieldList, _doc);
             }
 
-            MessageBox.Show(rcount + " der ausgewählten Verknüpfungen wurden verändert", "Suchen und ersetzen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(rcount + " der ausgewÃ¤hlten VerknÃ¼pfungen wurden verÃ¤ndert", "Suchen und ersetzen", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void ShowInfo(string dat)
@@ -118,7 +118,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
 
             string[] master = (dat + "|").Split(new char[] { '|' });
 
-            d += "Verknüpfungsdaten:\n\n";
+            d += "VerknÃ¼pfungsdaten:\n\n";
 
             int i = 0;
             foreach (string v in master[0].Split(new char[] { ':' }))

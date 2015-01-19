@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -86,7 +86,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
                 for (int i=0; i<30; i++)
                 {
                     MenuItem mi = new MenuItem();
-                    mi.Text = "Antwortm�glichkeit " + (i+1);
+                    mi.Text = "Antwortmöglichkeit " + (i+1);
                     mi.Tag = i;
                     mi.Click += new EventHandler(mi_Click);
 

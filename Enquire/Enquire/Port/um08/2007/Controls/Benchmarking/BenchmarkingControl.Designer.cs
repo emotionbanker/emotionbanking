@@ -1,4 +1,4 @@
-namespace umfrage2._2007.Controls
+ï»¿namespace umfrage2._2007.Controls
 {
     partial class BenchmarkingControl
     {
@@ -195,7 +195,7 @@ namespace umfrage2._2007.Controls
             this.countNull.Name = "countNull";
             this.countNull.Size = new System.Drawing.Size(201, 24);
             this.countNull.TabIndex = 40;
-            this.countNull.Text = "\"Nicht ausgefüllt\" zählen";
+            this.countNull.Text = "\"Nicht ausgefÃ¼llt\" zÃ¤hlen";
             // 
             // BenchmarkingControl
             // 

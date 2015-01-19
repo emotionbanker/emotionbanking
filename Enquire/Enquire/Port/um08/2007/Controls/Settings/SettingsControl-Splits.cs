@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -76,7 +76,7 @@ namespace umfrage2._2007.Controls
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Alle Zielteilungen nach dem ausgewählten Schema werden gelöscht (alle nach der ausgewählten Frage geteilten Ziele in der aktuellen Hierarchieebene). Fortfahren?", "Achtung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show("Alle Zielteilungen nach dem ausgewÃ¤hlten Schema werden gelÃ¶scht (alle nach der ausgewÃ¤hlten Frage geteilten Ziele in der aktuellen Hierarchieebene). Fortfahren?", "Achtung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 TargetSplit master = ctc.SelectedItem.masterSplit;
                 bool found = false;
@@ -168,7 +168,7 @@ namespace umfrage2._2007.Controls
             }
             
             
-        }//end zielteilungenlöschen
+        }//end zielteilungenlÃ¶schen
 
         private void _btn_rename_Click(object sender, EventArgs e)
         {

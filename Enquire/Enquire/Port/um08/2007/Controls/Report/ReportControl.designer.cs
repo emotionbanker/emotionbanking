@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Output;
+Ôªøusing compucare.Enquire.Legacy.Umfrage2Lib.Output;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -81,7 +81,7 @@ namespace umfrage2._2007.Controls
             this.torteRingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.balkenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.polarit‰tenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.polarit√§tenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.polarity08menu = new System.Windows.Forms.ToolStripMenuItem();
             this.gapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mehrfachgapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -223,7 +223,7 @@ namespace umfrage2._2007.Controls
             this.AddOutputButton.Name = "AddOutputButton";
             this.AddOutputButton.Size = new System.Drawing.Size(177, 32);
             this.AddOutputButton.TabIndex = 28;
-            this.AddOutputButton.Text = "Auswertung hinzuf¸gen ->";
+            this.AddOutputButton.Text = "Auswertung hinzuf√ºgen ->";
             this.AddOutputButton.UseVisualStyleBackColor = false;
             this.AddOutputButton.Click += new System.EventHandler(this.AddOutputButton_Click);
             // 
@@ -258,7 +258,7 @@ namespace umfrage2._2007.Controls
             this.DeleteOutputButton.Name = "DeleteOutputButton";
             this.DeleteOutputButton.Size = new System.Drawing.Size(177, 32);
             this.DeleteOutputButton.TabIndex = 29;
-            this.DeleteOutputButton.Text = "Auswertung lˆschen";
+            this.DeleteOutputButton.Text = "Auswertung l√∂schen";
             this.DeleteOutputButton.UseVisualStyleBackColor = false;
             this.DeleteOutputButton.Click += new System.EventHandler(this.DeleteOutputButton_Click);
             // 
@@ -388,7 +388,7 @@ namespace umfrage2._2007.Controls
             this.DeleteReportButton.Name = "DeleteReportButton";
             this.DeleteReportButton.Size = new System.Drawing.Size(176, 32);
             this.DeleteReportButton.TabIndex = 32;
-            this.DeleteReportButton.Text = "Bericht lˆschen";
+            this.DeleteReportButton.Text = "Bericht l√∂schen";
             this.DeleteReportButton.UseVisualStyleBackColor = false;
             this.DeleteReportButton.Click += new System.EventHandler(this.DeleteReportButton_Click);
             // 
@@ -479,7 +479,7 @@ namespace umfrage2._2007.Controls
             // menuItem7
             // 
             this.menuItem7.Index = 6;
-            this.menuItem7.Text = "Polarit‰tenprofil";
+            this.menuItem7.Text = "Polarit√§tenprofil";
             this.menuItem7.Click += new System.EventHandler(this.menuItem7_Click);
             // 
             // menuItem8
@@ -537,7 +537,7 @@ namespace umfrage2._2007.Controls
             this.torteRingToolStripMenuItem,
             this.balkenToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.polarit‰tenToolStripMenuItem,
+            this.polarit√§tenToolStripMenuItem,
             this.polarity08menu,
             this.gapsToolStripMenuItem,
             this.mehrfachgapsToolStripMenuItem,
@@ -602,18 +602,18 @@ namespace umfrage2._2007.Controls
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(183, 6);
             // 
-            // polarit‰tenToolStripMenuItem
+            // polarit√§tenToolStripMenuItem
             // 
-            this.polarit‰tenToolStripMenuItem.Name = "polarit‰tenToolStripMenuItem";
-            this.polarit‰tenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.polarit‰tenToolStripMenuItem.Text = "Polarit‰ten";
-            this.polarit‰tenToolStripMenuItem.Click += new System.EventHandler(this.menuItem7_Click);
+            this.polarit√§tenToolStripMenuItem.Name = "polarit√§tenToolStripMenuItem";
+            this.polarit√§tenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.polarit√§tenToolStripMenuItem.Text = "Polarit√§ten";
+            this.polarit√§tenToolStripMenuItem.Click += new System.EventHandler(this.menuItem7_Click);
             // 
             // polarity08menu
             // 
             this.polarity08menu.Name = "polarity08menu";
             this.polarity08menu.Size = new System.Drawing.Size(186, 22);
-            this.polarity08menu.Text = "Polarit‰tenprofil 2008";
+            this.polarity08menu.Text = "Polarit√§tenprofil 2008";
             this.polarity08menu.Click += new System.EventHandler(this.polarity08menu_Click);
             // 
             // gapsToolStripMenuItem
@@ -834,7 +834,7 @@ namespace umfrage2._2007.Controls
         private System.Windows.Forms.ToolStripMenuItem torteRingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem balkenToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem polarit‰tenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem polarit√§tenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gapsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem barometerToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;

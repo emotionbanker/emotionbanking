@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
@@ -634,7 +634,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                     else if (txt.StartsWith("31 - 40")){
                         tmp += txt + "\n";
                     }
-                    else if (txt.StartsWith("41 – 50"))
+                    else if (txt.StartsWith("41 â€“ 50"))
                     {
                         tmp += txt + "\n";
                         colors[col] = (Color)eval.PieColors[txt];
@@ -791,7 +791,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
             if (dnc.ShowN)
             {
                 LegendBox lb = new LegendBox();
-                LegendEntry le = new LegendEntry("Stichprobengröße", total.ToString());
+                LegendEntry le = new LegendEntry("StichprobengrÃ¶ÃŸe", total.ToString());
                 lb.ExtraEntries.Add(le);
                 bc.ExtraLegendBoxes.Add(lb);
 

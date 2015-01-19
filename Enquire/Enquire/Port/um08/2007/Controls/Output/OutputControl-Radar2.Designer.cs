@@ -1,4 +1,4 @@
-using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
+ï»¿using compucare.Enquire.Legacy.Umfrage2Lib.Controls;
 using Compucare.Enquire.Legacy.Umfrage2Lib.Properties;
 
 namespace umfrage2._2007.Controls
@@ -370,7 +370,7 @@ namespace umfrage2._2007.Controls
             this.EbeneRemove.Name = "EbeneRemove";
             this.EbeneRemove.Size = new System.Drawing.Size(225, 21);
             this.EbeneRemove.TabIndex = 91;
-            this.EbeneRemove.Text = "Ebene löschen";
+            this.EbeneRemove.Text = "Ebene lÃ¶schen";
             this.EbeneRemove.UseVisualStyleBackColor = true;
             this.EbeneRemove.Click += new System.EventHandler(this.EbeneRemove_Click);
             // 
@@ -383,7 +383,7 @@ namespace umfrage2._2007.Controls
             this.EbeneAdd.Name = "EbeneAdd";
             this.EbeneAdd.Size = new System.Drawing.Size(225, 21);
             this.EbeneAdd.TabIndex = 90;
-            this.EbeneAdd.Text = "Ebene einfügen";
+            this.EbeneAdd.Text = "Ebene EinfÃ¼gen";
             this.EbeneAdd.UseVisualStyleBackColor = true;
             this.EbeneAdd.Click += new System.EventHandler(this.EbeneAdd_Click);
             // 
