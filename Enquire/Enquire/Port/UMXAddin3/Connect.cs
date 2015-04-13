@@ -57,6 +57,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
         public event CommonEventHandler<Boolean> EvalChanged;
 
         public Evaluation eval;
+        
 
         public Evaluation[] multiEvals = new Evaluation[5];
         public string[] multiTargets = new string[5];
@@ -86,6 +87,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
+
             Assembly ayResult = null;
             string sShortAssemblyName = args.Name.Split(',')[0];
             Assembly[] ayAssemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -300,6 +302,17 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             //MessageBox.Show(gt);
 
             return tdr;
+        }
+
+        public TargetData GetTargetCompare(string code)
+        {
+            string[] master = (code + "|").Split(new char[] { '|' });
+            string tmp = "";
+            foreach(string t in master){
+                tmp+= t+"\n";
+            }
+            MessageBox.Show(tmp);
+            return GetTarget();;
         }
 
         public TargetData GetTargetWithCrosses(string code)
@@ -1043,6 +1056,18 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                     else
                     {
                         SetTextForSelectedShape(GetSampleSizeValue(GetTargetWithCrosses(code), tls.dat));
+                        _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
+                    }
+                    break;
+
+                case "nCompare":
+                    if (createTextBlock)
+                    {
+                        ns = sl.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, 70, 40);
+                    }
+                    else
+                    {
+                        SetTextForSelectedShape(GetSampleSizeCompareValue(GetTargetCompare(code), tls.dat));
                         _pptApp.ActiveWindow.Selection.ShapeRange.Tags.Add(key, code);
                     }
                     break;
@@ -1889,7 +1914,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                         case "xmlGraphic":
                             {
-                                IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
+                                IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval, multiEvals);
                                 ns = sld.Shapes.AddPicture(gr.Store(),
                                                            MsoTriState.msoFalse, MsoTriState.msoTrue,
                                                            s.Left, s.Top, s.Width, s.Height);
@@ -1957,6 +1982,10 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                         case "n":
                             s.TextFrame.TextRange.Text = GetSampleSizeValue(td, dat);
+                            break;
+
+                        case "nCompare":
+                            s.TextFrame.TextRange.Text = GetSampleSizeCompareValue(td, dat);
                             break;
 
                         case "nps":
@@ -2140,6 +2169,26 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
             {
                 var personSetting = eval.CombinedPersons[Int32.Parse(personId)];
                 answersByPersonCount += question.NAnswersByPerson(eval, personSetting);
+            }
+
+            return answersByPersonCount.ToString();
+        }
+
+        private string GetSampleSizeCompareValue(TargetData td, string[] dat)
+        {
+            MessageBox.Show(Int32.Parse(dat[5]).ToString());
+            Evaluation evalCompare = multiEvals[Int32.Parse(dat[5])];
+            MessageBox.Show(evalCompare.ToString());
+            td = evalCompare.getSelectedTargetData();
+            var question = td.GetQuestion(Int32.Parse(dat[2]), evalCompare);
+            var personIds = dat[4].Split(new[] { '#' });
+           
+            int answersByPersonCount = 0;
+
+            foreach (string personId in personIds)
+            {
+                var personSetting = evalCompare.CombinedPersons[Int32.Parse(personId)];
+                answersByPersonCount += question.NAnswersByPerson(evalCompare, personSetting);
             }
 
             return answersByPersonCount.ToString();
@@ -2446,7 +2495,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
         private Microsoft.Office.Interop.PowerPoint.Shape InsertXmlGraphicShape(Slide sl, PPTools tls, bool replace)
         {
-            IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
+            IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval, multiEvals);
             return InsertPicShape(sl, gr.Store(), 100, 100, gr.Size.Width, gr.Size.Height, replace);
         }
 
@@ -3019,7 +3068,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
 
                     case "xmlGraphic":
                         {
-                            IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval);
+                            IXmlGraphic gr = XmlHelper.ComputeGraphic(tls.GetXmlMaster(), GetTarget(), eval, multiEvals);
 
                             String insertFile = gr.Store();
                             object fieldResult = f.Result;
@@ -3073,6 +3122,26 @@ namespace Compucare.Enquire.Legacy.UMXAddin3
                         foreach (string pid in npids)
                         {
                             n += q.NAnswersByPerson(eval, eval.CombinedPersons[Int32.Parse(pid)]);
+                        }
+
+                        ins = n.ToString();
+
+                        f.Select();
+
+                        wordapp.Selection.TypeText(ins);
+
+                        SetProps(f.Result, master[1], fs, ins.Length);
+
+                        break;
+
+                    case "nCompare": //stichproben
+                        npids = dat[4].Split(new char[] { '#' });
+                        Evaluation evalC = multiEvals[Int32.Parse(dat[5])];
+                        n = 0;
+
+                        foreach (string pid in npids)
+                        {
+                            n += q.NAnswersByPerson(evalC, evalC.CombinedPersons[Int32.Parse(pid)]);
                         }
 
                         ins = n.ToString();

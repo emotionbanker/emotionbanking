@@ -215,6 +215,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Xml\Computations\ComparativeBenchmarkValue.cs" />
+    <Compile Include="Xml\Computations\ExpressionIndicatorIcon.cs" />
     <Compile Include="Xml\Computations\Sokd.cs" />
     <Compile Include="Xml\Computations\LinkGap.cs">
       <SubType>Code</SubType>

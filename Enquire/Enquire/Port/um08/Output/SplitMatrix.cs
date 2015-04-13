@@ -637,6 +637,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 bc.MaximumBubbleSize = 80;
             }
 
+            
+
             if (Format == Output.FORMAT_SCALED)
             {
                 bc.XAxis.Scale = bc.YAxis.Scale = Scale.Logarithmic;

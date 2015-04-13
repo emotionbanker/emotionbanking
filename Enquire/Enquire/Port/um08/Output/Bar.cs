@@ -1192,8 +1192,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                     {
                         if (i == 0)
                         {
-                            pc.Color1 = ps.Color2;
-                            pc.Color2 = ps.Color1;
+                            pc.Color1 = ps.Color1;
+                            pc.Color2 = ps.Color2;
                         }
                         i++;
 
@@ -1224,8 +1224,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                             if (q.NAnswersByPerson(Eval, pc) > total) total = q.NAnswersByPerson(Eval, pc);
 
                             if (e.YValue == -1) continue;
-                            e.Color = pc.Color2;
-                            e.SecondaryColor = pc.Color1;
+                            e.Color = pc.Color1;
+                            e.SecondaryColor = pc.Color2;
                             e.SmartLabel.Text = Math.Round(e.YValue, 1).ToString();
                             e.SmartLabel.Alignment = LabelAlignment.Top;
                             e.ShowValue = true;
@@ -1307,8 +1307,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
                             totval += e.YValue;
 
-                            e.Color = ps.Color2;
-                            e.SecondaryColor = ps.Color1;
+                            e.Color = ps.Color1;
+                            e.SecondaryColor = ps.Color2;
                             e.SmartLabel.Text = Math.Round(mval, 1).ToString();
                             e.SmartLabel.Alignment = LabelAlignment.Top;
                             e.ShowValue = true;
@@ -1325,8 +1325,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                 {
                     LegendEntry singleLegendEntry = new LegendEntry();
                     singleLegendEntry.Name = ps.ToString();
-                    singleLegendEntry.Background.Color = ps.Color2;
-                    singleLegendEntry.Background.SecondaryColor = ps.Color1;
+                    singleLegendEntry.Background.Color = ps.Color1;
+                    singleLegendEntry.Background.SecondaryColor = ps.Color2;
                     bc.ExtraLegendEntries.Add(singleLegendEntry);
                 }
 
@@ -1357,8 +1357,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                             e.YValue = q.GetAverageByPersonAsMark(Eval, ps);
                             
                             if (e.YValue == -1) continue;
-                            e.Color = ps.Color2;
-                            e.SecondaryColor = ps.Color1;
+                            e.Color = ps.Color1;
+                            e.SecondaryColor = ps.Color2;
                             e.SmartLabel.Text = Math.Round(e.YValue, 1).ToString();
                             e.SmartLabel.Alignment = LabelAlignment.Top;
                             e.ShowValue = true;
@@ -1434,8 +1434,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
                                 }
 
                                 //if (e.YValue == 0) continue;
-                                e.Color = ps.Color2;
-                                e.SecondaryColor = ps.Color1;
+                                e.Color = ps.Color1;
+                                e.SecondaryColor = ps.Color2;
                                 e.Name = q.AnswerList[i];
 
                                 //e.Name = adaptName(q.AnswerList[i]);

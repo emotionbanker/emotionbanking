@@ -62,6 +62,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Enquire
             }
         }
 
+        public static void ShowScriptImageDialog(Connect addin3)
+        {
+            ExpressionMarkWizard wiz = new ExpressionMarkWizard(addin3.eval, addin3.GetTarget(),addin3.multiEvals);
+            if (wiz.ShowDialog() == DialogResult.OK)
+            {
+                addin3.AddField(FieldHelper.CreateCode("xmlGraphic", wiz.GetXml(), addin3.GetDocument(), "", ""));
+            }
+        }
+
         public static void ShowPercentbarDialog(Connect addin3)
         {
             PercentBarWizard wiz = new PercentBarWizard(addin3.eval);
@@ -112,34 +121,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Enquire
                     addin3.AddField(FieldHelper.CreateCode("xmlText", wiz.GetXml(), addin3.GetDocument(), "", ""));
                 }
             }
-            
-            /*if (wiz.ShowDialog() == DialogResult.OK)
-            {
-                if (addin3.AType.ToString().Equals("Word"))
-                {
-                    if (wiz.GetTypeofSokd())
-                    {
-                        addin3.AddField(FieldHelper.CreateCode("xmlGraphic", wiz.GetXml(), addin3.GetDocument(), "", ""));
-                    }
-                    else
-                    {
-                        addin3.AddField(FieldHelper.CreateCode("xmlText", wiz.GetXml(), addin3.GetDocument(), "", ""));
-                    }
-                }
-                else
-                {
-                    if (wiz.GetTypeofSokd())
-                    {
-                        addin3.AddField(FieldHelper.CreateCode("xmlGraphic", wiz.GetXml(), addin3.GetDocument1(), "", ""));
-                    }
-                    else
-                    {
-                        addin3.AddField(FieldHelper.CreateCode("xmlText", wiz.GetXml(), addin3.GetDocument1(), "", ""));
-                    }
-                }
-            }*/
-           
-        }
+        }//end ShowSokdDialog
 
         public static void ShowBenchmarkValueDialog(Connect addin3)
         {

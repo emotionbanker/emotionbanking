@@ -41,6 +41,7 @@ namespace umfrage2._2007.Controls
             this.GoButton = new System.Windows.Forms.Button();
             this.Personengruppen = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.NewSkalaButton = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ArrowColorButton = new System.Windows.Forms.Button();
             this.MasterDesignBox = new System.Windows.Forms.ComboBox();
@@ -50,7 +51,6 @@ namespace umfrage2._2007.Controls
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.NewSkalaButton = new System.Windows.Forms.CheckBox();
             this.previewBox = new compucare.Enquire.Legacy.Umfrage2Lib.Controls.PreviewControl();
             this.sizeControl = new compucare.Enquire.Legacy.Umfrage2Lib.Controls.SizeControl();
             this.panel1.SuspendLayout();
@@ -259,6 +259,18 @@ namespace umfrage2._2007.Controls
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Einstellungen";
             // 
+            // NewSkalaButton
+            // 
+            this.NewSkalaButton.AutoSize = true;
+            this.NewSkalaButton.Enabled = false;
+            this.NewSkalaButton.Location = new System.Drawing.Point(110, 102);
+            this.NewSkalaButton.Name = "NewSkalaButton";
+            this.NewSkalaButton.Size = new System.Drawing.Size(62, 17);
+            this.NewSkalaButton.TabIndex = 60;
+            this.NewSkalaButton.Text = "Skala 2";
+            this.NewSkalaButton.UseVisualStyleBackColor = true;
+            this.NewSkalaButton.CheckedChanged += new System.EventHandler(this.NewSkalaButton_CheckedChanged);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -348,17 +360,6 @@ namespace umfrage2._2007.Controls
             this.groupBox1.TabIndex = 58;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Daten";
-            // 
-            // NewSkalaButton
-            // 
-            this.NewSkalaButton.AutoSize = true;
-            this.NewSkalaButton.Location = new System.Drawing.Point(110, 102);
-            this.NewSkalaButton.Name = "NewSkalaButton";
-            this.NewSkalaButton.Size = new System.Drawing.Size(62, 17);
-            this.NewSkalaButton.TabIndex = 60;
-            this.NewSkalaButton.Text = "Skala 2";
-            this.NewSkalaButton.UseVisualStyleBackColor = true;
-            this.NewSkalaButton.CheckedChanged += new System.EventHandler(this.NewSkalaButton_CheckedChanged);
             // 
             // previewBox
             // 

@@ -32,44 +32,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Enquire
                                  percentbase);
         }
 
-        /*public static int GetMax(Microsoft.Office.Interop.PowerPoint.Presentation doc)
-        {
-            int max = 0;
-            try
-            {
-                foreach (Microsoft.Office.Interop.PowerPoint f in doc.Fields)
-                {
-                    if (f.Code.Text.StartsWith(ADDIN_PREFIX))
-                    {
-                        string[] master = f.Code.Text.Split('|');
 
-                        if (master.Length > 1 && Int32.Parse(master[1]) > max) max = Int32.Parse(master[1]);
-                    }
-                }
-                foreach (Microsoft.Office.Interop.Word.Shape s in doc.Shapes)
-                {
-                    try
-                    {
-                        foreach (Microsoft.Office.Interop.Word.Field sf in s.TextFrame.TextRange.Fields)
-                        {
-                            string[] master = sf.Code.Text.Split('|');
-
-                            if (master.Length > 1 && Int32.Parse(master[1]) > max) max = Int32.Parse(master[1]);
-                        }
-                    }
-                    catch
-                    {
-                    }
-                }
-            }
-            catch
-            {
-                //powerpoint
-                max = 0;
-            }
-
-            return max;
-        }// end*/ 
 
         public static int GetMax(Microsoft.Office.Interop.Word.Document doc)
         {

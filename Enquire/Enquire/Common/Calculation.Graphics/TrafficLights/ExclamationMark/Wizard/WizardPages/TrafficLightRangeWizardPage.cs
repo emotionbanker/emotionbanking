@@ -1,6 +1,7 @@
 ﻿using System;
 using Compucare.Enquire.Common.Calculation.Graphics.Common.Controls.ColorRanges;
 using Compucare.Frontends.Common.Wizards;
+using System.Windows.Forms;
 
 namespace Compucare.Enquire.Common.Calculation.Graphics.TrafficLights.ExclamationMark.Wizard.WizardPages
 {
@@ -46,10 +47,27 @@ namespace Compucare.Enquire.Common.Calculation.Graphics.TrafficLights.Exclamatio
             }
         }
 
+        public void Preset()
+        {
+            double max = 0, min = 0, rHigh = 0, rLow = 0;
+
+            max = 100;
+            min = -100;
+            rHigh = 4.05;
+            rLow = -4.04;
+
+            RangeControl.MaxValue = max;
+            RangeControl.MinValue = min;
+            RangeControl.RangeHigh = rHigh;
+            RangeControl.RangeMid = rLow;
+
+        }
+
         public void Preset(ExclamationType type, ResultType resultType)
         {
             double max = 0, min = 0, rHigh = 0, rLow = 0;
 
+         
             if (type == ExclamationType.Comparison)
             {
                 if (resultType == ResultType.Average)
@@ -110,6 +128,7 @@ namespace Compucare.Enquire.Common.Calculation.Graphics.TrafficLights.Exclamatio
                     rLow = 25;
                 }
             }
+
 
             RangeControl.MaxValue = max;
             RangeControl.MinValue = min;

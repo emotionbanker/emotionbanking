@@ -1181,13 +1181,13 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.Output
 
             if (ComboList.Length != 0)
             {
-                SphereColor1 = ComboList[0].Color2;
-                SphereColor2 = ComboList[0].Color1;
+                SphereColor1 = ComboList[0].Color1;
+                SphereColor2 = ComboList[0].Color2;
             }
             else
             {
-                SphereColor1 = PersonList[0].Color2;
-                SphereColor2 = PersonList[0].Color1;
+                SphereColor1 = PersonList[0].Color1;
+                SphereColor2 = PersonList[0].Color2;
             }
 
             s.DefaultElement.Color = SphereColor1;

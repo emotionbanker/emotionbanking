@@ -91,6 +91,7 @@
     <Compile Include="TrafficLights\ExclamationMark\ExclamationMark.cs" />
     <Compile Include="TrafficLights\ExclamationMark\Wizard\ExclamationMarkWizard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\ExpressionMarkWizard.cs" />
     <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\AdvancedComparisonWizardPage.cs" />
     <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\AdvancedComparisonWizardPageControl.cs">
       <SubType>UserControl</SubType>
@@ -104,6 +105,13 @@
     </Compile>
     <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExclamationTypeWizardPageControl.Designer.cs">
       <DependentUpon>ExclamationTypeWizardPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExpressionWizardPage.cs" />
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExpressionWizardPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExpressionWizardPageControl.Designer.cs">
+      <DependentUpon>ExpressionWizardPageControl.cs</DependentUpon>
     </Compile>
     <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\TrafficLightRangeWizardPage.cs" />
     <Compile Include="TrafficLights\ExclamationMark\Wizard\WizardPages\TrafficLightRangeWizardPageControl.cs">
@@ -166,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExclamationTypeWizardPageControl.resx">
       <DependentUpon>ExclamationTypeWizardPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrafficLights\ExclamationMark\Wizard\WizardPages\ExpressionWizardPageControl.resx">
+      <DependentUpon>ExpressionWizardPageControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrafficLights\ExclamationMark\Wizard\WizardPages\TrafficLightRangeWizardPageControl.resx">
       <DependentUpon>TrafficLightRangeWizardPageControl.cs</DependentUpon>

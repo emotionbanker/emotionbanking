@@ -222,7 +222,6 @@ namespace Compucare.Enquire.Common.DataModule.Settings
 
         public Double ComputePercent(TargetData td, Evaluation eval, Int32 precision)
         {
-            MessageBox.Show("Computepercent");
             TargetData computeTd = td;
             if (Cross)
             {

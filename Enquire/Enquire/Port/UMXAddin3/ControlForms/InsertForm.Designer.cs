@@ -79,6 +79,7 @@
             this.potPcnt = new System.Windows.Forms.Button();
             this.potVal = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.addNCompare = new System.Windows.Forms.Button();
             this.button23 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
             this.button21 = new System.Windows.Forms.Button();
@@ -130,9 +131,9 @@
             // 
             // cancel
             // 
-            this.cancel.Location = new System.Drawing.Point(585, 501);
+            this.cancel.Location = new System.Drawing.Point(585, 531);
             this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(268, 69);
+            this.cancel.Size = new System.Drawing.Size(268, 39);
             this.cancel.TabIndex = 1;
             this.cancel.Text = "Abbrechen";
             this.cancel.UseVisualStyleBackColor = true;
@@ -649,6 +650,7 @@
             // groupBox6
             // 
             this.groupBox6.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox6.Controls.Add(this.addNCompare);
             this.groupBox6.Controls.Add(this.button23);
             this.groupBox6.Controls.Add(this.button22);
             this.groupBox6.Controls.Add(this.button21);
@@ -673,11 +675,21 @@
             this.groupBox6.Controls.Add(this.button1);
             this.groupBox6.Location = new System.Drawing.Point(585, 12);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(282, 483);
+            this.groupBox6.Size = new System.Drawing.Size(282, 513);
             this.groupBox6.TabIndex = 57;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Banksteuerungsbericht";
             this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
+            // 
+            // addNCompare
+            // 
+            this.addNCompare.Location = new System.Drawing.Point(91, 473);
+            this.addNCompare.Name = "addNCompare";
+            this.addNCompare.Size = new System.Drawing.Size(175, 23);
+            this.addNCompare.TabIndex = 66;
+            this.addNCompare.Text = "Stichprobengröße für Vergl.wert";
+            this.addNCompare.UseVisualStyleBackColor = true;
+            this.addNCompare.Click += new System.EventHandler(this.addNCompare_Click);
             // 
             // button23
             // 
@@ -1076,5 +1088,6 @@
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.Button button23;
         private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button addNCompare;
     }
 }

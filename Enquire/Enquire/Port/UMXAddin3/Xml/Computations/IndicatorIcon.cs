@@ -40,8 +40,6 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml.Computations
             }
             else if (resultType == ResultType.Percent)
             {
-                MessageBox.Show("IndicatorIcon Prozent wurde ausgewählt");
-               
                 return item.ComputePercent(td, eval, precision);
             }
 

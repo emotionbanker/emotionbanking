@@ -1078,6 +1078,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             }
         }
 
+
         private void button23_Click(object sender, EventArgs e)
         {
             if (compVal.SelectedItem == null) MessageBox.Show("Bitte einen Vergleichwert auswählen!");
@@ -1093,5 +1094,20 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
                     }
                 }
         }
+
+        private void addNCompare_Click(object sender, EventArgs e)
+        {
+            if (compVal.SelectedItem == null)
+            {
+                MessageBox.Show("Bitte einen Vergleichwert auswählen!");
+            }
+            else
+            {
+                if (CheckQ())
+                {
+                    Code("nCompare:" + qid + ":" + Precision.Value + ":" + getPersons() + ":" + compVal.SelectedIndex);
+                }
+            }
+        }//end addNCompare_Click
     }
 }

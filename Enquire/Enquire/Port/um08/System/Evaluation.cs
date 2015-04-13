@@ -269,6 +269,8 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
         public string SavedResultData;
         public SaveMethod SavedAs;
 
+        private TargetData SelectedTarget;
+
         public Object GetSokdValues()
         {
             return this.sokdVal;
@@ -741,6 +743,16 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
         public ArrayList TargetChilds;
         public ArrayList TargetChildsParent;
 
+        public void setSelectedTargetData(TargetData targetdata)
+        {
+            this.SelectedTarget = targetdata;
+        }
+
+        public TargetData getSelectedTargetData()
+        {
+            return this.SelectedTarget;
+        }
+
         public void setTargets(TargetCombo [] td)
         {
             TargetCombos = td;
@@ -790,6 +802,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             info.AddValue("_GlobalQ", Global.Questions);
             info.AddValue("TargetChilds", TargetChilds);
             info.AddValue("TargetChildsParent", TargetChildsParent);
+            info.AddValue("SelectedTarget", SelectedTarget);
         }
 
         public Evaluation(SerializationInfo info, StreamingContext ctxt)
@@ -891,6 +904,9 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             catch { this.TargetChilds = new ArrayList(); }
             try { this.TargetChildsParent = (ArrayList)info.GetValue("TargetChildsParent", typeof(ArrayList)); }
             catch { this.TargetChildsParent = new ArrayList(); }
+
+            try { this.SelectedTarget = (TargetData)info.GetValue("SelectedTarget", typeof(TargetData)); }
+            catch { this.SelectedTarget = new TargetData(); }
 
         }
 
@@ -1073,6 +1089,7 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
             combo.ID = hid + 1;
             QuestionCombos[i] = combo;
         }
+
 
         public void RemoveQuestionCombo(QuestionCombo combo)
         {

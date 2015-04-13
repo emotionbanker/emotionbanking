@@ -55,8 +55,6 @@ namespace Compucare.Enquire.Common.Calculation.Graphics.TrafficLights.Exclamatio
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(retVal);
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            /*MessageBox.Show("Value: " + Value + "\nRangeDelimiterLow: " + RangeDelimiterLow
-                + "\nRangeDelimiterHigh: " + RangeDelimiterHigh);*/
             Color useColor = Value < RangeDelimiterLow
                                  ? ColorLow
                                  : Value > RangeDelimiterHigh

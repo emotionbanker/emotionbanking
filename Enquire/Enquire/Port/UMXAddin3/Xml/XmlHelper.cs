@@ -10,7 +10,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml
 {
     public class XmlHelper
     {
-        public static IXmlGraphic ComputeGraphic(String xmlString, TargetData td, Evaluation eval)
+        public static IXmlGraphic ComputeGraphic(String xmlString, TargetData td, Evaluation eval, Evaluation [] mEval)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xmlString);
@@ -27,6 +27,8 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.Xml
                     return new Benchmark(eval, doc, td);
                 case "comparativeBenchmark":
                     return new ComparativeBenchmark(eval, doc, td);
+                case "expressionIndicatorIcon":
+                    return new ExpressionIndicatorIcon(doc, td, eval, mEval);
                 case "percentbar":
                     return new Percentbar(eval, doc, td);
                 case "graves":

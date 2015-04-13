@@ -1328,7 +1328,6 @@ namespace compucare.Enquire.Legacy.Umfrage2Lib.System
 
                 foreach (Result r in Results)
                 {
-
                     if (eval.GetPersonIdByUser(r.UserID) == person.ID)
                     {
                         if (r.SelectedAnswer >= 0 && r.SelectedAnswer <= 4)

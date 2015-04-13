@@ -252,14 +252,7 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
             Close();
         }
 
-        private void LoadButton_Click(object sender, EventArgs e)
-        {
-            if (openMultipartDialog.ShowDialog() == DialogResult.OK)
-            {
-                eval = Tools.LoadEval(openMultipartDialog.FileName);
-                SetInfo();
-            }
-        }
+        
 
         private void ReComp_Click(object sender, EventArgs e)
         {
@@ -303,6 +296,15 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void LoadButton_Click(object sender, EventArgs e)
+        {
+            if (openMultipartDialog.ShowDialog() == DialogResult.OK)
+            {
+                eval = Tools.LoadEval(openMultipartDialog.FileName);
+                SetInfo();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -353,26 +355,31 @@ namespace Compucare.Enquire.Legacy.UMXAddin3.ControlForms
         private void tBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             setTargetProps("umo:mtarget0", (TargetData)tBox1.SelectedItem);
+            multiEvals[0].setSelectedTargetData((TargetData)tBox1.SelectedItem);
         }
 
         private void tBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             setTargetProps("umo:mtarget1", (TargetData)tBox2.SelectedItem);
+            multiEvals[1].setSelectedTargetData((TargetData)tBox2.SelectedItem);
         }
 
         private void tBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             setTargetProps("umo:mtarget2", (TargetData)tBox3.SelectedItem);
+            multiEvals[2].setSelectedTargetData((TargetData)tBox3.SelectedItem);
         }
 
         private void tBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
             setTargetProps("umo:mtarget3", (TargetData)tBox4.SelectedItem);
+            multiEvals[3].setSelectedTargetData((TargetData)tBox4.SelectedItem);
         }
 
         private void tBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
             setTargetProps("umo:mtarget4", (TargetData)tBox5.SelectedItem);
+            multiEvals[4].setSelectedTargetData((TargetData)tBox5.SelectedItem);
         }
 
         private void SetPlaceholders_Click(object sender, EventArgs e)

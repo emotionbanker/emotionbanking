@@ -22,11 +22,11 @@ namespace EnquireAddin
         {
             InitializeComponent();
             // Please add any initialization code to the AddinInitialize event handler
-            
+
             AddinInitialize += AddinModuleAddinInitialize;
             AddinBeginShutdown += AddinModuleAddinBeginShutdown;
             AddinStartupComplete += AddinModuleAddinStartupComplete;
-            
+
         }
 
         private void AddinModuleAddinStartupComplete(object sender, EventArgs e)
@@ -90,15 +90,16 @@ namespace EnquireAddin
             _ribbonMatrixCrossing.OnClick += delegate { ButtonMatrixCrossingClick(this); };
 
             //tables
-            _ribbonTopFlop.OnClick += delegate { ButtonTextTopTableClick(this); }; 
+            _ribbonTopFlop.OnClick += delegate { ButtonTextTopTableClick(this); };
 
             //images
             _ribbonExclamation.OnClick += delegate { ButtonGraphicsExclamationClick(this); };
             _ribbonTrafficLight.OnClick += delegate { ButtonGraphicsTrafficClick(this); };
             _ribbonPercentBar.OnClick += delegate { ButtonPercentbarClick(this); };
             _ribbonBenchmark.OnClick += delegate { ButtonBenchmarkClick(this); };
-            _ribbonGraves.OnClick += delegate { ButtonGravesClick(this); }; 
-            
+            _ribbonGraves.OnClick += delegate { ButtonGravesClick(this); };
+            adxRibbonButton4.OnClick += delegate { ButtonImageScriptClick(this); };
+
 
             //sokd
             adxRibbonButton1.OnClick += delegate { ButtonSokdClick(this); };
@@ -157,6 +158,11 @@ namespace EnquireAddin
         private void ButtonTextScriptClick(object sender)
         {
             AddinHelper.ShowScriptDialog(_addin3);
+        }
+
+        private void ButtonImageScriptClick(object sender)
+        {
+            AddinHelper.ShowScriptImageDialog(_addin3);
         }
 
         private void ButtonTextTopTableClick(object sender)
@@ -244,14 +250,15 @@ namespace EnquireAddin
         private AddinExpress.MSO.ADXRibbonCommand adxRibbonCommandPaste;
         private AddinExpress.MSO.ADXRibbonGroup adxRibbonGroup8;
         private AddinExpress.MSO.ADXRibbonButton adxRibbonButton3;
+        private ADXRibbonButton adxRibbonButton4;
 
- 
+
         #region Component Designer generated code
         /// <summary>
         /// Required by designer
         /// </summary>
         private System.ComponentModel.IContainer components;
- 
+
         /// <summary>
         /// Required by designer support - do not modify
         /// the following method
@@ -301,14 +308,15 @@ namespace EnquireAddin
             this.adxRibbonGroup7 = new AddinExpress.MSO.ADXRibbonGroup(this.components);
             this.adxRibbonButton1 = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this.adxRibbonButton2 = new AddinExpress.MSO.ADXRibbonButton(this.components);
+            this.adxRibbonGroup8 = new AddinExpress.MSO.ADXRibbonGroup(this.components);
+            this.adxRibbonButton3 = new AddinExpress.MSO.ADXRibbonButton(this.components);
             this.kbdShortcutEditFormula = new AddinExpress.MSO.ADXKeyboardShortcut(this.components);
             this.adxExcelTaskPanesManager1 = new AddinExpress.XL.ADXExcelTaskPanesManager(this.components);
             this.adxBackstageView1 = new AddinExpress.MSO.ADXBackstageView(this.components);
             this.adxKeyboardShortcut1 = new AddinExpress.MSO.ADXKeyboardShortcut(this.components);
             this.adxRibbonCommandCopy = new AddinExpress.MSO.ADXRibbonCommand(this.components);
             this.adxRibbonCommandPaste = new AddinExpress.MSO.ADXRibbonCommand(this.components);
-            this.adxRibbonGroup8 = new AddinExpress.MSO.ADXRibbonGroup(this.components);
-            this.adxRibbonButton3 = new AddinExpress.MSO.ADXRibbonButton(this.components);
+            this.adxRibbonButton4 = new AddinExpress.MSO.ADXRibbonButton(this.components);
             // 
             // _enquireCommandBar
             // 
@@ -636,6 +644,7 @@ namespace EnquireAddin
             this.adxRibbonGroup3.Controls.Add(this._ribbonPercentBar);
             this.adxRibbonGroup3.Controls.Add(this._ribbonBenchmark);
             this.adxRibbonGroup3.Controls.Add(this._ribbonGraves);
+            this.adxRibbonGroup3.Controls.Add(this.adxRibbonButton4);
             this.adxRibbonGroup3.Id = "adxRibbonGroup_d43e84b434ac46a28ae4f2699c432434";
             this.adxRibbonGroup3.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.adxRibbonGroup3.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
@@ -712,6 +721,23 @@ namespace EnquireAddin
             this.adxRibbonButton2.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.adxRibbonButton2.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
             // 
+            // adxRibbonGroup8
+            // 
+            this.adxRibbonGroup8.Caption = "Text";
+            this.adxRibbonGroup8.Controls.Add(this.adxRibbonButton3);
+            this.adxRibbonGroup8.Id = "adxRibbonGroup_882607435f5346988320a0477b22cb70";
+            this.adxRibbonGroup8.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.adxRibbonGroup8.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            // 
+            // adxRibbonButton3
+            // 
+            this.adxRibbonButton3.Caption = "Text of Answer";
+            this.adxRibbonButton3.Id = "adxRibbonButton_7d791321f51e409c9f1a4cd7011c67b8";
+            this.adxRibbonButton3.Image = 0;
+            this.adxRibbonButton3.ImageList = this._imageList16;
+            this.adxRibbonButton3.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.adxRibbonButton3.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            // 
             // kbdShortcutEditFormula
             // 
             this.kbdShortcutEditFormula.ShortcutText = "Ctrl+Shift+F9";
@@ -737,22 +763,15 @@ namespace EnquireAddin
             this.adxRibbonCommandPaste.IdMso = "Paste";
             this.adxRibbonCommandPaste.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
             this.adxRibbonCommandPaste.OnAction += new AddinExpress.MSO.ADXRibbonCommand_EventHandler(this.adxRibbonCommandPaste_OnAction);
-            // adxRibbonGroup8
             // 
-            this.adxRibbonGroup8.Caption = "Text";
-            this.adxRibbonGroup8.Controls.Add(this.adxRibbonButton3);
-            this.adxRibbonGroup8.Id = "adxRibbonGroup_882607435f5346988320a0477b22cb70";
-            this.adxRibbonGroup8.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.adxRibbonGroup8.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            // adxRibbonButton4
             // 
-            // adxRibbonButton3
-            // 
-            this.adxRibbonButton3.Caption = "Text of Answer";
-            this.adxRibbonButton3.Id = "adxRibbonButton_7d791321f51e409c9f1a4cd7011c67b8";
-            this.adxRibbonButton3.Image = 0;
-            this.adxRibbonButton3.ImageList = this._imageList16;
-            this.adxRibbonButton3.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.adxRibbonButton3.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
+            this.adxRibbonButton4.Caption = "Script Expression";
+            this.adxRibbonButton4.Id = "adxRibbonButton_c2456ab0dc274b10a1a88d40f5ab97ca";
+            this.adxRibbonButton4.Image = 5;
+            this.adxRibbonButton4.ImageList = this._imageList16;
+            this.adxRibbonButton4.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.adxRibbonButton4.Ribbons = ((AddinExpress.MSO.ADXRibbons)((AddinExpress.MSO.ADXRibbons.msrWordDocument | AddinExpress.MSO.ADXRibbons.msrPowerPointPresentation)));
             // 
             // AddinModule
             // 
@@ -762,31 +781,31 @@ namespace EnquireAddin
 
         }
         #endregion
- 
+
         #region Add-in Express automatic code
- 
+
         // Required by Add-in Express - do not modify
         // the methods within this region
- 
+
         public override System.ComponentModel.IContainer GetContainer()
         {
             if (components == null)
                 components = new System.ComponentModel.Container();
             return components;
         }
- 
+
         [ComRegisterFunctionAttribute]
         public static void AddinRegister(Type t)
         {
             AddinExpress.MSO.ADXAddinModule.ADXRegister(t);
         }
- 
+
         [ComUnregisterFunctionAttribute]
         public static void AddinUnregister(Type t)
         {
             AddinExpress.MSO.ADXAddinModule.ADXUnregister(t);
         }
- 
+
         public override void UninstallControls()
         {
             base.UninstallControls();
